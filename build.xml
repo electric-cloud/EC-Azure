@@ -1,0 +1,21 @@
+<project name="EC-Azure" default="package" basedir=".">
+	<description>
+        Build the EC-Azure plugin
+    </description>
+    <property name="buildconfigdir" value="../Plugin-In-A-Box/scripts" />  
+	<!-- plugin specific properties -->
+	<property name="pluginKey" value="EC-Azure" />
+	<property name="pluginVersion" value="1.0" />
+	<property name="gwtModules" value="ecplugins.azure.CreateHostedServiceParameterPanel,ecplugins.azure.CreateStorageAccountParameterPanel,ecplugins.azure.CreateDeploymentParameterPanel,ecplugins.azure.PutBlobParameterPanel" />
+	<!-- <property name="gwtModules" value="ecplugins.azure.ConfigurationManagement" />-->
+   <!-- <property name="package.export.src" value="azure.srcs"/>-->
+
+    <import file="${buildconfigdir}/buildTargets.xml"/>
+
+    <!-- Package sources for exported utility classes. -->
+    <!--<fileset id="azure.srcs" dir="${dir.src}">
+      <include name="**/PluginConstants.java"/>
+      <include name="**/AzureConfigList.java"/>
+      <include name="**/AzureConfigListLoader.*"/>
+    </fileset>-->
+</project>

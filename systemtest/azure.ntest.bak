@@ -1,0 +1,1055 @@
+# -*-Perl-*-
+# azure.ntest -
+# Exercise basic components of EC-Azure plugin
+# Copyright (c) 2005-2012 Electric Cloud, Inc.
+# All rights reserved
+
+use strict;
+use warnings;
+use ECTest;
+
+# system tests
+require "$::gTestFileDir/ntest.common";
+
+$::gProjectImported = 0;
+$::gtestProjectName = 'Azure_tests';
+$::gConfigCreated   = 0;
+
+sub importProject() {
+    assertOK(
+             $::N->import(
+                          {
+                            file  => "$::gTestFileDir/Azure_tests.xml",
+                            path  => "/projects/Azure_tests",
+                            force => 1
+                          }
+                         ),
+             "import runCommandLine"
+            );
+
+    assertOK($::N->getProcedure($::gtestProjectName, 'Create Container'), 'Create Container procedure doesn\'t exist');
+    assertOK($::N->getProcedure($::gtestProjectName, 'Create Deployment'), 'Create Deployment procedure doesn\'t exist');
+    assertOK($::N->getProcedure($::gtestProjectName, 'Create Hosted Service'),   'Create Hosted Service procedure doesn\'t exist');
+    assertOK($::N->getProcedure($::gtestProjectName, 'Create Storage Account'), 'Create Storage Account procedure doesn\'t exist');
+    assertOK($::N->getProcedure($::gtestProjectName, 'Delete Blob'), 'Delete Blob procedure doesn\'t exist');
+    assertOK($::N->getProcedure($::gtestProjectName, 'Delete Container'), 'Delete Container procedure doesn\'t exist');
+    assertOK($::N->getProcedure($::gtestProjectName, 'Delete Hosted Service'), 'Delete Hosted Service procedure doesn\'t exist');
+    assertOK($::N->getProcedure($::gtestProjectName, 'Delete Storage Account'),     'Delete Storage Account procedure doesn\'t exist');
+    assertOK($::N->getProcedure($::gtestProjectName, 'Get Operation Status'), 'Get Operation Status procedure doesn\'t exist');
+    assertOK($::N->getProcedure($::gtestProjectName, 'Get Storage Account Keys'), 'Get Storage Account Keys procedure doesn\'t exist');
+    assertOK($::N->getProcedure($::gtestProjectName, 'Put Blob'), 'Put Blob procedure doesn\'t exist');
+
+    $::gProjectImported = 1;
+}
+
+sub createConfig() {
+    my $xpath = $::N->runProcedure(
+                                   "$::gPlugin_name",
+                                   {
+                                      procedureName   => 'CreateConfiguration',
+                                      pollInterval    => '0.2',
+                                      timeout         => 600,
+                                      actualParameter => [{ actualParameterName => 'config_name', value => 'systemtestAzureCfg' }, { actualParameterName => 'description', value => 'Azure configuration.' }, { actualParameterName => 'attempt', value => '0' }, { actualParameterName => 'credential', value => 'systemtestAzureCfg' }, { actualParameterName => 'debug_level', value => '1' }, { actualParameterName => 'resource_pool', value => 'local' },],
+                                      credential => [{ credentialName => 'systemtestAzureCfg', userName => 'azure_subscription_id', password => 'certificate_thumbprint', },],
+                                   }
+                                  );
+    assertOK($xpath, 'run create configuration procedure');
+    my $jobId  = 0;
+    my $status = '';
+    assertDef($xpath, 'runProcedure finished without a timeout');
+    if ($xpath) {
+        $jobId  = $xpath->findvalue('//jobId');
+        $status = $xpath->findvalue('//status');
+        assertTrue($jobId && int($jobId) > 0, 'valid job id');
+        assertEq('completed', $status, "job $jobId complete");
+        if ($status ne 'completed') {
+            assertOK($::N->abortJob($jobId, { force => 1 }));
+        }
+    }
+    $xpath = $::N->getJobDetails($jobId);
+
+    # check that the config and credential exist
+    $xpath = $::N->getProperty("/projects/$::gPlugin_name/azure_cfgs/systemtestAzureCfg/description");
+    assertEq("Azure configuration.", $xpath->findvalue("//value")->string_value, "Configuration description");
+    $xpath = $::N->getCredential("$::gPlugin_name", "systemtestAzureCfg");
+    assertEq('azure_subscription_id', $xpath->findvalue("//userName")->string_value, 'Credential Subscription Id');
+    $::gConfigCreated = 1;
+}
+
+sub doSetup() {
+
+    if (!$::gProjectImported) {
+        importProject();
+    }
+    if (!$::gConfigCreated) {
+        createConfig();
+    }
+
+}
+
+###########################################################################
+# check-components-present - Check that the plugin contains required components
+#
+# Arguments:
+#   none
+#
+# Returns:
+#   none
+#
+###########################################################################
+
+ntest 'check-components-present', {}, sub {
+
+    # Check that the plugin contains required components
+
+    my $xpath;
+
+    $xpath = $::N->getSteps("$::gPlugin_name", "CreateConfiguration");
+    assertOK($xpath, 'get steps');
+    assertEq("CreateConfiguration",       $xpath->findvalue("//step[1]/stepName"), "step 1: CreateConfiguration");
+    assertEq("CreateAndAttachCredential", $xpath->findvalue("//step[2]/stepName"), "step 2: CreateAndAttachCredential");
+    assertEq("AttemptConnection", $xpath->findvalue("//step[3]/stepName"), "step 3: AttemptConnection");
+
+    $xpath = $::N->getSteps("$::gPlugin_name", "DeleteConfiguration");
+    assertOK($xpath, "DeleteConfiguration");
+    assertEq("DeleteConfiguration", $xpath->findvalue("//step[1]/stepName"), "step 1 is DeleteConfiguration");
+
+    
+    
+    
+    
+    
+    
+    
+    $xpath = $::N->getSteps("$::gPlugin_name", "Create Container");
+    assertOK($xpath, "Create Container");
+    assertEq("SetTimelimit", $xpath->findvalue("//step[1]/stepName"), "step 1 is SetTimelimit");
+    assertEq("Create Container", $xpath->findvalue("//step[2]/stepName"), "step 2 is Create Container");
+    
+    $xpath = $::N->getSteps("$::gPlugin_name", "Create Deployment");
+    assertOK($xpath, "Create Deployment");
+    assertEq("SetTimelimit", $xpath->findvalue("//step[1]/stepName"), "step 1 is SetTimelimit");
+    assertEq("Create Deployment", $xpath->findvalue("//step[2]/stepName"), "step 2 is Create Deployment");
+
+    
+    
+    
+    
+    
+    $xpath = $::N->getSteps("$::gPlugin_name", "Create Hosted Service");
+    assertOK($xpath, "Create Hosted Service");
+    assertEq("SetTimelimit", $xpath->findvalue("//step[1]/stepName"), "step 1 is SetTimelimit");
+    assertEq("Create Hosted Service", $xpath->findvalue("//step[2]/stepName"), "step 2 is Create Hosted Service");
+
+    
+    
+    
+    
+    
+    $xpath = $::N->getSteps("$::gPlugin_name", "Create Storage Account");
+    assertOK($xpath, "Create Storage Account");
+    assertEq("SetTimelimit", $xpath->findvalue("//step[1]/stepName"), "step 1 is SetTimelimit");
+    assertEq("Create Storage Account", $xpath->findvalue("//step[2]/stepName"), "step 2 is Create Storage Account");
+
+    
+    
+    
+    
+    
+    $xpath = $::N->getSteps("$::gPlugin_name", "Delete Blob");
+    assertOK($xpath, "Delete Blob");
+    assertEq("SetTimelimit", $xpath->findvalue("//step[1]/stepName"), "step 1 is SetTimelimit");
+    assertEq("Delete Blob", $xpath->findvalue("//step[2]/stepName"), "step 2 is Delete Blob");
+
+    
+    
+    
+    
+    
+    $xpath = $::N->getSteps("$::gPlugin_name", "Delete Container");
+    assertOK($xpath, "Create Deployment");
+    assertEq("SetTimelimit", $xpath->findvalue("//step[1]/stepName"), "step 1 is SetTimelimit");
+    assertEq("Delete Container", $xpath->findvalue("//step[2]/stepName"), "step 2 is Delete Container");
+
+    
+    
+    
+    
+    
+    $xpath = $::N->getSteps("$::gPlugin_name", "Delete Hosted Service");
+    assertOK($xpath, "Delete Hosted Service");
+    assertEq("SetTimelimit", $xpath->findvalue("//step[1]/stepName"), "step 1 is SetTimelimit");
+    assertEq("Delete Hosted Service", $xpath->findvalue("//step[2]/stepName"), "step 2 is Delete Hosted Service");
+
+    
+    
+    
+    
+    
+    $xpath = $::N->getSteps("$::gPlugin_name", "Delete Storage Account");
+    assertOK($xpath, "Delete Storage Account");
+    assertEq("SetTimelimit", $xpath->findvalue("//step[1]/stepName"), "step 1 is SetTimelimit");
+    assertEq("Delete Storage Account", $xpath->findvalue("//step[2]/stepName"), "step 2 is Delete Storage Account");
+
+    
+    
+    $xpath = $::N->getSteps("$::gPlugin_name", "Get Operation Status");
+    assertOK($xpath, "Get Operation Status");
+    assertEq("SetTimelimit", $xpath->findvalue("//step[1]/stepName"), "step 1 is SetTimelimit");
+    assertEq("Get Operation Status", $xpath->findvalue("//step[2]/stepName"), "step 2 is Get Operation Status");
+
+    
+    
+    $xpath = $::N->getSteps("$::gPlugin_name", "Get Storage Account Keys");
+    assertOK($xpath, "Get Storage Account Keys");
+    assertEq("SetTimelimit", $xpath->findvalue("//step[1]/stepName"), "step 1 is SetTimelimit");
+    assertEq("Get Storage Account Keys", $xpath->findvalue("//step[2]/stepName"), "step 2 is Get Storage Account Keys");
+
+    
+    
+    $xpath = $::N->getSteps("$::gPlugin_name", "Put Blob");
+    assertOK($xpath, "Put Blob");
+    assertEq("SetTimelimit", $xpath->findvalue("//step[1]/stepName"), "step 1 is SetTimelimit");
+    assertEq("Put Blob", $xpath->findvalue("//step[2]/stepName"), "step 2 is Put Blob");
+
+    
+    
+    
+    
+    
+
+};
+
+ntest "01. Create Container", {}, sub {
+
+    doSetup();
+
+    # run test job
+    my $xpath = $::N->runProcedure(
+                                   $::gtestProjectName,
+                                   {
+                                      procedureName   => "Create Container",
+                                      pollInterval    => '1',
+                                      timeout         => 600,
+                                      actualParameter => [],
+                                   }
+                                  );
+
+    # make sure it finished
+    my $jobId     = 0;
+    my $jobStepId = 0;
+    my $status    = "";
+
+    assertOK($xpath, 'runProcedure finished');
+    if ($xpath) {
+        $jobId  = $xpath->findvalue("//jobId");
+        $status = $xpath->findvalue("//status");
+
+        assertTrue($jobId && int($jobId) > 0, 'valid job id');
+        assertEq('completed', $status, "job $jobId complete");
+
+        #abort if job did not finish
+        if ($status ne "completed") {
+            assertOK($::N->abortJob($jobId, { force => 1 }));
+        }
+    }
+
+    # get the job details
+    $xpath = $::N->getJobDetails($jobId);
+
+    # Get the root of log files. use UNC so it works from
+    # command line as well as within a CMD step
+    my $ws = $xpath->findvalue("//workspace/winUNC");
+    if (!isWindows()) {
+        $ws = $xpath->findvalue("//workspace/unix");
+    }
+
+    # Get the name of the log file
+    my $logFileName = $ws . "/" . $xpath->findvalue("//jobStep[stepName='Create Container']/logFileName");
+
+    # Get the jobStepId for Azure
+    $jobStepId = $xpath->findvalue("//jobStep[stepName='Create Container']/jobStepId");
+
+    # Read the log file and verify its contents.
+    my $data = readFile($logFileName);
+
+    # write the job details to a file in the test directory
+    writeFile("$::gCurrentTestDir/Create Container.log", "====Job Details====\n$xpath->{_xml}\n====LOG====\n$data\n");
+
+    #assert command lines
+    my $expectedOutput = "";
+    $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
+$expectedOutput .= "Loading config systemtestAzureCfg\n";
+$expectedOutput .= "Adding config attempt = \n";
+$expectedOutput .= "Adding config debug_level = 1\n";
+$expectedOutput .= "Adding config resource_pool = local\n";
+$expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
+$expectedOutput .= "---------------------------------------------------------------------\n";
+$expectedOutput .= "Creating request to create container 'testcontainer'...\n";
+$expectedOutput .= "Sending request to 'http://sa10992.blob.core.windows.net/testcontainer?restype=container'...\n";
+$expectedOutput .= "\n";
+$expectedOutput .= "Response:\n";
+$expectedOutput .= "\n";
+$expectedOutput .= "Container 'testcontainer' succesfully created!\n";
+$expectedOutput .= "Storing information in property sheet '/myJob/Azure/deployed/create_container_tag'...\n";
+
+    assertDiff($expectedOutput, $data, 'Create Container successful output');
+
+};
+
+ntest "02. Create Deployment", {}, sub {
+
+    doSetup();
+
+    # run test job
+    my $xpath = $::N->runProcedure(
+                                   $::gtestProjectName,
+                                   {
+                                      procedureName   => "Create Deployment",
+                                      pollInterval    => '1',
+                                      timeout         => 600,
+                                      actualParameter => [],
+                                   }
+                                  );
+
+    # make sure it finished
+    my $jobId     = 0;
+    my $jobStepId = 0;
+    my $status    = "";
+
+    assertOK($xpath, 'runProcedure finished');
+    if ($xpath) {
+        $jobId  = $xpath->findvalue("//jobId");
+        $status = $xpath->findvalue("//status");
+
+        assertTrue($jobId && int($jobId) > 0, 'valid job id');
+        assertEq('completed', $status, "job $jobId complete");
+
+        #abort if job did not finish
+        if ($status ne "completed") {
+            assertOK($::N->abortJob($jobId, { force => 1 }));
+        }
+    }
+
+    # get the job details
+    $xpath = $::N->getJobDetails($jobId);
+
+    # Get the root of log files. use UNC so it works from
+    # command line as well as within a CMD step
+    my $ws = $xpath->findvalue("//workspace/winUNC");
+    if (!isWindows()) {
+        $ws = $xpath->findvalue("//workspace/unix");
+    }
+
+    # Get the name of the log file
+    my $logFileName = $ws . "/" . $xpath->findvalue("//jobStep[stepName='Create Deployment']/logFileName");
+
+    # Get the jobStepId for Azure
+    $jobStepId = $xpath->findvalue("//jobStep[stepName='Create Deployment']/jobStepId");
+
+    # Read the log file and verify its contents.
+    my $data = readFile($logFileName);
+
+    # write the job details to a file in the test directory
+    writeFile("$::gCurrentTestDir/Create Deployment.log", "====Job Details====\n$xpath->{_xml}\n====LOG====\n$data\n");
+
+    #assert command lines
+    my $expectedOutput = "";
+    $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
+$expectedOutput .= "Loading config systemtestAzureCfg\n";
+$expectedOutput .= "Adding config attempt = \n";
+$expectedOutput .= "Adding config debug_level = 1\n";
+$expectedOutput .= "Adding config resource_pool = local\n";
+$expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
+$expectedOutput .= "---------------------------------------------------------------------\n";
+$expectedOutput .= "Creating request to create a new deployment 'test'...\n";
+$expectedOutput .= "Sending request to 'https://management.core.windows.net'...\n";
+$expectedOutput .= "Waiting for operation to complete...\n";
+$expectedOutput .= "Operation succeded!\n";
+$expectedOutput .= "Deployment 'test' succesfully created!\n";
+$expectedOutput .= "Storing information in property sheet '/myJob/Azure/deployed/create_deployment_tag'...\n";
+
+    assertDiff(outdent($expectedOutput), $data, 'Create Deployment successful output');
+
+};
+
+ntest "03. Create Hosted Service", {}, sub {
+
+    doSetup();
+
+    # run test job
+    my $xpath = $::N->runProcedure(
+                                   $::gtestProjectName,
+                                   {
+                                      procedureName   => "Create Hosted Service",
+                                      pollInterval    => '1',
+                                      timeout         => 600,
+                                      actualParameter => [],
+                                   }
+                                  );
+
+    # make sure it finished
+    my $jobId     = 0;
+    my $jobStepId = 0;
+    my $status    = "";
+
+    assertOK($xpath, 'runProcedure finished');
+    if ($xpath) {
+        $jobId  = $xpath->findvalue("//jobId");
+        $status = $xpath->findvalue("//status");
+
+        assertTrue($jobId && int($jobId) > 0, 'valid job id');
+        assertEq('completed', $status, "job $jobId complete");
+
+        #abort if job did not finish
+        if ($status ne "completed") {
+            assertOK($::N->abortJob($jobId, { force => 1 }));
+        }
+    }
+
+    # get the job details
+    $xpath = $::N->getJobDetails($jobId);
+
+    # Get the root of log files. use UNC so it works from
+    # command line as well as within a CMD step
+    my $ws = $xpath->findvalue("//workspace/winUNC");
+    if (!isWindows()) {
+        $ws = $xpath->findvalue("//workspace/unix");
+    }
+
+    # Get the name of the log file
+    my $logFileName = $ws . "/" . $xpath->findvalue("//jobStep[stepName='Create Hosted Service']/logFileName");
+
+    # Get the jobStepId for Azure
+    $jobStepId = $xpath->findvalue("//jobStep[stepName='Create Hosted Service']/jobStepId");
+
+    # Read the log file and verify its contents.
+    my $data = readFile($logFileName);
+
+    # write the job details to a file in the test directory
+    writeFile("$::gCurrentTestDir/Create Hosted Service.log", "====Job Details====\n$xpath->{_xml}\n====LOG====\n$data\n");
+
+    #assert command lines
+    my $expectedOutput = "";
+    $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
+    $expectedOutput .= "Loading config systemtestAzureCfg\n";
+$expectedOutput .= "Adding config attempt = \n";
+$expectedOutput .= "Adding config debug_level = 1\n";
+$expectedOutput .= "Adding config resource_pool = local\n";
+$expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
+$expectedOutput .= "---------------------------------------------------------------------\n";
+$expectedOutput .= "Creating request to create a new hosted service 'ecplugin-10981'...\n";
+$expectedOutput .= "Sending request to 'https://management.core.windows.net'...\n";
+$expectedOutput .= "\n";
+$expectedOutput .= "Hosted Service 'ecplugin-10981' succesfully created!\n";
+$expectedOutput .= "Storing information in property sheet '/myJob/Azure/deployed/hosted_service'...\n";
+$expectedOutput .= "RequestID: 8d5db8146c1d4ea7866abc98ade20363\n";
+
+
+    assertDiff(outdent($expectedOutput), $data, 'Create Hosted Service successful output');
+
+};
+
+ntest "04. Create Storage Account", {}, sub {
+
+    doSetup();
+
+    # run test job
+    my $xpath = $::N->runProcedure(
+                                   $::gtestProjectName,
+                                   {
+                                      procedureName   => "Create Storage Account",
+                                      pollInterval    => '1',
+                                      timeout         => 600,
+                                      actualParameter => [],
+                                   }
+                                  );
+
+    # make sure it finished
+    my $jobId     = 0;
+    my $jobStepId = 0;
+    my $status    = "";
+
+    assertOK($xpath, 'runProcedure finished');
+    if ($xpath) {
+        $jobId  = $xpath->findvalue("//jobId");
+        $status = $xpath->findvalue("//status");
+
+        assertTrue($jobId && int($jobId) > 0, 'valid job id');
+        assertEq('completed', $status, "job $jobId complete");
+
+        #abort if job did not finish
+        if ($status ne "completed") {
+            assertOK($::N->abortJob($jobId, { force => 1 }));
+        }
+    }
+
+    # get the job details
+    $xpath = $::N->getJobDetails($jobId);
+
+    # Get the root of log files. use UNC so it works from
+    # command line as well as within a CMD step
+    my $ws = $xpath->findvalue("//workspace/winUNC");
+    if (!isWindows()) {
+        $ws = $xpath->findvalue("//workspace/unix");
+    }
+
+    # Get the name of the log file
+    my $logFileName = $ws . "/" . $xpath->findvalue("//jobStep[stepName='Create Storage Account']/logFileName");
+
+    # Get the jobStepId for Azure
+    $jobStepId = $xpath->findvalue("//jobStep[stepName='Create Storage Account']/jobStepId");
+
+    # Read the log file and verify its contents.
+    my $data = readFile($logFileName);
+
+    # write the job details to a file in the test directory
+    writeFile("$::gCurrentTestDir/Create Storage Account.log", "====Job Details====\n$xpath->{_xml}\n====LOG====\n$data\n");
+
+    #assert command lines
+    my $expectedOutput = "";
+    $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
+    $expectedOutput .= "Loading config systemtestAzureCfg\n";
+$expectedOutput .= "Adding config attempt = \n";
+$expectedOutput .= "Adding config debug_level = 1\n";
+$expectedOutput .= "Adding config resource_pool = local\n";
+$expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
+$expectedOutput .= "---------------------------------------------------------------------\n";
+$expectedOutput .= "Creating request to create a new storage account 'sa10992'...\n";
+$expectedOutput .= "Sending request to 'https://management.core.windows.net'...\n";
+$expectedOutput .= "Waiting for operation to complete...\n";
+$expectedOutput .= "Operation succeded!\n";
+$expectedOutput .= "Storage Account 'sa10992' succesfully created!\n";
+$expectedOutput .= "Storing information in property sheet '/myJob/Azure/deployed/storage_account_tag'...\n";
+
+    assertDiff(outdent($expectedOutput), $data, 'Create Storage Account successful output');
+
+};
+
+ntest "05. Delete Blob", {}, sub {
+
+    doSetup();
+
+    # run test job
+    my $xpath = $::N->runProcedure(
+                                   $::gtestProjectName,
+                                   {
+                                      procedureName   => "Delete Blob",
+                                      pollInterval    => '1',
+                                      timeout         => 600,
+                                      actualParameter => [],
+                                   }
+                                  );
+
+    # make sure it finished
+    my $jobId     = 0;
+    my $jobStepId = 0;
+    my $status    = "";
+
+    assertOK($xpath, 'runProcedure finished');
+    if ($xpath) {
+        $jobId  = $xpath->findvalue("//jobId");
+        $status = $xpath->findvalue("//status");
+
+        assertTrue($jobId && int($jobId) > 0, 'valid job id');
+        assertEq('completed', $status, "job $jobId complete");
+
+        #abort if job did not finish
+        if ($status ne "completed") {
+            assertOK($::N->abortJob($jobId, { force => 1 }));
+        }
+    }
+
+    # get the job details
+    $xpath = $::N->getJobDetails($jobId);
+
+    # Get the root of log files. use UNC so it works from
+    # command line as well as within a CMD step
+    my $ws = $xpath->findvalue("//workspace/winUNC");
+    if (!isWindows()) {
+        $ws = $xpath->findvalue("//workspace/unix");
+    }
+
+    # Get the name of the log file
+    my $logFileName = $ws . "/" . $xpath->findvalue("//jobStep[stepName='Delete Blob']/logFileName");
+
+    # Get the jobStepId for Azure
+    $jobStepId = $xpath->findvalue("//jobStep[stepName='Delete Blob']/jobStepId");
+
+    # Read the log file and verify its contents.
+    my $data = readFile($logFileName);
+
+    # write the job details to a file in the test directory
+    writeFile("$::gCurrentTestDir/Delete Blob.log", "====Job Details====\n$xpath->{_xml}\n====LOG====\n$data\n");
+
+    #assert command lines
+    my $expectedOutput = "";
+    $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
+    $expectedOutput .= "Loading config systemtestAzureCfg\n";
+$expectedOutput .= "Adding config attempt = \n";
+$expectedOutput .= "Adding config debug_level = 1\n";
+$expectedOutput .= "Adding config resource_pool = local\n";
+$expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
+$expectedOutput .= "---------------------------------------------------------------------\n";
+$expectedOutput .= "Creating request to delete blob 'HelloWorld.cspkg'...\n";
+$expectedOutput .= "Sending request to 'http://sa10992.blob.core.windows.net/testcontainer/HelloWorld.cspkg'...\n";
+$expectedOutput .= "\n";
+$expectedOutput .= "Response:\n";
+$expectedOutput .= "\n";
+$expectedOutput .= "Blob 'HelloWorld.cspkg' succesfully deleted!\n";
+$expectedOutput .= "RequestID: 092a35a7-7cd1-40a7-930c-f3d81421c4ab\n";
+
+    assertDiff(outdent($expectedOutput), $data, 'Delete Blob successful output');
+
+};
+
+ntest "06. Delete Container", {}, sub {
+
+    doSetup();
+
+    # run test job
+    my $xpath = $::N->runProcedure(
+                                   $::gtestProjectName,
+                                   {
+                                      procedureName   => "Delete Container",
+                                      pollInterval    => '1',
+                                      timeout         => 600,
+                                      actualParameter => [],
+                                   }
+                                  );
+
+    # make sure it finished
+    my $jobId     = 0;
+    my $jobStepId = 0;
+    my $status    = "";
+
+    assertOK($xpath, 'runProcedure finished');
+    if ($xpath) {
+        $jobId  = $xpath->findvalue("//jobId");
+        $status = $xpath->findvalue("//status");
+
+        assertTrue($jobId && int($jobId) > 0, 'valid job id');
+        assertEq('completed', $status, "job $jobId complete");
+
+        #abort if job did not finish
+        if ($status ne "completed") {
+            assertOK($::N->abortJob($jobId, { force => 1 }));
+        }
+    }
+
+    # get the job details
+    $xpath = $::N->getJobDetails($jobId);
+
+    # Get the root of log files. use UNC so it works from
+    # command line as well as within a CMD step
+    my $ws = $xpath->findvalue("//workspace/winUNC");
+    if (!isWindows()) {
+        $ws = $xpath->findvalue("//workspace/unix");
+    }
+
+    # Get the name of the log file
+    my $logFileName = $ws . "/" . $xpath->findvalue("//jobStep[stepName='Delete Container']/logFileName");
+
+    # Get the jobStepId for Azure
+    $jobStepId = $xpath->findvalue("//jobStep[stepName='Delete Container']/jobStepId");
+
+    # Read the log file and verify its contents.
+    my $data = readFile($logFileName);
+
+    # write the job details to a file in the test directory
+    writeFile("$::gCurrentTestDir/Delete Container.log", "====Job Details====\n$xpath->{_xml}\n====LOG====\n$data\n");
+
+    #assert command lines
+    my $expectedOutput = "";
+    $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
+$expectedOutput .= "Loading config systemtestAzureCfg\n";
+$expectedOutput .= "Adding config attempt = \n";
+$expectedOutput .= "Adding config debug_level = 1\n";
+$expectedOutput .= "Adding config resource_pool = local\n";
+$expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
+$expectedOutput .= "---------------------------------------------------------------------\n";
+$expectedOutput .= "Creating request to delete container 'testcontainer'...\n";
+$expectedOutput .= "Sending request to 'http://sa10992.blob.core.windows.net/testcontainer?restype=container'...\n";
+$expectedOutput .= "\n";
+$expectedOutput .= "Response:\n";
+$expectedOutput .= "\n";
+$expectedOutput .= "Container 'testcontainer' succesfully deleted!\n";
+$expectedOutput .= "RequestID: e9df5cbc-1906-4b5e-a715-ceba1a172aca\n";
+
+    assertDiff(outdent($expectedOutput), $data, 'Delete Container successful output');
+
+};
+
+ntest "07. Delete Hosted Service", {}, sub {
+
+    doSetup();
+
+    # run test job
+    my $xpath = $::N->runProcedure(
+                                   $::gtestProjectName,
+                                   {
+                                      procedureName   => "Delete Hosted Service",
+                                      pollInterval    => '1',
+                                      timeout         => 600,
+                                      actualParameter => [],
+                                   }
+                                  );
+
+    # make sure it finished
+    my $jobId     = 0;
+    my $jobStepId = 0;
+    my $status    = "";
+
+    assertOK($xpath, 'runProcedure finished');
+    if ($xpath) {
+        $jobId  = $xpath->findvalue("//jobId");
+        $status = $xpath->findvalue("//status");
+
+        assertTrue($jobId && int($jobId) > 0, 'valid job id');
+        assertEq('completed', $status, "job $jobId complete");
+
+        #abort if job did not finish
+        if ($status ne "completed") {
+            assertOK($::N->abortJob($jobId, { force => 1 }));
+        }
+    }
+
+    # get the job details
+    $xpath = $::N->getJobDetails($jobId);
+
+    # Get the root of log files. use UNC so it works from
+    # command line as well as within a CMD step
+    my $ws = $xpath->findvalue("//workspace/winUNC");
+    if (!isWindows()) {
+        $ws = $xpath->findvalue("//workspace/unix");
+    }
+
+    # Get the name of the log file
+    my $logFileName = $ws . "/" . $xpath->findvalue("//jobStep[stepName='Delete Hosted Service']/logFileName");
+
+    # Get the jobStepId for Azure
+    $jobStepId = $xpath->findvalue("//jobStep[stepName='Delete Hosted Service']/jobStepId");
+
+    # Read the log file and verify its contents.
+    my $data = readFile($logFileName);
+
+    # write the job details to a file in the test directory
+    writeFile("$::gCurrentTestDir/Delete Hosted Service.log", "====Job Details====\n$xpath->{_xml}\n====LOG====\n$data\n");
+
+    #assert command lines
+    my $expectedOutput = "";
+    $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
+$expectedOutput .= "Loading config systemtestAzureCfg\n";
+$expectedOutput .= "Adding config attempt = \n";
+$expectedOutput .= "Adding config debug_level = 1\n";
+$expectedOutput .= "Adding config resource_pool = local\n";
+$expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
+$expectedOutput .= "---------------------------------------------------------------------\n";
+$expectedOutput .= "Creating request to delete hosted service 'ecplugin-10981'...\n";
+$expectedOutput .= "Sending request to 'https://management.core.windows.net'...\n";
+$expectedOutput .= "Hosted Service 'ecplugin-10981' succesfully deleted!\n";
+$expectedOutput .= "RequestID: 530af4ca10e84f01b11982e8d227ad38\n";
+
+    assertDiff(outdent($expectedOutput), $data, 'Delete Hosted Service successful output');
+
+};
+
+ntest "08. Delete Storage Account", {}, sub {
+
+    doSetup();
+
+    # run test job
+    my $xpath = $::N->runProcedure(
+                                   $::gtestProjectName,
+                                   {
+                                      procedureName   => "Delete Storage Account",
+                                      pollInterval    => '1',
+                                      timeout         => 600,
+                                      actualParameter => [],
+                                   }
+                                  );
+
+    # make sure it finished
+    my $jobId     = 0;
+    my $jobStepId = 0;
+    my $status    = "";
+
+    assertOK($xpath, 'runProcedure finished');
+    if ($xpath) {
+        $jobId  = $xpath->findvalue("//jobId");
+        $status = $xpath->findvalue("//status");
+
+        assertTrue($jobId && int($jobId) > 0, 'valid job id');
+        assertEq('completed', $status, "job $jobId complete");
+
+        #abort if job did not finish
+        if ($status ne "completed") {
+            assertOK($::N->abortJob($jobId, { force => 1 }));
+        }
+    }
+
+    # get the job details
+    $xpath = $::N->getJobDetails($jobId);
+
+    # Get the root of log files. use UNC so it works from
+    # command line as well as within a CMD step
+    my $ws = $xpath->findvalue("//workspace/winUNC");
+    if (!isWindows()) {
+        $ws = $xpath->findvalue("//workspace/unix");
+    }
+
+    # Get the name of the log file
+    my $logFileName = $ws . "/" . $xpath->findvalue("//jobStep[stepName='Delete Storage Account']/logFileName");
+
+    # Get the jobStepId for Azure
+    $jobStepId = $xpath->findvalue("//jobStep[stepName='Delete Storage Account']/jobStepId");
+
+    # Read the log file and verify its contents.
+    my $data = readFile($logFileName);
+
+    # write the job details to a file in the test directory
+    writeFile("$::gCurrentTestDir/Delete Storage Account.log", "====Job Details====\n$xpath->{_xml}\n====LOG====\n$data\n");
+
+    #assert command lines
+    my $expectedOutput = "";
+    $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
+$expectedOutput .= "Loading config systemtestAzureCfg\n";
+$expectedOutput .= "Adding config attempt = \n";
+$expectedOutput .= "Adding config debug_level = 1\n";
+$expectedOutput .= "Adding config resource_pool = local\n";
+$expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
+$expectedOutput .= "---------------------------------------------------------------------\n";
+$expectedOutput .= "Creating request to delete storage account 'sa10992'...\n";
+$expectedOutput .= "Sending request to 'https://management.core.windows.net'...\n";
+$expectedOutput .= "Storage Account 'sa10992' succesfully deleted!\n";
+$expectedOutput .= "RequestID: d569b194bef54f679401a488c3877bcb\n";
+
+    assertDiff(outdent($expectedOutput), $data, 'Delete Storage Account successful output');
+
+};
+
+ntest "09. Get Operation Status", {}, sub {
+
+    doSetup();
+
+    # run test job
+    my $xpath = $::N->runProcedure(
+                                   $::gtestProjectName,
+                                   {
+                                      procedureName   => "Get Operation Status",
+                                      pollInterval    => '1',
+                                      timeout         => 600,
+                                      actualParameter => [],
+                                   }
+                                  );
+
+    # make sure it finished
+    my $jobId     = 0;
+    my $jobStepId = 0;
+    my $status    = "";
+
+    assertOK($xpath, 'runProcedure finished');
+    if ($xpath) {
+        $jobId  = $xpath->findvalue("//jobId");
+        $status = $xpath->findvalue("//status");
+
+        assertTrue($jobId && int($jobId) > 0, 'valid job id');
+        assertEq('completed', $status, "job $jobId complete");
+
+        #abort if job did not finish
+        if ($status ne "completed") {
+            assertOK($::N->abortJob($jobId, { force => 1 }));
+        }
+    }
+
+    # get the job details
+    $xpath = $::N->getJobDetails($jobId);
+
+    # Get the root of log files. use UNC so it works from
+    # command line as well as within a CMD step
+    my $ws = $xpath->findvalue("//workspace/winUNC");
+    if (!isWindows()) {
+        $ws = $xpath->findvalue("//workspace/unix");
+    }
+
+    # Get the name of the log file
+    my $logFileName = $ws . "/" . $xpath->findvalue("//jobStep[stepName='Get Operation Status']/logFileName");
+
+    # Get the jobStepId for Azure
+    $jobStepId = $xpath->findvalue("//jobStep[stepName='Get Operation Status']/jobStepId");
+
+    # Read the log file and verify its contents.
+    my $data = readFile($logFileName);
+
+    # write the job details to a file in the test directory
+    writeFile("$::gCurrentTestDir/Get Operation Status.log", "====Job Details====\n$xpath->{_xml}\n====LOG====\n$data\n");
+
+    #assert command lines
+    my $expectedOutput = "";
+    $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
+    $expectedOutput .= "Loading config systemtestAzureCfg\n";
+$expectedOutput .= "Adding config attempt = \n";
+$expectedOutput .= "Adding config debug_level = 1\n";
+$expectedOutput .= "Adding config resource_pool = local\n";
+$expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
+$expectedOutput .= "---------------------------------------------------------------------\n";
+$expectedOutput .= "Creating request to get operation status for request id '530af4ca10e84f01b11982e8d227ad38'...\n";
+$expectedOutput .= "Sending request to 'https://management.core.windows.net'...\n";
+$expectedOutput .= "Storing information in property sheet '/myJob/Azure/deployed/get_status_tag'...\n";
+$expectedOutput .= "\n";
+$expectedOutput .= "Status: Succeeded\n";
+
+    assertDiff(outdent($expectedOutput), $data, 'Get Operation Status successful output');
+
+};
+
+ntest "10. Get Storage Account Keys", {}, sub {
+
+    doSetup();
+
+    # run test job
+    my $xpath = $::N->runProcedure(
+                                   $::gtestProjectName,
+                                   {
+                                      procedureName   => "Get Storage Account Keys",
+                                      pollInterval    => '1',
+                                      timeout         => 600,
+                                      actualParameter => [],
+                                   }
+                                  );
+
+    # make sure it finished
+    my $jobId     = 0;
+    my $jobStepId = 0;
+    my $status    = "";
+
+    assertOK($xpath, 'runProcedure finished');
+    if ($xpath) {
+        $jobId  = $xpath->findvalue("//jobId");
+        $status = $xpath->findvalue("//status");
+
+        assertTrue($jobId && int($jobId) > 0, 'valid job id');
+        assertEq('completed', $status, "job $jobId complete");
+
+        #abort if job did not finish
+        if ($status ne "completed") {
+            assertOK($::N->abortJob($jobId, { force => 1 }));
+        }
+    }
+
+    # get the job details
+    $xpath = $::N->getJobDetails($jobId);
+
+    # Get the root of log files. use UNC so it works from
+    # command line as well as within a CMD step
+    my $ws = $xpath->findvalue("//workspace/winUNC");
+    if (!isWindows()) {
+        $ws = $xpath->findvalue("//workspace/unix");
+    }
+
+    # Get the name of the log file
+    my $logFileName = $ws . "/" . $xpath->findvalue("//jobStep[stepName='Get Storage Account Keys']/logFileName");
+
+    # Get the jobStepId for Azure
+    $jobStepId = $xpath->findvalue("//jobStep[stepName='Get Storage Account Keys']/jobStepId");
+
+    # Read the log file and verify its contents.
+    my $data = readFile($logFileName);
+
+    # write the job details to a file in the test directory
+    writeFile("$::gCurrentTestDir/Get Storage Account Keys.log", "====Job Details====\n$xpath->{_xml}\n====LOG====\n$data\n");
+
+    #assert command lines
+    my $expectedOutput = "";
+    $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
+$expectedOutput .= "Loading config systemtestAzureCfg\n";
+$expectedOutput .= "Adding config attempt = \n";
+$expectedOutput .= "Adding config debug_level = 1\n";
+$expectedOutput .= "Adding config resource_pool = local\n";
+$expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
+$expectedOutput .= "---------------------------------------------------------------------\n";
+$expectedOutput .= "Creating request to get storage account keys from 'sa10992'...\n";
+$expectedOutput .= "Sending request to 'https://management.core.windows.net'...\n";
+$expectedOutput .= "Storage Account keys from 'sa10992' succesfully got!\n";
+$expectedOutput .= "Storing information in property sheet '/myJob/Azure/deployed/get_keys_tag'...\n";
+
+    assertDiff(outdent($expectedOutput), $data, 'Get Storage Account Keys successful output');
+
+};
+
+ntest "11. Put Blob", {}, sub {
+
+    doSetup();
+
+    # run test job
+    my $xpath = $::N->runProcedure(
+                                   $::gtestProjectName,
+                                   {
+                                      procedureName   => "Put Blob",
+                                      pollInterval    => '1',
+                                      timeout         => 600,
+                                      actualParameter => [],
+                                   }
+                                  );
+
+    # make sure it finished
+    my $jobId     = 0;
+    my $jobStepId = 0;
+    my $status    = "";
+
+    assertOK($xpath, 'runProcedure finished');
+    if ($xpath) {
+        $jobId  = $xpath->findvalue("//jobId");
+        $status = $xpath->findvalue("//status");
+
+        assertTrue($jobId && int($jobId) > 0, 'valid job id');
+        assertEq('completed', $status, "job $jobId complete");
+
+        #abort if job did not finish
+        if ($status ne "completed") {
+            assertOK($::N->abortJob($jobId, { force => 1 }));
+        }
+    }
+
+    # get the job details
+    $xpath = $::N->getJobDetails($jobId);
+
+    # Get the root of log files. use UNC so it works from
+    # command line as well as within a CMD step
+    my $ws = $xpath->findvalue("//workspace/winUNC");
+    if (!isWindows()) {
+        $ws = $xpath->findvalue("//workspace/unix");
+    }
+
+    # Get the name of the log file
+    my $logFileName = $ws . "/" . $xpath->findvalue("//jobStep[stepName='Put Blob']/logFileName");
+
+    # Get the jobStepId for Azure
+    $jobStepId = $xpath->findvalue("//jobStep[stepName='Put Blob']/jobStepId");
+
+    # Read the log file and verify its contents.
+    my $data = readFile($logFileName);
+
+    # write the job details to a file in the test directory
+    writeFile("$::gCurrentTestDir/Put Blob.log", "====Job Details====\n$xpath->{_xml}\n====LOG====\n$data\n");
+
+    #assert command lines
+    my $expectedOutput = "";
+    $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
+    $expectedOutput .= "Loading config systemtestAzureCfg\n";
+$expectedOutput .= "Adding config attempt = \n";
+$expectedOutput .= "Adding config debug_level = 1\n";
+$expectedOutput .= "Adding config resource_pool = local\n";
+$expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
+$expectedOutput .= "---------------------------------------------------------------------\n";
+$expectedOutput .= "Creating request to create blob 'HelloWorld.cspkg'...\n";
+$expectedOutput .= "Sending request to 'http://sa10992.blob.core.windows.net/testcontainer/HelloWorld.cspkg'...\n";
+$expectedOutput .= "\n";
+$expectedOutput .= "Response:\n";
+$expectedOutput .= "\n";
+$expectedOutput .= "Blob 'HelloWorld.cspkg' succesfully created!\n";
+$expectedOutput .= "Storing information in property sheet '/myJob/Azure/deployed/put_blob_tag'...\n";
+
+    assertDiff(outdent($expectedOutput), $data, 'Put Blob successful output');
+
+};

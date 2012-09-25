@@ -1,0 +1,27 @@
+<editor>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#DeleteStorageAccount</help>
+    <formElement>
+        <label>Configuration:</label>
+        <property>connection_config</property>
+        <value/>
+        <documentation>The name of the configuration which holds all the connection information for Windows Azure.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Storage Account:</label>
+        <property>service_name</property>
+        <value/>
+        <documentation>The name of the storage account that is unique within Windows Azure. This name is the DNS prefix name and can be used to access blobs, queues, and tables in the storage account.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>JobStep Timeout:</label>
+        <property>job_step_timeout</property>
+        <value/>
+        <documentation>Timeout for the step execution in minutes. Blank means no timeout.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>    
+</editor>

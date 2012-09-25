@@ -1,0 +1,84 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+    <id>plugin</id>
+    <formats>
+        <format>jar</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <!-- Include shared components -->
+    <componentDescriptors>
+        <componentDescriptor>../build/plugin-metadata-component.xml</componentDescriptor>
+    </componentDescriptors>
+
+    <fileSets>
+        <!-- GWT output -->
+        <fileSet>
+            <directory>${project.build.directory}/${project.build.finalName}</directory>
+            <outputDirectory>htdocs/war</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <excludes>
+                <exclude>WEB-INF/**</exclude>
+            </excludes>
+        </fileSet>
+
+        <!-- lib -->
+        <fileSet>
+            <directory>${project.build.outputDirectory}/lib</directory>
+            <outputDirectory>lib</outputDirectory>
+            <filtered>true</filtered>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+
+        <!-- staging directory-->
+        <fileSet>
+            <directory>${project.build.directory}/staging</directory>
+            <outputDirectory>.</outputDirectory>
+            <filtered>true</filtered>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+
+
+        <!-- agent files out of the source directory, without filtering -->
+        <fileSet>
+            <directory>${project.basedir}</directory>
+            <outputDirectory>.</outputDirectory>
+            <filtered>true</filtered>
+            <includes>
+                <include>agent/**</include>
+                <include>cgi-bin/**</include>
+                <include>htdocs/**</include>
+                <include>META-INF/**</include>
+                <include>pages/**</include>
+            </includes>
+            <excludes>
+                <exclude>**/*.db</exclude>
+                <exclude>**/*.jar</exclude>
+                <exclude>**/*.png</exclude>
+            </excludes>
+        </fileSet>
+
+        <!-- Non-filtered files out the source directory -->
+        <fileSet>
+            <directory>${project.basedir}</directory>
+            <outputDirectory>.</outputDirectory>
+            <filtered>false</filtered>
+            <includes>
+                <include>console/**</include>
+                <include>agent/**/*.jar</include>
+                <include>agent/**/*.png</include>
+                <include>htdocs/**/*.png</include>
+                <include>htdocs/**/*.db</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
+
+</assembly>

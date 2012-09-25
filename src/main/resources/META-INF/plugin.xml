@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <key>@PLUGIN_KEY@</key>
+    <version>@PLUGIN_VERSION@</version>
+    <label>@PLUGIN_KEY@</label>
+    <description>Integration for Windows Azure</description>
+    <configure>configurations.xml</configure>
+    <help>EC-Azure_help.xml</help>
+    <author>Electric Cloud</author>
+    <authorUrl>http://www.electric-cloud.com/support</authorUrl>
+    <category>Resource Management</category>
+    <commander-version min="3.6"/>
+    <components>
+        <component name="ConfigurationManagement">
+            <javascript>war/ecplugins.azure.ConfigurationManagement/ecplugins.azure.ConfigurationManagement.nocache.js</javascript>
+        </component>
+        <component name="CreateHostedServiceParameterPanel">
+            <javascript>war/ecplugins.azure.CreateHostedServiceParameterPanel/ecplugins.azure.CreateHostedServiceParameterPanel.nocache.js</javascript>
+        </component>
+        <component name="CreateStorageAccountParameterPanel">
+            <javascript>war/ecplugins.azure.CreateStorageAccountParameterPanel/ecplugins.azure.CreateStorageAccountParameterPanel.nocache.js</javascript>
+        </component>
+        <component name="CreateDeploymentParameterPanel">
+            <javascript>war/ecplugins.azure.CreateDeploymentParameterPanel/ecplugins.azure.CreateDeploymentParameterPanel.nocache.js</javascript>
+        </component>
+        <component name="PutBlobParameterPanel">
+            <javascript>war/ecplugins.azure.PutBlobParameterPanel/ecplugins.azure.PutBlobParameterPanel.nocache.js</javascript>
+        </component>
+    </components>
+    <customTypes>
+        <customType name="CreateHostedService">
+            <parameterPanel>
+                <javascript>war/ecplugins.azure.CreateHostedServiceParameterPanel/ecplugins.azure.CreateHostedServiceParameterPanel.nocache.js</javascript>
+                <help>/commander/pages/@PLUGIN_KEY@-@PLUGIN_VERSION@/EC-Azure_help?s=Administration&amp;ss=Plugins#CreateHostedService
+                </help>
+            </parameterPanel>
+        </customType>
+        <customType name="CreateStorageAccount">
+            <parameterPanel>
+                <javascript>war/ecplugins.azure.CreateStorageAccountParameterPanel/ecplugins.azure.CreateStorageAccountParameterPanel.nocache.js</javascript>
+                <help>/commander/pages/@PLUGIN_KEY@-@PLUGIN_VERSION@/EC-Azure_help?s=Administration&amp;ss=Plugins#CreateStorageAccount
+                </help>
+            </parameterPanel>
+        </customType>
+        <customType name="CreateDeployment">
+            <parameterPanel>
+                <javascript>war/ecplugins.azure.CreateDeploymentParameterPanel/ecplugins.azure.CreateDeploymentParameterPanel.nocache.js</javascript>
+                <help>/commander/pages/@PLUGIN_KEY@-@PLUGIN_VERSION@/EC-Azure_help?s=Administration&amp;ss=Plugins#CreateDeployment
+                </help>
+            </parameterPanel>
+        </customType>
+        <customType name="PutBlob">
+            <parameterPanel>
+                <javascript>war/ecplugins.azure.PutBlobParameterPanel/ecplugins.azure.PutBlobParameterPanel.nocache.js</javascript>
+                <help>/commander/pages/@PLUGIN_KEY@-@PLUGIN_VERSION@/EC-Azure_help?s=Administration&amp;ss=Plugins#PutBlob
+                </help>
+            </parameterPanel>
+        </customType> 
+    </customTypes>   
+</plugin>

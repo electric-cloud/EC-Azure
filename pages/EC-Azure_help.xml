@@ -1,0 +1,1273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Windows (vers 25 March 2009), see www.w3.org" />
+  <meta content="text/html; charset=us-ascii" http-equiv=
+  "content-type" />
+
+  <title>Electric Commander Plugin for Windows Azure</title>
+  <link rel="stylesheet" href=
+  "../../plugins/@PLUGIN_KEY@/pluginhelp.css" type="text/css"
+  media="screen" />
+</head>
+
+<body>
+  <div class="help">
+    <h1>Windows Azure</h1>
+
+    <p>Plugin Version @PLUGIN_VERSION@</p>
+    <hr style=
+    "margin-left: -10px; margin-top: 10px; height: 1px; width: 100%; color: #5981BD;"
+    noshade="noshade" />
+    <!-- The tool description should answer these kinds of questions:
+What is the tool itself is used for in the development
+process? Who would use this tool? What is the general use-case or
+problem that this tool solves? Look at the tool's documentation or
+website(s) to get their own descriptions. Look at Wikipedia or other
+outside websites. If there is a Hudson plugin, read their
+documentation for ideas, examples, etc. It's OK to copy word-for-word
+only if appropriate, such as FOSS - but not commercial software.
+-->
+
+    <p>The Azure Services Platform (Azure) is an internet-scale
+    cloud services platform hosted in Microsoft data centers, which
+    provides an operating system and a set of developer services
+    that can be used individually or together. Azure's flexible and
+    interoperable platform can be used to build new applications to
+    run from the cloud or enhance existing applications with
+    cloud-based capabilities. Its open architecture gives
+    developers the choice to build web applications, applications
+    running on connected devices, PCs, servers, or hybrid
+    solutions.</p>
+
+    <p>The Azure Services Platform can be used both by applications
+    running in the cloud and by applications running on local
+    systems.</p>
+
+    <p>Azure provides an open, standards-based and interoperable
+    environment with support for multiple internet protocols,
+    including HTTP, REST, SOAP, and XML.</p>
+
+    <h2>Windows Azure Links</h2>
+
+    <p>More information can be found at <a href=
+    "https://www.windowsazure.com/en-us/">Windows Azure website</a>
+    or at <a href=
+    "https://www.windowsazure.com/en-us/develop/overview/">Azure
+    Developer Center</a>.</p>
+
+    <p>Check the Azure API References at <a href=
+    "http://msdn.microsoft.com/en-us/library/windowsazure/ff800682.aspx">
+    API References for Windows Azure</a>.</p>
+
+    <h2>Electric Commander Integration to Windows Azure</h2>
+    <!-- The integration description should answer the questions:
+How deep does our integration go? Why should I care? What general
+functionality does the plugin include? What functionality does
+the plugin omit?
+-->
+
+    <p><b>IMPORTANT: This plugin is WINDOWS-ONLY</b><br />
+    Any attempt to use this plugin in a non-windows system will
+    fail.</p>
+
+    <p>The plugin communicates with Windows Azure through Windows
+    Azure Service Management and Storage Services REST application
+    programming interfaces (API) which provides programmatic access
+    to much of the functionality available through the Management
+    Portal using a RESTful application development style. Using the
+    Service Management API, you can manage your storage accounts
+    and hosted services, your service deployments, and your
+    affinity groups while Storage Services API offer developers a
+    means to access the Blob, Queue, and Table services in Windows
+    Azure or in the development environment. EC-Azure plugin allows
+    users to automate and perform operations on Windows Azure
+    providing a more generic interface for managing
+    deployments.</p>
+
+    <p>All Service Management API operations are performed over SSL
+    and mutually authenticated using X.509 v3 certificates.</p>
+
+    <p>The plugin interact with Windows Azure APIs using PERL and a
+    Console Application to perform the following tasks:</p>
+
+    <ul>
+      <li>Create configuration to hold connection information.</li>
+
+      <li>Create and Delete Hosted Services, Storage Accounts,
+      Containers and Blobs.</li>
+
+      <li>Perform operations on Storage Accounts and
+      Deployments</li>
+    </ul>
+
+    <h2>Integrated Version</h2>
+
+    <p>This plugin was developed and tested against Windows Azure
+    2012.</p>
+
+    <p>Electric Commander minimum version 4.0</p>
+
+    <h2>Windows Certificates</h2>
+
+    <p>Some procedures require a certificate to authenticate the
+    request, you need to create one and upload it to Windows
+    Azure:</p>
+
+    <h3>Create a X509 certificate</h3>
+
+    <p>Using Certificate Creation Tool (Makecert.exe): makecert
+    -sky exchange -r -n "CN=&lt;CertificateName&gt;" -pe -a sha1
+    -len 2048 -ss My "D:/&lt;CertificateName&gt;.cer"</p>
+
+    <p>For more information: <a href=
+    "http://msdn.microsoft.com/en-us/library/bfsktky3(VS.80).aspx">Makecert</a>.</p>
+
+    <h3>Upload the certificate</h3>
+
+    <p><a href=
+    "http://msdn.microsoft.com/en-us/library/windowsazure/gg551726">
+    How to Add a Management Certificate to a Windows Azure
+    Subscription</a>.</p>
+
+    <p><b>IMPORTANT</b><br />
+    In some cases if ElectricCommander is running as the local
+    system account you need to create an upload the certificate to
+    'nt authority/system' certificate store.<br />
+    You must become 'authority/system':</p>
+
+    <ul>
+      <li>Open the cmd.exe and execute the following
+      commands:<br />
+      $ sc /?<br />
+      $ n $ sc create syscmd binpath= "cmd /K start" type= own
+      type= interact<br />
+      $ whoami<br />
+      $ sc start syscmd</li>
+
+      <li>A popup message will appear, click 'Show message'.</li>
+
+      <li>Now create the certificate using makecert and upload it
+      to Azure.</li>
+    </ul>
+
+    <h1>Plugin Procedures</h1>
+
+    <p>IMPORTANT: For all parameter descriptions below, required
+    parameters are shown in <span class='required'>bold
+    italics</span>.</p>
+
+    <div id="CreateConfiguration"><a name='CreateConfiguration' id=
+    "CreateConfiguration"></a>
+
+    <h3>Plugin Configuration</h3>
+    <!-- If the plugin has separate configurations then include this section,
+otherwise omit this whole section. We don't need to have a configuration
+section that just says "There is no configuration for this plugin."
+-->
+
+    <p>Plugin configurations are sets of parameters that apply
+    across some or all of the plugin's procedures. They are
+    intended to reduce repetition of common values, create
+    predefined sets of parameters for end users, and to securely
+    store credentials where needed. Each configuration is given a
+    unique name that is entered in designated parameters on
+    procedures that use them.<br />
+    <br />
+    Plugin configurations are created by going to the Electric
+    Commander "Administration" tab, then to the "Plugins" sub-tab.
+    On the right side of the line for the EC-Azure plugin, there is
+    a "Configure" link which will open the Configuration page.</p>
+
+    <p>Subscription ID must be created and an X.509 management
+    certificate needs to be uploaded to the certificate store. You
+    can do this using the <a href=
+    "https://www.windowsazure.com">Management Portal</a></p>
+    <!-- For all parameters, the parameter name should be *exactly* the same as it appears in the
+    Parameter Panel, and the first sentence(s) of the description should be
+    the same as the tooltip (if there is one). After that, the parameter
+    description can go into greater detail about the parameter including
+    valid value ranges and examples.
+    -->
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration Name</td>
+
+          <td>Provide a unique name for the configuration, keeping
+          in mind that you may need to create additional
+          configurations over time. (Required)</td>
+        </tr>
+
+        <tr>
+          <td>Description</td>
+
+          <td>A description for this configuration.</td>
+        </tr>
+
+        <tr>
+          <td class="required">Configuration Credential
+          Parameters</td>
+
+          <td>Windows Azure account Subscription ID/Certificate
+          Thumbprint. This account must have enough privileges to
+          perform API funtions. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Attempt Connection?</td>
+
+          <td>Attempt a connection to check credentials.
+          (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Resource Pool</td>
+
+          <td>The name of the pool of resources on which the
+          integration steps can run. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Debug Level:</td>
+
+          <td>Level for output: 0=errors only, 1=normal headers and
+          responses, 2+=debugging information included.
+          (Required)</td>
+        </tr>
+      </tbody>
+    </table><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/parameters/configuration_panel.png" /></div>
+
+    <div id="CreateHostedService"><a name="CreateHostedService" id=
+    "CreateHostedService"></a>
+
+    <h3>Create Hosted Service</h3>
+
+    <p>This procedure allows users to create a new hosted service
+    in Windows Azure.<br />
+    The plugin will store properties on the Electric Commander
+    server at the location provided in "Results location"/"Results
+    tag"; the default location in the job is
+    '/myJob/Azure/deployed/$[jobStepId]'</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Hosted Service Name</td>
+
+          <td>Specify the hosted service name. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Label</td>
+
+          <td>A label name for the hosted service. The name can be
+          used identify the storage account for your tracking
+          purposes. (Required)</td>
+        </tr>
+
+        <tr>
+          <td>Description</td>
+
+          <td>A description for the hosted service.</td>
+        </tr>
+
+        <tr>
+          <td>Location</td>
+
+          <td>The location where the hosted service will be
+          created. (Required if 'Affinity Group' is not
+          specified).</td>
+        </tr>
+
+        <tr>
+          <td>Affinity Group</td>
+
+          <td>The name of an existing affinity group associated
+          with this subscription. (Required if Location is not
+          specified).</td>
+        </tr>
+
+        <tr>
+          <td>Name</td>
+
+          <td>Represents the name of an extended hosted service
+          property.</td>
+        </tr>
+
+        <tr>
+          <td>Value</td>
+
+          <td>Represents the value of an extended hosted service
+          property.</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results location (output property
+          sheet path)</td>
+
+          <td>The ElectricCommander location to store properties
+          (default is /myJob/Azure/deployed). (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results tag (output property
+          name)</td>
+
+          <td>The unique tag for this operation to keep it separate
+          from others stored in the same results location. (default
+          is $[jobStepId]). (Required)</td>
+        </tr>
+
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+      </tbody>
+    </table><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/parameters/create_hosted_service.png" /></div>
+
+    <div id="DeleteHostedService"><a name="DeleteHostedService" id=
+    "DeleteHostedService"></a>
+
+    <h3>Delete Hosted Service</h3>
+
+    <p>This procedure allows users to delete a hosted service in
+    Windows Azure.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Hosted Service</td>
+
+          <td>The name of the storage account that is unique within
+          Windows Azure. This name is the unique DNS Prefix value
+          in the Windows Azure Management Portal. (Required)</td>
+        </tr>
+
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+      </tbody>
+    </table><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/parameters/delete_hosted_service.png" /></div>
+
+    <div id="CreateStorageAccount"><a name="CreateStorageAccount"
+    id="CreateStorageAccount"></a>
+
+    <h3>Create Storage Account</h3>
+
+    <p>This procedure allows users to create a new storage account
+    in Windows Azure.<br />
+    The plugin will store properties on the Electric Commander
+    server at the location provided in "Results location"/"Results
+    tag"; the default location in the job is
+    '/myJob/Azure/deployed/$[jobStepId]'</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Storage Account Name</td>
+
+          <td>A name for the storage account that is unique within
+          Windows Azure. This name is the DNS prefix name and can
+          be used to access blobs, queues, and tables in the
+          storage account. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Label</td>
+
+          <td>A label for the storage account. The name can be used
+          identify the storage account for your tracking purposes.
+          (Required)</td>
+        </tr>
+
+        <tr>
+          <td>Description</td>
+
+          <td>A description for the storage account.</td>
+        </tr>
+
+        <tr>
+          <td>Location</td>
+
+          <td>The location where the storage account is created.
+          (Required if 'Affinity Group' is not specified).</td>
+        </tr>
+
+        <tr>
+          <td>Affinity Group</td>
+
+          <td>The name of an existing affinity group in the
+          specified subscription. (Required if Location is not
+          specified).</td>
+        </tr>
+
+        <tr>
+          <td>Enable Geo Replication</td>
+
+          <td>Specifies whether the storage account is created with
+          the geo-replication enabled.</td>
+        </tr>
+
+        <tr>
+          <td>Name</td>
+
+          <td>Represents the name of an extended storage account
+          property.</td>
+        </tr>
+
+        <tr>
+          <td>Value</td>
+
+          <td>Represents the value of an extended storage account
+          property.</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results location (output property
+          sheet path)</td>
+
+          <td>The ElectricCommander location to store properties
+          (default is /myJob/Azure/deployed). (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results tag (output property
+          name)</td>
+
+          <td>The unique tag for this operation to keep it separate
+          from others stored in the same results location. (default
+          is $[jobStepId]). (Required)</td>
+        </tr>
+
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+      </tbody>
+    </table><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/parameters/create_storage_account.png" /></div>
+
+    <div id="DeleteStorageAccount"><a name="DeleteStorageAccount"
+    id="CreateStorageAccount"></a>
+
+    <h3>Delete Storage Account</h3>
+
+    <p>This procedure allows users to delete the specified storage
+    account in Windows Azure.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Storage Account</td>
+
+          <td>The name of the storage account that is unique within
+          Windows Azure. This name is the DNS prefix name and can
+          be used to access blobs, queues, and tables in the
+          storage account. (Required)</td>
+        </tr>
+
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+      </tbody>
+    </table><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/parameters/delete_storage_account.png" /></div>
+
+    <div id="GetStorageAccountKeys"><a name="GetStorageAccountKeys"
+    id="GetStorageAccountKeys"></a>
+
+    <h3>Get Storage Account Keys</h3>
+
+    <p>This procedure allows users to get the primary and secondary
+    access keys for the specified storage account.<br />
+    The plugin will store properties on the Electric Commander
+    server at the location provided in "Results location"/"Results
+    tag"; the default location in the job is
+    '/myJob/Azure/deployed/$[jobStepId]'</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Storage Account</td>
+
+          <td>A name of the storage account that is unique within
+          Windows Azure. This name is the DNS prefix name and can
+          be used to access blobs, queues, and tables in the
+          storage account. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results location (output property
+          sheet path)</td>
+
+          <td>The ElectricCommander location to store properties
+          (default is /myJob/Azure/deployed). (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results tag (output property
+          name)</td>
+
+          <td>The unique tag for this operation to keep it separate
+          from others stored in the same results location. (default
+          is $[jobStepId]). (Required)</td>
+        </tr>
+
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+      </tbody>
+    </table><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/parameters/get_storage_account_keys.png" /></div>
+
+    <div id="CreateContainer"><a name="CreateContainer" id=
+    "CreateContainer"></a>
+
+    <h3>Create Container</h3>
+
+    <p>This procedure allows users to create a new container under
+    the specified account. If the container with the same name
+    already exists, the operation fails.<br />
+    The plugin will store properties on the Electric Commander
+    server at the location provided in "Results location"/"Results
+    tag"; the default location in the job is
+    '/myJob/Azure/deployed/$[jobStepId]'</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Storage Account</td>
+
+          <td>The name of the storage account that is unique within
+          Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Storage Account Key</td>
+
+          <td>The primary access key for the storage account.
+          (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Container Name</td>
+
+          <td>A name for the container. Value can only include
+          lower-case characters. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results location (output property
+          sheet path)</td>
+
+          <td>The ElectricCommander location to store properties
+          (default is /myJob/Azure/deployed). (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results tag (output property
+          name)</td>
+
+          <td>The unique tag for this operation to keep it separate
+          from others stored in the same results location. (default
+          is $[jobStepId]). (Required)</td>
+        </tr>
+
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+      </tbody>
+    </table><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/parameters/create_container.png" /></div>
+
+    <div id="DeleteContainer"><a name="DeleteContainer" id=
+    "DeleteContainer"></a>
+
+    <h3>Delete Container</h3>
+
+    <p>This procedure allows users to mark the specified container
+    for deletion. The container and any blobs contained within it
+    are later deleted during garbage collection.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Storage Account</td>
+
+          <td>The name of the storage account that is unique within
+          Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Storage Account Key</td>
+
+          <td>The primary access key for the storage account.
+          (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Container Name</td>
+
+          <td>The name of the container. Value can only include
+          lower-case characters. (Required)</td>
+        </tr>
+
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+      </tbody>
+    </table><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/parameters/delete_container.png" /></div>
+
+    <div id="PutBlob"><a name="PutBlob" id="PutBlob"></a>
+
+    <h3>Put Blob</h3>
+
+    <p>This procedure allows users to create a new block blob or
+    page blob, update the content of an existing block blob or
+    upload a file.<br />
+    The plugin will store properties on the Electric Commander
+    server at the location provided in "Results location"/"Results
+    tag"; the default location in the job is
+    '/myJob/Azure/deployed/$[jobStepId]'</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Storage Account</td>
+
+          <td>The name of the storage account that is unique within
+          Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Storage Account Key</td>
+
+          <td>The primary access key for the storage account.
+          (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Container Name</td>
+
+          <td>Specifies the name of the container. Value can only
+          include lower-case characters. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Blob Type</td>
+
+          <td>Specifies the type of blob to create: block blob or
+          page blob. (Required)</td>
+        </tr>
+
+        <tr>
+          <td>Upload File</td>
+
+          <td>Upload a file to the current storage account.</td>
+        </tr>
+
+        <tr>
+          <td>Blob Name</td>
+
+          <td>Specifies the name for the blob. Value can only
+          include lower-case characters.</td>
+        </tr>
+
+        <tr>
+          <td>Blob Content</td>
+
+          <td>The content of the blob.</td>
+        </tr>
+
+        <tr>
+          <td>Filepath</td>
+
+          <td>Path to the file to upload. (Required if 'Upload
+          File' is checked)</td>
+        </tr>
+
+        <tr>
+          <td>Blob content length</td>
+
+          <td>Specifies the maximum size for the page blob, up to 1
+          TB. The page blob size must be aligned to a 512-byte
+          boundary. (Required if 'Blob Type' is PageBlob)</td>
+        </tr>
+
+        <tr>
+          <td>Blob sequence number</td>
+
+          <td>The sequence number is a user-controlled value that
+          you can use to track requests. (Required if 'Blob Type'
+          is PageBlob)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results location (output property
+          sheet path)</td>
+
+          <td>The ElectricCommander location to store properties
+          (default is /myJob/Azure/deployed). (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results tag (output property
+          name)</td>
+
+          <td>The unique tag for this operation to keep it separate
+          from others stored in the same results location. (default
+          is $[jobStepId]). (Required)</td>
+        </tr>
+
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+      </tbody>
+    </table><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/parameters/put_blob.png" /></div>
+
+    <div id="DeleteBlob"><a name="DeleteBlob" id="DeleteBlob"></a>
+
+    <h3>Delete Blob</h3>
+
+    <p>This procedure allows users to mark the specified blob or
+    snapshot for deletion. The blob is later deleted during garbage
+    collection.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Storage Account</td>
+
+          <td>The name of the storage account that is unique within
+          Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Storage Account Key</td>
+
+          <td>The primary access key for the storage account.
+          (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Container Name</td>
+
+          <td>The name of the container. Value can only include
+          lower-case characters. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Blob Name</td>
+
+          <td>The name of the blob. Value can only include
+          lower-case characters. (Required)</td>
+        </tr>
+
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+      </tbody>
+    </table><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/parameters/delete_blob.png" /></div>
+
+    <div id="CreateDeploymentb"><a name="CreateDeployment" id=
+    "CreateDeployment"></a>
+
+    <h3>Create Deployment</h3>
+
+    <p>This procedure allows users to upload a new service package
+    and create a new deployment on staging or production.<br />
+    The plugin will store properties on the Electric Commander
+    server at the location provided in "Results location"/"Results
+    tag"; the default location in the job is
+    '/myJob/Azure/deployed/$[jobStepId]'</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Deployment Slot</td>
+
+          <td>Specifies the environment in which to deploy the
+          virtual machine. Possible values are: Staging,
+          Production. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Hosted Service</td>
+
+          <td>Specifies the unique DNS Prefix value in the Windows
+          Azure Management Portal. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Deployment Name</td>
+
+          <td>Specifies the name for the deployment. The deployment
+          name must be unique among other deployments for the
+          hosted service. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Package URL</td>
+
+          <td>A URL that refers to the location of the service
+          package in the Blob service. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Deployment Configuration</td>
+
+          <td>Specifies the service configuration file for the
+          deployment. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Label</td>
+
+          <td>A name for the hosted service. (Required)</td>
+        </tr>
+
+        <tr>
+          <td>Start Deployment?</td>
+
+          <td>Indicates whether to start the deployment immediately
+          after it is created.</td>
+        </tr>
+
+        <tr>
+          <td>Treat Warnings As Error?</td>
+
+          <td>Indicates whether to treat package validation
+          warnings as errors.</td>
+        </tr>
+
+        <tr>
+          <td>Name</td>
+
+          <td>Represents the name of an extended deployment
+          property.</td>
+        </tr>
+
+        <tr>
+          <td>Value</td>
+
+          <td>Represents the value of an extended deployment
+          property.</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results location (output property
+          sheet path)</td>
+
+          <td>The ElectricCommander location to store properties
+          (default is /myJob/Azure/deployed). (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results tag (output property
+          name)</td>
+
+          <td>The unique tag for this operation to keep it separate
+          from others stored in the same results location. (default
+          is $[jobStepId]). (Required)</td>
+        </tr>
+
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+      </tbody>
+    </table><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/parameters/create_deployment.png" /></div>
+
+    <div id="GetOperationStatus"><a name="GetOperationStatus" id=
+    "GetOperationStatus"></a>
+
+    <h3>Get Operation Status</h3>
+
+    <p>This procedure allows users to get the status of an
+    operation in Windows Azure<br />
+    The plugin will store properties on the Electric Commander
+    server at the location provided in "Results location"/"Results
+    tag"; the default location in the job is
+    '/myJob/Azure/deployed/$[jobStepId]'</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Operation Request Id</td>
+
+          <td>ID for the request you wish to track. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results location (output property
+          sheet path)</td>
+
+          <td>The ElectricCommander location to store properties
+          (default is /myJob/Azure/deployed). (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Results tag (output property
+          name)</td>
+
+          <td>The unique tag for this operation to keep it separate
+          from others stored in the same results location. (default
+          is $[jobStepId]). (Required)</td>
+        </tr>
+
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+      </tbody>
+    </table><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/parameters/get_operation_status.png" /></div>
+
+    <h1>Use Cases and Examples</h1>
+    <!-- This section is for examples and use cases, including screenshots of the new Parameter Panel with example values filled in.
+Unfortunately, I can't tell you what exactly to put here, but it's OK to put what seems like too much! Include both parameter
+values and output where appropriate. Use a separate 'h2' header for each example. Under the h2 header try to stay with the style
+outline used above where possible.
+-->
+
+    <h2>Use Case 1: Set Azure to create a new staging
+    deployment.</h2>
+
+    <p>A common use for this plugin is to create a hosted service,
+    then create an storage account, create a container and a blob
+    using and then create a deployment. To accomplish these tasks
+    you must:</p>
+
+    <ol>
+      <li>Create a Plugin Configuration.</li>
+
+      <li>Create a Hosted Service.</li>
+
+      <li>Create a Storage Account.</li>
+
+      <li>Get the Storage Account Keys.</li>
+
+      <li>Create a Container in the storage account.</li>
+
+      <li>Upload the package file contains the application to
+      deploy.</li>
+
+      <li>Create the new deployment.</li>
+    </ol>
+
+    <h4>Create a Plugin Configuration</h4>
+
+    <p>Plugin configurations are created by going to the Electric
+    Commander "Administration" tab, then to the "Plugins" sub-tab.
+    On the right side of the line for the EC-Azure plugin, there is
+    a "Configure" link which will open the Configuration
+    page.<br />
+    Create a new configuration by specifying the requested
+    parameters:</p><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/create_config.png" />
+
+    <p>Once the configuration is created, you can see it listed in
+    "Windows Azure Configurations", and now you are able to run
+    procedures.</p>
+
+    <h4>Create a Hosted Service</h4>
+
+    <p>Create a new 'Create Hosted Service' procedure, fill in the
+    requested parameters with real values:</p><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/hosted_parameters.png" />
+
+    <h4>Create an Storage Account</h4>
+
+    <p>Create a new 'Create Storage Account' procedure, fill in the
+    requested parameters with real values:</p><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/storage_parameters.png" />
+
+    <h4>Get the Storage Account Keys</h4>
+
+    <p>Create a new 'Get Storage Account Keys' procedure, fill in
+    the requested parameters with real values:</p><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/keys_parameters.png" />
+
+    <h4>Create a Container</h4>
+
+    <p>Create a new 'Create Container' procedure, fill in the
+    requested parameters with real values:</p><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/container_parameters.png" />
+
+    <h4>Upload the File</h4>
+
+    <p>Create a new 'Put Blob' procedure, fill in the requested
+    parameters with real values:</p><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/blob_parameters.png" />
+
+    <h4>Create the Deployment</h4>
+
+    <p>Create a new 'Create Deployment' procedure, fill in the
+    requested parameters with real values:</p><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/deployment_parameters.png" />
+
+    <h4>Results and outputs</h4>
+
+    <p>Once the job finished, you can see properties stored in
+    'Results location: /myJob/Azure/deployed/'.<br />
+    <img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/job.png" /><br />
+
+    <img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/results.png" />
+    <br />
+    <img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/deployment_properties.png" />
+    </p>
+
+    <p>Create Hosted Service output:</p><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/hosted_log.png" />
+
+    <p>Put Blob output:</p><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/blob_log.png" />
+
+    <p>Create Deployment output:</p><img alt="" src=
+    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/deployment_log.png" />
+
+    <h1>Release Notes</h1>
+
+    <h2>@PLUGIN_KEY@ 1.0.0</h2>
+
+    <ul>
+      <li>Configuration Management.</li>
+
+      <li>Procedures: 'Create Hosted Service',Create Storage
+      Account','Get Storage Account Keys','Create Container', 'Put
+      Blob','Create Deployment', 'Get Operation Status','Delete
+      Container', 'Delete Blob', 'Delete Storage Account' and
+      'Delete Hosted Service'.</li>
+
+      <li>Implemented Console Application AzureRequest.exe</li>
+
+      <li>Implemented GWT parameter panels.</li>
+
+      <li>Implemented XML parameter panels.</li>
+
+      <li>Implemented postp matchers.</li>
+
+      <li>Added help link to each procedure.</li>
+
+      <li>Added detailed Use Case.</li>
+    </ul>
+  </div>
+</body>
+</html>

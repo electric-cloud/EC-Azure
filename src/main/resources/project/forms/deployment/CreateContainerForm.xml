@@ -1,0 +1,59 @@
+<editor>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#CreateContainer</help>
+    <formElement>
+        <label>Configuration:</label>
+        <property>connection_config</property>
+        <value/>
+        <documentation>The name of the configuration which holds all the connection information for Windows Azure.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Storage Account:</label>
+        <property>storage_account</property>
+        <value/>
+        <documentation>The name of the storage account that is unique within Windows Azure.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Storage Account Key:</label>
+        <property>storage_account_key</property>
+        <value/>
+        <documentation>The primary access key for the storage account.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Container Name:</label>
+        <property>container_name</property>
+        <value/>
+        <documentation>A name for the container. Value can only include lower-case characters.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Results location (output property path):</label>
+        <property>results_location_outpsp</property>
+        <value>/myJob/Azure/deployed</value>
+        <documentation>The ElectricCommander location to store properties (default is /myJob/Azure/deployed).</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Results tag (output property name):</label>
+        <property>tag_outpp</property>
+        <value>&#36;[jobStepId]</value>
+        <documentation>The unique tag for this operation to keep it separate from others stored in the same results location.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement> 
+    <formElement>
+        <label>JobStep Timeout:</label>
+        <property>job_step_timeout</property>
+        <value/>
+        <documentation>Timeout for the step execution in minutes. Blank means no timeout.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+</editor>

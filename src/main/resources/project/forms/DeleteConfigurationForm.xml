@@ -1,0 +1,10 @@
+<editor>
+    <formElement>
+        <label>Configuration:</label>
+        <property>connection_config</property>
+        <value/>
+        <documentation>The name of the configuration to delete.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+</editor>
