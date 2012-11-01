@@ -13,10 +13,12 @@ import com.electriccloud.commander.gwt.client.ComponentBaseFactory;
 import com.electriccloud.commander.gwt.client.ComponentContext;
 
 import com.google.gwt.core.client.GWT;
+import org.jetbrains.annotations.NotNull;
 
 public class ParameterPanelFactory extends ComponentBaseFactory {
     private static String s_componentName;
 
+    @NotNull
     @Override
     public Component createComponent(ComponentContext jso) {
         Component childComponent = null;
