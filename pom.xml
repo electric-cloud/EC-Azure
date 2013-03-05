@@ -7,11 +7,10 @@
   <parent>
     <groupId>com.electriccloud</groupId>
     <artifactId>commander-plugins-parent</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <relativePath>../build/parent/pom.xml</relativePath>
   </parent>
 
-  <groupId>com.electriccloud</groupId>
   <artifactId>EC-Azure</artifactId>
   <version>1.0.1-SNAPSHOT</version>
   <name>Plugins : EC-Azure</name>
@@ -123,7 +122,7 @@
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
+      <artifactId>mockito-core</artifactId>
     </dependency>
   </dependencies>
 
