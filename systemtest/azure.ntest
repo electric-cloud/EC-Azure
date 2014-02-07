@@ -171,7 +171,7 @@ ntest 'check-components-present', {}, sub {
 
 };
 
-ntest "01. Create Container", {}, sub {
+ntest "01. Create Container", {manual => 1}, sub {
 
     doSetup();
 
