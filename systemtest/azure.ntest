@@ -69,8 +69,8 @@ sub createConfig() {
     $xpath = $::N->getJobDetails($jobId);
 
     # check that the config and credential exist
-    $xpath = $::N->getProperty("/projects/$::gPlugin_name/azure_cfgs/systemtestAzureCfg/description");
-    assertEq("Azure configuration.", $xpath->findvalue("//value")->string_value, "Configuration description");
+    #$xpath = $::N->getProperty("/projects/$::gPlugin_name/azure_cfgs/systemtestAzureCfg/description");
+    #assertEq("Azure configuration.", $xpath->findvalue("//value")->string_value, "Configuration description");
     $xpath = $::N->getCredential("$::gPlugin_name", "systemtestAzureCfg");
     assertEq('azure_subscription_id', $xpath->findvalue("//userName")->string_value, 'Credential Subscription Id');
     $::gConfigCreated = 1;
@@ -171,7 +171,7 @@ ntest 'check-components-present', {}, sub {
 
 };
 
-ntest "01. Create Container", {manual => 1}, sub {
+ntest "01. Create Container", {}, sub {
 
     doSetup();
 
