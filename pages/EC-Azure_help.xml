@@ -8,7 +8,7 @@
   <meta content="text/html; charset=us-ascii" http-equiv=
   "content-type" />
 
-  <title>Electric Commander Plugin for Windows Azure</title>
+  <title>ElectricFlow Plugin for Windows Azure</title>
   <link rel="stylesheet" href=
   "../../plugins/@PLUGIN_KEY@/pluginhelp.css" type="text/css"
   media="screen" />
@@ -63,7 +63,7 @@ only if appropriate, such as FOSS - but not commercial software.
     "http://msdn.microsoft.com/en-us/library/windowsazure/ff800682.aspx">
     API References for Windows Azure</a>.</p>
 
-    <h2>Electric Commander Integration to Windows Azure</h2>
+    <h2>ElectricFlow Integration to Windows Azure</h2>
     <!-- The integration description should answer the questions:
 How deep does our integration go? Why should I care? What general
 functionality does the plugin include? What functionality does
@@ -109,7 +109,7 @@ the plugin omit?
     <p>This plugin was developed and tested against Windows Azure
     2012.</p>
 
-    <p>Electric Commander minimum version 4.0</p>
+    <p>ElectricFlow minimum version 4.0</p>
 
     <h2>Windows Certificates</h2>
 
@@ -134,7 +134,7 @@ the plugin omit?
     Subscription</a>.</p>
 
     <p><b>IMPORTANT</b><br />
-    In some cases if ElectricCommander is running as the local
+    In some cases if ElectricFlow is running as the local
     system account you need to create an upload the certificate to
     'nt authority/system' certificate store.<br />
     You must become 'authority/system':</p>
@@ -258,7 +258,7 @@ section that just says "There is no configuration for this plugin."
 
     <p>This procedure allows users to create a new hosted service
     in Windows Azure.<br />
-    The plugin will store properties on the Electric Commander
+    The plugin will store properties on the ElectricFlow
     server at the location provided in "Results location"/"Results
     tag"; the default location in the job is
     '/myJob/Azure/deployed/$[jobStepId]'</p>
@@ -334,7 +334,7 @@ section that just says "There is no configuration for this plugin."
           <td class="required">Results location (output property
           sheet path)</td>
 
-          <td>The ElectricCommander location to store properties
+          <td>The ElectricFlow location to store properties
           (default is /myJob/Azure/deployed). (Required)</td>
         </tr>
 
@@ -407,7 +407,7 @@ section that just says "There is no configuration for this plugin."
 
     <p>This procedure allows users to create a new storage account
     in Windows Azure.<br />
-    The plugin will store properties on the Electric Commander
+    The plugin will store properties on the ElectricFlow
     server at the location provided in "Results location"/"Results
     tag"; the default location in the job is
     '/myJob/Azure/deployed/$[jobStepId]'</p>
@@ -492,7 +492,7 @@ section that just says "There is no configuration for this plugin."
           <td class="required">Results location (output property
           sheet path)</td>
 
-          <td>The ElectricCommander location to store properties
+          <td>The ElectricFlow location to store properties
           (default is /myJob/Azure/deployed). (Required)</td>
         </tr>
 
@@ -566,7 +566,7 @@ section that just says "There is no configuration for this plugin."
 
     <p>This procedure allows users to get the primary and secondary
     access keys for the specified storage account.<br />
-    The plugin will store properties on the Electric Commander
+    The plugin will store properties on the ElectricFlow
     server at the location provided in "Results location"/"Results
     tag"; the default location in the job is
     '/myJob/Azure/deployed/$[jobStepId]'</p>
@@ -601,7 +601,7 @@ section that just says "There is no configuration for this plugin."
           <td class="required">Results location (output property
           sheet path)</td>
 
-          <td>The ElectricCommander location to store properties
+          <td>The ElectricFlow location to store properties
           (default is /myJob/Azure/deployed). (Required)</td>
         </tr>
 
@@ -632,7 +632,7 @@ section that just says "There is no configuration for this plugin."
     <p>This procedure allows users to create a new container under
     the specified account. If the container with the same name
     already exists, the operation fails.<br />
-    The plugin will store properties on the Electric Commander
+    The plugin will store properties on the ElectricFlow
     server at the location provided in "Results location"/"Results
     tag"; the default location in the job is
     '/myJob/Azure/deployed/$[jobStepId]'</p>
@@ -679,7 +679,7 @@ section that just says "There is no configuration for this plugin."
           <td class="required">Results location (output property
           sheet path)</td>
 
-          <td>The ElectricCommander location to store properties
+          <td>The ElectricFlow location to store properties
           (default is /myJob/Azure/deployed). (Required)</td>
         </tr>
 
@@ -766,7 +766,7 @@ section that just says "There is no configuration for this plugin."
     <p>This procedure allows users to create a new block blob or
     page blob, update the content of an existing block blob or
     upload a file.<br />
-    The plugin will store properties on the Electric Commander
+    The plugin will store properties on the ElectricFlow
     server at the location provided in "Results location"/"Results
     tag"; the default location in the job is
     '/myJob/Azure/deployed/$[jobStepId]'</p>
@@ -862,7 +862,7 @@ section that just says "There is no configuration for this plugin."
           <td class="required">Results location (output property
           sheet path)</td>
 
-          <td>The ElectricCommander location to store properties
+          <td>The ElectricFlow location to store properties
           (default is /myJob/Azure/deployed). (Required)</td>
         </tr>
 
@@ -955,7 +955,7 @@ section that just says "There is no configuration for this plugin."
 
     <p>This procedure allows users to upload a new service package
     and create a new deployment on staging or production.<br />
-    The plugin will store properties on the Electric Commander
+    The plugin will store properties on the ElectricFlow
     server at the location provided in "Results location"/"Results
     tag"; the default location in the job is
     '/myJob/Azure/deployed/$[jobStepId]'</p>
@@ -1052,7 +1052,7 @@ section that just says "There is no configuration for this plugin."
           <td class="required">Results location (output property
           sheet path)</td>
 
-          <td>The ElectricCommander location to store properties
+          <td>The ElectricFlow location to store properties
           (default is /myJob/Azure/deployed). (Required)</td>
         </tr>
 
@@ -1082,7 +1082,7 @@ section that just says "There is no configuration for this plugin."
 
     <p>This procedure allows users to get the status of an
     operation in Windows Azure<br />
-    The plugin will store properties on the Electric Commander
+    The plugin will store properties on the ElectricFlow
     server at the location provided in "Results location"/"Results
     tag"; the default location in the job is
     '/myJob/Azure/deployed/$[jobStepId]'</p>
@@ -1114,7 +1114,7 @@ section that just says "There is no configuration for this plugin."
           <td class="required">Results location (output property
           sheet path)</td>
 
-          <td>The ElectricCommander location to store properties
+          <td>The ElectricFlow location to store properties
           (default is /myJob/Azure/deployed). (Required)</td>
         </tr>
 
