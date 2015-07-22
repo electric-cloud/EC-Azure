@@ -36,5 +36,5 @@ task wrapper(type: Wrapper) {
 }
 
 gwt {
-	modules 'ecplugins.azure.client.ConfigurationManagement','ecplugins.azure.client.CreateDeploymentParameterPanel','ecplugins.azure.client.CreateHostedServiceParameterPanel','ecplugins.azure.client.CreateStorageAccountParameterPanel','ecplugins.azure.client.PutBlobParameterPanel'
+	modules 'ecplugins.azure.ConfigurationManagement','ecplugins.azure.CreateDeploymentParameterPanel','ecplugins.azure.CreateHostedServiceParameterPanel','ecplugins.azure.CreateStorageAccountParameterPanel','ecplugins.azure.PutBlobParameterPanel'
 }
