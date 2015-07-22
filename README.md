@@ -1,7 +1,7 @@
-@PLUGIN_KEY@
+EC-Azure
 ============
 
-The ElectricFlow @PLUGIN_NAME@ integration
+The ElectricFlow Azure integration
 
 ## Compile ##
 

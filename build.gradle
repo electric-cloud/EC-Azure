@@ -1,7 +1,7 @@
 // -*- Groovy -*-
 // build.gradle
 //
-// Gradle build script for @PLUGIN_KEY@ plugin.
+// Gradle build script for EC-Azure plugin.
 //
 // Copyright (c) 2015 Electric Cloud, Inc.
 // All rights reserved
@@ -26,8 +26,8 @@ repositories {
 }
 
 group = "com.electriccloud"
-description = "Plugins : @PLUGIN_KEY@"
-version = "@PLUGIN_VERSION@"
+description = "Plugins : EC-Azure"
+version = "1.0.1"
 
 apply plugin: 'flow-gradle-plugin'
 
@@ -35,4 +35,6 @@ task wrapper(type: Wrapper) {
 	gradleVersion = '2.3'
 }
 
-@GWT@
+gwt {
+	modules 'ecplugins.azure.client.ConfigurationManagementFactory','ecplugins.azure.client.ParameterPanelFactory'
+}
