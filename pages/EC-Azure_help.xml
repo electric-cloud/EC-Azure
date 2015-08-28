@@ -1,17 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta name="generator" content=
-  "HTML Tidy for Windows (vers 25 March 2009), see www.w3.org" />
-  <meta content="text/html; charset=us-ascii" http-equiv=
-  "content-type" />
+  <meta name="generator" content="HTML Tidy for Windows (vers 25 March 2009), see www.w3.org" />
+  <meta content="text/html; charset=us-ascii" http-equiv="content-type" />
 
   <title>ElectricFlow Plugin for Windows Azure</title>
-  <link rel="stylesheet" href=
-  "../../plugins/@PLUGIN_KEY@/pluginhelp.css" type="text/css"
-  media="screen" />
+  <link rel="stylesheet" href="../../plugins/@PLUGIN_KEY@/pluginhelp.css" type="text/css" media="screen" />
 </head>
 
 <body>
@@ -19,9 +14,7 @@
     <h1>Windows Azure</h1>
 
     <p>Plugin Version @PLUGIN_VERSION@</p>
-    <hr style=
-    "margin-left: -10px; margin-top: 10px; height: 1px; width: 100%; color: #5981BD;"
-    noshade="noshade" />
+    <hr style="margin-left: -10px; margin-top: 10px; height: 1px; width: 100%; color: #5981BD;" noshade="noshade" />
     <!-- The tool description should answer these kinds of questions:
 What is the tool itself is used for in the development
 process? Who would use this tool? What is the general use-case or
@@ -53,14 +46,11 @@ only if appropriate, such as FOSS - but not commercial software.
 
     <h2>Windows Azure Links</h2>
 
-    <p>More information can be found at <a href=
-    "https://www.windowsazure.com/en-us/">Windows Azure website</a>
-    or at <a href=
-    "https://www.windowsazure.com/en-us/develop/overview/">Azure
+    <p>More information can be found at <a href="https://www.windowsazure.com/en-us/">Windows Azure website</a>
+    or at <a href="https://www.windowsazure.com/en-us/develop/overview/">Azure
     Developer Center</a>.</p>
 
-    <p>Check the Azure API References at <a href=
-    "http://msdn.microsoft.com/en-us/library/windowsazure/ff800682.aspx">
+    <p>Check the Azure API References at <a href="http://msdn.microsoft.com/en-us/library/windowsazure/ff800682.aspx">
     API References for Windows Azure</a>.</p>
 
     <h2>ElectricFlow Integration to Windows Azure</h2>
@@ -123,13 +113,11 @@ the plugin omit?
     -sky exchange -r -n "CN=&lt;CertificateName&gt;" -pe -a sha1
     -len 2048 -ss My "D:/&lt;CertificateName&gt;.cer"</p>
 
-    <p>For more information: <a href=
-    "http://msdn.microsoft.com/en-us/library/bfsktky3(VS.80).aspx">Makecert</a>.</p>
+    <p>For more information: <a href="http://msdn.microsoft.com/en-us/library/bfsktky3(VS.80).aspx">Makecert</a>.</p>
 
     <h3>Upload the certificate</h3>
 
-    <p><a href=
-    "http://msdn.microsoft.com/en-us/library/windowsazure/gg551726">
+    <p><a href="http://msdn.microsoft.com/en-us/library/windowsazure/gg551726">
     How to Add a Management Certificate to a Windows Azure
     Subscription</a>.</p>
 
@@ -157,11 +145,10 @@ the plugin omit?
     <h1>Plugin Procedures</h1>
 
     <p>IMPORTANT: For all parameter descriptions below, required
-    parameters are shown in <span class='required'>bold
+    parameters are shown in <span class="required">bold
     italics</span>.</p>
 
-    <div id="CreateConfiguration"><a name='CreateConfiguration' id=
-    "CreateConfiguration"></a>
+    <div id="CreateConfiguration"><a name="CreateConfiguration" id="CreateConfiguration"></a>
 
     <h3>Plugin Configuration</h3>
     <!-- If the plugin has separate configurations then include this section,
@@ -184,8 +171,7 @@ section that just says "There is no configuration for this plugin."
 
     <p>Subscription ID must be created and an X.509 management
     certificate needs to be uploaded to the certificate store. You
-    can do this using the <a href=
-    "https://www.windowsazure.com">Management Portal</a></p>
+    can do this using the <a href="https://www.windowsazure.com">Management Portal</a></p>
     <!-- For all parameters, the parameter name should be *exactly* the same as it appears in the
     Parameter Panel, and the first sentence(s) of the description should be
     the same as the tooltip (if there is one). After that, the parameter
@@ -248,11 +234,9 @@ section that just says "There is no configuration for this plugin."
           (Required)</td>
         </tr>
       </tbody>
-    </table><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/parameters/configuration_panel.png" /></div>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/configuration_panel.png" /></div>
 
-    <div id="CreateHostedService"><a name="CreateHostedService" id=
-    "CreateHostedService"></a>
+    <div id="CreateHostedService"><a name="CreateHostedService" id="CreateHostedService"></a>
 
     <h3>Create Hosted Service</h3>
 
@@ -354,11 +338,9 @@ section that just says "There is no configuration for this plugin."
           means no timeout.</td>
         </tr>
       </tbody>
-    </table><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/parameters/create_hosted_service.png" /></div>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_hosted_service.png" /></div>
 
-    <div id="DeleteHostedService"><a name="DeleteHostedService" id=
-    "DeleteHostedService"></a>
+    <div id="DeleteHostedService"><a name="DeleteHostedService" id="DeleteHostedService"></a>
 
     <h3>Delete Hosted Service</h3>
 
@@ -397,11 +379,9 @@ section that just says "There is no configuration for this plugin."
           means no timeout.</td>
         </tr>
       </tbody>
-    </table><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/parameters/delete_hosted_service.png" /></div>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/delete_hosted_service.png" /></div>
 
-    <div id="CreateStorageAccount"><a name="CreateStorageAccount"
-    id="CreateStorageAccount"></a>
+    <div id="CreateStorageAccount"><a name="CreateStorageAccount" id="CreateStorageAccount"></a>
 
     <h3>Create Storage Account</h3>
 
@@ -512,11 +492,9 @@ section that just says "There is no configuration for this plugin."
           means no timeout.</td>
         </tr>
       </tbody>
-    </table><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/parameters/create_storage_account.png" /></div>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_storage_account.png" /></div>
 
-    <div id="DeleteStorageAccount"><a name="DeleteStorageAccount"
-    id="CreateStorageAccount"></a>
+    <div id="DeleteStorageAccount"><a name="DeleteStorageAccount" id="CreateStorageAccount"></a>
 
     <h3>Delete Storage Account</h3>
 
@@ -556,11 +534,9 @@ section that just says "There is no configuration for this plugin."
           means no timeout.</td>
         </tr>
       </tbody>
-    </table><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/parameters/delete_storage_account.png" /></div>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/delete_storage_account.png" /></div>
 
-    <div id="GetStorageAccountKeys"><a name="GetStorageAccountKeys"
-    id="GetStorageAccountKeys"></a>
+    <div id="GetStorageAccountKeys"><a name="GetStorageAccountKeys" id="GetStorageAccountKeys"></a>
 
     <h3>Get Storage Account Keys</h3>
 
@@ -621,11 +597,9 @@ section that just says "There is no configuration for this plugin."
           means no timeout.</td>
         </tr>
       </tbody>
-    </table><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/parameters/get_storage_account_keys.png" /></div>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/get_storage_account_keys.png" /></div>
 
-    <div id="CreateContainer"><a name="CreateContainer" id=
-    "CreateContainer"></a>
+    <div id="CreateContainer"><a name="CreateContainer" id="CreateContainer"></a>
 
     <h3>Create Container</h3>
 
@@ -699,11 +673,9 @@ section that just says "There is no configuration for this plugin."
           means no timeout.</td>
         </tr>
       </tbody>
-    </table><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/parameters/create_container.png" /></div>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_container.png" /></div>
 
-    <div id="DeleteContainer"><a name="DeleteContainer" id=
-    "DeleteContainer"></a>
+    <div id="DeleteContainer"><a name="DeleteContainer" id="DeleteContainer"></a>
 
     <h3>Delete Container</h3>
 
@@ -756,8 +728,7 @@ section that just says "There is no configuration for this plugin."
           means no timeout.</td>
         </tr>
       </tbody>
-    </table><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/parameters/delete_container.png" /></div>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/delete_container.png" /></div>
 
     <div id="PutBlob"><a name="PutBlob" id="PutBlob"></a>
 
@@ -882,8 +853,7 @@ section that just says "There is no configuration for this plugin."
           means no timeout.</td>
         </tr>
       </tbody>
-    </table><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/parameters/put_blob.png" /></div>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/put_blob.png" /></div>
 
     <div id="DeleteBlob"><a name="DeleteBlob" id="DeleteBlob"></a>
 
@@ -945,11 +915,9 @@ section that just says "There is no configuration for this plugin."
           means no timeout.</td>
         </tr>
       </tbody>
-    </table><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/parameters/delete_blob.png" /></div>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/delete_blob.png" /></div>
 
-    <div id="CreateDeploymentb"><a name="CreateDeployment" id=
-    "CreateDeployment"></a>
+    <div id="CreateDeploymentb"><a name="CreateDeployment" id="CreateDeployment"></a>
 
     <h3>Create Deployment</h3>
 
@@ -1072,11 +1040,9 @@ section that just says "There is no configuration for this plugin."
           means no timeout.</td>
         </tr>
       </tbody>
-    </table><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/parameters/create_deployment.png" /></div>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_deployment.png" /></div>
 
-    <div id="GetOperationStatus"><a name="GetOperationStatus" id=
-    "GetOperationStatus"></a>
+    <div id="GetOperationStatus"><a name="GetOperationStatus" id="GetOperationStatus"></a>
 
     <h3>Get Operation Status</h3>
 
@@ -1134,8 +1100,7 @@ section that just says "There is no configuration for this plugin."
           means no timeout.</td>
         </tr>
       </tbody>
-    </table><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/parameters/get_operation_status.png" /></div>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/get_operation_status.png" /></div>
 
     <h1>Use Cases and Examples</h1>
     <!-- This section is for examples and use cases, including screenshots of the new Parameter Panel with example values filled in.
@@ -1177,8 +1142,7 @@ outline used above where possible.
     a "Configure" link which will open the Configuration
     page.<br />
     Create a new configuration by specifying the requested
-    parameters:</p><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/create_config.png" />
+    parameters:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/create_config.png" />
 
     <p>Once the configuration is created, you can see it listed in
     "Windows Azure Configurations", and now you are able to run
@@ -1187,63 +1151,55 @@ outline used above where possible.
     <h4>Create a Hosted Service</h4>
 
     <p>Create a new 'Create Hosted Service' procedure, fill in the
-    requested parameters with real values:</p><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/hosted_parameters.png" />
+    requested parameters with real values:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/hosted_parameters.png" />
 
     <h4>Create an Storage Account</h4>
 
     <p>Create a new 'Create Storage Account' procedure, fill in the
-    requested parameters with real values:</p><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/storage_parameters.png" />
+    requested parameters with real values:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/storage_parameters.png" />
 
     <h4>Get the Storage Account Keys</h4>
 
     <p>Create a new 'Get Storage Account Keys' procedure, fill in
-    the requested parameters with real values:</p><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/keys_parameters.png" />
+    the requested parameters with real values:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/keys_parameters.png" />
 
     <h4>Create a Container</h4>
 
     <p>Create a new 'Create Container' procedure, fill in the
-    requested parameters with real values:</p><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/container_parameters.png" />
+    requested parameters with real values:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/container_parameters.png" />
 
     <h4>Upload the File</h4>
 
     <p>Create a new 'Put Blob' procedure, fill in the requested
-    parameters with real values:</p><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/blob_parameters.png" />
+    parameters with real values:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/blob_parameters.png" />
 
     <h4>Create the Deployment</h4>
 
     <p>Create a new 'Create Deployment' procedure, fill in the
-    requested parameters with real values:</p><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/deployment_parameters.png" />
+    requested parameters with real values:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/deployment_parameters.png" />
 
     <h4>Results and outputs</h4>
 
     <p>Once the job finished, you can see properties stored in
     'Results location: /myJob/Azure/deployed/'.<br />
-    <img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/job.png" /><br />
+    <img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/job.png" /><br />
 
-    <img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/results.png" />
+    <img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/results.png" />
     <br />
-    <img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/deployment_properties.png" />
+    <img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/deployment_properties.png" />
     </p>
 
-    <p>Create Hosted Service output:</p><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/hosted_log.png" />
+    <p>Create Hosted Service output:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/hosted_log.png" />
 
-    <p>Put Blob output:</p><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/blob_log.png" />
+    <p>Put Blob output:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/blob_log.png" />
 
-    <p>Create Deployment output:</p><img alt="" src=
-    "../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/deployment_log.png" />
+    <p>Create Deployment output:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/deployment_log.png" />
 
     <h1>Release Notes</h1>
+    <h2>@PLUGIN_KEY@ 1.0.2</h2>
+    <ul>
+        <li>Fixed issue with configurations being cached for IE.</li>
+    </ul>
 
     <h2>@PLUGIN_KEY@ 1.0.0</h2>
 
