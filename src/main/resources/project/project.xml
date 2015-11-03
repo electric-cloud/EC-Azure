@@ -49,12 +49,6 @@
                 </propertySheet>
             </property>          
             <property>
-                <propertyName>azure_cfgs</propertyName>
-                <description/>
-                <propertySheet>
-                </propertySheet>
-            </property>
-            <property>
                 <propertyName>lib</propertyName>
                 <description/>
                 <propertySheet>
