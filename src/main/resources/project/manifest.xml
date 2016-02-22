@@ -166,6 +166,14 @@
     <xpath>//procedure[procedureName=&quot;Get Operation Status&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
   <file>
+    <path>forms/deployment/CreateVMForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Create VM&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/DeleteVMForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Delete VM&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
     <path>procedures/preamble.pl</path>
     <xpath>//property[propertyName=&quot;preamble&quot;]/value</xpath>
   </file>
