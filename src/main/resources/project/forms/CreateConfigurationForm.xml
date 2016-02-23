@@ -33,11 +33,27 @@
         <documentation>A description for this configuration.</documentation>
     </formElement>
     <formElement>
+        <type>entry</type>
+        <label>Tenant ID:</label>
+        <property>tenant_id</property>
+        <value></value>
+        <documentation>Enter the Azure Active Directory Tenant ID.</documentation>
+        <required>1</required>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Subscription ID:</label>
+        <property>subscription_id</property>
+        <value></value>
+        <documentation>Enter the Azure Active Directory Subscription ID.</documentation>
+        <required>1</required>
+    </formElement>
+    <formElement>
         <type>credential</type>
-        <label>Login as:</label>
+        <label>Active Directory Application ID/Secret:</label>
         <property>credential</property>
         <required>1</required>
-        <documentation>Windows Azure account Subscription ID/Certificate Thumbprint. This account must have enough privileges to perform API funtions.</documentation>
+        <documentation>Windows Azure Active Directory Application Client ID and Secret(Password).</documentation>
     </formElement>
     <formElement>
         <type>checkbox</type>
