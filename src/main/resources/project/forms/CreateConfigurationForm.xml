@@ -50,7 +50,7 @@
     </formElement>
     <formElement>
         <type>credential</type>
-        <label>AD Application ID/Secret:</label>
+        <label>Active Directory Application ID/Secret:</label>
         <property>credential</property>
         <required>1</required>
         <documentation>Windows Azure Active Directory Application Client ID and Secret(Password).</documentation>
