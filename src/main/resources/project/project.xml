@@ -1097,7 +1097,67 @@
                                     </propertySheet>
                                 </property>
                                 <property>
+                                    <propertyName>subscription_id</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>tenant_id</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
                                     <propertyName>resource_pool</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>resource_zone</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>resource_port</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>resource_workspace</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>result_location</propertyName>
                                     <propertySheet>
                                         <property>
                                             <propertyName>formType</propertyName>
@@ -1156,11 +1216,47 @@
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
-                <formalParameterName>resource_pool</formalParameterName>
-                <defaultValue>local</defaultValue>
-                <description>The name of the pool of resources on which the integration steps can run.</description>
+                <formalParameterName>subscription_id</formalParameterName>
+                <defaultValue/>
+                <description>Provide the subscription id.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>tenant_id</formalParameterName>
+                <defaultValue/>
+                <description>Provide the tenant id.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>resource_pool</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>resource_port</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>resource_workspace</formalParameterName>
+                <defaultValue>default</defaultValue>
+                <description/>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>resource_zone</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>0</required>
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
@@ -1168,6 +1264,13 @@
                 <defaultValue>Azure configuration.</defaultValue>
                 <description>A description for this configuration.</description>
                 <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>result_location</formalParameterName>
+                <defaultValue/>
+                <description/>
                 <required>0</required>
                 <type>entry</type>
             </formalParameter>
@@ -2627,6 +2730,16 @@
                                     </propertySheet>
                                 </property>
                                 <property>
+                                    <propertyName>image</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
                                     <propertyName>region</propertyName>
                                     <propertySheet>
                                         <property>
@@ -2637,7 +2750,7 @@
                                     </propertySheet>
                                 </property>
                                 <property>
-                                    <propertyName>vm_name</propertyName>
+                                    <propertyName>vm_credential</propertyName>
                                     <propertySheet>
                                         <property>
                                             <propertyName>formType</propertyName>
@@ -2647,17 +2760,7 @@
                                     </propertySheet>
                                 </property>
                                 <property>
-                                    <propertyName>vm_admin_user</propertyName>
-                                    <propertySheet>
-                                        <property>
-                                            <propertyName>formType</propertyName>
-                                            <expandable>1</expandable>
-                                            <value>standard</value>
-                                        </property>
-                                    </propertySheet>
-                                </property>
-                                <property>
-                                    <propertyName>vm_admin_password</propertyName>
+                                    <propertyName>job_step_timeout</propertyName>
                                     <propertySheet>
                                         <property>
                                             <propertyName>formType</propertyName>
@@ -2707,29 +2810,29 @@
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
-                <formalParameterName>vm_name</formalParameterName>
+                <formalParameterName>image</formalParameterName>
                 <defaultValue/>
-                <description>A name for the Vitual Machine.</description>
+                <description>The image URN in the form publisherName:offer:skus:version/ The source VHD link of a user image, e.g. https://foo.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/snap-bar.vhd.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
-                <formalParameterName>vm_admin_user</formalParameterName>
+                <formalParameterName>vm_credential</formalParameterName>
                 <defaultValue/>
-                <description>VM admin user.</description>
+                <description>Credentials of the new virtual machine</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
-                <type>entry</type>
+                <type>credential</type>
             </formalParameter>
             <formalParameter>
-                <formalParameterName>vm_admin_password</formalParameterName>
+                <formalParameterName>job_step_timeout</formalParameterName>
                 <defaultValue/>
-                <description>Password for VM admin user.</description>
+                <description>Timeout for the step execution in minutes. Blank means no timeout.</description>
                 <expansionDeferred>0</expansionDeferred>
-                <required>1</required>
+                <required>0</required>
                 <type>entry</type>
-            </formalParameter>    
+            </formalParameter>
             <step>
                 <stepName>SetTimelimit</stepName>
                 <alwaysRun>0</alwaysRun>
@@ -2776,7 +2879,7 @@
                 <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
                 <releaseMode>none</releaseMode>
                 <resourceName>$[/myProject/azure_cfgs/$[connection_config]/resource_pool]</resourceName>
-                <shell>ec-perl</shell>
+                <shell>ec-groovy</shell>
                 <timeLimit>$[/myCall/step_timelimit]</timeLimit>
                 <timeLimitUnits>minutes</timeLimitUnits>
                 <workingDirectory/>
@@ -2839,6 +2942,16 @@
                                     </propertySheet>
                                 </property>
                                 <property>
+                                    <propertyName>job_step_timeout</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
                                     <propertyName>formType</propertyName>
                                     <expandable>1</expandable>
                                     <value>standard</value>
@@ -2868,6 +2981,14 @@
                 <description>Location of the resource.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>job_step_timeout</formalParameterName>
+                <defaultValue/>
+                <description>Timeout for the step execution in minutes. Blank means no timeout.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
@@ -2924,7 +3045,7 @@
                 <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
                 <releaseMode>none</releaseMode>
                 <resourceName>$[/myProject/azure_cfgs/$[connection_config]/resource_pool]</resourceName>
-                <shell>ec-perl</shell>
+                <shell>ec-groovy</shell>
                 <timeLimit>$[/myCall/step_timelimit]</timeLimit>
                 <timeLimitUnits>minutes</timeLimitUnits>
                 <workingDirectory/>

@@ -50,7 +50,7 @@
     </formElement>
     <formElement>
         <type>credential</type>
-        <label>Active Directory Application ID/Secret:</label>
+        <label>Client ID/Secret Key:</label>
         <property>credential</property>
         <required>1</required>
         <documentation>Windows Azure Active Directory Application Client ID and Secret(Password).</documentation>
@@ -61,17 +61,42 @@
         <property>attempt</property>
         <checkedValue>1</checkedValue>
         <uncheckedValue>0</uncheckedValue>
-        <initiallyChecked>1</initiallyChecked>        
+        <initiallyChecked>0</initiallyChecked>        
         <documentation>Attempt a connection to check credentials.</documentation>
-        <required>1</required>
     </formElement>
     <formElement>
-        <type>entry</type>
         <label>Resource Pool:</label>
         <property>resource_pool</property>
-        <value>local</value>
-        <documentation>The name of the pool of resources on which the integration steps can run.</documentation>
-        <required>1</required>
+        <value/>
+        <documentation>If you would like to add Commander resources for each OpenStack instance being created, enter the Commander pool name for the new resources. If left blank no resource will be created.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Resource Port:</label>
+        <property>resource_port</property>
+        <value/>
+        <documentation>If you specify a resource pool name in 'Resource Pool' field, this is the port that will be used when creating the resource. If no value is specified, port 7800 will be used by default when creating the resource.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Resource workspace:</label>
+        <property>resource_workspace</property>
+        <value/>
+        <documentation>If you specify a resource pool name, this is the workspace that will be assigned to the created resources.</documentation>
+        <required>0</required>
+        <type>entry</type>
+        <serverOptions>1</serverOptions>
+    </formElement>
+    <formElement>
+        <label>Resource Zone Name:</label>
+        <property>resource_zone</property>
+        <serverOptions>1</serverOptions>
+        <value>default</value>
+        <documentation>Created resource will belong to the specified zone. Zone 'default' is used by default.</documentation>
+        <required>0</required>
+        <type>entry</type>
     </formElement>
     <formElement>
         <type>entry</type>
@@ -80,6 +105,14 @@
         <value>1</value>
         <documentation>Level for output: 0=errors only, 1=normal headers and responses, 2+=debugging information included.</documentation>
         <required>1</required>
+    </formElement>
+    <formElement>
+        <label>Results Location:</label>
+        <property>result_location</property>
+        <value/>
+        <documentation>Location where the output properties will be saved. If not specified, will default to '/myJob/OpenStack/deployed'.</documentation>
+        <required>0</required>
+        <type>entry</type>
     </formElement>
 </editor>
 

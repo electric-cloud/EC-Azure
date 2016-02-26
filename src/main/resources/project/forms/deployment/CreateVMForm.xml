@@ -16,7 +16,7 @@
 
 -->
 <editor>
-    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#CreateContainer</help>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#Create VM</help>
     <formElement>
         <label>Configuration:</label>
         <property>connection_config</property>
@@ -42,27 +42,26 @@
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>VM Name:</label>
-        <property>vm_name</property>
+        <label>Image URN:</label>
+        <property>image</property>
         <value/>
-        <documentation>A name for the Vitual Machine.</documentation>
+        <documentation> The image URN in the form publisherName:offer:skus:version/ The source VHD link of a user image, e.g. https://foo.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/snap-bar.vhd</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>VMAdminUser:</label>
-        <property>vm_admin_user</property>
-        <value/>
-        <documentation>VM admin user.</documentation>
+        <type>credential</type>
+        <label>VM User/Password:</label>
+        <property>vm_credential</property>
         <required>1</required>
-        <type>entry</type>
+        <documentation>Credentials for the new virtual machine(resource).</documentation>
     </formElement>
     <formElement>
-        <label>VMAdminPassword:</label>
-        <property>vm_admin_password</property>
+        <label>JobStep Timeout:</label>
+        <property>job_step_timeout</property>
         <value/>
-        <documentation>Password for VM admin user.</documentation>
-        <required>1</required>
+        <documentation>Timeout for the step execution in minutes. Blank means no timeout.</documentation>
+        <required>0</required>
         <type>entry</type>
     </formElement>
 </editor>
