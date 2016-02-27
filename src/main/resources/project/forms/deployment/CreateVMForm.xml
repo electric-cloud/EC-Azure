@@ -16,7 +16,7 @@
 
 -->
 <editor>
-    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#CreateContainer</help>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#Create VM</help>
     <formElement>
         <label>Configuration:</label>
         <property>connection_config</property>
@@ -42,27 +42,78 @@
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>VM Name:</label>
-        <property>vm_name</property>
+        <label>Image URN:</label>
+        <property>image</property>
         <value/>
-        <documentation>A name for the Vitual Machine.</documentation>
+        <documentation> The image URN in the form publisherName:offer:skus:version/ The source VHD link of a user image, e.g. https://foo.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/snap-bar.vhd</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>VMAdminUser:</label>
-        <property>vm_admin_user</property>
-        <value/>
-        <documentation>VM admin user.</documentation>
+        <label>Number of Instances:</label>
+        <property>instance_count</property>
+        <value>1</value>
+        <documentation>Number of instances to create.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>VMAdminPassword:</label>
-        <property>vm_admin_password</property>
-        <value/>
-        <documentation>Password for VM admin user.</documentation>
+        <type>credential</type>
+        <label>VM User/Password:</label>
+        <property>vm_credential</property>
         <required>1</required>
+        <documentation>Credentials for the new virtual machine(resource).</documentation>
+    </formElement>
+
+    <formElement>
+        <label>Resource Pool:</label>
+        <property>resource_pool</property>
+        <value/>
+        <documentation>If you would like to add ElectricFlow resources for each Azure instance being created, enter the resource pool name for the new resources. If left blank no resource will be created.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Resource Port:</label>
+        <property>resource_port</property>
+        <value/>
+        <documentation>If you specify a resource pool name in 'Resource Pool' field, this is the port that will be used when creating the resource. If no value is specified, port 7800 will be used by default when creating the resource.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Resource workspace:</label>
+        <property>resource_workspace</property>
+        <value/>
+        <documentation>If you specify a resource pool name, this is the workspace that will be assigned to the created resources.</documentation>
+        <required>0</required>
+        <type>entry</type>
+        <!--<serverOptions>1</serverOptions>-->
+    </formElement>
+    <formElement>
+        <label>Resource Zone Name:</label>
+        <property>resource_zone</property>
+        <serverOptions>1</serverOptions>
+        <value>default</value>
+        <documentation>Created resource will belong to the specified zone. Zone 'default' is used by default.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Results Location:</label>
+        <property>result_location</property>
+        <value/>
+        <documentation>Location where the output properties will be saved. If not specified, will default to '/myJob/Azure/deployed'.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+
+    <formElement>
+        <label>JobStep Timeout:</label>
+        <property>job_step_timeout</property>
+        <value/>
+        <documentation>Timeout for the step execution in minutes. Blank means no timeout.</documentation>
+        <required>0</required>
         <type>entry</type>
     </formElement>
 </editor>

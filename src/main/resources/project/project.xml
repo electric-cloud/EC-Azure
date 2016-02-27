@@ -44,7 +44,19 @@
                                                 <propertyName>configuration</propertyName>
                                                 <description></description>
                                                 <expandable>1</expandable>
-                                                <value>config</value>
+                                                <value>connection_config</value>
+                                            </property>
+                                            <property>
+                                                <propertyName>resourcePool</propertyName>
+                                                <description></description>
+                                                <expandable>1</expandable>
+                                                <value>resource_pool</value>
+                                            </property>
+                                            <property>
+                                                <propertyName>count</propertyName>
+                                                <description></description>
+                                                <expandable>1</expandable>
+                                                <value>instance_count</value>
                                             </property>
                                         </propertySheet>
                                     </property>
@@ -1042,32 +1054,7 @@
                             <propertyName>parameters</propertyName>
                             <propertySheet>
                                 <property>
-                                    <propertyName>attempt</propertyName>
-                                    <propertySheet>
-                                        <property>
-                                            <propertyName>checkedValue</propertyName>
-                                            <expandable>1</expandable>
-                                            <value>true</value>
-                                        </property>
-                                        <property>
-                                            <propertyName>formType</propertyName>
-                                            <expandable>1</expandable>
-                                            <value>standard</value>
-                                        </property>
-                                        <property>
-                                            <propertyName>initiallyChecked</propertyName>
-                                            <expandable>1</expandable>
-                                            <value>0</value>
-                                        </property>
-                                        <property>
-                                            <propertyName>uncheckedValue</propertyName>
-                                            <expandable>1</expandable>
-                                            <value>false</value>
-                                        </property>
-                                    </propertySheet>
-                                </property>
-                                <property>
-                                    <propertyName>config_name</propertyName>
+                                    <propertyName>config</propertyName>
                                     <propertySheet>
                                         <property>
                                             <propertyName>formType</propertyName>
@@ -1088,6 +1075,26 @@
                                 </property>
                                 <property>
                                     <propertyName>debug_level</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>subscription_id</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>tenant_id</propertyName>
                                     <propertySheet>
                                         <property>
                                             <propertyName>formType</propertyName>
@@ -1124,17 +1131,25 @@
                 </property>
             </propertySheet>
             <formalParameter>
-                <formalParameterName>attempt</formalParameterName>
-                <defaultValue/>
-                <description>Attempt a connection to Windows Azure to test credentials and list hosted services</description>
-                <expansionDeferred>0</expansionDeferred>
-                <required>0</required>
-                <type>checkbox</type>
-            </formalParameter>
-            <formalParameter>
-                <formalParameterName>config_name</formalParameterName>
+                <formalParameterName>config</formalParameterName>
                 <defaultValue/>
                 <description>Name for the Azure configuration.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>tenant_id</formalParameterName>
+                <defaultValue/>
+                <description>Azure Active Directory Tenant ID.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>subscription_id</formalParameterName>
+                <defaultValue/>
+                <description>Azure Active Directory Subscription ID</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>entry</type>
@@ -1156,11 +1171,26 @@
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
-                <formalParameterName>resource_pool</formalParameterName>
-                <defaultValue>local</defaultValue>
-                <description>The name of the pool of resources on which the integration steps can run.</description>
+                <formalParameterName>subscription_id</formalParameterName>
+                <defaultValue/>
+                <description>Provide the subscription id.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>tenant_id</formalParameterName>
+                <defaultValue/>
+                <description>Provide the tenant id.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>resource_pool</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>0</required>
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
@@ -1209,41 +1239,6 @@
                 <broadcast>0</broadcast>
                 <command/>
                 <condition/>
-                <description/>
-                <errorHandling>failProcedure</errorHandling>
-                <exclusiveMode>none</exclusiveMode>
-                <logFileName/>
-                <parallel>0</parallel>
-                <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
-                <releaseMode>none</releaseMode>
-                <resourceName>local</resourceName>
-                <shell>ec-perl</shell>
-                <timeLimit/>
-                <timeLimitUnits>minutes</timeLimitUnits>
-                <workingDirectory/>
-                <workspaceName/>
-                <propertySheet>
-                    <property>
-                        <propertyName>ec_customEditorData</propertyName>
-                        <propertySheet>
-                            <property>
-                                <propertyName>formType</propertyName>
-                                <expandable>1</expandable>
-                                <value>command</value>
-                            </property>
-                        </propertySheet>
-                    </property>
-                </propertySheet>
-                <attachedParameters>
-                    <formalParameterName>credential</formalParameterName>
-                </attachedParameters>
-            </step>
-            <step>
-                <stepName>AttemptConnection</stepName>
-                <alwaysRun>0</alwaysRun>
-                <broadcast>0</broadcast>
-                <command/>
-                <condition>$[attempt]</condition>
                 <description/>
                 <errorHandling>failProcedure</errorHandling>
                 <exclusiveMode>none</exclusiveMode>
@@ -1970,7 +1965,7 @@
                             <propertyName>parameters</propertyName>
                             <propertySheet>
                                 <property>
-                                    <propertyName>connection_config</propertyName>
+                                    <propertyName>config</propertyName>
                                     <propertySheet>
                                         <property>
                                             <propertyName>formType</propertyName>
@@ -1997,7 +1992,7 @@
                 </property>
             </propertySheet>
             <formalParameter>
-                <formalParameterName>connection_config</formalParameterName>
+                <formalParameterName>config</formalParameterName>
                 <defaultValue/>
                 <description>The name of the configuration to delete.</description>
                 <expansionDeferred>0</expansionDeferred>
@@ -2627,6 +2622,16 @@
                                     </propertySheet>
                                 </property>
                                 <property>
+                                    <propertyName>image</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
                                     <propertyName>region</propertyName>
                                     <propertySheet>
                                         <property>
@@ -2637,7 +2642,7 @@
                                     </propertySheet>
                                 </property>
                                 <property>
-                                    <propertyName>vm_name</propertyName>
+                                    <propertyName>vm_credential</propertyName>
                                     <propertySheet>
                                         <property>
                                             <propertyName>formType</propertyName>
@@ -2647,7 +2652,7 @@
                                     </propertySheet>
                                 </property>
                                 <property>
-                                    <propertyName>vm_admin_user</propertyName>
+                                    <propertyName>resource_pool</propertyName>
                                     <propertySheet>
                                         <property>
                                             <propertyName>formType</propertyName>
@@ -2657,7 +2662,57 @@
                                     </propertySheet>
                                 </property>
                                 <property>
-                                    <propertyName>vm_admin_password</propertyName>
+                                    <propertyName>resource_zone</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>resource_port</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>resource_workspace</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>result_location</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>instance_count</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>job_step_timeout</propertyName>
                                     <propertySheet>
                                         <property>
                                             <propertyName>formType</propertyName>
@@ -2693,7 +2748,7 @@
             <formalParameter>
                 <formalParameterName>resource_group_name</formalParameterName>
                 <defaultValue/>
-                <description>Location of the resource.</description>
+                <description>The name of the resource group in which VM is to be created.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>entry</type>
@@ -2701,35 +2756,78 @@
             <formalParameter>
                 <formalParameterName>region</formalParameterName>
                 <defaultValue/>
+                <description>Location of the resource.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>image</formalParameterName>
+                <defaultValue/>
+                <description>The image URN in the form publisherName:offer:skus:version/ The source VHD link of a user image, e.g. https://foo.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/snap-bar.vhd.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>instance_count</formalParameterName>
+                <defaultValue>1</defaultValue>
+                <description>Number of instances to create.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>vm_credential</formalParameterName>
+                <defaultValue/>
+                <description>Credentials of the new virtual machine</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>credential</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>resource_pool</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>resource_port</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>resource_workspace</formalParameterName>
+                <defaultValue>default</defaultValue>
+                <description/>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>resource_zone</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>result_location</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>job_step_timeout</formalParameterName>
+                <defaultValue/>
                 <description>Timeout for the step execution in minutes. Blank means no timeout.</description>
                 <expansionDeferred>0</expansionDeferred>
-                <required>1</required>
+                <required>0</required>
                 <type>entry</type>
             </formalParameter>
-            <formalParameter>
-                <formalParameterName>vm_name</formalParameterName>
-                <defaultValue/>
-                <description>A name for the Vitual Machine.</description>
-                <expansionDeferred>0</expansionDeferred>
-                <required>1</required>
-                <type>entry</type>
-            </formalParameter>
-            <formalParameter>
-                <formalParameterName>vm_admin_user</formalParameterName>
-                <defaultValue/>
-                <description>VM admin user.</description>
-                <expansionDeferred>0</expansionDeferred>
-                <required>1</required>
-                <type>entry</type>
-            </formalParameter>
-            <formalParameter>
-                <formalParameterName>vm_admin_password</formalParameterName>
-                <defaultValue/>
-                <description>Password for VM admin user.</description>
-                <expansionDeferred>0</expansionDeferred>
-                <required>1</required>
-                <type>entry</type>
-            </formalParameter>    
             <step>
                 <stepName>SetTimelimit</stepName>
                 <alwaysRun>0</alwaysRun>
@@ -2776,7 +2874,7 @@
                 <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
                 <releaseMode>none</releaseMode>
                 <resourceName>$[/myProject/azure_cfgs/$[connection_config]/resource_pool]</resourceName>
-                <shell>ec-perl</shell>
+                <shell>ec-groovy</shell>
                 <timeLimit>$[/myCall/step_timelimit]</timeLimit>
                 <timeLimitUnits>minutes</timeLimitUnits>
                 <workingDirectory/>
@@ -2839,6 +2937,16 @@
                                     </propertySheet>
                                 </property>
                                 <property>
+                                    <propertyName>job_step_timeout</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
                                     <propertyName>formType</propertyName>
                                     <expandable>1</expandable>
                                     <value>standard</value>
@@ -2868,6 +2976,14 @@
                 <description>Location of the resource.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>job_step_timeout</formalParameterName>
+                <defaultValue/>
+                <description>Timeout for the step execution in minutes. Blank means no timeout.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
@@ -2924,7 +3040,7 @@
                 <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
                 <releaseMode>none</releaseMode>
                 <resourceName>$[/myProject/azure_cfgs/$[connection_config]/resource_pool]</resourceName>
-                <shell>ec-perl</shell>
+                <shell>ec-groovy</shell>
                 <timeLimit>$[/myCall/step_timelimit]</timeLimit>
                 <timeLimitUnits>minutes</timeLimitUnits>
                 <workingDirectory/>

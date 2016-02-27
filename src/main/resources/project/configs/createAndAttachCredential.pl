@@ -28,7 +28,7 @@ use constant {
 my $ec = new ElectricCommander();
 $ec->abortOnError(0);
 
-my $credName = "$[/myJob/config_name]";
+my $credName = "$[/myJob/config]";
 my $xpath    = $ec->getFullCredential("credential");
 my $userName = $xpath->findvalue("//userName");
 my $password = $xpath->findvalue("//password");

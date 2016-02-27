@@ -42,12 +42,17 @@
     <xpath>//procedure[procedureName=&quot;CreateConfiguration&quot;]/step[stepName=&quot;CreateAndAttachCredential&quot;]/command</xpath>
   </file>
   <file>
-    <path>configs/attemptConnection.pl</path>
-    <xpath>//procedure[procedureName=&quot;CreateConfiguration&quot;]/step[stepName=&quot;AttemptConnection&quot;]/command</xpath>
-  </file>
-  <file>
     <path>configs/deletecfg.pl</path>
     <xpath>//procedure[procedureName=&quot;DeleteConfiguration&quot;]/step[stepName=&quot;DeleteConfiguration&quot;]/command</xpath>
+  </file>
+
+  <file>
+    <path>procedures/deployment/createVM.groovy</path>
+    <xpath>//step[stepName=&quot;Create VM&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create VM&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
   </file>
   <file>
     <path>procedures/deployment/create_hosted.pl</path>
@@ -174,7 +179,7 @@
     <xpath>//procedure[procedureName=&quot;Delete VM&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
   <file>
-    <path>procedures/preamble.pl</path>
+    <path>procedures/preamble.groovy</path>
     <xpath>//property[propertyName=&quot;preamble&quot;]/value</xpath>
   </file>
   <file>
