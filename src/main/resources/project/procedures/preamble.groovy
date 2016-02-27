@@ -125,13 +125,13 @@ public class ElectricCommander {
 
     }
 
-    public getParamCredential( String parameterName ) {
+    public getFullCredentials( String parameterName ) {
         client.ignoreSSLIssues()
 
         def resp
 
         if(config == true) {
-            resp = PerformHTTPRequest(RequestMethod.GET, '/rest/v1.0/jobsSteps/' + jobStepId + '/credentials/$[' + parameterName + ']', [])
+            resp = PerformHTTPRequest(RequestMethod.GET, '/rest/v1.0/jobsSteps/' + jobStepId + '/credentials/' + parameterName, [])
         }
         if( resp == null ) {
             throw new Exception("Error : Invalid configuration " + parameterName);

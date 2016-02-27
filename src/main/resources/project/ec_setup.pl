@@ -198,7 +198,7 @@ my %get_status = (
 
 my %create_vm = (
                  label       => "Windows Azure - Create Virtual Machine",
-                 procedure   => "Create Virtual Machine",
+                 procedure   => "Create VM",
                  description => "Create Virtual Machine",
                  category    => "Deployment"
                 );
@@ -218,7 +218,7 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Star
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Virtual Machine Deployment");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Download RDP File");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - List Objects");
-$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Virtual Machine");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create VM");
 
 #Deployment
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Hosted Service");
@@ -232,7 +232,6 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Put 
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete Blob");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Deployment");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Get Operation Status");
-$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Virtual Machine");
 
 # @::createStepPickerSteps = (\%provision, \%cleanup, \%call_azure, \%create_resource, \%add_role, \%capture_role, \%delete_role, \%get_role, \%restart_role, \%shutdown_role, \%start_role, \%create_vm_deployment, \%download_rdp, \%list_objects);
 

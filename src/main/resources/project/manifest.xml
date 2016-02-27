@@ -42,10 +42,6 @@
     <xpath>//procedure[procedureName=&quot;CreateConfiguration&quot;]/step[stepName=&quot;CreateAndAttachCredential&quot;]/command</xpath>
   </file>
   <file>
-    <path>configs/attemptConnection.pl</path>
-    <xpath>//procedure[procedureName=&quot;CreateConfiguration&quot;]/step[stepName=&quot;AttemptConnection&quot;]/command</xpath>
-  </file>
-  <file>
     <path>configs/deletecfg.pl</path>
     <xpath>//procedure[procedureName=&quot;DeleteConfiguration&quot;]/step[stepName=&quot;DeleteConfiguration&quot;]/command</xpath>
   </file>

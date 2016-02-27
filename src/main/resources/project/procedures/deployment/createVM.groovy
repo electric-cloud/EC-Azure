@@ -17,19 +17,18 @@
 
 $[/myProject/procedure_helpers/preamble]
 
-ElectricCommander commander;
 //get credentials from commander
 try {
-    commander = new ElectricCommander()
+    def ec = new ElectricCommander()
     String resourceGroupName = '$[resource_group_name]'.trim()
     String config = '$[connection_config]'.trim()
     String region = '$[region]'.trim()
     String imageURN = '$[image]'.trim()
     String vmCreds = '$[vm_credential]'.trim()
-    getParameterCredential(vmCreds)
+    ec.getFullCredentials(vmCreds)
     //TODO:Paas parameters
-    commander.azure.createVM()
+    ec.azure.createVM()
 }catch(Exception e){
-    println(e.getMessage());
+    e.printStackTrace();
     return
 }
