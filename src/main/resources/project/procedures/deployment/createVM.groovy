@@ -24,7 +24,7 @@ try {
     String serverName = '$[server_name]'.trim()
     String resourceGroupName = '$[resource_group_name]'.trim()
     String config = '$[connection_config]'.trim()
-    String region = '$[region]'.trim()
+    String location = '$[location]'.trim()
     String imageURN = '$[image]'.trim()
     String userImage = '$[is_user_image]'.trim()
     String vmCreds = '$[vm_credential]'.trim()
@@ -40,7 +40,7 @@ try {
         isUserImage = true
     }
     def (adminName, adminPassword)= ec.getFullCredentials(vmCreds)
-    ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, region, resourceGroupName, publicIP, adminName, adminPassword)
+    ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword)
 }catch(Exception e){
     e.printStackTrace();
     return

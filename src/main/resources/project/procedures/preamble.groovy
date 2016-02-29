@@ -235,10 +235,21 @@ public class Azure {
 
 			context.setStorageAccountName(storageAccountName)
 			context.setContainerName(storageContainerName)
-			VirtualMachine vm = ComputeHelper.createVM(
+            VirtualMachine vm
+            if (!isUserImage)
+            {
+                //def (publisher, offer, sku, version) = imageURN.tokenize(':')
+                //context.setImageReference(ComputeHelper.getDefaultVMImage(computeManagementClient, location, publisher, offer, sku))
+            
+                vm = ComputeHelper.createVM(resourceManagementClient, computeManagementClient,
+                                           networkResourceProviderClient, storageManagementClient,
+                                           context, vmName, adminName, adminPassword).getVirtualMachine();
+            }
+
+			/*VirtualMachine vm = ComputeHelper.createVM(
 											resourceManagementClient, computeManagementClient,
 											networkResourceProviderClient, storageManagementClient,
-											context, vmName, adminName, adminPassword)/*,
+											context, vmName, adminName, adminPassword),
 											new ConsumerWrapper<VirtualMachine>() {
 			@Override
 			public void accept(VirtualMachine vm) {
@@ -254,8 +265,8 @@ public class Azure {
 				//vm.getStorageProfile().getOSDisk().
 				println(vm.getStorageProfile().getOSDisk().getVirtualHardDisk().getUri());
 			}
-			})*/
-			.getVirtualMachine();
+			})
+			.getVirtualMachine();*/
 			
 			println(vm.getName() + " is created");
 		} catch (Exception e) {

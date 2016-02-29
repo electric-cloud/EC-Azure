@@ -68,12 +68,24 @@
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>Region:</label>
-        <property>region</property>
-        <value/>
-        <documentation>Location of the resource.</documentation>
+        <type>select</type>
+        <label>Location:</label>
+        <property>location</property>
         <required>1</required>
-        <type>entry</type>
+        <documentation>Location of the resource.</documentation>
+        <option><name>Brazil South</name><value>brazilsouth</value></option>
+        <option><name>Central US</name><value>centralus</value></option>
+        <option><name>East Asia</name><value>eastasia</value></option>
+        <option><name>East US</name><value>eastus</value></option>
+        <option><name>East US 2</name><value>eastus2</value></option>
+        <option><name>Japan East</name><value>japaneast</value></option>
+        <option><name>Japan West</name><value>japanwest</value></option>
+        <option><name>North Central US</name><value>northcentralus</value></option>
+        <option><name>North Europe</name><value>northeurope</value></option>
+        <option><name>South Central US</name><value>southcentralus</value></option>
+        <option><name>Southeast Asia</name><value>southeastasia</value></option>
+        <option><name>West Europe</name><value>westeurope</value></option>
+        <option><name>West US</name><value>westus</value></option>
     </formElement>
     <formElement>
         <label>Storage Account:</label>
