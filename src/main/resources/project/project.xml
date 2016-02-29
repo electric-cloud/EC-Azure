@@ -2622,6 +2622,26 @@
                                     </propertySheet>
                                 </property>
                                 <property>
+                                    <propertyName>server_name</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>is_user_image</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
                                     <propertyName>image</propertyName>
                                     <propertySheet>
                                         <property>
@@ -2633,6 +2653,36 @@
                                 </property>
                                 <property>
                                     <propertyName>region</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>storage_account</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>storage_container</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>create_public_ip</propertyName>
                                     <propertySheet>
                                         <property>
                                             <propertyName>formType</propertyName>
@@ -2762,6 +2812,35 @@
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
+                <formalParameterName>storage_account</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>storage_container</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>server_name</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>is_user_image</formalParameterName>
+                <defaultValue>0</defaultValue>
+                <description>Provided URN is a user image or not.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>checkbox</type>
+            </formalParameter>
+            <formalParameter>
                 <formalParameterName>image</formalParameterName>
                 <defaultValue/>
                 <description>The image URN in the form publisherName:offer:skus:version/ The source VHD link of a user image, e.g. https://foo.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/snap-bar.vhd.</description>
@@ -2784,6 +2863,14 @@
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>credential</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>create_public_ip</formalParameterName>
+                <defaultValue>0</defaultValue>
+                <description>Create Public IP address for the server.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>checkbox</type>
             </formalParameter>
             <formalParameter>
                 <formalParameterName>resource_pool</formalParameterName>
@@ -2891,6 +2978,9 @@
                         </propertySheet>
                     </property>
                 </propertySheet>
+                <attachedParameters>
+                    <formalParameterName>vm_credential</formalParameterName>
+                </attachedParameters>
             </step>
         </procedure>
         <procedure>

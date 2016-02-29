@@ -26,6 +26,40 @@
         <type>entry</type>
     </formElement>
     <formElement>
+        <label>Server name:</label>
+        <property>server_name</property>
+        <value/>
+        <documentation>Name of the new Server.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Number of Instances:</label>
+        <property>instance_count</property>
+        <value>1</value>
+        <documentation>Number of instances to create.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Image URN:</label>
+        <property>image</property>
+        <value/>
+        <documentation> The image URN in the form publisherName:offer:skus:version/ The source VHD link of a user image, e.g. https://foo.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/snap-bar.vhd</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Is User Image?:</label>
+        <property>is_user_image</property>
+        <value/>
+        <documentation>Provided URN is of user image or not?</documentation>
+        <required>0</required>
+        <type>checkbox</type>
+        <checkedValue>1</checkedValue>
+        <uncheckedValue>0</uncheckedValue>
+    </formElement>
+    <formElement>
         <label>Resource Group Name:</label>
         <property>resource_group_name</property>
         <value/>
@@ -42,18 +76,18 @@
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>Image URN:</label>
-        <property>image</property>
+        <label>Storage Account:</label>
+        <property>storage_account</property>
         <value/>
-        <documentation> The image URN in the form publisherName:offer:skus:version/ The source VHD link of a user image, e.g. https://foo.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/snap-bar.vhd</documentation>
+        <documentation>Name of storage account.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>Number of Instances:</label>
-        <property>instance_count</property>
-        <value>1</value>
-        <documentation>Number of instances to create.</documentation>
+        <label>Storage Container:</label>
+        <property>storage_container</property>
+        <value/>
+        <documentation>Name of the storage container.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
@@ -64,7 +98,16 @@
         <required>1</required>
         <documentation>Credentials for the new virtual machine(resource).</documentation>
     </formElement>
-
+    <formElement>
+        <label>Create Public IP Address?:</label>
+        <property>create_public_ip</property>
+        <value/>
+        <documentation>Create Public IP address for the deployed servers?</documentation>
+        <required>0</required>
+        <type>checkbox</type>
+        <checkedValue>1</checkedValue>
+        <uncheckedValue>0</uncheckedValue>
+    </formElement>
     <formElement>
         <label>Resource Pool:</label>
         <property>resource_pool</property>
@@ -107,7 +150,6 @@
         <required>0</required>
         <type>entry</type>
     </formElement>
-
     <formElement>
         <label>JobStep Timeout:</label>
         <property>job_step_timeout</property>
