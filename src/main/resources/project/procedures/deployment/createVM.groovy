@@ -17,17 +17,30 @@
 
 $[/myProject/procedure_helpers/preamble]
 
-//get credentials from commander
 try {
-    def ec = new ElectricCommander()
+    ElectricCommander ec = new ElectricCommander()
+    String storageAccount = '$[storage_account]'.trim()
+    String storageContainer = '$[storage_container]'.trim()
+    String serverName = '$[server_name]'.trim()
     String resourceGroupName = '$[resource_group_name]'.trim()
     String config = '$[connection_config]'.trim()
-    String region = '$[region]'.trim()
+    String location = '$[location]'.trim()
     String imageURN = '$[image]'.trim()
+    String userImage = '$[is_user_image]'.trim()
     String vmCreds = '$[vm_credential]'.trim()
-    ec.getFullCredentials(vmCreds)
-    //TODO:Paas parameters
-    ec.azure.createVM()
+    String createPublicIP = '$[create_public_ip]'.trim()
+    boolean publicIP = false
+    boolean isUserImage = false
+    if (createPublicIP == '1')
+    {
+        publicIP = true
+    }
+    if (userImage == '1')
+    {
+        isUserImage = true
+    }
+    def (adminName, adminPassword)= ec.getFullCredentials(vmCreds)
+    ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword)
 }catch(Exception e){
     e.printStackTrace();
     return

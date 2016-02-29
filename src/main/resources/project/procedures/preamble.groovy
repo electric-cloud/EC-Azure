@@ -108,9 +108,8 @@ public class ElectricCommander {
         if(resp.status != 200) {
             throw new Exception("Commander did not respond with 200 for credentials")
         }
-
-        azure = new Azure([tenantID : getCommanderProperty("tenant_id"), subscriptionID : getCommanderProperty("subscription_id"), clientID : resp.getData().credential.userName, clientSecret : resp.getData().credential.password])
-	azure.createManagementClient()
+        azure = new Azure([tenantID : '$[/myProject/azure_cfgs/azureConfig/tenant_id]', subscriptionID : '$[/myProject/azure_cfgs/azureConfig/subscription_id]', clientID : resp.getData().credential.userName, clientSecret : resp.getData().credential.password])
+        azure.createManagementClient()
     }
 
     public setProperty(String propName, String propValue) {
@@ -129,10 +128,7 @@ public class ElectricCommander {
         client.ignoreSSLIssues()
 
         def resp
-
-        if(config == true) {
-            resp = PerformHTTPRequest(RequestMethod.GET, '/rest/v1.0/jobsSteps/' + jobStepId + '/credentials/' + parameterName, [])
-        }
+        resp = PerformHTTPRequest(RequestMethod.GET, '/rest/v1.0/jobsSteps/' + jobStepId + '/credentials/' + parameterName, [])
         if( resp == null ) {
             throw new Exception("Error : Invalid configuration " + parameterName);
         }
@@ -194,13 +190,12 @@ public class ElectricCommander {
         }
         return response
     }
-
 }
 
 public class Azure {
-	def baseURI
-	def managementURL
-	def aadURL
+    def baseURI =  "https://management.azure.com/"
+    def managementURL = "https://management.core.windows.net/"
+    def aadURL = "https://login.windows.net/"
 	String tenantID
 	String subscriptionID
 	String clientID
@@ -211,7 +206,6 @@ public class Azure {
 	def computeManagementClient
 	def networkResourceProviderClient
 
-	//Azure( tenantID = tenantID, subscriptionID = subscriptionID, clientID = clientID, clientSecret = clientSecret) {
 	private createManagementClient () {
 		try {
 			config = createConfiguration();
@@ -234,16 +228,28 @@ public class Azure {
 						.getAccessToken());
 	}
 
-	public createVM( String vmName, String imageName, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword ) {
+	public createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword ) {
 		try {
+            println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx" )
 			ResourceContext context = new ResourceContext(location, resourceGroupName, subscriptionID, createPublicIPAddress);
 
 			context.setStorageAccountName(storageAccountName)
 			context.setContainerName(storageContainerName)
-			VirtualMachine vm = ComputeHelper.createVM(
+            VirtualMachine vm
+            if (!isUserImage)
+            {
+                //def (publisher, offer, sku, version) = imageURN.tokenize(':')
+                //context.setImageReference(ComputeHelper.getDefaultVMImage(computeManagementClient, location, publisher, offer, sku))
+            
+                vm = ComputeHelper.createVM(resourceManagementClient, computeManagementClient,
+                                           networkResourceProviderClient, storageManagementClient,
+                                           context, vmName, adminName, adminPassword).getVirtualMachine();
+            }
+
+			/*VirtualMachine vm = ComputeHelper.createVM(
 											resourceManagementClient, computeManagementClient,
 											networkResourceProviderClient, storageManagementClient,
-											context, vmName, adminName, adminPassword)/*,
+											context, vmName, adminName, adminPassword),
 											new ConsumerWrapper<VirtualMachine>() {
 			@Override
 			public void accept(VirtualMachine vm) {
@@ -259,10 +265,10 @@ public class Azure {
 				//vm.getStorageProfile().getOSDisk().
 				println(vm.getStorageProfile().getOSDisk().getVirtualHardDisk().getUri());
 			}
-			})*/
-			.getVirtualMachine();
+			})
+			.getVirtualMachine();*/
 			
-			//System.out.println(vm.getName() + " is created");
+			println(vm.getName() + " is created");
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

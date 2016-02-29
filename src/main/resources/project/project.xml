@@ -2622,6 +2622,26 @@
                                     </propertySheet>
                                 </property>
                                 <property>
+                                    <propertyName>server_name</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>is_user_image</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
                                     <propertyName>image</propertyName>
                                     <propertySheet>
                                         <property>
@@ -2632,7 +2652,247 @@
                                     </propertySheet>
                                 </property>
                                 <property>
-                                    <propertyName>region</propertyName>
+                                    <propertyName>location</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>options</propertyName>
+                                            <propertySheet>
+                                                <property>
+                                                    <propertyName>Brazil South</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Brazil South</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>brazilsouth</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>Central US</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Central US</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>centralus</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>East Asia</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>East Asia</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>eastasia</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>East US</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>East US</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>eastus</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>East US 2</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>East US 2</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>eastus2</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>Japan East</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Japan East</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>japaneast</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>Japan West</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Japan West</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>japanwest</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>North Central US</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>North Central US</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>northcentralus</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>North Europe</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>North Europe</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>northeurope</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>South Central US</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>South Central US</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>southcentralus</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>Southeast Asia</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Southeast Asia</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>southeastasia</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>West Europe</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>West Europe</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>westeurope</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>West US</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>West US</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>westus</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>optionCount</propertyName>
+                                                    <expandable>1</expandable>
+                                                    <value>13</value>
+                                                </property>
+                                                <property>
+                                                    <propertyName>type</propertyName>
+                                                    <expandable>1</expandable>
+                                                    <value>list</value>
+                                                </property>
+                                            </propertySheet>
+                                        </property>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>storage_account</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>storage_container</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>create_public_ip</propertyName>
                                     <propertySheet>
                                         <property>
                                             <propertyName>formType</propertyName>
@@ -2754,12 +3014,41 @@
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
-                <formalParameterName>region</formalParameterName>
+                <formalParameterName>location</formalParameterName>
                 <defaultValue/>
                 <description>Location of the resource.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
+                <type>select</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>storage_account</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>1</required>
                 <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>storage_container</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>server_name</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>is_user_image</formalParameterName>
+                <defaultValue>0</defaultValue>
+                <description>Provided URN is a user image or not.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>checkbox</type>
             </formalParameter>
             <formalParameter>
                 <formalParameterName>image</formalParameterName>
@@ -2784,6 +3073,14 @@
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>credential</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>create_public_ip</formalParameterName>
+                <defaultValue>0</defaultValue>
+                <description>Create Public IP address for the server.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>checkbox</type>
             </formalParameter>
             <formalParameter>
                 <formalParameterName>resource_pool</formalParameterName>
@@ -2891,6 +3188,9 @@
                         </propertySheet>
                     </property>
                 </propertySheet>
+                <attachedParameters>
+                    <formalParameterName>vm_credential</formalParameterName>
+                </attachedParameters>
             </step>
         </procedure>
         <procedure>
