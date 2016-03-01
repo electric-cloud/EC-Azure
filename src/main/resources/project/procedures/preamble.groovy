@@ -54,6 +54,7 @@ import com.microsoft.windowsazure.Configuration;
 import com.microsoft.windowsazure.management.configuration.ManagementConfiguration;
 import com.microsoft.azure.utility.AuthHelper;
 import com.microsoft.azure.utility.ComputeHelper;
+import com.microsoft.azure.utility.StorageHelper;
 import com.microsoft.azure.utility.ResourceContext;
 import com.microsoft.azure.management.compute.ComputeManagementClient;
 import com.microsoft.azure.management.compute.ComputeManagementService;
@@ -76,6 +77,7 @@ import com.microsoft.azure.management.compute.models.NetworkProfile
 import com.microsoft.azure.management.compute.models.NetworkInterfaceReference
 import com.microsoft.azure.management.compute.models.AvailabilitySet
 import com.microsoft.azure.management.compute.models.AvailabilitySetReference;
+import com.microsoft.azure.management.storage.models.StorageAccount;
 
 enum RequestMethod {
     GET, POST, PUT, DELETE
@@ -230,45 +232,47 @@ public class Azure {
 
 	public createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword ) {
 		try {
-            println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx" )
+			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx" )
 			ResourceContext context = new ResourceContext(location, resourceGroupName, subscriptionID, createPublicIPAddress);
 
 			context.setStorageAccountName(storageAccountName)
 			context.setContainerName(storageContainerName)
-            VirtualMachine vm
-            if (!isUserImage)
-            {
-                //def (publisher, offer, sku, version) = imageURN.tokenize(':')
-                //context.setImageReference(ComputeHelper.getDefaultVMImage(computeManagementClient, location, publisher, offer, sku))
-            
-                vm = ComputeHelper.createVM(resourceManagementClient, computeManagementClient,
-                                           networkResourceProviderClient, storageManagementClient,
-                                           context, vmName, adminName, adminPassword).getVirtualMachine();
-            }
 
-			/*VirtualMachine vm = ComputeHelper.createVM(
-											resourceManagementClient, computeManagementClient,
-											networkResourceProviderClient, storageManagementClient,
-											context, vmName, adminName, adminPassword),
-											new ConsumerWrapper<VirtualMachine>() {
-			@Override
-			public void accept(VirtualMachine vm) {
-				println(vm.getStorageProfile().getOSDisk().getVirtualHardDisk().getUri());
-				vm.getStorageProfile().getOSDisk().setOperatingSystemType("Windows")
-				vm.getStorageProfile().getOSDisk().setCreateOption("fromImage")
-				println(vm.getStorageProfile().getOSDisk().virtualHardDisk.setUri("https://avinashmsys7.blob.core.windows.net/vhds/myOSDisk123.vhd"))
-				//vm.getNetworkProfile().getNetworkInterfaces().setName("azureResGroupMsys123nicbbomy")
-				vm.getNetworkProfile().getNetworkInterfaces().
-				//vm.getStorageProfile().getOSDisk().virtualHardDisk.setUri("https://avinashmsys7.blob.core.windows.net/vhds/myOSDisk123.vhd")
-				//vm.getStorageProfile().getOSDisk().sourceImage.setUri("https://avinashmsys7.blob.core.windows.net/vhds/ososvhd.vhd");
-				//m.getStorageProfile().getOSDisk().name("myOSDisk123")
-				//vm.getStorageProfile().getOSDisk().
-				println(vm.getStorageProfile().getOSDisk().getVirtualHardDisk().getUri());
+			StorageAccount storageAccount= StorageHelper.getStorageAccount(storageManagementClient, context)
+			if(storageAccount)
+			{
+					context.setStorageAccount(storageAccount)
+					println("Set already existing storage account in context: " + storageAccountName)
 			}
-			})
-			.getVirtualMachine();*/
-			
-			println(vm.getName() + " is created");
+
+			String storageURI = String.format("https://%s.blob.core.windows.net/%s", context.getStorageAccount().getName(), context.getContainerName()) + String.format("/os-%s.vhd", vmName)
+
+			VirtualMachine virtualMachine
+			if (!isUserImage)
+			{
+				def (publisher, offer, sku, version) = imageURN.tokenize(':')
+				virtualMachine = ComputeHelper.createVM(resourceManagementClient, computeManagementClient,
+								networkResourceProviderClient, storageManagementClient,
+								context, vmName, adminName, adminPassword,
+								new ConsumerWrapper<VirtualMachine>() {
+								@Override
+								public void accept(VirtualMachine vm) {
+									vm.getStorageProfile().setDataDisks(null);
+									ImageReference ir = new ImageReference();
+									ir.setPublisher(publisher.trim());
+									ir.setOffer(offer.trim());
+									ir.setSku(sku.trim());
+									ir.setVersion(version.trim());
+									vm.getStorageProfile().setImageReference(ir);
+									vm.getStorageProfile().getOSDisk().virtualHardDisk.setUri(storageURI)
+								}}).getVirtualMachine();
+			}
+			else
+			{
+				println("Using User Image for Creating Virtual Machine")
+				//TODO
+			}
+			println(virtualMachine.getName() + " is created");
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
