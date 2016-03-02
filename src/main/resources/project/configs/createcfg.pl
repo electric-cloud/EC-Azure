@@ -48,17 +48,17 @@ foreach my $node ($nodeset->get_nodelist) {
     $opts->{$parm} = "$val";
 }
 
-if (!defined $opts->{config_name} || "$opts->{config_name}" eq "") {
-    print "config_name parameter must exist and be non-blank\n";
+if (!defined $opts->{config} || "$opts->{config}" eq "") {
+    print "config parameter must exist and be non-blank\n";
     exit ERROR;
 }
 
 # check to see if a config with this name already exists before we do anything else
-my $xpath    = $ec->getProperty("/myProject/azure_cfgs/$opts->{config_name}");
+my $xpath    = $ec->getProperty("/myProject/azure_cfgs/$opts->{config}");
 my $property = $xpath->findvalue("//response/property/propertyName");
 
 if (defined $property && "$property" ne "") {
-    my $errMsg = "A configuration named '$opts->{config_name}' already exists.";
+    my $errMsg = "A configuration named '$opts->{config}' already exists.";
     $ec->setProperty("/myJob/configError", $errMsg);
     print $errMsg;
     exit ERROR;
@@ -67,12 +67,12 @@ if (defined $property && "$property" ne "") {
 my $cfg = new ElectricCommander::PropDB($ec, "/myProject/azure_cfgs");
 
 # set configuration description
-$cfg->setRow("$opts->{config_name}", "$opts->{description}");
+$cfg->setRow("$opts->{config}", "$opts->{description}");
 
 # add all the options as properties
 foreach my $key (keys %{$opts}) {
     
-    if ("$key" eq "config_name") {
+    if ("$key" eq "config") {
         next;
     }
 
@@ -80,6 +80,6 @@ foreach my $key (keys %{$opts}) {
         next;
     }	
 	
-    $cfg->setCol("$opts->{config_name}", "$key", "$opts->{$key}");
+    $cfg->setCol("$opts->{config}", "$key", "$opts->{$key}");
 }
 exit SUCCESS;

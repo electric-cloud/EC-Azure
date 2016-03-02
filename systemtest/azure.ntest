@@ -49,7 +49,7 @@ sub createConfig() {
                                       procedureName   => 'CreateConfiguration',
                                       pollInterval    => '0.2',
                                       timeout         => 600,
-                                      actualParameter => [{ actualParameterName => 'config_name', value => 'systemtestAzureCfg' }, { actualParameterName => 'description', value => 'Azure configuration.' }, { actualParameterName => 'attempt', value => '0' }, { actualParameterName => 'credential', value => 'systemtestAzureCfg' }, { actualParameterName => 'debug_level', value => '1' }, { actualParameterName => 'resource_pool', value => 'local' },],
+                                      actualParameter => [{ actualParameterName => 'config', value => 'systemtestAzureCfg' }, { actualParameterName => 'description', value => 'Azure configuration.' }, { actualParameterName => 'attempt', value => '0' }, { actualParameterName => 'credential', value => 'systemtestAzureCfg' }, { actualParameterName => 'debug_level', value => '1' }, { actualParameterName => 'resource_pool', value => 'local' },],
                                       credential => [{ credentialName => 'systemtestAzureCfg', userName => 'azure_subscription_id', password => 'certificate_thumbprint', },],
                                    }
                                   );
@@ -108,7 +108,6 @@ ntest 'check-components-present', {}, sub {
     assertOK($xpath, 'get steps');
     assertEq("CreateConfiguration",       $xpath->findvalue("//step[1]/stepName"), "step 1: CreateConfiguration");
     assertEq("CreateAndAttachCredential", $xpath->findvalue("//step[2]/stepName"), "step 2: CreateAndAttachCredential");
-    assertEq("AttemptConnection",         $xpath->findvalue("//step[3]/stepName"), "step 3: AttemptConnection");
 
     $xpath = $::N->getSteps("$::gPlugin_name", "DeleteConfiguration");
     assertOK($xpath, "DeleteConfiguration");
@@ -231,7 +230,7 @@ ntest "01. Create Container", {}, sub {
     my $expectedOutput = "";
     $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
     $expectedOutput .= "Loading config systemtestAzureCfg\n";
-    $expectedOutput .= "Adding config attempt = 0\n";
+    
     $expectedOutput .= "Adding config debug_level = 1\n";
     $expectedOutput .= "Adding config resource_pool = local\n";
     $expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
@@ -308,7 +307,7 @@ ntest "02. Create Deployment", {}, sub {
     my $expectedOutput = "";
     $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
     $expectedOutput .= "Loading config systemtestAzureCfg\n";
-    $expectedOutput .= "Adding config attempt = 0\n";
+    
     $expectedOutput .= "Adding config debug_level = 1\n";
     $expectedOutput .= "Adding config resource_pool = local\n";
     $expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
@@ -384,7 +383,7 @@ ntest "03. Create Hosted Service", {}, sub {
     my $expectedOutput = "";
     $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
     $expectedOutput .= "Loading config systemtestAzureCfg\n";
-    $expectedOutput .= "Adding config attempt = 0\n";
+    
     $expectedOutput .= "Adding config debug_level = 1\n";
     $expectedOutput .= "Adding config resource_pool = local\n";
     $expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
@@ -460,7 +459,7 @@ ntest "04. Create Storage Account", {}, sub {
     my $expectedOutput = "";
     $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
     $expectedOutput .= "Loading config systemtestAzureCfg\n";
-    $expectedOutput .= "Adding config attempt = 0\n";
+    
     $expectedOutput .= "Adding config debug_level = 1\n";
     $expectedOutput .= "Adding config resource_pool = local\n";
     $expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
@@ -536,7 +535,7 @@ ntest "05. Delete Blob", {}, sub {
     my $expectedOutput = "";
     $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
     $expectedOutput .= "Loading config systemtestAzureCfg\n";
-    $expectedOutput .= "Adding config attempt = 0\n";
+    
     $expectedOutput .= "Adding config debug_level = 1\n";
     $expectedOutput .= "Adding config resource_pool = local\n";
     $expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
@@ -613,7 +612,7 @@ ntest "06. Delete Container", {}, sub {
     my $expectedOutput = "";
     $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
     $expectedOutput .= "Loading config systemtestAzureCfg\n";
-    $expectedOutput .= "Adding config attempt = 0\n";
+    
     $expectedOutput .= "Adding config debug_level = 1\n";
     $expectedOutput .= "Adding config resource_pool = local\n";
     $expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
@@ -690,7 +689,7 @@ ntest "07. Delete Hosted Service", {}, sub {
     my $expectedOutput = "";
     $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
     $expectedOutput .= "Loading config systemtestAzureCfg\n";
-    $expectedOutput .= "Adding config attempt = 0\n";
+    
     $expectedOutput .= "Adding config debug_level = 1\n";
     $expectedOutput .= "Adding config resource_pool = local\n";
     $expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
@@ -764,7 +763,7 @@ ntest "08. Delete Storage Account", {}, sub {
     my $expectedOutput = "";
     $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
     $expectedOutput .= "Loading config systemtestAzureCfg\n";
-    $expectedOutput .= "Adding config attempt = 0\n";
+    
     $expectedOutput .= "Adding config debug_level = 1\n";
     $expectedOutput .= "Adding config resource_pool = local\n";
     $expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
@@ -838,7 +837,7 @@ ntest "09. Get Operation Status", {}, sub {
     my $expectedOutput = "";
     $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
     $expectedOutput .= "Loading config systemtestAzureCfg\n";
-    $expectedOutput .= "Adding config attempt = 0\n";
+    
     $expectedOutput .= "Adding config debug_level = 1\n";
     $expectedOutput .= "Adding config resource_pool = local\n";
     $expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
@@ -913,7 +912,7 @@ ntest "10. Get Storage Account Keys", {}, sub {
     my $expectedOutput = "";
     $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
     $expectedOutput .= "Loading config systemtestAzureCfg\n";
-    $expectedOutput .= "Adding config attempt = 0\n";
+    
     $expectedOutput .= "Adding config debug_level = 1\n";
     $expectedOutput .= "Adding config resource_pool = local\n";
     $expectedOutput .= "Adding config credential = systemtestAzureCfg\n";
@@ -987,7 +986,7 @@ ntest "11. Put Blob", {}, sub {
     my $expectedOutput = "";
     $expectedOutput .= "Using plugin EC-Azure version " . $::gPlugin_ver . "\n";
     $expectedOutput .= "Loading config systemtestAzureCfg\n";
-    $expectedOutput .= "Adding config attempt = 0\n";
+    
     $expectedOutput .= "Adding config debug_level = 1\n";
     $expectedOutput .= "Adding config resource_pool = local\n";
     $expectedOutput .= "Adding config credential = systemtestAzureCfg\n";

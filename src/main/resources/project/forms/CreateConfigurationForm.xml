@@ -19,7 +19,7 @@
     <formElement>
         <type>entry</type>
         <label>Configuration Name:</label>
-        <property>config_name</property>
+        <property>config</property>
         <value/>
         <required>1</required>
         <documentation>Provide a unique name for the configuration, keeping in mind that you may need to create additional configurations over time.</documentation>
@@ -50,21 +50,22 @@
     </formElement>
     <formElement>
         <type>credential</type>
-        <label>Active Directory Application ID/Secret:</label>
+        <label>Client ID/Secret Key:</label>
         <property>credential</property>
         <required>1</required>
-        <documentation>Windows Azure Active Directory Application Client ID and Secret(Password).</documentation>
+        <userNameLabel>Client ID:</userNameLabel>
+        <passwordLabel>Secret Key:</passwordLabel>
+        <retypePasswordLabel>Retype Secret Key:</retypePasswordLabel>
+        <documentation>Azure Application Client ID and Secret(Password).</documentation>
     </formElement>
     <formElement>
-        <type>checkbox</type>
-        <label>Attempt Connection?:</label>
-        <property>attempt</property>
-        <checkedValue>1</checkedValue>
-        <uncheckedValue>0</uncheckedValue>
-        <initiallyChecked>1</initiallyChecked>        
-        <documentation>Attempt a connection to check credentials.</documentation>
+        <type>credential</type>
+        <label>VM User/Password:</label>
+        <property>vm_credential</property>
         <required>1</required>
+        <documentation>Credentials for any virtual machines provisioned using this configuration.</documentation>
     </formElement>
+
     <formElement>
         <type>entry</type>
         <label>Resource Pool:</label>

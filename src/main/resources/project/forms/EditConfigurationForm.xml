@@ -31,16 +31,6 @@
         <documentation>A description for this configuration.</documentation>
     </formElement>
     <formElement>
-        <type>checkbox</type>
-        <label>Attempt Connection?:</label>
-        <property>attempt</property>
-        <checkedValue>1</checkedValue>
-        <uncheckedValue>0</uncheckedValue>
-        <initiallyChecked>1</initiallyChecked>        
-        <documentation>Attempt a connection to check credentials.</documentation>
-        <required>1</required>
-    </formElement>
-    <formElement>
         <type>entry</type>
         <label>Resource Pool:</label>
         <property>resource_pool</property>

@@ -41,4 +41,13 @@
         <required>1</required>
         <type>entry</type>
     </formElement>
+    <formElement>
+        <label>JobStep Timeout:</label>
+        <property>job_step_timeout</property>
+        <value/>
+        <documentation>Timeout for the step execution in minutes. Blank means no timeout.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+
 </editor>

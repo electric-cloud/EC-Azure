@@ -60,10 +60,6 @@ functionality does the plugin include? What functionality does
 the plugin omit?
 -->
 
-    <p><b>IMPORTANT: This plugin is WINDOWS-ONLY</b><br />
-    Any attempt to use this plugin in a non-windows system will
-    fail.</p>
-
     <p>The plugin communicates with Windows Azure through Windows
     Azure Service Management and Storage Services REST application
     programming interfaces (API) which provides programmatic access
@@ -210,13 +206,6 @@ section that just says "There is no configuration for this plugin."
           <td>Windows Azure account Subscription ID/Certificate
           Thumbprint. This account must have enough privileges to
           perform API funtions. (Required)</td>
-        </tr>
-
-        <tr>
-          <td class="required">Attempt Connection?</td>
-
-          <td>Attempt a connection to check credentials.
-          (Required)</td>
         </tr>
 
         <tr>
