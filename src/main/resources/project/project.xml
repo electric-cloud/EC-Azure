@@ -1104,6 +1104,16 @@
                                     </propertySheet>
                                 </property>
                                 <property>
+                                    <propertyName>vm_credential</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
                                     <propertyName>resource_pool</propertyName>
                                     <propertySheet>
                                         <property>
@@ -1145,6 +1155,14 @@
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>vm_credential</formalParameterName>
+                <defaultValue/>
+                <description>Credentials for any virtual machines provisioned using this configuration.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>credential</type>
             </formalParameter>
             <formalParameter>
                 <formalParameterName>subscription_id</formalParameterName>
@@ -1266,6 +1284,7 @@
                 </propertySheet>
                 <attachedParameters>
                     <formalParameterName>credential</formalParameterName>
+                    <formalParameterName>vm_credential</formalParameterName>
                 </attachedParameters>
             </step>
         </procedure>
@@ -2902,16 +2921,6 @@
                                     </propertySheet>
                                 </property>
                                 <property>
-                                    <propertyName>vm_credential</propertyName>
-                                    <propertySheet>
-                                        <property>
-                                            <propertyName>formType</propertyName>
-                                            <expandable>1</expandable>
-                                            <value>standard</value>
-                                        </property>
-                                    </propertySheet>
-                                </property>
-                                <property>
                                     <propertyName>resource_pool</propertyName>
                                     <propertySheet>
                                         <property>
@@ -3067,14 +3076,6 @@
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
-                <formalParameterName>vm_credential</formalParameterName>
-                <defaultValue/>
-                <description>Credentials of the new virtual machine</description>
-                <expansionDeferred>0</expansionDeferred>
-                <required>1</required>
-                <type>credential</type>
-            </formalParameter>
-            <formalParameter>
                 <formalParameterName>create_public_ip</formalParameterName>
                 <defaultValue>0</defaultValue>
                 <description>Create Public IP address for the server.</description>
@@ -3188,9 +3189,6 @@
                         </propertySheet>
                     </property>
                 </propertySheet>
-                <attachedParameters>
-                    <formalParameterName>vm_credential</formalParameterName>
-                </attachedParameters>
             </step>
         </procedure>
         <procedure>

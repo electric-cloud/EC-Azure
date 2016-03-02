@@ -96,6 +96,8 @@ public class ElectricCommander {
     def azure
     def jobStepId = '$[/myJobStep/jobStepId]'
 
+    def configProperties;
+
     ElectricCommander() {
 
         client.ignoreSSLIssues()
@@ -110,7 +112,17 @@ public class ElectricCommander {
         if(resp.status != 200) {
             throw new Exception("Commander did not respond with 200 for credentials")
         }
-        azure = new Azure([tenantID : '$[/myProject/azure_cfgs/azureConfig/tenant_id]', subscriptionID : '$[/myProject/azure_cfgs/azureConfig/subscription_id]', clientID : resp.getData().credential.userName, clientSecret : resp.getData().credential.password])
+
+        configProperties = getProperties('/myProject/azure_cfgs/$[connection_config]')
+
+        println("ClientID: " + resp.data.credential.userName)
+        println("Secret Key: " + resp.data.credential.password)
+
+
+        azure = new Azure([tenantID : configProperties.tenant_id,
+                           subscriptionID : configProperties.subscription_id,
+                           clientID : resp.data.credential.userName,
+                           clientSecret : resp.data.credential.password])
         azure.createManagementClient()
     }
 
@@ -161,8 +173,52 @@ public class ElectricCommander {
     }
 
 
-    private PerformHTTPRequest(RequestMethod request, String url, Object jsonData) {
+    def getProperties(String path) {
 
+        def uri = '/rest/v1.0/properties/' + path
+        def resp = performHttpGet(uri)
+
+        def properties = [:]
+        if (resp?.data?.property?.propertySheetId) {
+
+            def sheetId = resp?.data?.property?.propertySheetId
+            uri = '/rest/v1.0/propertySheets/' + sheetId
+            resp = performHttpGet(uri)
+        }
+
+        resp?.data?.propertySheet?.property.each{
+            properties[it.propertyName] = it.value
+        }
+
+        println("properties: " + JsonOutput.toJson(properties))
+
+        properties
+    }
+
+    def performHttpGet(String uri, def query = [:]) {
+
+        println("URL: " + uri)
+
+        def sysJobStepId = System.getenv('COMMANDER_JOBSTEPID')
+        println("SysJobStepId: " + sysJobStepId)
+
+        query.jobStepId = sysJobStepId
+
+        println("query: " + JsonOutput.toJson(query))
+
+        def resp = PerformHTTPRequest(RequestMethod.GET, uri, query, [])
+        println('Response status: ' + resp?.status)
+        if(resp?.status != 200) {
+            println("ERROR: HTTP GET request failed $uri")
+            return [:]
+        }
+
+        println(JsonOutput.toJson(resp.data))
+        return resp
+    }
+
+    private PerformHTTPRequest(RequestMethod request, String url, Object jsonData) {
+        println('performHTTPRequest')
         PerformHTTPRequest(request,url,["":""],jsonData)
     }
     private PerformHTTPRequest(RequestMethod request, String url, def query, Object jsonData) {
@@ -184,10 +240,10 @@ public class ElectricCommander {
                     break
             }
         } catch (groovyx.net.http.HttpResponseException ex) {
-            println(ex.getResponse().getData())
+            ex.printStackTrace()
             return null
         } catch (java.net.ConnectException ex) {
-            println(ex.getResponse().getData())
+            ex.printStackTrace()
             return null
         }
         return response

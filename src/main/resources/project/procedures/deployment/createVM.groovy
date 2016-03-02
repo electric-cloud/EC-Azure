@@ -27,7 +27,7 @@ try {
     String location = '$[location]'.trim()
     String imageURN = '$[image]'.trim()
     String userImage = '$[is_user_image]'.trim()
-    String vmCreds = '$[vm_credential]'.trim()
+    String vmCreds = ec.configProperties.vm_credential
     String createPublicIP = '$[create_public_ip]'.trim()
     boolean publicIP = false
     boolean isUserImage = false
