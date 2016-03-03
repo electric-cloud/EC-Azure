@@ -209,11 +209,20 @@ public class ElectricCommander {
         def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/workspaces/',jsonData)
 
         if(resp?.status == 409)     
+        {
             println("Workspace " + workspaceName +" already exists.")
+            return true
+        }
         else if(resp?.status >= 400) 
+        {
             println("Failed to create the workspace " + resp)
+            return false
+        }
         else
+        {
             println("Workspace " + workspaceName + " created.")
+            return true
+        }
             
     }
 
@@ -224,11 +233,20 @@ public class ElectricCommander {
         def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resourcePools/', jsonData)
 
         if(resp?.status == 409)     
+        {
             println("Resource Pool " + resourcePoolName +" already exists.")
+            return true
+        }
         else if(resp?.status >= 400) 
-            println("Failed to create the Resource Pool " + resp)    
+        {
+            println("Failed to create the Resource Pool " + resp)
+            return false
+        }
         else
+        {
             println("Resource Pool " + resourcePoolName + " created.")
+            return true
+        }
     }
 
     public createCommanderResource(String resourceName, String workspaceName, String resourceIP ,String resourcePort , String resourcePool) {  
@@ -239,11 +257,21 @@ public class ElectricCommander {
 
         
         if(resp?.status == 409)     
+        {
             println("Resource " + resourceName +" already exists.")
-        else if(resp?.status >= 400) 
-            println("Failed to create the Resource " + resp)    
+            //TODO:Adjust resource name
+            return false
+        }
+        else if(resp?.status >= 400)
+        {
+            println("Failed to create the Resource " + resp)
+            return false
+        }
         else
+        {
             println("Resource " + resourceName + " created.")
+            return true
+        }
     }
 
     public deleteCommanderResource(String resourceName) {  
@@ -252,9 +280,15 @@ public class ElectricCommander {
         def resp = PerformHTTPRequest(RequestMethod.DELETE, '/rest/v1.0/resources/' + resourceName,[])
 
         if(resp?.status >= 400) 
+        {
             println("Failed to delete the Resource " + resp)
+            return false
+        }
         else
+        {
             println("Resource " + resourceName + " deleted.")
+            return true
+        }
     }
 
     public deleteCommanderWorkspace(String workspaceName) {  
@@ -263,9 +297,15 @@ public class ElectricCommander {
         def resp = PerformHTTPRequest(RequestMethod.DELETE, '/rest/v1.0/workspaces/' + workspaceName,[])
 
         if(resp?.status >= 400) 
+        {
             println("Failed to delete the Workspace " + resp)
+            return false
+        }
         else
-            println("Workspace " + resourceName + " deleted.")
+        {
+            println("Workspace " + workspaceName + " deleted.")
+            return true
+        }
     }
 
     public deleteCommanderResourcePool(String resourcePoolName) {  
@@ -274,9 +314,15 @@ public class ElectricCommander {
         def resp = PerformHTTPRequest(RequestMethod.DELETE, '/rest/v1.0/resourcePools/' + resourcePoolName,[])
 
         if(resp?.status >= 400) 
+        {
             println("Failed to delete the Resource Pool " + resp)
+            return false
+        }
         else
+        {
             println("Resource Pool " + resourcePoolName + " deleted.")
+            return true
+        }
     }
 
 
