@@ -78,6 +78,7 @@ import com.microsoft.azure.management.compute.models.NetworkInterfaceReference
 import com.microsoft.azure.management.compute.models.AvailabilitySet
 import com.microsoft.azure.management.compute.models.AvailabilitySetReference;
 import com.microsoft.azure.management.storage.models.StorageAccount;
+import com.microsoft.azure.management.compute.models.CachingTypes;
 
 enum RequestMethod {
     GET, POST, PUT, DELETE
@@ -286,7 +287,7 @@ public class Azure {
 
 	public createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType) {
 		try {
-			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx" + "OS Type:" + osType)
+			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx, OS Type:" + osType)
 			ResourceContext context = new ResourceContext(location, resourceGroupName, subscriptionID, createPublicIPAddress);
 
 			context.setStorageAccountName(storageAccountName)
@@ -321,7 +322,8 @@ public class Azure {
 									{
 										vm.getStorageProfile().getOSDisk().virtualHardDisk.setUri(storageURI)
 									}
-								}}).getVirtualMachine();
+								}
+						}).getVirtualMachine();
 			}
 			else
 			{
@@ -346,7 +348,7 @@ public class Azure {
 									storageProfile.setOSDisk(osDisk);
 									vm.setStorageProfile(storageProfile);
 								}
-							}
+						}).getVirtualMachine();
 			}
 			println("Virtual Machine: " + virtualMachine.getName() + " created")
 		} catch (Exception e) {
