@@ -2671,6 +2671,62 @@
                                     </propertySheet>
                                 </property>
                                 <property>
+                                    <propertyName>os_type</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>options</propertyName>
+                                            <propertySheet>
+                                                <property>
+                                                    <propertyName>Linux</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Linux</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Linux</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>Windows</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Windows</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Windows</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>optionCount</propertyName>
+                                                    <expandable>1</expandable>
+                                                    <value>2</value>
+                                                </property>
+                                                <property>
+                                                    <propertyName>type</propertyName>
+                                                    <expandable>1</expandable>
+                                                    <value>list</value>
+                                                </property>
+                                            </propertySheet>
+                                        </property>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+
+                                <property>
                                     <propertyName>location</propertyName>
                                     <propertySheet>
                                         <property>
@@ -3058,6 +3114,14 @@
                 <expansionDeferred>0</expansionDeferred>
                 <required>0</required>
                 <type>checkbox</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>os_type</formalParameterName>
+                <defaultValue/>
+                <description>Type of operating system.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>select</type>
             </formalParameter>
             <formalParameter>
                 <formalParameterName>image</formalParameterName>

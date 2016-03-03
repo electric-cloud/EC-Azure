@@ -29,6 +29,7 @@ try {
     String userImage = '$[is_user_image]'.trim()
     String vmCreds = ec.configProperties.vm_credential
     String createPublicIP = '$[create_public_ip]'.trim()
+    String osType = '$[os_type]'.trim()
     boolean publicIP = false
     boolean isUserImage = false
     if (createPublicIP == '1')
@@ -40,7 +41,7 @@ try {
         isUserImage = true
     }
     def (adminName, adminPassword)= ec.getFullCredentials(vmCreds)
-    ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword)
+    ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType)
 }catch(Exception e){
     e.printStackTrace();
     return

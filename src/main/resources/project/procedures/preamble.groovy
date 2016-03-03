@@ -117,8 +117,6 @@ public class ElectricCommander {
 
         println("ClientID: " + resp.data.credential.userName)
         println("Secret Key: " + resp.data.credential.password)
-
-
         azure = new Azure([tenantID : configProperties.tenant_id,
                            subscriptionID : configProperties.subscription_id,
                            clientID : resp.data.credential.userName,
@@ -286,23 +284,22 @@ public class Azure {
 						.getAccessToken());
 	}
 
-	public createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword ) {
+	public createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType) {
 		try {
-			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx" )
+			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx" + "OS Type:" + osType)
 			ResourceContext context = new ResourceContext(location, resourceGroupName, subscriptionID, createPublicIPAddress);
 
 			context.setStorageAccountName(storageAccountName)
 			context.setContainerName(storageContainerName)
 
 			StorageAccount storageAccount= StorageHelper.getStorageAccount(storageManagementClient, context)
+            String storageURI = ""
 			if(storageAccount)
 			{
 					context.setStorageAccount(storageAccount)
 					println("Set already existing storage account in context: " + storageAccountName)
+					storageURI = String.format("https://%s.blob.core.windows.net/%s", context.getStorageAccount().getName(), context.getContainerName()) + String.format("/os-%s.vhd", vmName)
 			}
-
-			String storageURI = String.format("https://%s.blob.core.windows.net/%s", context.getStorageAccount().getName(), context.getContainerName()) + String.format("/os-%s.vhd", vmName)
-
 			VirtualMachine virtualMachine
 			if (!isUserImage)
 			{
@@ -320,15 +317,38 @@ public class Azure {
 									ir.setSku(sku.trim());
 									ir.setVersion(version.trim());
 									vm.getStorageProfile().setImageReference(ir);
-									vm.getStorageProfile().getOSDisk().virtualHardDisk.setUri(storageURI)
+									if (storageURI)
+									{
+										vm.getStorageProfile().getOSDisk().virtualHardDisk.setUri(storageURI)
+									}
 								}}).getVirtualMachine();
 			}
 			else
 			{
-				println("Using User Image for Creating Virtual Machine")
-				//TODO
+				virtualMachine = ComputeHelper.createVM(resourceManagementClient, computeManagementClient,
+								networkResourceProviderClient, storageManagementClient,
+								context, vmName, adminName, adminPassword,
+								new ConsumerWrapper<VirtualMachine>() {
+								@Override
+								public void accept(VirtualMachine vm) {
+									VirtualHardDisk vmDisk = new VirtualHardDisk();
+									VirtualHardDisk imageDisk = new VirtualHardDisk();
+									if (storageURI)
+									{
+										vmDisk.setUri(storageURI);
+									}
+									imageDisk.setUri(imageURN);
+									OSDisk osDisk = new OSDisk(vmName + "-osdisk", vmDisk, "fromImage");
+									osDisk.setCaching(CachingTypes.NONE);
+									osDisk.setOperatingSystemType(osType);
+									osDisk.setSourceImage(imageDisk);
+									StorageProfile storageProfile = new StorageProfile()
+									storageProfile.setOSDisk(osDisk);
+									vm.setStorageProfile(storageProfile);
+								}
+							}
 			}
-			println(virtualMachine.getName() + " is created");
+			println("Virtual Machine: " + virtualMachine.getName() + " created")
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
