@@ -60,6 +60,15 @@
         <uncheckedValue>0</uncheckedValue>
     </formElement>
     <formElement>
+        <type>select</type>
+        <label>Operating System Type:</label>
+        <property>os_type</property>
+        <required>0</required>
+        <documentation>Required only for user images.</documentation>
+        <option><name>Windows</name><value>Windows</value></option>
+        <option><name>Linux</name><value>Linux</value></option>
+    </formElement>
+    <formElement>
         <label>Resource Group Name:</label>
         <property>resource_group_name</property>
         <value/>

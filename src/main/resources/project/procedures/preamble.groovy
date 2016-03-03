@@ -36,48 +36,36 @@
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.InputStream
-
 import groovyx.net.http.RESTClient;
 import static groovyx.net.http.ContentType.JSON
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.ContentType
 import groovyx.net.http.Method
 import groovyx.net.http.RESTClient
-
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
-
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
-
-import com.microsoft.windowsazure.Configuration;
-import com.microsoft.windowsazure.management.configuration.ManagementConfiguration;
-import com.microsoft.azure.utility.AuthHelper;
-import com.microsoft.azure.utility.ComputeHelper;
-import com.microsoft.azure.utility.StorageHelper;
-import com.microsoft.azure.utility.ResourceContext;
-import com.microsoft.azure.management.compute.ComputeManagementClient;
-import com.microsoft.azure.management.compute.ComputeManagementService;
-import com.microsoft.azure.management.compute.models.VirtualMachine;
-import com.microsoft.azure.management.storage.StorageManagementClient;
-import com.microsoft.azure.management.storage.StorageManagementService;
-import com.microsoft.azure.management.network.NetworkResourceProviderClient;
-import com.microsoft.azure.management.network.NetworkResourceProviderService;
-import com.microsoft.azure.management.resources.ResourceManagementClient;
-import com.microsoft.azure.management.resources.ResourceManagementService;
-import com.microsoft.azure.management.compute.models.VirtualMachineImageResourceList;
+import com.microsoft.windowsazure.Configuration
+import com.microsoft.azure.utility.AuthHelper
+import com.microsoft.azure.utility.ComputeHelper
+import com.microsoft.azure.utility.StorageHelper
+import com.microsoft.azure.utility.ResourceContext
+import com.microsoft.azure.management.compute.models.VirtualMachine
+import com.microsoft.azure.management.compute.ComputeManagementService
+import com.microsoft.azure.management.storage.StorageManagementService
+import com.microsoft.azure.management.network.NetworkResourceProviderService
+import com.microsoft.azure.management.resources.ResourceManagementService
 import com.microsoft.azure.management.compute.models.ImageReference
-import com.microsoft.azure.utility.ConsumerWrapper;
+import com.microsoft.azure.utility.ConsumerWrapper
+import com.microsoft.windowsazure.core.OperationStatus
 import com.microsoft.azure.management.compute.models.OSDisk
-import com.microsoft.azure.management.compute.models.OSProfile
 import com.microsoft.azure.management.compute.models.StorageProfile
+import com.microsoft.azure.management.compute.models.CachingTypes
 import com.microsoft.azure.management.compute.models.VirtualHardDisk
-import com.microsoft.azure.management.compute.models.HardwareProfile
-import com.microsoft.azure.management.compute.models.NetworkProfile
-import com.microsoft.azure.management.compute.models.NetworkInterfaceReference
-import com.microsoft.azure.management.compute.models.AvailabilitySet
-import com.microsoft.azure.management.compute.models.AvailabilitySetReference;
-import com.microsoft.azure.management.storage.models.StorageAccount;
+import com.microsoft.azure.management.storage.models.StorageAccount
+import com.microsoft.azure.management.compute.models.DeleteOperationResponse
+import com.microsoft.windowsazure.management.configuration.ManagementConfiguration;
 
 enum RequestMethod {
     GET, POST, PUT, DELETE
@@ -117,8 +105,6 @@ public class ElectricCommander {
 
         println("ClientID: " + resp.data.credential.userName)
         println("Secret Key: " + resp.data.credential.password)
-
-
         azure = new Azure([tenantID : configProperties.tenant_id,
                            subscriptionID : configProperties.subscription_id,
                            clientID : resp.data.credential.userName,
@@ -207,15 +193,92 @@ public class ElectricCommander {
         println("query: " + JsonOutput.toJson(query))
 
         def resp = PerformHTTPRequest(RequestMethod.GET, uri, query, [])
-        println('Response status: ' + resp?.status)
+        //println('Response status: ' + resp?.status)
         if(resp?.status != 200) {
             println("ERROR: HTTP GET request failed $uri")
             return [:]
         }
-
-        println(JsonOutput.toJson(resp.data))
+        //println(JsonOutput.toJson(resp.data))
         return resp
     }
+    
+    public createCommanderWorkspace(String workspaceName){
+
+        println("Creating workspace.")    
+        def jsonData = [workspaceName : workspaceName, description : workspaceName, agentDrivePath : "C:/Program Files/Electric Cloud/ElectricCommander" , agentUncPath:"C:/Program Files/Electric Cloud/ElectricCommander", agentUnixPath: "/opt/electriccloud/electriccommander", local: true ]
+        def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/workspaces/',jsonData)
+
+        if(resp?.status == 409)     
+            println("Workspace " + workspaceName +" already exists.")
+        else if(resp?.status >= 400) 
+            println("Failed to create the workspace " + resp)
+        else
+            println("Workspace " + workspaceName + " created.")
+            
+    }
+
+    public createCommanderResourcePool(String resourcePoolName){  
+
+        println("Creating Resource Pool")
+        def jsonData = [resourcePoolName : resourcePoolName, autoDelete : true, description : resourcePoolName , resourcePoolDisabled: false ]        
+        def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resourcePools/', jsonData)
+
+        if(resp?.status == 409)     
+            println("Resource Pool " + resourcePoolName +" already exists.")
+        else if(resp?.status >= 400) 
+            println("Failed to create the Resource Pool " + resp)    
+        else
+            println("Resource Pool " + resourcePoolName + " created.")
+    }
+
+    public createCommanderResource(String resourceName, String workspaceName, String resourceIP ,String resourcePort , String resourcePool) {  
+        
+        println("Creating Resource")
+        def jsonData = [resourceName : resourceName, description : resourceName , hostName: resourceIP, port: resourcePort , workspaceName: workspaceName, pools: resourcePool , local: true ]                    
+        def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resources/', jsonData)
+
+        
+        if(resp?.status == 409)     
+            println("Resource " + resourceName +" already exists.")
+        else if(resp?.status >= 400) 
+            println("Failed to create the Resource " + resp)    
+        else
+            println("Resource " + resourceName + " created.")
+    }
+
+    public deleteCommanderResource(String resourceName) {  
+        
+        println("Deleting Resource")                   
+        def resp = PerformHTTPRequest(RequestMethod.DELETE, '/rest/v1.0/resources/' + resourceName,[])
+
+        if(resp?.status >= 400) 
+            println("Failed to delete the Resource " + resp)
+        else
+            println("Resource " + resourceName + " deleted.")
+    }
+
+    public deleteCommanderWorkspace(String workspaceName) {  
+        
+        println("Deleting Workspace")                   
+        def resp = PerformHTTPRequest(RequestMethod.DELETE, '/rest/v1.0/workspaces/' + workspaceName,[])
+
+        if(resp?.status >= 400) 
+            println("Failed to delete the Workspace " + resp)
+        else
+            println("Workspace " + resourceName + " deleted.")
+    }
+
+    public deleteCommanderResourcePool(String resourcePoolName) {  
+        
+        println("Deleting Resource Pool")                   
+        def resp = PerformHTTPRequest(RequestMethod.DELETE, '/rest/v1.0/resourcePools/' + resourcePoolName,[])
+
+        if(resp?.status >= 400) 
+            println("Failed to delete the Resource Pool " + resp)
+        else
+            println("Resource Pool " + resourcePoolName + " deleted.")
+    }
+
 
     private PerformHTTPRequest(RequestMethod request, String url, Object jsonData) {
         println('performHTTPRequest')
@@ -234,7 +297,7 @@ public class ElectricCommander {
                     response = client.post(path: url, headers: requestHeaders, body: jsonData, requestContentType: JSON)
                     break
                 case RequestMethod.DELETE:
-                    response = client.delete(path: url, headers: requestHeaders, body: jsonData, requestContentType: JSON)
+                    response = client.delete(path: url, headers: requestHeaders)
                     break
                 case RequestMethod.PUT:
                     break
@@ -286,23 +349,22 @@ public class Azure {
 						.getAccessToken());
 	}
 
-	public createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword ) {
+	public createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType) {
 		try {
-			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx" )
+			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx, OS Type:" + osType)
 			ResourceContext context = new ResourceContext(location, resourceGroupName, subscriptionID, createPublicIPAddress);
 
 			context.setStorageAccountName(storageAccountName)
 			context.setContainerName(storageContainerName)
 
 			StorageAccount storageAccount= StorageHelper.getStorageAccount(storageManagementClient, context)
+            String storageURI = ""
 			if(storageAccount)
 			{
 					context.setStorageAccount(storageAccount)
 					println("Set already existing storage account in context: " + storageAccountName)
+					storageURI = String.format("https://%s.blob.core.windows.net/%s", context.getStorageAccount().getName(), context.getContainerName()) + String.format("/os-%s.vhd", vmName)
 			}
-
-			String storageURI = String.format("https://%s.blob.core.windows.net/%s", context.getStorageAccount().getName(), context.getContainerName()) + String.format("/os-%s.vhd", vmName)
-
 			VirtualMachine virtualMachine
 			if (!isUserImage)
 			{
@@ -320,18 +382,55 @@ public class Azure {
 									ir.setSku(sku.trim());
 									ir.setVersion(version.trim());
 									vm.getStorageProfile().setImageReference(ir);
-									vm.getStorageProfile().getOSDisk().virtualHardDisk.setUri(storageURI)
-								}}).getVirtualMachine();
+									if (storageURI)
+									{
+										vm.getStorageProfile().getOSDisk().virtualHardDisk.setUri(storageURI)
+									}
+								}
+						}).getVirtualMachine();
 			}
 			else
 			{
-				println("Using User Image for Creating Virtual Machine")
-				//TODO
+				virtualMachine = ComputeHelper.createVM(resourceManagementClient, computeManagementClient,
+								networkResourceProviderClient, storageManagementClient,
+								context, vmName, adminName, adminPassword,
+								new ConsumerWrapper<VirtualMachine>() {
+								@Override
+								public void accept(VirtualMachine vm) {
+									VirtualHardDisk vmDisk = new VirtualHardDisk();
+									VirtualHardDisk imageDisk = new VirtualHardDisk();
+									if (storageURI)
+									{
+										vmDisk.setUri(storageURI);
+									}
+									imageDisk.setUri(imageURN);
+									OSDisk osDisk = new OSDisk(vmName + "-osdisk", vmDisk, "fromImage");
+									osDisk.setCaching(CachingTypes.NONE);
+									osDisk.setOperatingSystemType(osType);
+									osDisk.setSourceImage(imageDisk);
+									StorageProfile storageProfile = new StorageProfile()
+									storageProfile.setOSDisk(osDisk);
+									vm.setStorageProfile(storageProfile);
+								}
+						}).getVirtualMachine();
 			}
-			println(virtualMachine.getName() + " is created");
+			println("Virtual Machine: " + virtualMachine.getName() + " created")
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-	}
+		}    
+
+		public deleteVM(String resourceGroupName,String vmName){
+		try {
+			println("Going for deleting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
+			DeleteOperationResponse deleteOperationResponse = computeManagementClient.getVirtualMachinesOperations().delete(resourceGroupName,vmName);
+			if(deleteOperationResponse.getStatusCode() == OperationStatus.Succeeded  || deleteOperationResponse.getRequestId() != null)
+			{
+				println("Deleted VM: " + vmName )
+			}
+		}catch(Exception ex) {
+			println(ex.toString());
+		}
+		}
 }
 
