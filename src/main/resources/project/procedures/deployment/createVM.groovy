@@ -30,6 +30,11 @@ try {
     String vmCreds = ec.configProperties.vm_credential
     String createPublicIP = '$[create_public_ip]'.trim()
     String osType = '$[os_type]'.trim()
+    //Commander Resource 
+    String resourcePool = '$[resource_pool]'.trim()
+    String resourcePort = '$[resource_port]'.trim()
+    String resourceWorspace = '$[resource_workspace]'.trim()
+    String resourceZone = '$[resource_zone]'.trim()
     boolean publicIP = false
     boolean isUserImage = false
     if (createPublicIP == '1')
@@ -42,6 +47,19 @@ try {
     }
     def (adminName, adminPassword)= ec.getFullCredentials(vmCreds)
     ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType)
+    //Commander Resource Creation
+    if (ec.createCommanderWorkspace(resourceWorspace))
+    {
+        if(ec.createCommanderResourcePool(resourcePool))
+        {
+            //Get IP from created VM
+            String resourceIP = "a.b.c.d"
+            String resourceName = resourcePool + "-" + System.currentTimeMillis()
+            ec.createCommanderResource(resourceName, resourceWorspace, resourceIP, resourcePort, resourcePool)
+            println("Craeted commander resource: " + resourceName)
+        }
+    }
+
 }catch(Exception e){
     e.printStackTrace();
     return
