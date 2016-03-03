@@ -59,6 +59,14 @@
         <documentation>Azure Application Client ID and Secret(Password).</documentation>
     </formElement>
     <formElement>
+        <type>credential</type>
+        <label>VM User/Password:</label>
+        <property>vm_credential</property>
+        <required>1</required>
+        <documentation>Credentials for any virtual machines provisioned using this configuration.</documentation>
+    </formElement>
+
+    <formElement>
         <type>entry</type>
         <label>Resource Pool:</label>
         <property>resource_pool</property>

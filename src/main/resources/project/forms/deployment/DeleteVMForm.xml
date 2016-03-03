@@ -49,5 +49,22 @@
         <required>0</required>
         <type>entry</type>
     </formElement>
+    <formElement>
+        <label>Resource workspace:</label>
+        <property>resource_workspace</property>
+        <value/>
+        <documentation>If you specify a resource pool name, this is the workspace that will be assigned to the created resources.</documentation>
+        <required>0</required>
+        <type>entry</type>
+        <!--<serverOptions>1</serverOptions>-->
+    </formElement>
+    <formElement>
+        <label>Resource Pool:</label>
+        <property>resource_pool</property>
+        <value/>
+        <documentation>If you would like to add ElectricFlow resources for each Azure instance being created, enter the resource pool name for the new resources. If left blank no resource will be created.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
 
 </editor>
