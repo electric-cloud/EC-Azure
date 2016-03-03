@@ -79,6 +79,8 @@ import com.microsoft.azure.management.compute.models.AvailabilitySet
 import com.microsoft.azure.management.compute.models.AvailabilitySetReference;
 import com.microsoft.azure.management.storage.models.StorageAccount;
 import com.microsoft.azure.management.compute.models.CachingTypes;
+import com.microsoft.azure.management.compute.models.DeleteOperationResponse
+import com.microsoft.windowsazure.core.OperationStatus
 
 enum RequestMethod {
     GET, POST, PUT, DELETE
@@ -215,6 +217,84 @@ public class ElectricCommander {
         println(JsonOutput.toJson(resp.data))
         return resp
     }
+    
+    public createCommanderWorkspace(String workspaceName){
+
+        println("Creating workspace.")    
+        def jsonData = [workspaceName : workspaceName, description : workspaceName, agentDrivePath : "C:/Program Files/Electric Cloud/ElectricCommander" , agentUncPath:"C:/Program Files/Electric Cloud/ElectricCommander", agentUnixPath: "/opt/electriccloud/electriccommander", local: true ]
+        def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/workspaces/',jsonData)
+
+        if(resp?.status == 409)     
+            println("Workspace " + workspaceName +" already exists.")
+        else if(resp?.status >= 400) 
+            println("Failed to create the workspace " + resp)
+        else
+            println("Workspace " + workspaceName + " created.")
+            
+    }
+
+    public createCommanderResourcePool(String resourcePoolName){  
+
+        println("Creating Resource Pool")
+        def jsonData = [resourcePoolName : resourcePoolName, autoDelete : true, description : resourcePoolName , resourcePoolDisabled: false ]        
+        def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resourcePools/', jsonData)
+
+        if(resp?.status == 409)     
+            println("Resource Pool " + resourcePoolName +" already exists.")
+        else if(resp?.status >= 400) 
+            println("Failed to create the Resource Pool " + resp)    
+        else
+            println("Resource Pool " + resourcePoolName + " created.")
+    }
+
+    public createCommanderResource(String resourceName, String workspaceName, String resourceIP ,String resourcePort , String resourcePool) {  
+        
+        println("Creating Resource")
+        def jsonData = [resourceName : resourceName, description : resourceName , hostName: resourceIP, port: resourcePort , workspaceName: workspaceName, pools: resourcePool , local: true ]                    
+        def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resources/', jsonData)
+
+        
+        if(resp?.status == 409)     
+            println("Resource " + resourceName +" already exists.")
+        else if(resp?.status >= 400) 
+            println("Failed to create the Resource " + resp)    
+        else
+            println("Resource " + resourceName + " created.")
+    }
+
+    public deleteCommanderResource(String resourceName) {  
+        
+        println("Deleting Resource")                   
+        def resp = PerformHTTPRequest(RequestMethod.DELETE, '/rest/v1.0/resources/' + resourceName,[])
+
+        if(resp?.status >= 400) 
+            println("Failed to delete the Resource " + resp)
+        else
+            println("Resource " + resourceName + " deleted.")
+    }
+
+    public deleteCommanderWorkspace(String workspaceName) {  
+        
+        println("Deleting Workspace")                   
+        def resp = PerformHTTPRequest(RequestMethod.DELETE, '/rest/v1.0/workspaces/' + workspaceName,[])
+
+        if(resp?.status >= 400) 
+            println("Failed to delete the Workspace " + resp)
+        else
+            println("Workspace " + resourceName + " deleted.")
+    }
+
+    public deleteCommanderResourcePool(String resourcePoolName) {  
+        
+        println("Deleting Resource Pool")                   
+        def resp = PerformHTTPRequest(RequestMethod.DELETE, '/rest/v1.0/resourcePools/' + resourcePoolName,[])
+
+        if(resp?.status >= 400) 
+            println("Failed to delete the Resource Pool " + resp)
+        else
+            println("Resource Pool " + resourcePoolName + " deleted.")
+    }
+
 
     private PerformHTTPRequest(RequestMethod request, String url, Object jsonData) {
         println('performHTTPRequest')
@@ -233,7 +313,7 @@ public class ElectricCommander {
                     response = client.post(path: url, headers: requestHeaders, body: jsonData, requestContentType: JSON)
                     break
                 case RequestMethod.DELETE:
-                    response = client.delete(path: url, headers: requestHeaders, body: jsonData, requestContentType: JSON)
+                    response = client.delete(path: url, headers: requestHeaders)
                     break
                 case RequestMethod.PUT:
                     break
@@ -354,6 +434,16 @@ public class Azure {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-	}
+    }    
+
+    public deleteVM(String resourceGroupName,String vmName){
+        try {
+                DeleteOperationResponse deleteOperationResponse = computeManagementClient.getVirtualMachinesOperations().delete(resourceGroupName,vmName);
+                if(deleteOperationResponse.getStatusCode() == OperationStatus.Succeeded  || deleteOperationResponse.getRequestId() != NULL)
+                    println("Deleted VM: " + VmName );
+        } catch(Exception ex) {
+                println(ex.toString());
+            }
+	   }
 }
 
