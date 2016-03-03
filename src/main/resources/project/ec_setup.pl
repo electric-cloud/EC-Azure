@@ -203,6 +203,13 @@ my %create_vm = (
                  category    => "Deployment"
                 );
 
+my %delete_vm = (
+                 label       => "Windows Azure - Delete Virtual Machine",
+                 procedure   => "Delete VM",
+                 description => "Delete Virtual Machine",
+                 category    => "Deployment"
+                );
+
 #Resource Management           
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Provision");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Cleanup");
@@ -219,6 +226,7 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Crea
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Download RDP File");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - List Objects");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create VM");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete VM");
 
 #Deployment
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Hosted Service");
@@ -517,6 +525,15 @@ if ($upgradeAction eq "upgrade") {
                                      {
                                         procedureName => 'Create VM',
                                         stepName      => 'Create VM'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Delete VM',
+                                        stepName      => 'Delete VM'
                                      }
                                     );
         }

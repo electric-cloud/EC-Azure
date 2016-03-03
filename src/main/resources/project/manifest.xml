@@ -54,6 +54,16 @@
     <path>procedures/setTimelimit.pl</path>
     <xpath>//procedure[procedureName=&quot;Create VM&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
   </file>
+
+  <file>
+    <path>procedures/deployment/deleteVM.groovy</path>
+    <xpath>//step[stepName=&quot;Delete VM&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Delete VM&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  
   <file>
     <path>procedures/deployment/create_hosted.pl</path>
     <xpath>//step[stepName=&quot;Create Hosted Service&quot;]/command</xpath>
