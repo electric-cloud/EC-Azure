@@ -36,51 +36,36 @@
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.InputStream
-
 import groovyx.net.http.RESTClient;
 import static groovyx.net.http.ContentType.JSON
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.ContentType
 import groovyx.net.http.Method
 import groovyx.net.http.RESTClient
-
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
-
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
-
-import com.microsoft.windowsazure.Configuration;
-import com.microsoft.windowsazure.management.configuration.ManagementConfiguration;
-import com.microsoft.azure.utility.AuthHelper;
-import com.microsoft.azure.utility.ComputeHelper;
-import com.microsoft.azure.utility.StorageHelper;
-import com.microsoft.azure.utility.ResourceContext;
-import com.microsoft.azure.management.compute.ComputeManagementClient;
-import com.microsoft.azure.management.compute.ComputeManagementService;
-import com.microsoft.azure.management.compute.models.VirtualMachine;
-import com.microsoft.azure.management.storage.StorageManagementClient;
-import com.microsoft.azure.management.storage.StorageManagementService;
-import com.microsoft.azure.management.network.NetworkResourceProviderClient;
-import com.microsoft.azure.management.network.NetworkResourceProviderService;
-import com.microsoft.azure.management.resources.ResourceManagementClient;
-import com.microsoft.azure.management.resources.ResourceManagementService;
-import com.microsoft.azure.management.compute.models.VirtualMachineImageResourceList;
+import com.microsoft.windowsazure.Configuration
+import com.microsoft.azure.utility.AuthHelper
+import com.microsoft.azure.utility.ComputeHelper
+import com.microsoft.azure.utility.StorageHelper
+import com.microsoft.azure.utility.ResourceContext
+import com.microsoft.azure.management.compute.models.VirtualMachine
+import com.microsoft.azure.management.compute.ComputeManagementService
+import com.microsoft.azure.management.storage.StorageManagementService
+import com.microsoft.azure.management.network.NetworkResourceProviderService
+import com.microsoft.azure.management.resources.ResourceManagementService
 import com.microsoft.azure.management.compute.models.ImageReference
-import com.microsoft.azure.utility.ConsumerWrapper;
-import com.microsoft.azure.management.compute.models.OSDisk
-import com.microsoft.azure.management.compute.models.OSProfile
-import com.microsoft.azure.management.compute.models.StorageProfile
-import com.microsoft.azure.management.compute.models.VirtualHardDisk
-import com.microsoft.azure.management.compute.models.HardwareProfile
-import com.microsoft.azure.management.compute.models.NetworkProfile
-import com.microsoft.azure.management.compute.models.NetworkInterfaceReference
-import com.microsoft.azure.management.compute.models.AvailabilitySet
-import com.microsoft.azure.management.compute.models.AvailabilitySetReference;
-import com.microsoft.azure.management.storage.models.StorageAccount;
-import com.microsoft.azure.management.compute.models.CachingTypes;
-import com.microsoft.azure.management.compute.models.DeleteOperationResponse
+import com.microsoft.azure.utility.ConsumerWrapper
 import com.microsoft.windowsazure.core.OperationStatus
+import com.microsoft.azure.management.compute.models.OSDisk
+import com.microsoft.azure.management.compute.models.StorageProfile
+import com.microsoft.azure.management.compute.models.CachingTypes
+import com.microsoft.azure.management.compute.models.VirtualHardDisk
+import com.microsoft.azure.management.storage.models.StorageAccount
+import com.microsoft.azure.management.compute.models.DeleteOperationResponse
+import com.microsoft.windowsazure.management.configuration.ManagementConfiguration;
 
 enum RequestMethod {
     GET, POST, PUT, DELETE
@@ -208,13 +193,12 @@ public class ElectricCommander {
         println("query: " + JsonOutput.toJson(query))
 
         def resp = PerformHTTPRequest(RequestMethod.GET, uri, query, [])
-        println('Response status: ' + resp?.status)
+        //println('Response status: ' + resp?.status)
         if(resp?.status != 200) {
             println("ERROR: HTTP GET request failed $uri")
             return [:]
         }
-
-        println(JsonOutput.toJson(resp.data))
+        //println(JsonOutput.toJson(resp.data))
         return resp
     }
     
@@ -434,16 +418,19 @@ public class Azure {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-    }    
+		}    
 
-    public deleteVM(String resourceGroupName,String vmName){
-        try {
-                DeleteOperationResponse deleteOperationResponse = computeManagementClient.getVirtualMachinesOperations().delete(resourceGroupName,vmName);
-                if(deleteOperationResponse.getStatusCode() == OperationStatus.Succeeded  || deleteOperationResponse.getRequestId() != NULL)
-                    println("Deleted VM: " + VmName );
-        } catch(Exception ex) {
-                println(ex.toString());
-            }
-	   }
+		public deleteVM(String resourceGroupName,String vmName){
+		try {
+			println("Going for deleting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
+			DeleteOperationResponse deleteOperationResponse = computeManagementClient.getVirtualMachinesOperations().delete(resourceGroupName,vmName);
+			if(deleteOperationResponse.getStatusCode() == OperationStatus.Succeeded  || deleteOperationResponse.getRequestId() != null)
+			{
+				println("Deleted VM: " + vmName )
+			}
+		}catch(Exception ex) {
+			println(ex.toString());
+		}
+		}
 }
 
