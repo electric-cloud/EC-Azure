@@ -60,6 +60,24 @@
         <uncheckedValue>0</uncheckedValue>
     </formElement>
     <formElement>
+        <label>Disable Password Prompt?:</label>
+        <property>disable_password_auth</property>
+        <value/>
+        <documentation>Disable password authentication in case of super user privileges?</documentation>
+        <required>0</required>
+        <type>checkbox</type>
+        <checkedValue>1</checkedValue>
+        <uncheckedValue>0</uncheckedValue>
+    </formElement>
+    <formElement>
+        <label>Public Key:</label>
+        <property>public_key</property>
+        <value/>
+        <documentation>Public key for authentication of created Virtual machine for the client[(1) ssh-keygen -t rsa -b 2048 (2) openssl req -x509 -key ~/.ssh/id_rsa -nodes -days 365 -newkey rsa:2048 -out public.pem]. </documentation>
+        <required>0</required>
+        <type>textarea</type>
+    </formElement>
+    <formElement>
         <type>select</type>
         <label>Operating System Type:</label>
         <property>os_type</property>

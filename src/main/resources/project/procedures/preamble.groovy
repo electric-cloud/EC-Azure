@@ -61,6 +61,10 @@ import com.microsoft.azure.utility.ConsumerWrapper
 import com.microsoft.windowsazure.core.OperationStatus
 import com.microsoft.azure.management.compute.models.OSDisk
 import com.microsoft.azure.management.compute.models.StorageProfile
+import com.microsoft.azure.management.compute.models.LinuxConfiguration;
+import com.microsoft.azure.management.compute.models.OSProfile;
+import com.microsoft.azure.management.compute.models.SshConfiguration;
+import com.microsoft.azure.management.compute.models.SshPublicKey;
 import com.microsoft.azure.management.compute.models.CachingTypes
 import com.microsoft.azure.management.compute.models.VirtualHardDisk
 import com.microsoft.azure.management.storage.models.StorageAccount
@@ -423,9 +427,9 @@ public class Azure {
 						.getAccessToken());
 	}
 
-	public createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType) {
+	public createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth) {
 		try {
-			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx, OS Type:" + osType)
+			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx, OS Type:" + osType + " ,Public Key: " + publicKey.substring(0,5) + "... , Disable Password Authentication: " + disablePasswordAuth)
 			ResourceContext context = new ResourceContext(location, resourceGroupName, subscriptionID, createPublicIPAddress);
 
 			context.setStorageAccountName(storageAccountName)
@@ -460,6 +464,31 @@ public class Azure {
 									{
 										vm.getStorageProfile().getOSDisk().virtualHardDisk.setUri(storageURI)
 									}
+									if (osType == "Linux")
+									{
+										//Make SSH Configgurations only if Linux Machine
+										OSProfile osProfile = vm.getOSProfile();
+										String sshPath = String.format("%s%s%s","/home/", osProfile.getAdminUsername(), "/.ssh/authorized_keys");
+										// set linux configuration
+										LinuxConfiguration linuxConfiguration = new LinuxConfiguration();
+										if (disablePasswordAuth)
+										{
+											linuxConfiguration.setDisablePasswordAuthentication(true);
+										}
+										else
+										{
+											linuxConfiguration.setDisablePasswordAuthentication(false);
+										}
+										SshConfiguration sshConfiguration = new SshConfiguration();
+										ArrayList<SshPublicKey> publicKeys = new ArrayList<SshPublicKey>(1);
+										SshPublicKey sshPublicKey = new SshPublicKey();
+										sshPublicKey.setPath(sshPath);
+										sshPublicKey.setKeyData(publicKey);
+										publicKeys.add(sshPublicKey);
+										sshConfiguration.setPublicKeys(publicKeys);
+										linuxConfiguration.setSshConfiguration(sshConfiguration);
+										osProfile.setLinuxConfiguration(linuxConfiguration);
+									}
 								}
 						}).getVirtualMachine();
 			}
@@ -485,6 +514,31 @@ public class Azure {
 									StorageProfile storageProfile = new StorageProfile()
 									storageProfile.setOSDisk(osDisk);
 									vm.setStorageProfile(storageProfile);
+									if (osType == "Linux")
+									{
+										//Make SSH Configgurations only if Linux Machine
+										OSProfile osProfile = vm.getOSProfile();
+										String sshPath = String.format("%s%s%s","/home/", osProfile.getAdminUsername(), "/.ssh/authorized_keys");
+										// set linux configuration
+										LinuxConfiguration linuxConfiguration = new LinuxConfiguration();
+										if (disablePasswordAuth)
+										{
+											linuxConfiguration.setDisablePasswordAuthentication(true);
+										}
+										else
+										{
+											linuxConfiguration.setDisablePasswordAuthentication(false);
+										}
+										SshConfiguration sshConfiguration = new SshConfiguration();
+										ArrayList<SshPublicKey> publicKeys = new ArrayList<SshPublicKey>(1);
+										SshPublicKey sshPublicKey = new SshPublicKey();
+										sshPublicKey.setPath(sshPath);
+										sshPublicKey.setKeyData(publicKey);
+										publicKeys.add(sshPublicKey);
+										sshConfiguration.setPublicKeys(publicKeys);
+										linuxConfiguration.setSshConfiguration(sshConfiguration);
+										osProfile.setLinuxConfiguration(linuxConfiguration);
+									}
 								}
 						}).getVirtualMachine();
 			}
@@ -506,5 +560,6 @@ public class Azure {
 			println(ex.toString());
 		}
 		}
+
 }
 

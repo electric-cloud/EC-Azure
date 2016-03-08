@@ -2977,6 +2977,26 @@
                                     </propertySheet>
                                 </property>
                                 <property>
+                                    <propertyName>disable_password_auth</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>public_key</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
                                     <propertyName>resource_pool</propertyName>
                                     <propertySheet>
                                         <property>
@@ -3146,6 +3166,21 @@
                 <expansionDeferred>0</expansionDeferred>
                 <required>0</required>
                 <type>checkbox</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>disable_password_auth</formalParameterName>
+                <defaultValue>0</defaultValue>
+                <description>Disable password authentication.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>checkbox</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>public_key</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>0</required>
+                <type>textarea</type>
             </formalParameter>
             <formalParameter>
                 <formalParameterName>resource_pool</formalParameterName>

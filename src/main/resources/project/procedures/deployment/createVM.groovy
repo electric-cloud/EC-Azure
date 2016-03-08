@@ -30,6 +30,8 @@ try {
     String vmCreds = ec.configProperties.vm_credential
     String createPublicIP = '$[create_public_ip]'.trim()
     String osType = '$[os_type]'.trim()
+    String disablePasswordPrompt = '$[disable_password_auth]'.trim()
+    String publicKey = '$[public_key]'.trim()
     //Commander Resource 
     String resourcePool = '$[resource_pool]'.trim()
     String resourcePort = '$[resource_port]'.trim()
@@ -37,6 +39,7 @@ try {
     String resourceZone = '$[resource_zone]'.trim()
     boolean publicIP = false
     boolean isUserImage = false
+    boolean disablePasswordAuth = false
     if (createPublicIP == '1')
     {
         publicIP = true
@@ -44,6 +47,10 @@ try {
     if (userImage == '1')
     {
         isUserImage = true
+    }
+    if (disablePasswordPrompt == '1')
+    {
+        disablePasswordAuth = true
     }
     //TODO: validate parameters before creating the VM
     // Need to validate resource workspace and resource zone
@@ -54,7 +61,7 @@ try {
     }
 
     def (adminName, adminPassword)= ec.getFullCredentials(vmCreds)
-    ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType)
+    ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
 
     //TODO: Confirm that the VM was created before creating the EF resource
 
