@@ -33,7 +33,7 @@ try {
     //Commander Resource 
     String resourcePool = '$[resource_pool]'.trim()
     String resourcePort = '$[resource_port]'.trim()
-    String resourceWorspace = '$[resource_workspace]'.trim()
+    String resourceWorkspace = '$[resource_workspace]'.trim()
     String resourceZone = '$[resource_zone]'.trim()
     boolean publicIP = false
     boolean isUserImage = false
@@ -45,18 +45,42 @@ try {
     {
         isUserImage = true
     }
+    //TODO: validate parameters before creating the VM
+    // Need to validate resource workspace and resource zone
+    // only if the resource pool was specified
+    if (resourcePool) {
+        //1. resourceWorkspace should exist if specified
+        //2. resourceZone should exist if specified
+    }
+
     def (adminName, adminPassword)= ec.getFullCredentials(vmCreds)
     ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType)
-    //Commander Resource Creation
-    if (ec.createCommanderWorkspace(resourceWorspace))
-    {
-        if(ec.createCommanderResourcePool(resourcePool))
-        {
-            //Get IP from created VM
-            String resourceIP = "a.b.c.d"
-            String resourceName = resourcePool + "-" + System.currentTimeMillis()
-            ec.createCommanderResource(resourceName, resourceWorspace, resourceIP, resourcePort, resourcePool)
-            println("Craeted commander resource: " + resourceName)
+
+    //TODO: Confirm that the VM was created before creating the EF resource
+
+    if (resourcePool) {
+        //TODO: Get IP from created VM and pass it here
+        // TODO: Passing a temporary IP here
+        String resourceIP = "104.41.151.132"
+        // TODO: This should be a running counter
+        int count = 1
+
+        String resourceName = "${resourcePool}_${count}_${System.currentTimeMillis()}"
+
+        def resourceCreated = ec.createCommanderResource(resourceName, resourceWorkspace, resourceIP, resourcePort)
+        if (resourceCreated) {
+
+            // Add resource to pool through a separate call
+            // This is to work-around the issue that createResource API does
+            // not support resource pool name with spaces.
+            def added = ec.addResourceToPool(resourceName, resourcePool)
+            if (added) {
+                println("Created commander resource: $resourceName in $resourcePool")
+            } else {
+                //TODO: rollback - delete all Azure VMs and EF resources created so far.
+            }
+        } else {
+            //TODO: rollback - delete all Azure VMs and EF resources created so far.
         }
     }
 

@@ -78,6 +78,7 @@ public class ElectricCommander {
     def sessionId = System.getenv('COMMANDER_SESSIONID')
 
     def client = new RESTClient(commanderServer + ":" + commanderPort);
+
     def sysJobId = System.getenv('COMMANDER_JOBID')
     def sysJobStepId = System.getenv('COMMANDER_JOBSTEPID')
 
@@ -160,6 +161,9 @@ public class ElectricCommander {
 
 
     def getProperties(String path) {
+
+        // Add this line
+        println(commanderServer + ":" + commanderPort)
 
         def uri = '/rest/v1.0/properties/' + path
         def resp = performHttpGet(uri)
@@ -249,13 +253,19 @@ public class ElectricCommander {
         }
     }
 
-    public createCommanderResource(String resourceName, String workspaceName, String resourceIP ,String resourcePort , String resourcePool) {  
+    public boolean createCommanderResource(String resourceName, String workspaceName, String resourceIP ,String resourcePort) {
         
         println("Creating Resource")
-        def jsonData = [resourceName : resourceName, description : resourceName , hostName: resourceIP, port: resourcePort , workspaceName: workspaceName, pools: resourcePool , local: true ]                    
+        def jsonData = [resourceName : resourceName, description : resourceName , hostName: resourceIP ]
+        if (resourcePort) {
+            jsonData.port = resourcePort
+        }
+        if (workspaceName) {
+            jsonData.workspaceName = workspaceName
+        }
+
         def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resources/', jsonData)
 
-        
         if(resp?.status == 409)     
         {
             println("Resource " + resourceName +" already exists.")
@@ -272,6 +282,22 @@ public class ElectricCommander {
             println("Resource " + resourceName + " created.")
             return true
         }
+    }
+
+    public boolean addResourceToPool(String resourceName, String resourcePool) {
+
+        println("Adding Resource $resourceName to Pool $resourcePool")
+
+        def jsonData = [resourceName : resourceName, description : resourceName , resourcePoolName: resourcePool ]
+
+        def resp = PerformHTTPRequest(RequestMethod.PUT, "/rest/v1.0/resourcePools/$resourcePool/resources", jsonData)
+
+        if(resp?.status >= 400)
+        {
+            println("Failed to add Resource $resourceName to Pool $resourcePool")
+            return false
+        }
+        return true
     }
 
     public deleteCommanderResource(String resourceName) {  
@@ -327,7 +353,6 @@ public class ElectricCommander {
 
 
     private PerformHTTPRequest(RequestMethod request, String url, Object jsonData) {
-        println('performHTTPRequest')
         PerformHTTPRequest(request,url,["":""],jsonData)
     }
     private PerformHTTPRequest(RequestMethod request, String url, def query, Object jsonData) {
@@ -341,6 +366,9 @@ public class ElectricCommander {
                     break
                 case RequestMethod.POST:
                     response = client.post(path: url, headers: requestHeaders, body: jsonData, requestContentType: JSON)
+                    break
+                case RequestMethod.PUT:
+                    response = client.put(path: url, headers: requestHeaders, body: jsonData, requestContentType: JSON)
                     break
                 case RequestMethod.DELETE:
                     response = client.delete(path: url, headers: requestHeaders)
