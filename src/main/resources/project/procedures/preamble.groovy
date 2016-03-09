@@ -464,7 +464,7 @@ public class Azure {
 									{
 										vm.getStorageProfile().getOSDisk().virtualHardDisk.setUri(storageURI)
 									}
-									if (osType == "Linux")
+									if (osType == "Linux" && publicKey)
 									{
 										//Make SSH Configgurations only if Linux Machine
 										OSProfile osProfile = vm.getOSProfile();
@@ -514,7 +514,7 @@ public class Azure {
 									StorageProfile storageProfile = new StorageProfile()
 									storageProfile.setOSDisk(osDisk);
 									vm.setStorageProfile(storageProfile);
-									if (osType == "Linux")
+									if (osType == "Linux" && publicKey)
 									{
 										//Make SSH Configgurations only if Linux Machine
 										OSProfile osProfile = vm.getOSProfile();
