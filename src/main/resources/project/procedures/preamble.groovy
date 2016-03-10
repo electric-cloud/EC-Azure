@@ -130,6 +130,16 @@ public class ElectricCommander {
 
     }
 
+    public setPropertyInResource(String resource, String name, String value)
+    {
+        println("Going for setting property: " + name + " with value: " + value + " in resource " + resource)
+        def jsonData = [propertyName : "ec_cloud_instance_details/" + name , propertyType : "string", resourceName : resource, value : value]
+        def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/properties', jsonData)
+        if(resp == null ) {
+          println("Could not create property on the Commander. Request failed")
+        }
+    }
+
     public getFullCredentials( String parameterName ) {
         client.ignoreSSLIssues()
 

@@ -60,8 +60,11 @@ try {
         //2. resourceZone should exist if specified
     }
 
+    int count = 1
+    String instanceSuffix = "${count}_${System.currentTimeMillis()}"
+
     def (adminName, adminPassword)= ec.getFullCredentials(vmCreds)
-    String resourceIP = ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
+    String resourceIP = ec.azure.createVM(${serverName}_${instanceSuffix}, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
     if(resourceIP)
     {
         println("Virtual Machine: " + virtualMachine.getName() + " created." )
@@ -71,12 +74,7 @@ try {
     //TODO: Confirm that the VM was created before creating the EF resource
 
     if (resourcePool && resourceIP) {
-        //TODO: Get IP from created VM and pass it here
-        // TODO: Passing a temporary IP here
-        // TODO: This should be a running counter
-        int count = 1
-
-        String resourceName = "${resourcePool}_${count}_${System.currentTimeMillis()}"
+        String resourceName = "${resourcePool}_${instanceSuffix}"
 
         def resourceCreated = ec.createCommanderResource(resourceName, resourceWorkspace, resourceIP, resourcePort)
         if (resourceCreated) {
@@ -87,6 +85,12 @@ try {
             def added = ec.addResourceToPool(resourceName, resourcePool)
             if (added) {
                 println("Created commander resource: $resourceName in $resourcePool")
+                ec.setPropertyInResource(resourceName, 'created_by', 'EC-Azure')
+                ec.setPropertyInResource(resourceName, 'instance_id', serverName)
+                ec.setPropertyInResource(resourceName, 'config', config)
+                ec.setPropertyInResource(resourceName, 'etc/public_ip', resourceIP)
+                ec.setPropertyInResource(resourceName, 'etc/storage_account', storageAccount)
+                ec.setPropertyInResource(resourceName, 'etc/resource_group_name', resourceGroupName)
             } else {
                 //TODO: rollback - delete all Azure VMs and EF resources created so far.
             }
