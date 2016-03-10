@@ -245,6 +245,29 @@ public class ElectricCommander {
             
     }
 
+    public createCommanderZone(String zoneName){
+
+        println("Creating zone.")    
+        def jsonData = [zoneName : zoneName, description : zoneName]
+        def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/zones',jsonData)
+
+        if(resp?.status == 409)     
+        {
+            println("Zone " + zoneName +" already exists.")
+            return true
+        }
+        else if(resp?.status >= 400) 
+        {
+            println("Failed to create the zone " + resp)
+            return false
+        }
+        else
+        {
+            println("Zone " + zoneName + " created.")
+            return true
+        }         
+    }
+
     public createCommanderResourcePool(String resourcePoolName){  
 
         println("Creating Resource Pool")

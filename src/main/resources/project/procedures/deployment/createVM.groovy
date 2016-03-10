@@ -74,9 +74,19 @@ try {
     //TODO: Confirm that the VM was created before creating the EF resource
 
     if (resourcePool && resourceIP) {
+
+        if(ec.createCommanderResourcePool(resourcePool))
+        {
+            if(resourceZone)
+            {
+                if(ec.createCommanderZone(resourcePool))
+                    println("Created Resource pool and zone")
+            }
+        }
+
         String resourceName = "${resourcePool}_${instanceSuffix}"
 
-        def resourceCreated = ec.createCommanderResource(resourceName, resourceWorkspace, resourceIP, resourcePort)
+        def resourceCreated = ec.createCommanderResource(resourceName, resourceWorkspace, resourceIP, resourcePort, resourceZone)
         if (resourceCreated) {
 
             // Add resource to pool through a separate call
