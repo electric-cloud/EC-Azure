@@ -61,14 +61,18 @@ try {
     }
 
     def (adminName, adminPassword)= ec.getFullCredentials(vmCreds)
-    ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
+    String resourceIP = ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
+    if(resourceIP)
+    {
+        println("Virtual Machine: " + virtualMachine.getName() + " created." )
+        println("IP assigned to the VM: " + resourceIP)
 
+    }
     //TODO: Confirm that the VM was created before creating the EF resource
 
-    if (resourcePool) {
+    if (resourcePool && resourceIP) {
         //TODO: Get IP from created VM and pass it here
         // TODO: Passing a temporary IP here
-        String resourceIP = "104.41.151.132"
         // TODO: This should be a running counter
         int count = 1
 

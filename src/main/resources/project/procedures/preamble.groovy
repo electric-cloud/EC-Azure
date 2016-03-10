@@ -69,7 +69,8 @@ import com.microsoft.azure.management.compute.models.CachingTypes
 import com.microsoft.azure.management.compute.models.VirtualHardDisk
 import com.microsoft.azure.management.storage.models.StorageAccount
 import com.microsoft.azure.management.compute.models.DeleteOperationResponse
-import com.microsoft.windowsazure.management.configuration.ManagementConfiguration;
+import com.microsoft.windowsazure.management.configuration.ManagementConfiguration
+import com.microsoft.azure.management.compute.models.ProvisioningStateTypes
 
 enum RequestMethod {
     GET, POST, PUT, DELETE
@@ -427,7 +428,29 @@ public class Azure {
 						.getAccessToken());
 	}
 
-	public createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth) {
+    private String getPublicIP(String publicIpAddressName ,String resourceGroupName, String vmName)
+        {
+            def VMStatus = getVMStatus(resourceGroupName, vmName)
+            
+            if(VMStatus == ProvisioningStateTypes.SUCCEEDED )
+              return networkResourceProviderClient.getPublicIpAddressesOperations().get(resourceGroupName, publicIpAddressName).getPublicIpAddress().getIpAddress()
+            else
+              return null;       
+        }
+
+    private String getVMStatus(String resourceGroupName, String vmName )
+        {
+            def VMStatus = computeManagementClient.getVirtualMachinesOperations().getWithInstanceView( resourceGroupName, vmName).getVirtualMachine().getProvisioningState()
+            
+            while(VMStatus == ProvisioningStateTypes.CREATING )
+            {
+              sleep(10000)
+              VMStatus = computeManagementClient.getVirtualMachinesOperations().getWithInstanceView( resourceGroupName, vmName).getVirtualMachine().getProvisioningState()
+            }
+            return VMStatus
+        }    
+
+	public String createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth) {
 		try {
 			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx, OS Type:" + osType + " ,Public Key: " + publicKey.substring(0,5) + "... , Disable Password Authentication: " + disablePasswordAuth)
 			ResourceContext context = new ResourceContext(location, resourceGroupName, subscriptionID, createPublicIPAddress);
@@ -542,7 +565,7 @@ public class Azure {
 								}
 						}).getVirtualMachine();
 			}
-			println("Virtual Machine: " + virtualMachine.getName() + " created")
+            return getPublicIP(context.getPublicIpName(),resourceGroupName, vmName)
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
