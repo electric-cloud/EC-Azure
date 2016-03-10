@@ -54,25 +54,23 @@ try {
         disablePasswordAuth = true
     }
 
+    //TODO: validate parameters before creating the VM
+    // Need to validate resource workspace and resource zone
+    // only if the resource pool was specified
+    if (resourcePool) {
+        //1. resourceWorkspace should exist if specified
+        //2. resourceZone should exist if specified
+    }
     instances.times{
-        //TODO: validate parameters before creating the VM
-        // Need to validate resource workspace and resource zone
-        // only if the resource pool was specified
-        if (resourcePool) {
-            //1. resourceWorkspace should exist if specified
-            //2. resourceZone should exist if specified
-        }
 
         int count = 1
-        String instanceSuffix = "${count}_${System.currentTimeMillis()}"
+        String instanceSuffix = "${count}-${System.currentTimeMillis()}"
 
         def (adminName, adminPassword)= ec.getFullCredentials(vmCreds)
-        String resourceIP = ec.azure.createVM(${serverName}_${instanceSuffix}, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
+        String resourceIP = ec.azure.createVM("${serverName}-${instanceSuffix}", isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
         if(resourceIP)
         {
-            println("Virtual Machine: " + virtualMachine.getName() + " created." )
             println("IP assigned to the VM: " + resourceIP)
-
         }
         //TODO: Confirm that the VM was created before creating the EF resource
 
@@ -87,7 +85,7 @@ try {
                 }
             }
 
-            String resourceName = "${resourcePool}_${instanceSuffix}"
+            String resourceName = "${resourcePool}-${instanceSuffix}"
 
             def resourceCreated = ec.createCommanderResource(resourceName, resourceWorkspace, resourceIP, resourcePort, resourceZone)
             if (resourceCreated) {
@@ -111,6 +109,7 @@ try {
                 //TODO: rollback - delete all Azure VMs and EF resources created so far.
             }
         }
+        count = count + 1
     }
 }catch(Exception e){
     e.printStackTrace();

@@ -109,8 +109,6 @@ public class ElectricCommander {
 
         configProperties = getProperties('/myProject/azure_cfgs/$[connection_config]')
 
-        println("ClientID: " + resp.data.credential.userName)
-        println("Secret Key: " + resp.data.credential.password)
         azure = new Azure([tenantID : configProperties.tenant_id,
                            subscriptionID : configProperties.subscription_id,
                            clientID : resp.data.credential.userName,
@@ -291,10 +289,10 @@ public class ElectricCommander {
         }
     }
 
-    public boolean createCommanderResource(String resourceName, String workspaceName, String resourceIP ,String resourcePort) {
+    public boolean createCommanderResource(String resourceName, String workspaceName, String resourceIP ,String resourcePort, String resourceZone) {
         
         println("Creating Resource")
-        def jsonData = [resourceName : resourceName, description : resourceName , hostName: resourceIP ]
+        def jsonData = [resourceName : resourceName, description : resourceName , hostName: resourceIP , zoneName: resourceZone]
         if (resourcePort) {
             jsonData.port = resourcePort
         }
@@ -485,7 +483,7 @@ public class Azure {
 
 	public String createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth) {
 		try {
-			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx, OS Type:" + osType + " ,Public Key: " + publicKey.substring(0,5) + "... , Disable Password Authentication: " + disablePasswordAuth)
+			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx, OS Type:" + osType + ", Disable Password Authentication: " + disablePasswordAuth)
 			ResourceContext context = new ResourceContext(location, resourceGroupName, subscriptionID, createPublicIPAddress);
 
 			context.setStorageAccountName(storageAccountName)
