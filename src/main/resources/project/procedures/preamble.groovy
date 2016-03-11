@@ -478,7 +478,21 @@ public class Azure {
               VMStatus = computeManagementClient.getVirtualMachinesOperations().getWithInstanceView( resourceGroupName, vmName).getVirtualMachine().getProvisioningState()
             }
             return VMStatus
-        }    
+        }   
+
+    public rollBack(def resourceList)
+    {
+        def listSize = resourceList.size()
+        listSize.times{
+
+          /* def resourceName = resourceList.pop()
+           def instanceName = ec.getProperty(resourceName/instance_id)
+           def resourceGroupName = ec.getProperty(resourceName/instance_id)
+           deleteVM(resourceGroupName , instanceName)
+           deleteCommanderResource(resourceName)*/
+        }
+
+    }     
 
 	public String createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth) {
 		try {

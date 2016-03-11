@@ -41,6 +41,10 @@ try {
     boolean publicIP = false
     boolean isUserImage = false
     boolean disablePasswordAuth = false
+    def resourceList = []
+    def VMList = []
+    String resourceIP
+
     if (createPublicIP == '1')
     {
         publicIP = true
@@ -73,39 +77,51 @@ try {
 
         int count = 1
         String instanceSuffix = "${count}-${System.currentTimeMillis()}"
+        String VMName = "${serverName}-${instanceSuffix}"
 
-        def (adminName, adminPassword)= ec.getFullCredentials(vmCreds)
-        String resourceIP = ec.azure.createVM("${serverName}-${instanceSuffix}", isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
+        def (adminName, adminPassword)= ec.getFullCredentials(vmCreds) 
+        resourceIP = ec.azure.createVM(VMName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
+        
         if(resourceIP)
-        {
-            println("IP assigned to the VM: " + resourceIP)
-        }
-        //TODO: Confirm that the VM was created before creating the EF resource
+            VMList.push(VMName)
 
+        //VM is created if Public IP is fetched successfully.
+        //EF Resources are generated only if the VM is created without errors.
         if (resourcePool && resourceIP) {
 
-            String resourceName = "${resourcePool}-${instanceSuffix}"
+            println("IP assigned to the VM: " + resourceIP)
 
+            String resourceName = "${resourcePool}-${instanceSuffix}"
             def resourceCreated = ec.createCommanderResource(resourceName, resourceWorkspace, resourceIP, resourcePort, resourceZone)
             if (resourceCreated) {
 
                 // Add resource to pool through a separate call
                 // This is to work-around the issue that createResource API does
                 // not support resource pool name with spaces.
+                resourceList.push(resourceName)
                 def added = ec.addResourceToPool(resourceName, resourcePool)
                 if (added) {
                     println("Created commander resource: $resourceName in $resourcePool")
                     ec.setPropertyInResource(resourceName, 'created_by', 'EC-Azure')
-                    ec.setPropertyInResource(resourceName, 'instance_id', serverName)
+                    ec.setPropertyInResource(resourceName, 'instance_id', VMName)
                     ec.setPropertyInResource(resourceName, 'config', config)
                     ec.setPropertyInResource(resourceName, 'etc/public_ip', resourceIP)
                     ec.setPropertyInResource(resourceName, 'etc/storage_account', storageAccount)
                     ec.setPropertyInResource(resourceName, 'etc/resource_group_name', resourceGroupName)
                 } else {
                     //TODO: rollback - delete all Azure VMs and EF resources created so far.
+                    //ec.azure.rollback(resourceList)
                 }
             } else {
                 //TODO: rollback - delete all Azure VMs and EF resources created so far.
+                //ec.azure.rollback(resourceList)
+            }
+        }
+        else
+        {
+            def listSize = VMList.size()
+            listSize.times{
+                deleteVM(VMName.pop(), resourceGroupName)
             }
         }
         count = count + 1
