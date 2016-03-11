@@ -392,8 +392,12 @@ public class ElectricCommander {
         PerformHTTPRequest(request,url,["":""],jsonData)
     }
     private PerformHTTPRequest(RequestMethod request, String url, def query, Object jsonData) {
+
         def response
         def requestHeaders = ['Cookie': "sessionId=" + sessionId, 'Accept': 'application/json']
+        
+        //Standardize the error handling for client.
+        client.handler.failure = client.handler.success
 
         try {
             switch (request) {
