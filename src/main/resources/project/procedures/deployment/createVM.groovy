@@ -58,9 +58,17 @@ try {
     // Need to validate resource workspace and resource zone
     // only if the resource pool was specified
     if (resourcePool) {
-        //1. resourceWorkspace should exist if specified
-        //2. resourceZone should exist if specified
+        if(ec.createCommanderResourcePool(resourcePool))
+        {
+            //Create workspace if not present.
+            if(resourceWorkspace)
+                ec.createCommanderWorkspace(resourceWorkspace)
+            if(resourceZone)
+                if(!ec.getZone(resourceZone)) 
+                    throw new RuntimeException("Zone "+ resourceZone +" not present")   
+        }
     }
+
     instances.times{
 
         int count = 1
@@ -75,15 +83,6 @@ try {
         //TODO: Confirm that the VM was created before creating the EF resource
 
         if (resourcePool && resourceIP) {
-
-            if(ec.createCommanderResourcePool(resourcePool))
-            {
-                if(resourceZone)
-                {
-                    if(ec.createCommanderZone(resourcePool))
-                        println("Created Resource pool and zone")
-                }
-            }
 
             String resourceName = "${resourcePool}-${instanceSuffix}"
 

@@ -243,25 +243,17 @@ public class ElectricCommander {
             
     }
 
-    public createCommanderZone(String zoneName){
+    public getZone(String zoneName){
+    
+        def resp = PerformHTTPRequest(RequestMethod.GET, '/rest/v1.0/zones/'+ zoneName,[])
 
-        println("Creating zone.")    
-        def jsonData = [zoneName : zoneName, description : zoneName]
-        def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/zones',jsonData)
-
-        if(resp?.status == 409)     
+        if(resp?.status >= 400) 
         {
-            println("Zone " + zoneName +" already exists.")
-            return true
-        }
-        else if(resp?.status >= 400) 
-        {
-            println("Failed to create the zone " + resp)
-            return false
+            return false 
         }
         else
         {
-            println("Zone " + zoneName + " created.")
+            println("Zone " + zoneName + " exists.")
             return true
         }         
     }
@@ -289,15 +281,18 @@ public class ElectricCommander {
         }
     }
 
-    public boolean createCommanderResource(String resourceName, String workspaceName, String resourceIP ,String resourcePort, String resourceZone) {
+    public boolean createCommanderResource(String resourceName, String workspaceName, String resourceIP ,String resourcePort, String zoneName) {
         
         println("Creating Resource")
-        def jsonData = [resourceName : resourceName, description : resourceName , hostName: resourceIP , zoneName: resourceZone]
+        def jsonData = [resourceName : resourceName, description : resourceName , hostName: resourceIP ]
         if (resourcePort) {
             jsonData.port = resourcePort
         }
         if (workspaceName) {
             jsonData.workspaceName = workspaceName
+        }
+        if (zoneName) {
+            jsonData.zoneName = zoneName
         }
 
         def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resources/', jsonData)
@@ -395,7 +390,7 @@ public class ElectricCommander {
 
         def response
         def requestHeaders = ['Cookie': "sessionId=" + sessionId, 'Accept': 'application/json']
-        
+
         //Standardize the error handling for client.
         client.handler.failure = client.handler.success
 
