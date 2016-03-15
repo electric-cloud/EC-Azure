@@ -92,28 +92,59 @@ public class ElectricCommander {
 
     def configProperties;
 
-    ElectricCommander() {
+    ElectricCommander(def config = "") {
 
         client.ignoreSSLIssues()
-
-        def resp
-        //Get Azure Connection Config
-        resp = PerformHTTPRequest(RequestMethod.GET, '/rest/v1.0/jobsSteps/' + jobStepId + '/credentials/$[connection_config]', [])
-
-        if( resp == null ) {
-            throw new Exception("Error : Invalid configuration $[connection_config].");
+        if(config)
+        {
+            if(!setConfigurations(config))
+            {
+                println("Could not set configurations for azure")
+                System.exit(1)
+            }
+            if(!initializeAzure())
+            {
+                println("Could not initialize azure")
+                System.exit(1)
+            }
         }
-        if(resp.status != 200) {
-            throw new Exception("Commander did not respond with 200 for credentials")
+    }
+
+    def initializeAzure() {
+        try { 
+            azure = new Azure([tenantID : configProperties.tenant_id,
+                               subscriptionID : configProperties.subscription_id,
+                               clientID : configProperties.client_id,
+                               clientSecret : configProperties.client_secret])
+            if(!azure.createManagementClient())
+            {
+                return false
+            }
+            return true
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return false
         }
+    }
 
-        configProperties = getProperties('/myProject/azure_cfgs/$[connection_config]')
-
-        azure = new Azure([tenantID : configProperties.tenant_id,
-                           subscriptionID : configProperties.subscription_id,
-                           clientID : resp.data.credential.userName,
-                           clientSecret : resp.data.credential.password])
-        azure.createManagementClient()
+    def setConfigurations(def config) {
+        try {
+            def resp
+            resp = PerformHTTPRequest(RequestMethod.GET, '/rest/v1.0/jobsSteps/' + jobStepId + '/credentials/' + config, [])
+            if( resp == null ) {
+                throw new Exception("Error : Invalid configuration " + config);
+            }
+            if(resp.status != 200) {
+                throw new Exception("Commander did not respond with 200 for credentials")
+            }
+            configProperties = getProperties('/myProject/azure_cfgs/' + config)
+            configProperties.client_id = resp.data.credential.userName
+            configProperties.client_secret = resp.data.credential.password
+            return true
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return false
+        }
     }
 
     public setProperty(String propName, String propValue) {
@@ -172,16 +203,104 @@ public class ElectricCommander {
         return resp.getData().property.value
     }
 
+    def getResourceProperties(String resourceOrPool) {
+        def resourcePropertyMap = [:]
+        //First check for resource named resource
+        def resources = []
+        boolean isResourcePool = false
+        def url = '/rest/v1.0/resources/' + resourceOrPool
+        def resp = PerformHTTPRequest(RequestMethod.GET, url, [])
+        if(resp != null && resp.status == 200) {
+            println("Resource " + resourceOrPool + " exists")
+            resources.push(resourceOrPool)
+        }
+        else
+        {
+            url = '/rest/v1.0/resourcePools/' + resourceOrPool
+            resp = PerformHTTPRequest(RequestMethod.GET, url, [])
+            if(resp != null && resp.status == 200){
+                println("Resource Pool " + resourceOrPool + " exists")
+                resources = resp?.data?.resourcePool?.resourceNames?.resourceName
+                isResourcePool = true
+            }
+            else
+            {
+                println("Could not get property of " + resourceOrPool + " on commander. Request failed.")
+                return
+            }
+        }
+
+        resources.each {resource->
+            println("Fetching properties for " + resource)
+            url = '/rest/v1.0/properties'
+            def query =  ['request' : 'findProperties', 'resourceName' : resource]
+            resp = PerformHTTPRequest(RequestMethod.GET, url, query, [])
+
+            if(resp == null ) {
+                println("Could not get resource " + resource + " on Commander. Request failed")
+                return
+            }
+
+            if(resp.status != 200) {
+                println("Could not get success response for resource: " + resource + ". Request failed.")
+                return
+            }
+
+            def properties = [:]
+            //Move inside nested property sheet
+            def propertyHolder = resp?.data?.object?.property
+            if(propertyHolder == null)
+            {
+                println("Could not get properties for resource: " + resource + ". Request failed.")
+                return
+            }
+            propertyHolder.each {
+
+                while (propertyHolder?.propertySheetId[propertyHolder.indexOf(it)])
+                {
+                    def sheetId = propertyHolder?.propertySheetId[propertyHolder.indexOf(it)]
+                    String sheetUrl = '/rest/v1.0/propertySheets/' + sheetId
+                    println("URL: " + sheetUrl)
+                    resp = PerformHTTPRequest(RequestMethod.GET, sheetUrl, [])
+                    propertyHolder = resp?.data?.propertySheet?.property
+                    //This will get all properties and sheets will be ignored
+                    propertyHolder.each{
+                        if(propertyHolder?.propertySheetId[propertyHolder.indexOf(it)] == null)
+                        {
+                            properties[propertyHolder.propertyName[propertyHolder.indexOf(it)]] = propertyHolder.value[propertyHolder.indexOf(it)]
+                        }
+                    }
+                    //Move in a propertysheet(Limitation: Only last nested propertysheet will be traversed)
+                    propertyHolder.each { insideIt->
+                        if(propertyHolder?.propertySheetId[propertyHolder.indexOf(insideIt)])
+                        {
+                            it = insideIt
+                        }
+                    }
+                }
+            }
+            resourcePropertyMap[resource] = properties
+            println("ResourceName: " + resource + ", Properties: " + JsonOutput.toJson(properties))
+        }
+        return [resourcePropertyMap, isResourcePool]
+    }
 
     def getProperties(String path) {
 
-        // Add this line
         println(commanderServer + ":" + commanderPort)
-
+        def query =[:]
         def uri = '/rest/v1.0/properties/' + path
-        def resp = performHttpGet(uri)
+
+        def sysJobStepId = System.getenv('COMMANDER_JOBSTEPID')
+        println("SysJobStepId: " + sysJobStepId)
+
+        query.jobStepId = sysJobStepId
+
+        def resp = performHttpGet(uri, query)
 
         def properties = [:]
+        //Move inside nested property sheet
+
         if (resp?.data?.property?.propertySheetId) {
 
             def sheetId = resp?.data?.property?.propertySheetId
@@ -201,24 +320,18 @@ public class ElectricCommander {
     def performHttpGet(String uri, def query = [:]) {
 
         println("URL: " + uri)
-
-        def sysJobStepId = System.getenv('COMMANDER_JOBSTEPID')
-        println("SysJobStepId: " + sysJobStepId)
-
-        query.jobStepId = sysJobStepId
-
-        println("query: " + JsonOutput.toJson(query))
+        println("Query: " + JsonOutput.toJson(query))
 
         def resp = PerformHTTPRequest(RequestMethod.GET, uri, query, [])
-        //println('Response status: ' + resp?.status)
+        println('Response status: ' + resp?.status)
         if(resp?.status != 200) {
             println("ERROR: HTTP GET request failed $uri")
             return [:]
         }
-        //println(JsonOutput.toJson(resp.data))
+        println(JsonOutput.toJson(resp.data))
         return resp
     }
-    
+
     public createCommanderWorkspace(String workspaceName){
 
         println("Creating workspace.")    
@@ -438,13 +551,15 @@ public class Azure {
 
 	private createManagementClient () {
 		try {
-			config = createConfiguration();
-			resourceManagementClient = ResourceManagementService.create(config);
-			storageManagementClient = StorageManagementService.create(config);
-			computeManagementClient = ComputeManagementService.create(config);
-			networkResourceProviderClient = NetworkResourceProviderService.create(config);
+			config = createConfiguration()
+			resourceManagementClient = ResourceManagementService.create(config)
+			storageManagementClient = StorageManagementService.create(config)
+			computeManagementClient = ComputeManagementService.create(config)
+			networkResourceProviderClient = NetworkResourceProviderService.create(config)
+            return true
 		} catch (Exception e) {
 			System.out.println(e.toString());
+            return false
 		}
 	}
 

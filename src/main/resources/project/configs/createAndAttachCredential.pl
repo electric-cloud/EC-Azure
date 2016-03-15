@@ -176,6 +176,27 @@ foreach my $credName ( keys %credentials ) {
                                   );
     $errors .= $ec->checkAllErrors($xpath);
 
+
+    $xpath = $ec->attachCredential(
+                                   $projName,
+                                   $credName,
+                                   {
+                                      procedureName => 'Delete VM',
+                                      stepName      => 'Delete VM'
+                                   }
+                                  );
+    $errors .= $ec->checkAllErrors($xpath);
+
+    $xpath = $ec->attachCredential(
+                                   $projName,
+                                   $credName,
+                                   {
+                                      procedureName => 'TearDown',
+                                      stepName      => 'tearDown'
+                                   }
+                                  );
+    $errors .= $ec->checkAllErrors($xpath);
+    
     if ("$errors" ne "") {
 
         # Cleanup the partially created configuration we just created

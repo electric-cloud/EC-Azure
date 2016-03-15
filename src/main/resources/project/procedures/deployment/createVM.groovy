@@ -18,7 +18,6 @@
 $[/myProject/procedure_helpers/preamble]
 
 try {
-    ElectricCommander ec = new ElectricCommander()
     String storageAccount = '$[storage_account]'.trim()
     String storageContainer = '$[storage_container]'.trim()
     String serverName = '$[server_name]'.trim()
@@ -27,7 +26,6 @@ try {
     String location = '$[location]'.trim()
     String imageURN = '$[image]'.trim()
     String userImage = '$[is_user_image]'.trim()
-    String vmCreds = ec.configProperties.vm_credential
     String createPublicIP = '$[create_public_ip]'.trim()
     String osType = '$[os_type]'.trim()
     String disablePasswordPrompt = '$[disable_password_auth]'.trim()
@@ -57,6 +55,10 @@ try {
     {
         disablePasswordAuth = true
     }
+
+    ElectricCommander ec = new ElectricCommander(config)
+    //TODO: This will be changed when multiple credential issue is resolved in dynamic environment
+    String vmCreds = ec.configProperties.vm_credential
 
     //TODO: validate parameters before creating the VM
     // Need to validate resource workspace and resource zone

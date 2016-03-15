@@ -70,7 +70,7 @@
                                         <propertyName>procedureName</propertyName>
                                         <description></description>
                                         <expandable>1</expandable>
-                                        <value>DeleteVM</value>
+                                        <value>TearDown</value>
                                     </property>
                                     <property>
                                         <propertyName>ui_formRefs</propertyName>
@@ -101,7 +101,7 @@
                                         <propertyName>procedureName</propertyName>
                                         <description></description>
                                         <expandable>1</expandable>
-                                        <value>Delete VM</value>
+                                        <value>TearDown</value>
                                     </property>
                                     <property>
                                         <propertyName>ui_formRefs</propertyName>
@@ -3334,26 +3334,6 @@
                                     </propertySheet>
                                 </property>
                                 <property>
-                                    <propertyName>resource_workspace</propertyName>
-                                    <propertySheet>
-                                        <property>
-                                            <propertyName>formType</propertyName>
-                                            <expandable>1</expandable>
-                                            <value>standard</value>
-                                        </property>
-                                    </propertySheet>
-                                </property>
-                                <property>
-                                    <propertyName>resource_pool</propertyName>
-                                    <propertySheet>
-                                        <property>
-                                            <propertyName>formType</propertyName>
-                                            <expandable>1</expandable>
-                                            <value>standard</value>
-                                        </property>
-                                    </propertySheet>
-                                </property>
-                                <property>
                                     <propertyName>job_step_timeout</propertyName>
                                     <propertySheet>
                                         <property>
@@ -3411,20 +3391,6 @@
                 <required>1</required>
                 <type>entry</type>
             </formalParameter>
-            <formalParameter>
-                <formalParameterName>resource_workspace</formalParameterName>
-                <defaultValue>default</defaultValue>
-                <description/>
-                <required>0</required>
-                <type>entry</type>
-            </formalParameter>
-            <formalParameter>
-                <formalParameterName>resource_pool</formalParameterName>
-                <defaultValue/>
-                <description/>
-                <required>0</required>
-                <type>entry</type>
-            </formalParameter>
             <step>
                 <stepName>SetTimelimit</stepName>
                 <alwaysRun>0</alwaysRun>
@@ -3473,6 +3439,136 @@
                 <resourceName>$[/myProject/azure_cfgs/$[connection_config]/resource_pool]</resourceName>
                 <shell>ec-groovy</shell>
                 <timeLimit>$[/myCall/step_timelimit]</timeLimit>
+                <timeLimitUnits>minutes</timeLimitUnits>
+                <workingDirectory/>
+                <workspaceName/>
+                <propertySheet>
+                    <property>
+                        <propertyName>ec_customEditorData</propertyName>
+                        <propertySheet>
+                            <property>
+                                <propertyName>formType</propertyName>
+                                <expandable>1</expandable>
+                                <value>command</value>
+                            </property>
+                        </propertySheet>
+                    </property>
+                </propertySheet>
+            </step>
+        </procedure>
+        <procedure>
+            <procedureName>TearDown</procedureName>
+            <description>Deletes all VM in a commander resource/resourcePool. </description>
+            <jobNameTemplate>Azure-TearDown-$[jobId]</jobNameTemplate>
+            <resourceName/>
+            <workspaceName/>
+            <propertySheet>
+                <property>
+                    <propertyName>ec_customEditorData</propertyName>
+                    <propertySheet>
+                        <property>
+                            <propertyName>parameters</propertyName>
+                            <propertySheet>
+                                <property>
+                                    <propertyName>resource_name</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>job_step_timeout</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>formType</propertyName>
+                                    <expandable>1</expandable>
+                                    <value>standard</value>
+                                </property>
+                            </propertySheet>
+                        </property>
+                    </propertySheet>
+                </property>
+                <property>
+                    <propertyName>ec_parameterForm</propertyName>
+                    <description/>
+                    <expandable>1</expandable>
+                    <value/>
+                </property>
+            </propertySheet>
+            <formalParameter>
+                <formalParameterName>resource_name</formalParameterName>
+                <defaultValue/>
+                <description>Name of the resource/resourcePool.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>job_step_timeout</formalParameterName>
+                <defaultValue/>
+                <description>Timeout for the step execution in minutes. Blank means no timeout.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <step>
+                <stepName>SetTimelimit</stepName>
+                <alwaysRun>0</alwaysRun>
+                <broadcast>0</broadcast>
+                <command/>
+                <condition/>
+                <description>Set the timelimit for the next step.</description>
+                <errorHandling>failProcedure</errorHandling>
+                <exclusiveMode>none</exclusiveMode>
+                <logFileName/>
+                <parallel>0</parallel>
+                <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
+                <releaseMode>none</releaseMode>
+                <resourceName></resourceName>
+                <shell>ec-perl</shell>
+                <timeLimit/>
+                <timeLimitUnits>minutes</timeLimitUnits>
+                <workingDirectory/>
+                <workspaceName/>
+                <propertySheet>
+                    <property>
+                        <propertyName>ec_customEditorData</propertyName>
+                        <propertySheet>
+                            <property>
+                                <propertyName>formType</propertyName>
+                                <expandable>1</expandable>
+                                <value>command</value>
+                            </property>
+                        </propertySheet>
+                    </property>
+                </propertySheet>
+            </step>
+            <step>
+                <stepName>tearDown</stepName>
+                <alwaysRun>0</alwaysRun>
+                <broadcast>0</broadcast>
+                <command/>
+                <condition/>
+                <description>Delete VM in the resource/resourcePool.</description>
+                <errorHandling>failProcedure</errorHandling>
+                <exclusiveMode>none</exclusiveMode>
+                <logFileName/>
+                <parallel>0</parallel>
+                <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
+                <releaseMode>none</releaseMode>
+                <resourceName></resourceName>
+                <shell>ec-groovy</shell>
+                <timeLimit></timeLimit>
                 <timeLimitUnits>minutes</timeLimitUnits>
                 <workingDirectory/>
                 <workspaceName/>

@@ -18,24 +18,15 @@
 $[/myProject/procedure_helpers/preamble]
 
 try {
-	    ElectricCommander ec = new ElectricCommander()
 	    String resourceGroupName = '$[resource_group_name]'.trim()
+	    String config = '$[connection_config]'.trim()
 	    String vmName = '$[vm_name]'.trim()
-        //Commander Resource
-	    String resourceWorkspace = '$[resource_workspace]'.trim()
-	    String resourcePool = '$[resource_pool]'.trim()
+
+	    ElectricCommander ec = new ElectricCommander(config)
 	    if(resourceGroupName && vmName)	
 	    {
             ec.azure.deleteVM(resourceGroupName,vmName)
         }
-        //TODO: add a checkbox whether it is resource pool or resource
-        //resource pool will be resource or resource pool
-        //Delete commander resource
-
-        ec.deleteCommanderWorkspace(resourceWorkspace)
-        //ec.deleteCommanderResource(resourceWorkspace)
-        //If last resource in resource pool - delete resource pool also
-        ec.deleteCommanderResourcePool(resourcePool)
     
 }catch(Exception e){
     e.printStackTrace();
