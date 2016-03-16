@@ -119,7 +119,6 @@ try {
                 println("Could not create commander resource, going for the rollback operation.")
                 ec.rollback(resourcePool)
             }
-            count = count + 1
         }
         else
         {
@@ -127,7 +126,8 @@ try {
             listSize.times{
                 deleteVM(VMList.pop(), resourceGroupName)
             }
-        }    
+        }  
+        count = count + 1  
     }
 }catch(Exception e){
     e.printStackTrace();
