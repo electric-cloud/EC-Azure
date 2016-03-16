@@ -39,10 +39,8 @@ try {
     boolean publicIP = false
     boolean isUserImage = false
     boolean disablePasswordAuth = false
-    def resourceList = []
     def VMList = []
-    String resourceIP
-
+    
     if (createPublicIP == '1')
     {
         publicIP = true
@@ -69,29 +67,30 @@ try {
             //Create workspace if not present.
             if(resourceWorkspace)
                 ec.createCommanderWorkspace(resourceWorkspace)
+            //Check if the zone is present.    
             if(resourceZone)
                 if(!ec.getZone(resourceZone)) 
                     throw new RuntimeException("Zone "+ resourceZone +" not present")   
         }
     }
 
+    def count = 1
     instances.times{
 
-        int count = 1
         String instanceSuffix = "${count}-${System.currentTimeMillis()}"
         String VMName = "${serverName}-${instanceSuffix}"
 
-        def (adminName, adminPassword)= ec.getFullCredentials(vmCreds) 
-        resourceIP = ec.azure.createVM(VMName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
+        def (adminName, adminPassword) = ec.getFullCredentials(vmCreds) 
+        def (resourceIP, VMStatus) = ec.azure.createVM(VMName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
         
-        if(resourceIP)
+        if(VMStatus == ProvisioningStateTypes.SUCCEEDED)
             VMList.push(VMName)
 
         //VM is created if Public IP is fetched successfully.
         //EF Resources are generated only if the VM is created without errors.
-        if (resourcePool && resourceIP) {
+        if (resourcePool && VMStatus == ProvisioningStateTypes.SUCCEEDED) {
 
-            println("IP assigned to the VM: " + resourceIP)
+            println("Public IP assigned to the VM: " + resourceIP)
 
             String resourceName = "${resourcePool}-${instanceSuffix}"
             def resourceCreated = ec.createCommanderResource(resourceName, resourceWorkspace, resourceIP, resourcePort, resourceZone)
@@ -100,8 +99,8 @@ try {
                 // Add resource to pool through a separate call
                 // This is to work-around the issue that createResource API does
                 // not support resource pool name with spaces.
-                resourceList.push(resourceName)
                 def added = ec.addResourceToPool(resourceName, resourcePool)
+                
                 if (added) {
                     println("Created commander resource: $resourceName in $resourcePool")
                     ec.setPropertyInResource(resourceName, 'created_by', 'EC-Azure')
@@ -111,22 +110,24 @@ try {
                     ec.setPropertyInResource(resourceName, 'etc/storage_account', storageAccount)
                     ec.setPropertyInResource(resourceName, 'etc/resource_group_name', resourceGroupName)
                 } else {
-                    //TODO: rollback - delete all Azure VMs and EF resources created so far.
-                    //ec.azure.rollback(resourceList)
+                    //rollback - delete all Azure VMs and EF resources created so far.
+                    println("Could not add resource to resource pool, going for the rollback operation.")
+                    ec.rollback(resourcePool)
                 }
             } else {
-                //TODO: rollback - delete all Azure VMs and EF resources created so far.
-                //ec.azure.rollback(resourceList)
+                //rollback - delete all Azure VMs and EF resources created so far.
+                println("Could not create commander resource, going for the rollback operation.")
+                ec.rollback(resourcePool)
             }
+            count = count + 1
         }
         else
         {
             def listSize = VMList.size()
             listSize.times{
-                deleteVM(VMName.pop(), resourceGroupName)
+                deleteVM(VMList.pop(), resourceGroupName)
             }
-        }
-        count = count + 1
+        }    
     }
 }catch(Exception e){
     e.printStackTrace();

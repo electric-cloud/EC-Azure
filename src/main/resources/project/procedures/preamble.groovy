@@ -495,6 +495,32 @@ public class ElectricCommander {
         }
     }
 
+    def rollback(String resourceName)
+    {
+        println "Going for rollback"
+        def resourceInfo = getResourceProperties(resourceName)
+        if(resourceInfo == null)
+        {
+            println("Could not fetch properties for resource: " + resourceName)
+            System.exit(1)
+        }
+
+        def (resourcePropertyMap, isResourcePool) = resourceInfo
+        resourcePropertyMap.each { resource, property->
+            
+            println("Deleting resource: " + resource + " with instance Id: " + property["instance_id"] + " and resource group name: " + property["resource_group_name"])
+            if(property["resource_group_name"] && property["instance_id"])
+            {
+                azure.deleteVM(property["resource_group_name"],  property["instance_id"])
+                deleteCommanderResource(resource)
+            }
+        }
+
+        if(isResourcePool)
+        {
+            deleteCommanderResourcePool(resourceName)
+        }
+    }     
 
     private PerformHTTPRequest(RequestMethod request, String url, Object jsonData) {
         PerformHTTPRequest(request,url,["":""],jsonData)
@@ -574,17 +600,17 @@ public class Azure {
 	}
 
     private String getPublicIP(String publicIpAddressName ,String resourceGroupName, String vmName)
-        {
+    {
             def VMStatus = getVMStatus(resourceGroupName, vmName)
             
             if(VMStatus == ProvisioningStateTypes.SUCCEEDED )
               return networkResourceProviderClient.getPublicIpAddressesOperations().get(resourceGroupName, publicIpAddressName).getPublicIpAddress().getIpAddress()
             else
               return null;       
-        }
+    }
 
     private String getVMStatus(String resourceGroupName, String vmName )
-        {
+    {
             def VMStatus = computeManagementClient.getVirtualMachinesOperations().getWithInstanceView( resourceGroupName, vmName).getVirtualMachine().getProvisioningState()
             
             while(VMStatus == ProvisioningStateTypes.CREATING )
@@ -593,23 +619,9 @@ public class Azure {
               VMStatus = computeManagementClient.getVirtualMachinesOperations().getWithInstanceView( resourceGroupName, vmName).getVirtualMachine().getProvisioningState()
             }
             return VMStatus
-        }   
+    }   
 
-    public rollBack(def resourceList)
-    {
-        def listSize = resourceList.size()
-        listSize.times{
-
-          /* def resourceName = resourceList.pop()
-           def instanceName = ec.getProperty(resourceName/instance_id)
-           def resourceGroupName = ec.getProperty(resourceName/instance_id)
-           deleteVM(resourceGroupName , instanceName)
-           deleteCommanderResource(resourceName)*/
-        }
-
-    }     
-
-	public String createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth) {
+	def createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth) {
 		try {
 			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx, OS Type:" + osType + ", Disable Password Authentication: " + disablePasswordAuth)
 			ResourceContext context = new ResourceContext(location, resourceGroupName, subscriptionID, createPublicIPAddress);
@@ -724,7 +736,12 @@ public class Azure {
 								}
 						}).getVirtualMachine();
 			}
-            return getPublicIP(context.getPublicIpName(),resourceGroupName, vmName)
+
+            def publicIP
+            if(createPublicIPAddress)
+                 publicIP = getPublicIP(context.getPublicIpName(),resourceGroupName, vmName)
+
+            return [publicIP, getVMStatus(resourceGroupName, vmName)]
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
