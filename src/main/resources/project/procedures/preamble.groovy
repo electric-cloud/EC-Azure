@@ -24,6 +24,7 @@
 	@Grab(group='com.microsoft.azure', module='azure-mgmt-resources', version='0.9.3'),
 	@Grab(group='com.microsoft.azure', module='azure-mgmt-storage', version='0.9.3'),
 	@Grab(group='com.microsoft.azure', module='azure-mgmt-network', version='0.9.3'),
+	@Grab(group='com.microsoft.azure', module='azure-mgmt-sql', version='0.9.3'),
 	@Grab(group='com.microsoft.azure', module='azure-core', version='0.9.3'),
 	@Grab(group='org.slf4j', module='slf4j-jdk14', version='1.7.16'),
 	@Grab(group='com.microsoft.azure', module='adal4j', version='1.0.0'),
@@ -71,6 +72,10 @@ import com.microsoft.azure.management.storage.models.StorageAccount
 import com.microsoft.azure.management.compute.models.DeleteOperationResponse
 import com.microsoft.windowsazure.management.configuration.ManagementConfiguration
 import com.microsoft.azure.management.compute.models.ProvisioningStateTypes
+import com.microsoft.azure.management.sql.models.DatabaseCreateOrUpdateResponse;
+import com.microsoft.azure.management.sql.models.DatabaseCreateOrUpdateParameters;
+import com.microsoft.azure.management.sql.models.DatabaseCreateOrUpdateProperties;
+import com.microsoft.azure.management.sql.SqlManagementService;
 
 enum RequestMethod {
     GET, POST, PUT, DELETE
@@ -562,9 +567,9 @@ public class ElectricCommander {
 }
 
 public class Azure {
-    def baseURI =  "https://management.azure.com/"
-    def managementURL = "https://management.core.windows.net/"
-    def aadURL = "https://login.windows.net/"
+	def baseURI =  "https://management.azure.com/"
+	def managementURL = "https://management.core.windows.net/"
+	def aadURL = "https://login.windows.net/"
 	String tenantID
 	String subscriptionID
 	String clientID
@@ -573,6 +578,7 @@ public class Azure {
 	def resourceManagementClient
 	def storageManagementClient
 	def computeManagementClient
+	def sqlManagementClient
 	def networkResourceProviderClient
 
 	private createManagementClient () {
@@ -581,6 +587,7 @@ public class Azure {
 			resourceManagementClient = ResourceManagementService.create(config)
 			storageManagementClient = StorageManagementService.create(config)
 			computeManagementClient = ComputeManagementService.create(config)
+			sqlManagementClient = SqlManagementService.create(config);
 			networkResourceProviderClient = NetworkResourceProviderService.create(config)
             return true
 		} catch (Exception e) {
@@ -759,6 +766,61 @@ public class Azure {
 			println(ex.toString());
 		}
 		}
+public deleteDatabase(String resourceGroupName, String serverName, String databaseName){
+	try{
+		println("Going for deleting database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ")")
+		sqlManagementClient.getDatabasesOperations().delete(resourceGroupName, serverName, databaseName)
+	}catch(Exception ex) {
+		println(ex.toString())
+		}
+}
+
+public createOrUpdateDatabase(String resourceGroupName, String serverName, String databaseName, String location, String expectedCollationName, String expectedEdition, String expectedMaxSizeInMB, String createModeValue, String elasticPoolName, String requestedServiceObjectiveIdValue, String sourceDatabaseIdValue) {
+	try {
+		println("Going for creating or updating database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ") in location " + location)
+		DatabaseCreateOrUpdateProperties dbProperties = new DatabaseCreateOrUpdateProperties();
+		if (expectedCollationName)
+		{
+			dbProperties.setCollation(expectedCollationName)
+			println("Set Collation name to " + expectedCollationName)
+		}
+		if (createModeValue)
+		{
+			dbProperties.setCreateMode(createModeValue)
+			println("Set Create Mode to " + createModeValue)
+		}
+		if (expectedEdition)
+		{
+			dbProperties.setEdition(expectedEdition)
+			println("Set Edition to " + expectedEdition)
+		}
+		if (elasticPoolName)
+		{
+			dbProperties.setElasticPoolName(elasticPoolName)
+			println("Set Elastic Pool Name to " + elasticPoolName)
+		}
+		if (expectedMaxSizeInMB)
+		{
+			expectedMaxSizeInBytes = (expectedMaxSizeInMB as int) * 1024 *1024
+			dbProperties.setMaxSizeBytes(expectedMaxSizeInBytes)
+			println("Set Maximum Size  to " + expectedMaxSizeInBytes + " bytes")
+		}
+		if (requestedServiceObjectiveIdValue)
+		{
+			dbProperties.setRequestedServiceObjectiveId(requestedServiceObjectiveIdValue)
+			println("Set Requested Service Objective Id to " + requestedServiceObjectiveIdValue)
+		}
+		if (sourceDatabaseIdValue)
+		{
+			dbProperties.setSourceDatabaseId(sourceDatabaseIdValue)
+			println("Set Source Database Id to " + sourceDatabaseIdValue)
+		}
+		DatabaseCreateOrUpdateParameters dbParameters = new DatabaseCreateOrUpdateParameters(dbProperties, location);
+		DatabaseCreateOrUpdateResponse response = sqlManagementClient.getDatabasesOperations().createOrUpdate(resourceGroupName, serverName, databaseName, dbParameters);
+	}catch(Exception ex) {
+		println(ex.toString())
+		}
+}
 
 }
 
