@@ -796,6 +796,19 @@ public stopVM(String resourceGroupName, String vmName){
     }
 }
 
+public restartVM(String resourceGroupName, String vmName){
+    try {
+            println("Going for restarting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
+            ComputeLongRunningOperationResponse restartOperationResponse = computeManagementClient.getVirtualMachinesOperations().restart(resourceGroupName,vmName)
+            if(restartOperationResponse.getStatus()==ComputeOperationStatus.Succeeded  || restartOperationResponse.getRequestId() != null)
+                println("Restarted VM: " + vmName )
+            else
+                println("Failed to restart the VM: " + vmName)    
+    }catch(Exception ex) {
+            println(ex.toString())
+    }
+}
+
 public deleteDatabase(String resourceGroupName, String serverName, String databaseName){
 	try{
 		println("Going for deleting database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ")")

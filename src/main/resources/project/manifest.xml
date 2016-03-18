@@ -81,6 +81,15 @@
     <path>procedures/setTimelimit.pl</path>
     <xpath>//procedure[procedureName=&quot;Stop VM&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
   </file>
+
+  <file>
+    <path>procedures/deployment/restartVM.groovy</path>
+    <xpath>//step[stepName=&quot;Restart VM&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Restart VM&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
   
   <file>
     <path>procedures/deployment/tearDown.groovy</path>
@@ -240,6 +249,10 @@
   <file>
     <path>forms/deployment/StopVMForm.xml</path>
     <xpath>//procedure[procedureName=&quot;Stop VM&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/RestartVMForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Restart VM&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
   <file>
     <path>forms/deployment/TearDownForm.xml</path>

@@ -224,6 +224,13 @@ my %stop_vm = (
                  category    => "Deployment"
                 );
 
+my %restart_vm = (
+                 label       => "Windows Azure - Restart Virtual Machine",
+                 procedure   => "Restart VM",
+                 description => "Restart Virtual Machine",
+                 category    => "Deployment"
+                );
+
 my %teardown = (
                  label       => "Windows Azure - TearDown Virtual Machines",
                  procedure   => "TearDown",
@@ -262,6 +269,7 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Crea
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete VM");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Start VM");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Stop VM");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Restart VM");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - TearDown");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - CreateOrUpdateDatabase");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - DeleteDatabase");
@@ -590,6 +598,15 @@ if ($upgradeAction eq "upgrade") {
                                      {
                                         procedureName => 'Stop VM',
                                         stepName      => 'Stop VM'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Restart VM',
+                                        stepName      => 'Restart VM'
                                      }
                                     );
 
