@@ -76,6 +76,9 @@ import com.microsoft.azure.management.sql.models.DatabaseCreateOrUpdateResponse;
 import com.microsoft.azure.management.sql.models.DatabaseCreateOrUpdateParameters;
 import com.microsoft.azure.management.sql.models.DatabaseCreateOrUpdateProperties;
 import com.microsoft.azure.management.sql.SqlManagementService;
+import com.microsoft.azure.management.compute.models.ComputeLongRunningOperationResponse
+import com.microsoft.azure.management.compute.models.ComputeOperationStatus
+
 
 enum RequestMethod {
     GET, POST, PUT, DELETE
@@ -754,18 +757,32 @@ public class Azure {
 		}
 		}    
 
-		public deleteVM(String resourceGroupName,String vmName){
-		try {
-			println("Going for deleting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
-			DeleteOperationResponse deleteOperationResponse = computeManagementClient.getVirtualMachinesOperations().delete(resourceGroupName,vmName);
-			if(deleteOperationResponse.getStatusCode() == OperationStatus.Succeeded  || deleteOperationResponse.getRequestId() != null)
-			{
-				println("Deleted VM: " + vmName )
-			}
-		}catch(Exception ex) {
-			println(ex.toString());
-		}
-		}
+public deleteVM(String resourceGroupName,String vmName){
+	try {
+            println("Going for deleting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
+    		DeleteOperationResponse deleteOperationResponse = computeManagementClient.getVirtualMachinesOperations().delete(resourceGroupName,vmName)
+            if(deleteOperationResponse.getStatusCode() == OperationStatus.Succeeded  || deleteOperationResponse.getRequestId() != null)
+    			println("Deleted VM: " + vmName )
+            else
+                println("Failed to delete VM:" + vmName)    
+	}catch(Exception ex) {
+		println(ex.toString());
+	}
+}
+
+public startVM(String resourceGroupName, String vmName){
+    try {
+            println("Going for starting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
+            ComputeLongRunningOperationResponse startOperationResponse = computeManagementClient.getVirtualMachinesOperations().start(resourceGroupName,vmName)
+            if(startOperationResponse.getStatus()==ComputeOperationStatus.Succeeded  || startOperationResponse.getRequestId() != null)
+                println("Started VM: " + vmName )
+            else
+                println("Failed to start the VM: " + vmName)    
+    }catch(Exception ex) {
+            println(ex.toString())
+    }
+}
+
 public deleteDatabase(String resourceGroupName, String serverName, String databaseName){
 	try{
 		println("Going for deleting database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ")")

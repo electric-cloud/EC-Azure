@@ -210,6 +210,13 @@ my %delete_vm = (
                  category    => "Deployment"
                 );
 
+my %start_vm = (
+                 label       => "Windows Azure - Start Virtual Machine",
+                 procedure   => "Start VM",
+                 description => "Start Virtual Machine",
+                 category    => "Deployment"
+                );
+
 my %teardown = (
                  label       => "Windows Azure - TearDown Virtual Machines",
                  procedure   => "TearDown",
@@ -246,6 +253,7 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Down
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - List Objects");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create VM");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete VM");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Start VM");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - TearDown");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - CreateOrUpdateDatabase");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - DeleteDatabase");
@@ -265,7 +273,7 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Get 
 
 # @::createStepPickerSteps = (\%provision, \%cleanup, \%call_azure, \%create_resource, \%add_role, \%capture_role, \%delete_role, \%get_role, \%restart_role, \%shutdown_role, \%start_role, \%create_vm_deployment, \%download_rdp, \%list_objects);
 
-@::createStepPickerSteps = (\%create_hosted_service, \%delete_hosted_service ,\%create_storage_account, \%delete_storage_account, \%get_storage_account_keys, \%create_container, \%delete_container, \%put_blob, \%delete_blob, \%get_status, \%create_deployment, \%create_vm, \%delete_vm, \%teardown, \%create_update_database, \%delete_database);
+@::createStepPickerSteps = (\%create_hosted_service, \%delete_hosted_service ,\%create_storage_account, \%delete_storage_account, \%get_storage_account_keys, \%create_container, \%delete_container, \%put_blob, \%delete_blob, \%get_status, \%create_deployment, \%create_vm, \%delete_vm, \%start_vm, \%teardown, \%create_update_database, \%delete_database);
 
 my $pluginName = "@PLUGIN_NAME@";
 my $pluginKey  = "@PLUGIN_KEY@";
@@ -556,6 +564,15 @@ if ($upgradeAction eq "upgrade") {
                                      {
                                         procedureName => 'Delete VM',
                                         stepName      => 'Delete VM'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Start VM',
+                                        stepName      => 'Start VM'
                                      }
                                     );
 
