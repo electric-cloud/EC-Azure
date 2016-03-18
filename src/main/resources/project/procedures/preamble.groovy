@@ -783,6 +783,19 @@ public startVM(String resourceGroupName, String vmName){
     }
 }
 
+public stopVM(String resourceGroupName, String vmName){
+    try {
+            println("Going for stopping VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
+            ComputeLongRunningOperationResponse stopOperationResponse = computeManagementClient.getVirtualMachinesOperations().powerOff(resourceGroupName,vmName)
+            if(stopOperationResponse.getStatus()==ComputeOperationStatus.Succeeded  || stopOperationResponse.getRequestId() != null)
+                println("Stopped VM: " + vmName )
+            else
+                println("Failed to stop the VM: " + vmName)    
+    }catch(Exception ex) {
+            println(ex.toString())
+    }
+}
+
 public deleteDatabase(String resourceGroupName, String serverName, String databaseName){
 	try{
 		println("Going for deleting database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ")")
