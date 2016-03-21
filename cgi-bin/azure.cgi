@@ -103,7 +103,7 @@ sub getCfgList {
     my $xml = "";
     $xml .= "<cfgs>\n";
     foreach my $cfg (keys  %cfgs) {
-        my $description = $gcfg->getCol("$cfg/description");
+        my $description = $gcfg->getCol("$cfg/desc");
         $xml .= "  <cfg>\n";
         $xml .= "     <name>$cfg</name>\n";
         $xml .= "     <description>" . xmlQuote($description) . "</description>\n";
