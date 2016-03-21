@@ -61,20 +61,24 @@ try {
     }
 
     def (adminName, adminPassword)= ec.getFullCredentials(vmCreds)
-    ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
+    // TODO: temporarily passing custom data value here
+    def customData// = "/etc/init.d/commanderAgent start"
+
+    def assignedIP = ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName,
+            publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth, customData)
 
     //TODO: Confirm that the VM was created before creating the EF resource
 
-    if (resourcePool) {
-        //TODO: Get IP from created VM and pass it here
-        // TODO: Passing a temporary IP here
-        String resourceIP = "104.41.151.132"
+    if (assignedIP && resourcePool) {
         // TODO: This should be a running counter
         int count = 1
 
+        //TODO: Hack to give the VM time to start the commanderAgent on startup. Azure is sssslow...
+        sleep(180000)
+
         String resourceName = "${resourcePool}_${count}_${System.currentTimeMillis()}"
 
-        def resourceCreated = ec.createCommanderResource(resourceName, resourceWorkspace, resourceIP, resourcePort)
+        def resourceCreated = ec.createCommanderResource(resourceName, resourceWorkspace, assignedIP, resourcePort, true /*block*/)
         if (resourceCreated) {
 
             // Add resource to pool through a separate call

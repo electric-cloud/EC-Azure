@@ -59,17 +59,21 @@ import com.microsoft.azure.management.resources.ResourceManagementService
 import com.microsoft.azure.management.compute.models.ImageReference
 import com.microsoft.azure.utility.ConsumerWrapper
 import com.microsoft.windowsazure.core.OperationStatus
+
 import com.microsoft.azure.management.compute.models.OSDisk
 import com.microsoft.azure.management.compute.models.StorageProfile
 import com.microsoft.azure.management.compute.models.LinuxConfiguration;
 import com.microsoft.azure.management.compute.models.OSProfile;
+import com.microsoft.azure.management.compute.models.ProvisioningStateTypes
 import com.microsoft.azure.management.compute.models.SshConfiguration;
 import com.microsoft.azure.management.compute.models.SshPublicKey;
 import com.microsoft.azure.management.compute.models.CachingTypes
 import com.microsoft.azure.management.compute.models.VirtualHardDisk
 import com.microsoft.azure.management.storage.models.StorageAccount
 import com.microsoft.azure.management.compute.models.DeleteOperationResponse
+import com.microsoft.azure.management.resources.ResourceManagementClient
 import com.microsoft.windowsazure.management.configuration.ManagementConfiguration;
+
 
 enum RequestMethod {
     GET, POST, PUT, DELETE
@@ -257,7 +261,7 @@ public class ElectricCommander {
         }
     }
 
-    public boolean createCommanderResource(String resourceName, String workspaceName, String resourceIP ,String resourcePort) {
+    public boolean createCommanderResource(String resourceName, String workspaceName, String resourceIP ,String resourcePort, boolean block) {
         
         println("Creating Resource")
         def jsonData = [resourceName : resourceName, description : resourceName , hostName: resourceIP ]
@@ -266,6 +270,9 @@ public class ElectricCommander {
         }
         if (workspaceName) {
             jsonData.workspaceName = workspaceName
+        }
+        if (block) {
+            jsonData.block = block
         }
 
         def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resources/', jsonData)
@@ -284,6 +291,8 @@ public class ElectricCommander {
         else
         {
             println("Resource " + resourceName + " created.")
+            //TODO: debugging
+            println("Resource details : " + JsonOutput.toJson(resp?.data))
             return true
         }
     }
@@ -427,7 +436,11 @@ public class Azure {
 						.getAccessToken());
 	}
 
-	public createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth) {
+	public def createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName,
+                     String location, String resourceGroupName, boolean createPublicIPAddress,
+                     String adminName, String adminPassword,
+                     String osType, String publicKey, boolean disablePasswordAuth,
+                     String customData) {
 		try {
 			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx, OS Type:" + osType + " ,Public Key: " + publicKey.substring(0,5) + "... , Disable Password Authentication: " + disablePasswordAuth)
 			ResourceContext context = new ResourceContext(location, resourceGroupName, subscriptionID, createPublicIPAddress);
@@ -538,17 +551,38 @@ public class Azure {
 										sshConfiguration.setPublicKeys(publicKeys);
 										linuxConfiguration.setSshConfiguration(sshConfiguration);
 										osProfile.setLinuxConfiguration(linuxConfiguration);
+
+                                        // Enable provisioning through custom data
+                                        if (customData) {
+                                            def encodedCustomData;
+                                            try {
+                                                encodedCustomData = new String(Base64.getEncoder().encode(customData.getBytes("UTF8")));
+                                            } catch (UnsupportedEncodingException e) {
+                                                //TODO: handle error
+                                                println("CustomData encoding failed!");
+                                            }
+
+                                            if (encodedCustomData) {
+                                                osProfile.setCustomData(encodedCustomData);
+                                            }
+                                        }
 									}
 								}
 						}).getVirtualMachine();
 			}
-			println("Virtual Machine: " + virtualMachine.getName() + " created")
+            println("Virtual Machine: " + virtualMachine.getName() + " created.")
+
+            println("Retrieving the Public IP address assigned to the VM. This may take a while ...")
+            return getPublicIPAddress(context, resourceGroupName, vmName)
+
 		} catch (Exception e) {
+            //TODO: error handling
 			System.out.println(e.toString());
+            return null
 		}
 		}    
 
-		public deleteVM(String resourceGroupName,String vmName){
+	public deleteVM(String resourceGroupName,String vmName){
 		try {
 			println("Going for deleting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
 			DeleteOperationResponse deleteOperationResponse = computeManagementClient.getVirtualMachinesOperations().delete(resourceGroupName,vmName);
@@ -559,7 +593,52 @@ public class Azure {
 		}catch(Exception ex) {
 			println(ex.toString());
 		}
-		}
+	}
+
+    public String getVMStatus(String resourceGroupName, String vmName)
+    {
+        return computeManagementClient.getVirtualMachinesOperations()
+                .getWithInstanceView( resourceGroupName, vmName)
+                .getVirtualMachine ().getProvisioningState()
+    }
+
+    public def getStableVMState(String resourceGroupName, String vmName) {
+
+        def vmStatus
+        for (int i = 0; i < 10; i++) {
+
+            vmStatus = getVMStatus(resourceGroupName, vmName)
+            println ("VM is in $vmStatus state")
+            if (vmStatus == ProvisioningStateTypes.CREATING ||
+                    vmStatus == ProvisioningStateTypes.UPDATING) {
+                sleep(30000)
+            } else if(vmStatus == ProvisioningStateTypes.SUCCEEDED) {
+                break;
+            } else if(vmStatus == ProvisioningStateTypes.DELETING ||
+                    vmStatus == ProvisioningStateTypes.FAILED) {
+                break;
+            }
+        }
+        vmStatus
+    }
+
+    public def getPublicIPAddress(ResourceContext context, String resourceGroupName, String vmName) {
+
+        def vmStatus = getStableVMState(resourceGroupName, vmName)
+        def publicIp
+        if(vmStatus == ProvisioningStateTypes.SUCCEEDED) {
+
+            String publicIpAddressName = context.getPublicIpName()
+            publicIp = networkResourceProviderClient.getPublicIpAddressesOperations()
+                    .get(resourceGroupName, publicIpAddressName)
+                    .getPublicIpAddress().getIpAddress()
+
+        } else {
+            println("Error: Cannot get Public IP address for VM $vmName in $vmStatus state")
+        }
+
+        publicIp
+    }
 
 }
 
