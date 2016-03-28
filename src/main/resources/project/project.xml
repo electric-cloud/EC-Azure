@@ -4856,5 +4856,471 @@
                 </propertySheet>
             </step>
         </procedure>
+        <procedure>
+            <procedureName>Create Vnet</procedureName>
+            <description>Creates a new Virtual Network under the specified account. </description>
+            <jobNameTemplate>Azure-CreateVM-$[jobId]</jobNameTemplate>
+            <resourceName/>
+            <workspaceName/>
+            <propertySheet>
+                <property>
+                    <propertyName>ec_customEditorData</propertyName>
+                    <propertySheet>
+                        <property>
+                            <propertyName>parameters</propertyName>
+                            <propertySheet>
+                                <property>
+                                    <propertyName>connection_config</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>vnet_name</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>vnet_address_space</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>subnet_name</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>subnet_address_space</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>dns_server</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>resource_group_name</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>location</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>options</propertyName>
+                                            <propertySheet>
+                                                <property>
+                                                    <propertyName>Brazil South</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Brazil South</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>brazilsouth</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>Central US</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Central US</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>centralus</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>East Asia</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>East Asia</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>eastasia</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>East US</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>East US</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>eastus</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>East US 2</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>East US 2</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>eastus2</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>Japan East</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Japan East</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>japaneast</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>Japan West</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Japan West</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>japanwest</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>North Central US</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>North Central US</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>northcentralus</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>North Europe</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>North Europe</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>northeurope</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>South Central US</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>South Central US</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>southcentralus</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>Southeast Asia</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>Southeast Asia</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>southeastasia</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>West Europe</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>West Europe</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>westeurope</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>West US</propertyName>
+                                                    <propertySheet>
+                                                        <property>
+                                                            <propertyName>text</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>West US</value>
+                                                        </property>
+                                                        <property>
+                                                            <propertyName>value</propertyName>
+                                                            <expandable>1</expandable>
+                                                            <value>westus</value>
+                                                        </property>
+                                                    </propertySheet>
+                                                </property>
+                                                <property>
+                                                    <propertyName>optionCount</propertyName>
+                                                    <expandable>1</expandable>
+                                                    <value>13</value>
+                                                </property>
+                                                <property>
+                                                    <propertyName>type</propertyName>
+                                                    <expandable>1</expandable>
+                                                    <value>list</value>
+                                                </property>
+                                            </propertySheet>
+                                        </property>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>job_step_timeout</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>formType</propertyName>
+                                    <expandable>1</expandable>
+                                    <value>standard</value>
+                                </property>
+                            </propertySheet>
+                        </property>
+                    </propertySheet>
+                </property>
+                <property>
+                    <propertyName>ec_parameterForm</propertyName>
+                    <description/>
+                    <expandable>1</expandable>
+                    <value/>
+                </property>
+            </propertySheet>
+            <formalParameter>
+                <formalParameterName>connection_config</formalParameterName>
+                <defaultValue/>
+                <description>The name of the configuration which holds all the connection information for Windows Azure.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>vnet_name</formalParameterName>
+                <defaultValue/>
+                <description>Name of the new Virtual Network.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>vnet_address_space</formalParameterName>
+                <defaultValue/>
+                <description>The Virtual Network's address space in CIDR notion.It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/16 -> 10.12.0.0 - 10.12.255.255 (65536 addresses).</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>subnet_name</formalParameterName>
+                <defaultValue/>
+                <description>Name of the new Subnet.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>subnet_address_space</formalParameterName>
+                <defaultValue/>
+                <description>The Subnet's address space in CIDR notion.It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/24 -> 10.12.0.0 - 10.12.0.255 (256 addresses).</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>dns_server</formalParameterName>
+                <defaultValue/>
+                <description>Address of DNS Server.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>resource_group_name</formalParameterName>
+                <defaultValue/>
+                <description>The name of the resource group in which VM is to be created.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>location</formalParameterName>
+                <defaultValue/>
+                <description>Location of the resource.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>select</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>job_step_timeout</formalParameterName>
+                <defaultValue/>
+                <description>Timeout for the step execution in minutes. Blank means no timeout.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <step>
+                <stepName>SetTimelimit</stepName>
+                <alwaysRun>0</alwaysRun>
+                <broadcast>0</broadcast>
+                <command/>
+                <condition/>
+                <description>Set the timelimit for the next step.</description>
+                <errorHandling>failProcedure</errorHandling>
+                <exclusiveMode>none</exclusiveMode>
+                <logFileName/>
+                <parallel>0</parallel>
+                <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
+                <releaseMode>none</releaseMode>
+                <resourceName>$[/myProject/azure_cfgs/$[connection_config]/resource_pool]</resourceName>
+                <shell>ec-perl</shell>
+                <timeLimit/>
+                <timeLimitUnits>minutes</timeLimitUnits>
+                <workingDirectory/>
+                <workspaceName/>
+                <propertySheet>
+                    <property>
+                        <propertyName>ec_customEditorData</propertyName>
+                        <propertySheet>
+                            <property>
+                                <propertyName>formType</propertyName>
+                                <expandable>1</expandable>
+                                <value>command</value>
+                            </property>
+                        </propertySheet>
+                    </property>
+                </propertySheet>
+            </step>
+            <step>
+                <stepName>Create Vnet</stepName>
+                <alwaysRun>0</alwaysRun>
+                <broadcast>0</broadcast>
+                <command/>
+                <condition/>
+                <description>Creates a new Virtual Network under the specified account.</description>
+                <errorHandling>failProcedure</errorHandling>
+                <exclusiveMode>none</exclusiveMode>
+                <logFileName/>
+                <parallel>0</parallel>
+                <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
+                <releaseMode>none</releaseMode>
+                <resourceName>$[/myProject/azure_cfgs/$[connection_config]/resource_pool]</resourceName>
+                <shell>ec-groovy</shell>
+                <timeLimit>$[/myCall/step_timelimit]</timeLimit>
+                <timeLimitUnits>minutes</timeLimitUnits>
+                <workingDirectory/>
+                <workspaceName/>
+                <propertySheet>
+                    <property>
+                        <propertyName>ec_customEditorData</propertyName>
+                        <propertySheet>
+                            <property>
+                                <propertyName>formType</propertyName>
+                                <expandable>1</expandable>
+                                <value>command</value>
+                            </property>
+                        </propertySheet>
+                    </property>
+                </propertySheet>
+            </step>
+        </procedure>
     </project>
 </exportedData>

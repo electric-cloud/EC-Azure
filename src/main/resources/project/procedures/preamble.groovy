@@ -78,6 +78,11 @@ import com.microsoft.azure.management.sql.models.DatabaseCreateOrUpdatePropertie
 import com.microsoft.azure.management.sql.SqlManagementService;
 import com.microsoft.azure.management.compute.models.ComputeLongRunningOperationResponse
 import com.microsoft.azure.management.compute.models.ComputeOperationStatus
+import com.microsoft.azure.management.network.models.VirtualNetwork
+import com.microsoft.azure.management.network.models.AddressSpace
+import com.microsoft.azure.management.network.models.Subnet
+import com.microsoft.azure.management.network.models.DhcpOptions
+import com.microsoft.azure.management.network.models.AzureAsyncOperationResponse
 
 
 enum RequestMethod {
@@ -774,7 +779,7 @@ public startVM(String resourceGroupName, String vmName){
     try {
             println("Going for starting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
             ComputeLongRunningOperationResponse startOperationResponse = computeManagementClient.getVirtualMachinesOperations().start(resourceGroupName,vmName)
-            if(startOperationResponse.getStatus()==ComputeOperationStatus.Succeeded  || startOperationResponse.getRequestId() != null)
+            if(startOperationResponse.getStatus() == ComputeOperationStatus.Succeeded  || startOperationResponse.getRequestId() != null)
                 println("Started VM: " + vmName )
             else
                 println("Failed to start the VM: " + vmName)    
@@ -864,6 +869,46 @@ public createOrUpdateDatabase(String resourceGroupName, String serverName, Strin
 		println(ex.toString())
 		}
 }
+
+public createVnet(def vnetName, def subnetName, def vnetAddressSpace, def subnetAddressSpace, def resourceGroupName , def location, def dnsServer)
+    {
+        try {
+                VirtualNetwork vnet = new VirtualNetwork(location);
+                
+                // set AddressSpace
+                AddressSpace asp = new AddressSpace()
+                ArrayList<String> addrPrefixes = new ArrayList<String>(1)
+                addrPrefixes.add(vnetAddressSpace)
+                asp.setAddressPrefixes(addrPrefixes)
+                vnet.setAddressSpace(asp);
+                
+                // set DhcpOptions
+                DhcpOptions dop = new DhcpOptions()
+                ArrayList<String> dnsServers = new ArrayList<String>(2)
+                dnsServers.add(dnsServer)
+                dop.setDnsServers(dnsServers)
+                vnet.setDhcpOptions(dop)
+        
+                // set subNet    
+                Subnet subnet = new Subnet(subnetAddressSpace)
+                subnet.setName(subnetName)
+                ArrayList<Subnet> subNets = new ArrayList<Subnet>(1);
+                subNets.add(subnet);
+                vnet.setSubnets(subNets);
+                
+                
+                AzureAsyncOperationResponse createVnetResponse = networkResourceProviderClient
+                                                                    .getVirtualNetworksOperations()
+                                                                    .createOrUpdate(resourceGroupName, vnetName, vnet)
+                    
+                if(createVnetResponse.getStatusCode() == OperationStatus.Succeeded  || createVnetResponse.getRequestId() != null)
+                    println("Created Virtual Network: " + vnetName )
+                else
+                    println("Failed to create Virtual Network:" + vnetName)     
+        }catch(Exception ex) {
+            System.out.println(ex.toString());
+        }
+    }
 
 }
 

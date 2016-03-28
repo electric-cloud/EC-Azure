@@ -119,6 +119,15 @@
   </file>
 
   <file>
+    <path>procedures/deployment/createVnet.groovy</path>
+    <xpath>//step[stepName=&quot;Create Vnet&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create Vnet&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+ 
+  <file>
     <path>procedures/deployment/create_hosted.pl</path>
     <xpath>//step[stepName=&quot;Create Hosted Service&quot;]/command</xpath>
   </file>
@@ -265,6 +274,10 @@
   <file>
     <path>forms/deployment/DeleteDatabaseForm.xml</path>
     <xpath>//procedure[procedureName=&quot;DeleteDatabase&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/CreateVnetForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Create Vnet&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
   <file>
     <path>procedures/preamble.groovy</path>
