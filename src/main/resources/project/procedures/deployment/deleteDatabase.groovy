@@ -18,21 +18,14 @@
 $[/myProject/procedure_helpers/preamble]
 
 try {
-	    String resourceGroupName = '$[resource_group_name]'.trim()
-	    String config = '$[connection_config]'.trim()
-	    String vmName = '$[vm_name]'.trim()
+    String config = '$[connection_config]'.trim()
+    String resourceGroupName = '$[resource_group_name]'.trim()
+    String serverName = '$[server_name]'.trim()
+    String databaseName = '$[database_name]'.trim()
 
-	    ElectricCommander ec = new ElectricCommander(config)
-	    if(resourceGroupName && vmName)	
-	    {
-            ec.azure.deleteVM(resourceGroupName,vmName)
-        }
-    
+    ElectricCommander ec = new ElectricCommander(config)
+    ec.azure.deleteDatabase(resourceGroupName, serverName, databaseName)
 }catch(Exception e){
     e.printStackTrace();
     return
 }
-
-
-
-	    

@@ -25,7 +25,7 @@ try {
 	    ElectricCommander ec = new ElectricCommander(config)
 	    if(resourceGroupName && vmName)	
 	    {
-            ec.azure.deleteVM(resourceGroupName,vmName)
+            ec.azure.restartVM(resourceGroupName,vmName)
         }
     
 }catch(Exception e){

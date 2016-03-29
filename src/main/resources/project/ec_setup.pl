@@ -210,6 +210,52 @@ my %delete_vm = (
                  category    => "Deployment"
                 );
 
+my %start_vm = (
+                 label       => "Windows Azure - Start Virtual Machine",
+                 procedure   => "Start VM",
+                 description => "Start Virtual Machine",
+                 category    => "Deployment"
+                );
+
+my %stop_vm = (
+                 label       => "Windows Azure - Stop Virtual Machine",
+                 procedure   => "Stop VM",
+                 description => "Stop Virtual Machine",
+                 category    => "Deployment"
+                );
+
+my %restart_vm = (
+                 label       => "Windows Azure - Restart Virtual Machine",
+                 procedure   => "Restart VM",
+                 description => "Restart Virtual Machine",
+                 category    => "Deployment"
+                );
+
+my %teardown = (
+                 label       => "Windows Azure - TearDown Virtual Machines",
+                 procedure   => "TearDown",
+                 description => "Delete Virtual Machine (Commander Resource/ ResourcePool)",
+                 category    => "Deployment"
+                );
+
+my %create_update_database = (
+                 label       => "Windows Azure - Create or Update database",
+                 procedure   => "CreateOrUpdateDatabase",
+                 description => "Creates or updates a database",
+                 category    => "Deployment"
+                );
+my %delete_database = (
+                 label       => "Windows Azure - Delete existing database",
+                 procedure   => "DeleteDatabase",
+                 description => "Delete existing database",
+                 category    => "Deployment"
+                );
+my %create_vnet = (
+                 label       => "Windows Azure - Create Virtual Network",
+                 procedure   => "Create Vnet",
+                 description => "Create Virual Network",
+                 category    => "Deployment"
+                );
 #Resource Management           
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Provision");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Cleanup");
@@ -227,6 +273,13 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Down
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - List Objects");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create VM");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete VM");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Start VM");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Stop VM");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Restart VM");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - TearDown");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - CreateOrUpdateDatabase");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - DeleteDatabase");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Virtual Network");
 
 #Deployment
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Hosted Service");
@@ -243,7 +296,7 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Get 
 
 # @::createStepPickerSteps = (\%provision, \%cleanup, \%call_azure, \%create_resource, \%add_role, \%capture_role, \%delete_role, \%get_role, \%restart_role, \%shutdown_role, \%start_role, \%create_vm_deployment, \%download_rdp, \%list_objects);
 
-@::createStepPickerSteps = (\%create_hosted_service, \%delete_hosted_service ,\%create_storage_account, \%delete_storage_account, \%get_storage_account_keys, \%create_container, \%delete_container, \%put_blob, \%delete_blob, \%get_status, \%create_deployment, \%create_vm);
+@::createStepPickerSteps = (\%create_hosted_service, \%delete_hosted_service ,\%create_storage_account, \%delete_storage_account, \%get_storage_account_keys, \%create_container, \%delete_container, \%put_blob, \%delete_blob, \%get_status, \%create_deployment, \%create_vm, \%delete_vm, \%start_vm, \%stop_vm, \%teardown, \%create_update_database, \%delete_database, \%create_vnet);
 
 my $pluginName = "@PLUGIN_NAME@";
 my $pluginKey  = "@PLUGIN_KEY@";
@@ -534,6 +587,69 @@ if ($upgradeAction eq "upgrade") {
                                      {
                                         procedureName => 'Delete VM',
                                         stepName      => 'Delete VM'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Start VM',
+                                        stepName      => 'Start VM'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Stop VM',
+                                        stepName      => 'Stop VM'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Restart VM',
+                                        stepName      => 'Restart VM'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'TearDown',
+                                        stepName      => 'tearDown'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'CreateOrUpdateDatabase',
+                                        stepName      => 'createUpdateDatabase'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'DeleteDatabase',
+                                        stepName      => 'deleteDatabase'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Create Vnet',
+                                        stepName      => 'Create Vnet'
                                      }
                                     );
         }

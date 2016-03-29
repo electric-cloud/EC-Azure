@@ -18,7 +18,6 @@
 $[/myProject/procedure_helpers/preamble]
 
 try {
-    ElectricCommander ec = new ElectricCommander()
     String storageAccount = '$[storage_account]'.trim()
     String storageContainer = '$[storage_container]'.trim()
     String serverName = '$[server_name]'.trim()
@@ -27,7 +26,6 @@ try {
     String location = '$[location]'.trim()
     String imageURN = '$[image]'.trim()
     String userImage = '$[is_user_image]'.trim()
-    String vmCreds = ec.configProperties.vm_credential
     String createPublicIP = '$[create_public_ip]'.trim()
     String osType = '$[os_type]'.trim()
     String disablePasswordPrompt = '$[disable_password_auth]'.trim()
@@ -37,9 +35,12 @@ try {
     String resourcePort = '$[resource_port]'.trim()
     String resourceWorkspace = '$[resource_workspace]'.trim()
     String resourceZone = '$[resource_zone]'.trim()
+    int instances = '$[instance_count]'.trim().toInteger()
     boolean publicIP = false
     boolean isUserImage = false
     boolean disablePasswordAuth = false
+    def VMList = []
+    
     if (createPublicIP == '1')
     {
         publicIP = true
@@ -52,45 +53,82 @@ try {
     {
         disablePasswordAuth = true
     }
+
+    ElectricCommander ec = new ElectricCommander(config)
+    //TODO: This will be changed when multiple credential issue is resolved in dynamic environment
+    String vmCreds = ec.configProperties.vm_credential
+
     //TODO: validate parameters before creating the VM
     // Need to validate resource workspace and resource zone
     // only if the resource pool was specified
     if (resourcePool) {
-        //1. resourceWorkspace should exist if specified
-        //2. resourceZone should exist if specified
-    }
-
-    def (adminName, adminPassword)= ec.getFullCredentials(vmCreds)
-    ec.azure.createVM(serverName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
-
-    //TODO: Confirm that the VM was created before creating the EF resource
-
-    if (resourcePool) {
-        //TODO: Get IP from created VM and pass it here
-        // TODO: Passing a temporary IP here
-        String resourceIP = "104.41.151.132"
-        // TODO: This should be a running counter
-        int count = 1
-
-        String resourceName = "${resourcePool}_${count}_${System.currentTimeMillis()}"
-
-        def resourceCreated = ec.createCommanderResource(resourceName, resourceWorkspace, resourceIP, resourcePort)
-        if (resourceCreated) {
-
-            // Add resource to pool through a separate call
-            // This is to work-around the issue that createResource API does
-            // not support resource pool name with spaces.
-            def added = ec.addResourceToPool(resourceName, resourcePool)
-            if (added) {
-                println("Created commander resource: $resourceName in $resourcePool")
-            } else {
-                //TODO: rollback - delete all Azure VMs and EF resources created so far.
-            }
-        } else {
-            //TODO: rollback - delete all Azure VMs and EF resources created so far.
+        if(ec.createCommanderResourcePool(resourcePool))
+        {
+            //Create workspace if not present.
+            if(resourceWorkspace)
+                ec.createCommanderWorkspace(resourceWorkspace)
+            //Check if the zone is present.    
+            if(resourceZone)
+                if(!ec.getZone(resourceZone)) 
+                    throw new RuntimeException("Zone "+ resourceZone +" not present")   
         }
     }
 
+    def count = 1
+    instances.times{
+
+        String instanceSuffix = "${count}-${System.currentTimeMillis()}"
+        String VMName = "${serverName}-${instanceSuffix}"
+
+        def (adminName, adminPassword) = ec.getFullCredentials(vmCreds) 
+        def (resourceIP, VMStatus) = ec.azure.createVM(VMName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
+        
+        if(VMStatus == ProvisioningStateTypes.SUCCEEDED)
+            VMList.push(VMName)
+
+        //VM is created if Public IP is fetched successfully.
+        //EF Resources are generated only if the VM is created without errors.
+        if (resourcePool && VMStatus == ProvisioningStateTypes.SUCCEEDED) {
+
+            println("Public IP assigned to the VM: " + resourceIP)
+
+            String resourceName = "${resourcePool}-${instanceSuffix}"
+            def resourceCreated = ec.createCommanderResource(resourceName, resourceWorkspace, resourceIP, resourcePort, resourceZone)
+            if (resourceCreated) {
+
+                // Add resource to pool through a separate call
+                // This is to work-around the issue that createResource API does
+                // not support resource pool name with spaces.
+                def added = ec.addResourceToPool(resourceName, resourcePool)
+                
+                if (added) {
+                    println("Created commander resource: $resourceName in $resourcePool")
+                    ec.setPropertyInResource(resourceName, 'created_by', 'EC-Azure')
+                    ec.setPropertyInResource(resourceName, 'instance_id', VMName)
+                    ec.setPropertyInResource(resourceName, 'config', config)
+                    ec.setPropertyInResource(resourceName, 'etc/public_ip', resourceIP)
+                    ec.setPropertyInResource(resourceName, 'etc/storage_account', storageAccount)
+                    ec.setPropertyInResource(resourceName, 'etc/resource_group_name', resourceGroupName)
+                } else {
+                    //rollback - delete all Azure VMs and EF resources created so far.
+                    println("Could not add resource to resource pool, going for the rollback operation.")
+                    ec.rollback(resourcePool)
+                }
+            } else {
+                //rollback - delete all Azure VMs and EF resources created so far.
+                println("Could not create commander resource, going for the rollback operation.")
+                ec.rollback(resourcePool)
+            }
+        }
+        else
+        {
+            def listSize = VMList.size()
+            listSize.times{
+                deleteVM(VMList.pop(), resourceGroupName)
+            }
+        }  
+        count = count + 1  
+    }
 }catch(Exception e){
     e.printStackTrace();
     return
