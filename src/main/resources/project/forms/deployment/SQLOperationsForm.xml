@@ -1,0 +1,68 @@
+<!--
+
+     Copyright 2015 Electric Cloud, Inc.
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+
+-->
+<editor>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#SQL Operations</help>
+    <formElement>
+        <label>Database Server:</label>
+        <property>database_server</property>
+        <value/>
+        <documentation>Name of the database server.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Database:</label>
+        <property>database</property>
+        <value></value>
+        <documentation>Name of the database.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Port:</label>
+        <property>port</property>
+        <value>1433</value>
+        <documentation>Port for connecting to database.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Database Credentials:</label>
+        <property>db_creds</property>
+        <value></value>
+        <documentation>Credentials for connecting to the database.</documentation>
+        <required>1</required>
+        <type>credential</type>
+    </formElement>
+    <formElement>
+        <label>SQL Query:</label>
+        <property>sql_query</property>
+        <value></value>
+        <documentation>Enter the exact SQL query to be executed.</documentation>
+        <required>1</required>
+        <type>textarea</type>
+    </formElement>
+    <formElement>
+        <label>JobStep Timeout:</label>
+        <property>job_step_timeout</property>
+        <value/>
+        <documentation>Timeout for the step execution in minutes. Blank means no timeout.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+</editor>

@@ -31,7 +31,9 @@
 	@Grab(group='commons-logging', module='commons-logging', version='1.2'),
 	@Grab(group='org.apache.httpcomponents', module='httpclient', version='4.5.1'),
 	@Grab(group='com.sun.jersey', module='jersey-core', version='1.13-b01'),
-
+	@Grab(group='net.sourceforge.jtds', module = 'jtds', version = '1.3.1'),
+	@Grab(group='com.microsoft.azure', module='azure-storage', version='4.0.0'),
+	@GrabConfig(systemClassLoader=true)
 ])
 
 import java.io.ByteArrayInputStream
@@ -84,6 +86,14 @@ import com.microsoft.azure.management.network.models.Subnet
 import com.microsoft.azure.management.network.models.DhcpOptions
 import com.microsoft.azure.management.network.models.AzureAsyncOperationResponse
 
+//Import for SQL
+import groovy.sql.Sql
+//Import for NoSQL Table
+import java.util.UUID
+import groovy.json.JsonSlurper
+import com.microsoft.azure.storage.*;
+import com.microsoft.azure.storage.table.*;
+import com.microsoft.azure.storage.table.TableQuery.*;
 
 enum RequestMethod {
     GET, POST, PUT, DELETE
@@ -912,3 +922,227 @@ public createVnet(def vnetName, def subnetName, def vnetAddressSpace, def subnet
 
 }
 
+public class SQLOperations {
+    //Database Connection object.
+    def dbCon
+
+    SQLOperations(server, database, port, user, password)
+    {
+        if (!setDatabaseConnection(server, database, port, user, password))
+        {
+            println("Could not set database connection object")
+            System.exit(1)
+        }
+    }
+
+    def setDatabaseConnection(server, database, port, user, password){
+        try{
+            def connectionUrl = "jdbc:jtds:sqlserver://" + server + ".database.windows.net:" + port +
+                ";database=" + database +
+                ";encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30"
+
+            dbCon = Sql.newInstance( connectionUrl, user , password ,"net.sourceforge.jtds.jdbc.Driver" )
+            return true
+        }catch(Exception ex) {
+            println(ex.toString())
+            return false
+        } 
+    }
+
+    def execute(sqlQuery){
+
+        try{
+            dbCon.execute sqlQuery
+        }catch(Exception ex) {
+            println(ex.toString())
+        } 
+    }
+}
+
+public class NoSQLOperations {
+    def tableClient
+    NoSQLOperations(accountName, accountKey, storageAccount)
+    {
+        if(!setDatabaseConnection(accountName, accountKey, storageAccount))
+        {
+            println("Could not set database connection object")
+            System.exit(1)
+        }
+    }
+
+    private setDatabaseConnection(accountName, accountKey, storageAccount){
+        try{
+            def storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=" + accountName + ";AccountKey=" + accountKey + ";TableEndpoint=https://" + storageAccount + ".table.core.windows.net/;"
+            def storage = CloudStorageAccount.parse(storageConnectionString)
+            tableClient = storage.createCloudTableClient()
+            return true
+        }catch(Exception e) {
+            e.printStackTrace()
+            return false
+        }
+    }
+
+    def createTable(tableName){
+        try{
+           println("Going for creating table: " + tableName)
+           CloudTable table = tableClient.getTableReference(tableName)
+           table.createIfNotExists()
+           println("Table created successfully. URI: " + table.getUri().toString())
+           return true
+        }catch(Exception e) {
+            e.printStackTrace()
+            return false
+        }
+    }
+
+    def insert(tableName, toBeSet, partitionKey){
+        try{
+           println("Going for inserting " + toBeSet + " in table: " + tableName + " with partition key: " + partitionKey)
+           CloudTable table = tableClient.getTableReference(tableName)
+           def rows = new JsonSlurper().parseText(toBeSet)
+           def rowList = []
+           //For handling single objects
+           if (!(rows instanceof ArrayList))
+           {
+               rowList.push(rows)
+           }
+           else
+           {
+               rowList = rows
+           }
+           DynamicTableEntity entity
+           TableBatchOperation batchOperation = new TableBatchOperation()
+           rowList.each{row->
+               entity = new DynamicTableEntity()
+               entity.setPartitionKey(partitionKey);
+               entity.setRowKey(UUID.randomUUID().toString());
+               row.each{column, value->
+                   entity.getProperties().put(column, new EntityProperty(value))
+               }
+               batchOperation.insert(entity)
+           }   
+           table.execute(batchOperation)
+           println("Entities inserted successfully")
+           return true
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace()
+            return false
+        }
+    }
+
+    private getWhereClause(whereClause){
+        try{
+           TableQuery<DynamicTableEntity> query
+           if (whereClause)
+           {   
+               query = TableQuery.from(DynamicTableEntity.class).where(whereClause)
+           }   
+           else
+           {  
+               query = TableQuery.from(DynamicTableEntity.class)
+           }   
+           query
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace()
+            return false
+        }
+    }
+    def retrieve(tableName, toBeRetrieved, whereClause){
+        try{
+           println("Going for retrieving " + toBeRetrieved + " in table: " + tableName + " where : " + whereClause)
+           CloudTable table = tableClient.getTableReference(tableName)
+           TableQuery<DynamicTableEntity> query = getWhereClause(whereClause)
+           if (toBeRetrieved != "*")
+           {
+               query.select(toBeRetrieved)    
+           }
+
+           ResultSegment<DynamicTableEntity> result = table.executeSegmented(query, null);
+           for (row in result.getResults())
+           {
+               print(" RowKey:" + row.getRowKey())    
+               print(" PartitionKey:" + row.getPartitionKey())
+               row.getProperties().each{column, value->
+                   print(" " + column + ":" + row.getProperties().get(column).getValueAsString())
+               }
+               println("")
+           }
+           println("Entities retrieved successfully")
+           return true
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace()
+            return false
+        }
+    }
+
+    def delete(tableName, whereClause){
+        try{
+           println("Going for deletion in table: " + tableName + " where : " + whereClause)
+           TableBatchOperation batchOperation = new TableBatchOperation()
+           CloudTable table = tableClient.getTableReference(tableName)
+           TableQuery<DynamicTableEntity> query = getWhereClause(whereClause)
+           for (entity in table.execute(query))
+           {
+               batchOperation.delete(entity)
+           }
+           table.execute(batchOperation)
+           println("Entities deleted successfully")
+           return true
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace()
+            return false
+        }
+    }
+
+    def update(tableName, toBeUpdated, whereClause){
+        try{
+           println("Going for updating " + toBeUpdated + " in table: " + tableName + " where : " + whereClause)
+           DynamicTableEntity entity
+           TableBatchOperation batchOperation = new TableBatchOperation()
+           CloudTable table = tableClient.getTableReference(tableName)
+           def toBeUpdatedJson = new JsonSlurper().parseText(toBeUpdated)
+
+           TableQuery<DynamicTableEntity> query = getWhereClause(whereClause)
+
+           for (oldEntity in table.execute(query))
+           {
+               HashMap<String, EntityProperty> properties = oldEntity.getProperties()
+               toBeUpdatedJson.each{column,value->
+                   //Updating values
+                   properties.put(column, new EntityProperty(value))
+               }
+               oldEntity.setProperties(properties)
+               batchOperation.replace(oldEntity)
+           }
+           table.execute(batchOperation)
+           println("Entities updated successfully")
+           return true
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace()
+            return false
+        }
+    }
+
+    def deleteTable(tableName){
+        try{
+           println("Going for deleting table: " + tableName)
+           CloudTable table = tableClient.getTableReference(tableName)
+           table.deleteIfExists()
+           println("Table deleted successfully")
+           return true
+        }catch(Exception e) {
+            e.printStackTrace()
+            return false
+        }
+    }
+}

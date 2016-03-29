@@ -128,6 +128,24 @@
   </file>
  
   <file>
+    <path>procedures/deployment/nosqlOperations.groovy</path>
+    <xpath>//step[stepName=&quot;nosqlOperations&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;NoSQL Operations&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+
+  <file>
+    <path>procedures/deployment/sqlOperations.groovy</path>
+    <xpath>//step[stepName=&quot;sqlOperations&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;SQL Operations&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+
+  <file>
     <path>procedures/deployment/create_hosted.pl</path>
     <xpath>//step[stepName=&quot;Create Hosted Service&quot;]/command</xpath>
   </file>
@@ -278,6 +296,14 @@
   <file>
     <path>forms/deployment/CreateVnetForm.xml</path>
     <xpath>//procedure[procedureName=&quot;Create Vnet&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/NoSQLOperationsForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;NoSQL Operations&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/SQLOperationsForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;SQL Operations&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
   <file>
     <path>procedures/preamble.groovy</path>
