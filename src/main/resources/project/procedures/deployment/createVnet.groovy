@@ -18,15 +18,18 @@
 $[/myProject/procedure_helpers/preamble]
 
 try {
-	    String resourceGroupName = '$[resource_group_name]'.trim()
-	    String config = '$[connection_config]'.trim()
-	    String vmName = '$[vm_name]'.trim()
+        String config = '$[connection_config]'.trim()
+        String vnetName = '$[vnet_name]'.trim()
+        String subnetName = '$[subnet_name]'.trim()
+        String vnetAddressSpace = '$[vnet_address_space]'.trim()
+        String subnetAddressSpace = '$[subnet_address_space]'.trim()
+        String resourceGroupName = '$[resource_group_name]'.trim()
+        String dnsServer = '$[dns_server]'.trim()
+        String location = '$[location]'.trim()
+        
 
-	    ElectricCommander ec = new ElectricCommander(config)
-	    if(resourceGroupName && vmName)	
-	    {
-            ec.azure.deleteVM(resourceGroupName,vmName)
-        }
+        ElectricCommander ec = new ElectricCommander(config)
+        ec.azure.createVnet(vnetName, subnetName, vnetAddressSpace, subnetAddressSpace, resourceGroupName , location, dnsServer)
     
 }catch(Exception e){
     e.printStackTrace();
@@ -35,4 +38,4 @@ try {
 
 
 
-	    
+        

@@ -66,9 +66,6 @@ if (defined $property && "$property" ne "") {
 
 my $cfg = new ElectricCommander::PropDB($ec, "/myProject/azure_cfgs");
 
-# set configuration description
-$cfg->setRow("$opts->{config}", "$opts->{description}");
-
 # add all the options as properties
 foreach my $key (keys %{$opts}) {
     
@@ -76,10 +73,6 @@ foreach my $key (keys %{$opts}) {
         next;
     }
 
-    if ("$key" eq "description") {
-        next;
-    }	
-	
     $cfg->setCol("$opts->{config}", "$key", "$opts->{$key}");
 }
 exit SUCCESS;

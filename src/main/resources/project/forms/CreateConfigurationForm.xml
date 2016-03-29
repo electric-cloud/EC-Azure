@@ -27,7 +27,7 @@
     <formElement>
         <type>entry</type>
         <label>Description:</label>
-        <property>description</property>
+        <property>desc</property>
         <value>Azure configuration.</value>
         <required>0</required>
         <documentation>A description for this configuration.</documentation>
