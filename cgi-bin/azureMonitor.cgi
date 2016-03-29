@@ -19,8 +19,8 @@ use XML::XPath;
 use CGI;
 
 use constant {
-	SUCCESS => 0,
-	ERROR   => 1,
+    SUCCESS => 0,
+    ERROR   => 1,
 };
 
 
@@ -41,40 +41,40 @@ sub main {
     # Get CGI args
     my $cgi = new CGI;
     my $cgiArgs = $cgi->Vars;
-    
+
     # Check for required args
     my $jobId = $cgiArgs->{jobId};
     if (!defined $jobId || "$jobId" eq "") {
         reportError($cgi, "jobId is a required parameter");
     }
-    
+
     # Wait for job
     my $ec = new ElectricCommander({abortOnError => 0});
     my $xpath = $ec->waitForJob($jobId, $gTimeout);
     my $errors = $ec->checkAllErrors($xpath);
-    
+
     if ("$errors" ne "") {
         reportError($cgi, $errors);
     }
-    
+
     my $status = $xpath->findvalue("//status");
     if ("$status" ne "completed") {
-        
+
         # Abort job and report failure
         abortJobAndReportError($cgi, $ec, $jobId);
     }
-    
+
     my $outcome = $xpath->findvalue("//outcome");
     if ("$outcome" ne "success") {
-        
+
         # Report job errors
         reportJobErrors($cgi, $ec, $jobId);
     }
-    
+
     # If the job was successful and the debug flag is not set, delete it
     my $debug = $cgiArgs->{debug};
     if (!defined $debug || "$debug" ne "1") {
-      #  $ec->deleteJob($jobId);
+        $ec->deleteJob($jobId);
     }
     
     # Report the job's success
