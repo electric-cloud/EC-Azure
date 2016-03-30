@@ -95,6 +95,24 @@ import com.microsoft.azure.storage.*;
 import com.microsoft.azure.storage.table.*;
 import com.microsoft.azure.storage.table.TableQuery.*;
 
+class ExceptionHandler {
+    ElectricCommander ec
+    ExceptionHandler(objectEC){
+        ec = objectEC
+    }
+    def handleExceptions(Closure c){
+        try{
+            c.call()
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace()
+            ec.setProperty("summary", e.toString(), true)
+            System.exit(1)
+        }
+    }
+}
+
 enum RequestMethod {
     GET, POST, PUT, DELETE
 }
@@ -170,10 +188,16 @@ public class ElectricCommander {
         }
     }
 
-    public setProperty(String propName, String propValue) {
-
-        sysJobId = System.getenv('COMMANDER_JOBID')
-        def jsonData = [propertyName : propName, value : propValue, jobId : sysJobId]
+    public setProperty(String propName, String propValue, boolean step = false) {
+        def jsonData
+        if(step)
+        {
+            jsonData = [propertyName : propName, value : propValue, jobStepId : System.getenv('COMMANDER_JOBSTEPID')]
+        }
+        else
+        {
+            jsonData = [propertyName : propName, value : propValue, jobId : System.getenv('COMMANDER_JOBID')]
+        }
 
         def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/properties', jsonData)
         if(resp == null ) {
@@ -922,81 +946,61 @@ public createVnet(def vnetName, def subnetName, def vnetAddressSpace, def subnet
 
 }
 
-public class SQLOperations {
+class SQLOperations {
     //Database Connection object.
     def dbCon
-
-    SQLOperations(server, database, port, user, password)
+    def exceptionHandler
+    SQLOperations(server, database, port, user, password, objectEC)
     {
-        if (!setDatabaseConnection(server, database, port, user, password))
-        {
-            println("Could not set database connection object")
-            System.exit(1)
-        }
+        exceptionHandler = new ExceptionHandler(objectEC)
+        setDatabaseConnection(server, database, port, user, password)
     }
 
     def setDatabaseConnection(server, database, port, user, password){
-        try{
+        exceptionHandler.handleExceptions{
             def connectionUrl = "jdbc:jtds:sqlserver://" + server + ".database.windows.net:" + port +
                 ";database=" + database +
                 ";encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30"
 
             dbCon = Sql.newInstance( connectionUrl, user , password ,"net.sourceforge.jtds.jdbc.Driver" )
-            return true
-        }catch(Exception ex) {
-            println(ex.toString())
-            return false
-        } 
+        }
     }
 
     def execute(sqlQuery){
-
-        try{
+        exceptionHandler.handleExceptions{
             dbCon.execute sqlQuery
-        }catch(Exception ex) {
-            println(ex.toString())
-        } 
+        }
     }
 }
 
 public class NoSQLOperations {
     def tableClient
-    NoSQLOperations(accountName, accountKey, storageAccount)
+    ExceptionHandler exceptionHandler
+    NoSQLOperations(accountName, accountKey, storageAccount, objectEC)
     {
-        if(!setDatabaseConnection(accountName, accountKey, storageAccount))
-        {
-            println("Could not set database connection object")
-            System.exit(1)
-        }
+        exceptionHandler = new ExceptionHandler(objectEC)
+        setDatabaseConnection(accountName, accountKey, storageAccount)
     }
 
     private setDatabaseConnection(accountName, accountKey, storageAccount){
-        try{
+        exceptionHandler.handleExceptions{
             def storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=" + accountName + ";AccountKey=" + accountKey + ";TableEndpoint=https://" + storageAccount + ".table.core.windows.net/;"
             def storage = CloudStorageAccount.parse(storageConnectionString)
             tableClient = storage.createCloudTableClient()
-            return true
-        }catch(Exception e) {
-            e.printStackTrace()
-            return false
         }
     }
 
     def createTable(tableName){
-        try{
+        exceptionHandler.handleExceptions{
            println("Going for creating table: " + tableName)
            CloudTable table = tableClient.getTableReference(tableName)
            table.createIfNotExists()
            println("Table created successfully. URI: " + table.getUri().toString())
-           return true
-        }catch(Exception e) {
-            e.printStackTrace()
-            return false
         }
     }
 
     def insert(tableName, toBeSet, partitionKey){
-        try{
+        exceptionHandler.handleExceptions{
            println("Going for inserting " + toBeSet + " in table: " + tableName + " with partition key: " + partitionKey)
            CloudTable table = tableClient.getTableReference(tableName)
            def rows = new JsonSlurper().parseText(toBeSet)
@@ -1023,17 +1027,11 @@ public class NoSQLOperations {
            }   
            table.execute(batchOperation)
            println("Entities inserted successfully")
-           return true
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace()
-            return false
         }
     }
 
     private getWhereClause(whereClause){
-        try{
+        exceptionHandler.handleExceptions{
            TableQuery<DynamicTableEntity> query
            if (whereClause)
            {   
@@ -1045,14 +1043,10 @@ public class NoSQLOperations {
            }   
            query
         }
-        catch (Exception e)
-        {
-            e.printStackTrace()
-            return false
-        }
     }
+
     def retrieve(tableName, toBeRetrieved, whereClause){
-        try{
+        exceptionHandler.handleExceptions{
            println("Going for retrieving " + toBeRetrieved + " in table: " + tableName + " where : " + whereClause)
            CloudTable table = tableClient.getTableReference(tableName)
            TableQuery<DynamicTableEntity> query = getWhereClause(whereClause)
@@ -1072,17 +1066,11 @@ public class NoSQLOperations {
                println("")
            }
            println("Entities retrieved successfully")
-           return true
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace()
-            return false
         }
     }
 
     def delete(tableName, whereClause){
-        try{
+        exceptionHandler.handleExceptions{
            println("Going for deletion in table: " + tableName + " where : " + whereClause)
            TableBatchOperation batchOperation = new TableBatchOperation()
            CloudTable table = tableClient.getTableReference(tableName)
@@ -1093,17 +1081,11 @@ public class NoSQLOperations {
            }
            table.execute(batchOperation)
            println("Entities deleted successfully")
-           return true
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace()
-            return false
         }
     }
 
     def update(tableName, toBeUpdated, whereClause){
-        try{
+        exceptionHandler.handleExceptions{
            println("Going for updating " + toBeUpdated + " in table: " + tableName + " where : " + whereClause)
            DynamicTableEntity entity
            TableBatchOperation batchOperation = new TableBatchOperation()
@@ -1124,25 +1106,15 @@ public class NoSQLOperations {
            }
            table.execute(batchOperation)
            println("Entities updated successfully")
-           return true
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace()
-            return false
         }
     }
 
     def deleteTable(tableName){
-        try{
+        exceptionHandler.handleExceptions{
            println("Going for deleting table: " + tableName)
            CloudTable table = tableClient.getTableReference(tableName)
            table.deleteIfExists()
            println("Table deleted successfully")
-           return true
-        }catch(Exception e) {
-            e.printStackTrace()
-            return false
         }
     }
 }

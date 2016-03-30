@@ -33,10 +33,11 @@ try {
     def (accountName, accountKey) = ec.getFullCredentials(accountCreds)
 
     if (accountName && accountKey && storageAccount) {
-        def db = new NoSQLOperations(accountName, accountKey, storageAccount)
+        def db = new NoSQLOperations(accountName, accountKey, storageAccount, ec)
         if (!tableName)
         {
             println("Table name can't be empty")
+            ec.setProperty("summary", "Table name can't be empty", true)
             System.exit(1)
         }
         switch (operation) {

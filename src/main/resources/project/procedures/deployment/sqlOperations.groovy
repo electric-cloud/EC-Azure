@@ -28,7 +28,7 @@ try {
     def (username, password) = ec.getFullCredentials(dbCreds)
 
     if (databaseServer && database && port && username && password) {
-        def db = new SQLOperations(databaseServer, database, port, username, password)
+        def db = new SQLOperations(databaseServer, database, port, username, password, ec)
         db.execute(sqlQuery)
     }
 
