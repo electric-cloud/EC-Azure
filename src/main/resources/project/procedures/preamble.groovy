@@ -14,7 +14,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 @Grapes([
 	@Grab(group = 'org.codehaus.groovy.modules.http-builder', module = 'http-builder', version = '0.7.1'),
 	@Grab(group='com.microsoft.azure', module='azure-svc-mgmt', version='0.9.3'),
@@ -32,8 +31,7 @@
 	@Grab(group='org.apache.httpcomponents', module='httpclient', version='4.5.1'),
 	@Grab(group='com.sun.jersey', module='jersey-core', version='1.13-b01'),
 	@Grab(group='net.sourceforge.jtds', module = 'jtds', version = '1.3.1'),
-	@Grab(group='com.microsoft.azure', module='azure-storage', version='4.0.0'),
-	@GrabConfig(systemClassLoader=true)
+	@Grab(group='com.microsoft.azure', module='azure-storage', version='4.0.0')
 ])
 
 import java.io.ByteArrayInputStream
@@ -74,9 +72,12 @@ import com.microsoft.azure.management.storage.models.StorageAccount
 import com.microsoft.azure.management.compute.models.DeleteOperationResponse
 import com.microsoft.windowsazure.management.configuration.ManagementConfiguration
 import com.microsoft.azure.management.compute.models.ProvisioningStateTypes
-import com.microsoft.azure.management.sql.models.DatabaseCreateOrUpdateResponse;
-import com.microsoft.azure.management.sql.models.DatabaseCreateOrUpdateParameters;
-import com.microsoft.azure.management.sql.models.DatabaseCreateOrUpdateProperties;
+import com.microsoft.azure.management.sql.models.ServerGetResponse
+import com.microsoft.azure.management.sql.models.ServerCreateOrUpdateParameters
+import com.microsoft.azure.management.sql.models.ServerCreateOrUpdateProperties
+import com.microsoft.azure.management.sql.models.DatabaseCreateOrUpdateResponse
+import com.microsoft.azure.management.sql.models.DatabaseCreateOrUpdateParameters
+import com.microsoft.azure.management.sql.models.DatabaseCreateOrUpdateProperties
 import com.microsoft.azure.management.sql.SqlManagementService;
 import com.microsoft.azure.management.compute.models.ComputeLongRunningOperationResponse
 import com.microsoft.azure.management.compute.models.ComputeOperationStatus
@@ -94,24 +95,6 @@ import groovy.json.JsonSlurper
 import com.microsoft.azure.storage.*;
 import com.microsoft.azure.storage.table.*;
 import com.microsoft.azure.storage.table.TableQuery.*;
-
-class ExceptionHandler {
-    ElectricCommander ec
-    ExceptionHandler(objectEC){
-        ec = objectEC
-    }
-    def handleExceptions(Closure c){
-        try{
-            c.call()
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace()
-            ec.setProperty("summary", e.toString(), true)
-            System.exit(1)
-        }
-    }
-}
 
 enum RequestMethod {
     GET, POST, PUT, DELETE
@@ -131,40 +114,26 @@ public class ElectricCommander {
     def azure
     def jobStepId = '$[/myJobStep/jobStepId]'
 
-    def configProperties;
+    def configProperties
 
     ElectricCommander(def config = "") {
 
         client.ignoreSSLIssues()
         if(config)
         {
-            if(!setConfigurations(config))
-            {
-                println("Could not set configurations for azure")
-                System.exit(1)
-            }
-            if(!initializeAzure())
-            {
-                println("Could not initialize azure")
-                System.exit(1)
-            }
+            setConfigurations(config)
+            initializeAzure()
         }
     }
 
     def initializeAzure() {
-        try { 
+        exceptionHandler{
             azure = new Azure([tenantID : configProperties.tenant_id,
                                subscriptionID : configProperties.subscription_id,
                                clientID : configProperties.client_id,
-                               clientSecret : configProperties.client_secret])
-            if(!azure.createManagementClient())
-            {
-                return false
-            }
-            return true
-        } catch (Exception e) {
-            System.out.println(e.toString());
-            return false
+                               clientSecret : configProperties.client_secret,
+                               exceptionHandler: this.&exceptionHandler])
+            azure.createManagementClient()
         }
     }
 
@@ -606,9 +575,21 @@ public class ElectricCommander {
         }
         return response
     }
+
+    def exceptionHandler(Closure c){
+        try{
+            c.call()
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace()
+            setProperty("summary", e.toString(), true)
+            System.exit(1)
+        }
+    }
 }
 
-public class Azure {
+class Azure {
 	def baseURI =  "https://management.azure.com/"
 	def managementURL = "https://management.core.windows.net/"
 	def aadURL = "https://login.windows.net/"
@@ -616,36 +597,34 @@ public class Azure {
 	String subscriptionID
 	String clientID
 	String clientSecret
-	def config
+	def exceptionHandler
 	def resourceManagementClient
 	def storageManagementClient
 	def computeManagementClient
 	def sqlManagementClient
 	def networkResourceProviderClient
 
-	private createManagementClient () {
-		try {
-			config = createConfiguration()
+	private createManagementClient() {
+		exceptionHandler{
+			def config = createConfiguration()
 			resourceManagementClient = ResourceManagementService.create(config)
 			storageManagementClient = StorageManagementService.create(config)
 			computeManagementClient = ComputeManagementService.create(config)
 			sqlManagementClient = SqlManagementService.create(config);
 			networkResourceProviderClient = NetworkResourceProviderService.create(config)
-            return true
-		} catch (Exception e) {
-			System.out.println(e.toString());
-            return false
 		}
 	}
 
-	private createConfiguration() throws Exception {
-		return ManagementConfiguration.configure(
+	private createConfiguration() {
+		exceptionHandler{
+		    ManagementConfiguration.configure(
 				null,
 				baseURI != null ? new URI(baseURI) : null,
 				subscriptionID,
 				AuthHelper.getAccessTokenFromServicePrincipalCredentials(
 						managementURL, aadURL, tenantID, clientID, clientSecret)
-						.getAccessToken());
+						.getAccessToken())
+        }
 	}
 
     private String getPublicIP(String publicIpAddressName ,String resourceGroupName, String vmName)
@@ -848,13 +827,50 @@ public restartVM(String resourceGroupName, String vmName){
     }
 }
 
+    def createOrUpdateDatabaseServer(String resourceGroupName, String serverName, String location,
+                                     String adminUser, String adminPassword, String version) {
+        exceptionHandler{
+            println("Going for creating or updating database server: " + serverName + "(Resource Group: " + 
+                     resourceGroupName + ") in location " + location)
+
+            ServerCreateOrUpdateProperties serverProperties = new ServerCreateOrUpdateProperties();
+            if (adminUser)
+            {
+                serverProperties.setAdministratorLogin(adminUser)
+                println("Set Administrator login to:" + adminUser)
+            }
+            if (adminPassword)
+            {
+                serverProperties.setAdministratorLoginPassword(adminPassword)
+                println("Set Administrator login password to: xxxxx")
+            }
+            if (version)
+            {
+                serverProperties.setVersion(version)
+                println("Set version to: " + version)
+            }
+
+            ServerCreateOrUpdateParameters serverParameters = new ServerCreateOrUpdateParameters(serverProperties, location)
+            ServerGetResponse response = sqlManagementClient.getServersOperations().createOrUpdate(resourceGroupName, 
+                                                                                                  serverName,
+                                                                                                  serverParameters)
+        }
+    }
+
+    def deleteDatabaseServer(String resourceGroupName, String serverName){
+        exceptionHandler{
+            println("Going for deleting database server: " + serverName + "(Resource Group: " + resourceGroupName + ")")
+            sqlManagementClient.getServersOperations().delete(resourceGroupName, serverName)
+        }
+    }
+
 public deleteDatabase(String resourceGroupName, String serverName, String databaseName){
 	try{
 		println("Going for deleting database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ")")
 		sqlManagementClient.getDatabasesOperations().delete(resourceGroupName, serverName, databaseName)
 	}catch(Exception ex) {
 		println(ex.toString())
-		}
+	}
 }
 
 public createOrUpdateDatabase(String resourceGroupName, String serverName, String databaseName, String location, String expectedCollationName, String expectedEdition, String expectedMaxSizeInMB, String createModeValue, String elasticPoolName, String requestedServiceObjectiveIdValue, String sourceDatabaseIdValue) {
@@ -950,24 +966,36 @@ class SQLOperations {
     //Database Connection object.
     def dbCon
     def exceptionHandler
-    SQLOperations(server, database, port, user, password, objectEC)
+    SQLOperations(server, database, port, user, password, exceptionHandlerClosure)
     {
-        exceptionHandler = new ExceptionHandler(objectEC)
+        exceptionHandler = exceptionHandlerClosure
         setDatabaseConnection(server, database, port, user, password)
     }
 
+    def loadDriverJar(toLoad)
+    {
+        //extract path to .jar file
+        def res='/'+toLoad.replaceAll('\\.','/')+'.class';
+        def c=this.class.classLoader.loadClass(toLoad);
+        def file=''+ c.getResource(res).file;
+        file=file.substring(0,file.size()-(res.size()+1));
+        // add .jar to systemClassLoader
+        ClassLoader.systemClassLoader.addURL(new URL(file));
+    }
+
     def setDatabaseConnection(server, database, port, user, password){
-        exceptionHandler.handleExceptions{
+        exceptionHandler{
             def connectionUrl = "jdbc:jtds:sqlserver://" + server + ".database.windows.net:" + port +
                 ";database=" + database +
                 ";encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30"
-
-            dbCon = Sql.newInstance( connectionUrl, user , password ,"net.sourceforge.jtds.jdbc.Driver" )
+            def driverClass="net.sourceforge.jtds.jdbc.Driver"
+            loadDriverJar(driverClass)
+            dbCon = Sql.newInstance( connectionUrl, user , password , driverClass)
         }
     }
 
     def execute(sqlQuery){
-        exceptionHandler.handleExceptions{
+        exceptionHandler{
             dbCon.execute sqlQuery
         }
     }
@@ -975,15 +1003,15 @@ class SQLOperations {
 
 public class NoSQLOperations {
     def tableClient
-    ExceptionHandler exceptionHandler
-    NoSQLOperations(accountName, accountKey, storageAccount, objectEC)
+    def exceptionHandler
+    NoSQLOperations(accountName, accountKey, storageAccount, exceptionHandlerClosure)
     {
-        exceptionHandler = new ExceptionHandler(objectEC)
+        exceptionHandler = exceptionHandlerClosure
         setDatabaseConnection(accountName, accountKey, storageAccount)
     }
 
     private setDatabaseConnection(accountName, accountKey, storageAccount){
-        exceptionHandler.handleExceptions{
+        exceptionHandler{
             def storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=" + accountName + ";AccountKey=" + accountKey + ";TableEndpoint=https://" + storageAccount + ".table.core.windows.net/;"
             def storage = CloudStorageAccount.parse(storageConnectionString)
             tableClient = storage.createCloudTableClient()
@@ -991,7 +1019,7 @@ public class NoSQLOperations {
     }
 
     def createTable(tableName){
-        exceptionHandler.handleExceptions{
+        exceptionHandler{
            println("Going for creating table: " + tableName)
            CloudTable table = tableClient.getTableReference(tableName)
            table.createIfNotExists()
@@ -1000,7 +1028,7 @@ public class NoSQLOperations {
     }
 
     def insert(tableName, toBeSet, partitionKey){
-        exceptionHandler.handleExceptions{
+        exceptionHandler{
            println("Going for inserting " + toBeSet + " in table: " + tableName + " with partition key: " + partitionKey)
            CloudTable table = tableClient.getTableReference(tableName)
            def rows = new JsonSlurper().parseText(toBeSet)
@@ -1031,7 +1059,7 @@ public class NoSQLOperations {
     }
 
     private getWhereClause(whereClause){
-        exceptionHandler.handleExceptions{
+        exceptionHandler{
            TableQuery<DynamicTableEntity> query
            if (whereClause)
            {   
@@ -1046,7 +1074,7 @@ public class NoSQLOperations {
     }
 
     def retrieve(tableName, toBeRetrieved, whereClause){
-        exceptionHandler.handleExceptions{
+        exceptionHandler{
            println("Going for retrieving " + toBeRetrieved + " in table: " + tableName + " where : " + whereClause)
            CloudTable table = tableClient.getTableReference(tableName)
            TableQuery<DynamicTableEntity> query = getWhereClause(whereClause)
@@ -1070,7 +1098,7 @@ public class NoSQLOperations {
     }
 
     def delete(tableName, whereClause){
-        exceptionHandler.handleExceptions{
+        exceptionHandler{
            println("Going for deletion in table: " + tableName + " where : " + whereClause)
            TableBatchOperation batchOperation = new TableBatchOperation()
            CloudTable table = tableClient.getTableReference(tableName)
@@ -1085,7 +1113,7 @@ public class NoSQLOperations {
     }
 
     def update(tableName, toBeUpdated, whereClause){
-        exceptionHandler.handleExceptions{
+        exceptionHandler{
            println("Going for updating " + toBeUpdated + " in table: " + tableName + " where : " + whereClause)
            DynamicTableEntity entity
            TableBatchOperation batchOperation = new TableBatchOperation()
@@ -1110,7 +1138,7 @@ public class NoSQLOperations {
     }
 
     def deleteTable(tableName){
-        exceptionHandler.handleExceptions{
+        exceptionHandler{
            println("Going for deleting table: " + tableName)
            CloudTable table = tableClient.getTableReference(tableName)
            table.deleteIfExists()

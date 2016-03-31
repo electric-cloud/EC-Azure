@@ -238,6 +238,20 @@ my %teardown = (
                  category    => "Deployment"
                 );
 
+my %create_update_database_server = (
+                 label       => "Windows Azure - Create or Update Database Server",
+                 procedure   => "Create/Update Database Server",
+                 description => "Creates or updates a database server",
+                 category    => "Deployment"
+                );
+
+my %delete_database_server = (
+                 label       => "Windows Azure - Delete Database server",
+                 procedure   => "Delete Database Server",
+                 description => "Deletes a database server",
+                 category    => "Deployment"
+                );
+
 my %create_update_database = (
                  label       => "Windows Azure - Create or Update database",
                  procedure   => "CreateOrUpdateDatabase",
@@ -292,6 +306,8 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Star
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Stop VM");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Restart VM");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - TearDown");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create/Update Database Server");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete Database Server");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - CreateOrUpdateDatabase");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - DeleteDatabase");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Virtual Network");
@@ -313,7 +329,7 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Get 
 
 # @::createStepPickerSteps = (\%provision, \%cleanup, \%call_azure, \%create_resource, \%add_role, \%capture_role, \%delete_role, \%get_role, \%restart_role, \%shutdown_role, \%start_role, \%create_vm_deployment, \%download_rdp, \%list_objects);
 
-@::createStepPickerSteps = (\%create_hosted_service, \%delete_hosted_service ,\%create_storage_account, \%delete_storage_account, \%get_storage_account_keys, \%create_container, \%delete_container, \%put_blob, \%delete_blob, \%get_status, \%create_deployment, \%create_vm, \%delete_vm, \%start_vm, \%stop_vm, \%teardown, \%create_update_database, \%delete_database, \%create_vnet, \%nosql_operations);
+@::createStepPickerSteps = (\%create_hosted_service, \%delete_hosted_service ,\%create_storage_account, \%delete_storage_account, \%get_storage_account_keys, \%create_container, \%delete_container, \%put_blob, \%delete_blob, \%get_status, \%create_deployment, \%create_vm, \%delete_vm, \%start_vm, \%stop_vm, \%teardown, \%create_update_database_server, \%delete_database_server, \%create_update_database, \%delete_database, \%create_vnet, \%nosql_operations);
 
 my $pluginName = "@PLUGIN_NAME@";
 my $pluginKey  = "@PLUGIN_KEY@";
@@ -640,6 +656,23 @@ if ($upgradeAction eq "upgrade") {
                                      {
                                         procedureName => 'TearDown',
                                         stepName      => 'tearDown'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Create/Update Database Server',
+                                        stepName      => 'createUpdateDatabaseServer'
+                                     }
+                                    );
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Delete Database Server',
+                                        stepName      => 'deleteDatabaseServer'
                                      }
                                     );
 

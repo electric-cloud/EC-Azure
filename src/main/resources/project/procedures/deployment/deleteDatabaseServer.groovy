@@ -18,20 +18,13 @@
 $[/myProject/procedure_helpers/preamble]
 
 try {
-    String databaseServer = '$[database_server]'.trim()
-    String database = '$[database]'.trim()
-    String port = '$[port]'.trim()
-    String dbCreds = '$[db_creds]'.trim()
-    String  sqlQuery = '$[sql_query]'.trim()
+    String config = '$[connection_config]'.trim()
+    String resourceGroupName = '$[resource_group_name]'.trim()
+    String serverName = '$[server_name]'.trim()
+
+    ElectricCommander ec = new ElectricCommander(config)
+    ec.azure.deleteDatabaseServer(resourceGroupName, serverName)
     
-    ElectricCommander ec = new ElectricCommander()
-    def (username, password) = ec.getFullCredentials(dbCreds)
-
-    if (databaseServer && database && port && username && password) {
-        def db = new SQLOperations(databaseServer, database, port, username, password, ec.&exceptionHandler)
-        db.execute(sqlQuery)
-    }
-
 }catch(Exception e){
     e.printStackTrace();
     return

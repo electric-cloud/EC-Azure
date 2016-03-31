@@ -99,7 +99,22 @@
     <path>procedures/setTimelimit.pl</path>
     <xpath>//procedure[procedureName=&quot;TearDown&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
   </file>
-
+  <file>
+    <path>procedures/deployment/createOrUpdateDatabaseServer.groovy</path>
+    <xpath>//step[stepName=&quot;createUpdateDatabaseServer&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create/Update Database Server&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/deleteDatabaseServer.groovy</path>
+    <xpath>//step[stepName=&quot;deleteDatabaseServer&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Delete Database Server&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
   <file>
     <path>procedures/deployment/createOrUpdateDatabase.groovy</path>
     <xpath>//step[stepName=&quot;createUpdateDatabase&quot;]/command</xpath>
@@ -284,6 +299,14 @@
   <file>
     <path>forms/deployment/TearDownForm.xml</path>
     <xpath>//procedure[procedureName=&quot;TearDown&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/CreateOrUpdateDatabaseServerForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Create/Update Database Server&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/DeleteDatabaseServerForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Delete Database Server&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
   <file>
     <path>forms/deployment/CreateOrUpdateDatabaseForm.xml</path>
