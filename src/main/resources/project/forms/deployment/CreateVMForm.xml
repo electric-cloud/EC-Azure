@@ -21,7 +21,7 @@
         <label>Configuration:</label>
         <property>connection_config</property>
         <value/>
-        <documentation>The name of the configuration which holds all the connection information for Windows Azure.</documentation>
+        <documentation>The name of the configuration which holds all the required connection information for Windows Azure.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>

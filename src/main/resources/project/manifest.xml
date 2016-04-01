@@ -63,7 +63,11 @@
     <path>procedures/setTimelimit.pl</path>
     <xpath>//procedure[procedureName=&quot;Delete VM&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
   </file>
-  
+
+  <file>
+    <path>procedures/deployment/wap_deploy_vm_from_template.pl</path>
+    <xpath>//step[stepName=&quot;WAP Deploy VM From Template&quot;]/command</xpath>
+  </file>
   <file>
     <path>procedures/deployment/create_hosted.pl</path>
     <xpath>//step[stepName=&quot;Create Hosted Service&quot;]/command</xpath>
@@ -183,6 +187,10 @@
   <file>
     <path>forms/deployment/CreateVMForm.xml</path>
     <xpath>//procedure[procedureName=&quot;Create VM&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/WAPDeployVMFromTemplateForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;WAP Deploy VM From Template&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
   <file>
     <path>forms/deployment/DeleteVMForm.xml</path>

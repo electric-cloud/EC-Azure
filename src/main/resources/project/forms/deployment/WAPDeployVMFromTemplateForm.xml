@@ -1,0 +1,129 @@
+<!--
+
+     Copyright 2015 Electric Cloud, Inc.
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+
+-->
+<editor>
+  <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#WAP Deploy VM From Template</help>
+
+      <formElement>
+        <label>WAP URL:</label>
+        <property>wap_url</property>
+        <value/>
+        <documentation>WAP URL</documentation>
+        <required>1</required>
+        <type>entry</type>
+      </formElement>
+      
+    <formElement>
+        <label>Tenant ID:</label>
+        <property>tenant_id</property>
+        <value/>
+        <documentation>Tenant ID(subscribption id) for the WAP service</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+    <formElement>
+        <label>Cloud ID:</label>
+        <property>cloud_id</property>
+        <value/>
+        <documentation>Cloud ID for the WAP service</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+    <formElement>
+        <label>VM Template ID:</label>
+        <property>vm_template_id</property>
+        <value/>
+        <documentation>VM template ID</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+    <formElement>
+        <label>VM Name</label>
+        <property>vm_name</property>
+        <value/>
+        <documentation>VM Name</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+    <formElement>
+        <label>VM Network Name</label>
+        <property>vm_network_name</property>
+        <value/>
+        <documentation>VM Network Name</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+    <formElement>
+        <label>Stamp ID</label>
+        <property>stamp_id</property>
+        <value/>
+        <documentation>Tenants stamp ID</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+
+
+
+
+    <formElement>
+        <label>Local Admin Username</label>
+        <property>local_admin_username</property>
+        <value/>
+        <documentation>Local Admin Username</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+    <formElement>
+        <label>Local Admin Password</label>
+        <property>local_admin_password</property>
+        <value/>
+        <documentation>Local admin password</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Admin Password</label>
+        <property>admin_password</property>
+        <value/>
+        <documentation>Admin Password</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>WAP public key</label>
+        <property>wap_public_key</property>
+        <value/>
+        <documentation>WAP pubkey</documentation>
+        <required>1</required>
+        <type>textarea</type>
+    </formElement>
+    <formElement>
+        <label>WAP private key</label>
+        <property>wap_private_key</property>
+        <value/>
+        <documentation>WAP privkey</documentation>
+        <required>1</required>
+        <type>textarea</type>
+    </formElement>
+</editor>

@@ -176,6 +176,17 @@ foreach my $credName ( keys %credentials ) {
                                   );
     $errors .= $ec->checkAllErrors($xpath);
 
+
+    $xpath = $ec->attachCredential(
+                                   $projName,
+                                   $credName,
+                                   {
+                                      procedureName => 'WAP Deploy VM From Template',
+                                      stepName      => 'WAP Deploy VM From Template'
+                                   }
+                                  );
+    $errors .= $ec->checkAllErrors($xpath);
+    
     if ("$errors" ne "") {
 
         # Cleanup the partially created configuration we just created
