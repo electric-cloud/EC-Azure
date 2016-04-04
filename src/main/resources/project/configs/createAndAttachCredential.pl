@@ -201,6 +201,28 @@ foreach my $credName ( keys %credentials ) {
                                    $projName,
                                    $credName,
                                    {
+                                      procedureName => 'Create/Update Database Server',
+                                      stepName      => 'createUpdateDatabaseServer'
+                                   }
+                                  );
+    $errors .= $ec->checkAllErrors($xpath);
+
+    $xpath = $ec->attachCredential(
+                                   $projName,
+                                   $credName,
+                                   {
+                                      procedureName => 'Delete Database Server',
+                                      stepName      => 'deleteDatabaseServer'
+                                   }
+                                  )
+                                  ;
+
+    $errors .= $ec->checkAllErrors($xpath);
+
+    $xpath = $ec->attachCredential(
+                                   $projName,
+                                   $credName,
+                                   {
                                       procedureName => 'CreateOrUpdateDatabase',
                                       stepName      => 'createUpdateDatabase'
                                    }

@@ -99,7 +99,22 @@
     <path>procedures/setTimelimit.pl</path>
     <xpath>//procedure[procedureName=&quot;TearDown&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
   </file>
-
+  <file>
+    <path>procedures/deployment/createOrUpdateDatabaseServer.groovy</path>
+    <xpath>//step[stepName=&quot;createUpdateDatabaseServer&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create/Update Database Server&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/deleteDatabaseServer.groovy</path>
+    <xpath>//step[stepName=&quot;deleteDatabaseServer&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Delete Database Server&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
   <file>
     <path>procedures/deployment/createOrUpdateDatabase.groovy</path>
     <xpath>//step[stepName=&quot;createUpdateDatabase&quot;]/command</xpath>
@@ -127,6 +142,24 @@
     <xpath>//procedure[procedureName=&quot;Create Vnet&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
   </file>
  
+  <file>
+    <path>procedures/deployment/nosqlOperations.groovy</path>
+    <xpath>//step[stepName=&quot;nosqlOperations&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;NoSQL Operations&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+
+  <file>
+    <path>procedures/deployment/sqlOperations.groovy</path>
+    <xpath>//step[stepName=&quot;sqlOperations&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;SQL Operations&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+
   <file>
     <path>procedures/deployment/create_hosted.pl</path>
     <xpath>//step[stepName=&quot;Create Hosted Service&quot;]/command</xpath>
@@ -268,6 +301,14 @@
     <xpath>//procedure[procedureName=&quot;TearDown&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
   <file>
+    <path>forms/deployment/CreateOrUpdateDatabaseServerForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Create/Update Database Server&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/DeleteDatabaseServerForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Delete Database Server&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
     <path>forms/deployment/CreateOrUpdateDatabaseForm.xml</path>
     <xpath>//procedure[procedureName=&quot;CreateOrUpdateDatabase&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
@@ -278,6 +319,14 @@
   <file>
     <path>forms/deployment/CreateVnetForm.xml</path>
     <xpath>//procedure[procedureName=&quot;Create Vnet&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/NoSQLOperationsForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;NoSQL Operations&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/SQLOperationsForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;SQL Operations&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
   <file>
     <path>procedures/preamble.groovy</path>
