@@ -1,0 +1,84 @@
+<!--
+
+     Copyright 2015 Electric Cloud, Inc.
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+
+-->
+<editor>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#Create/Update Subnet</help>
+    <formElement>
+        <label>Configuration:</label>
+        <property>connection_config</property>
+        <value/>
+        <documentation>The name of the configuration which holds all the connection information for Windows Azure.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Subnet:</label>
+        <property>subnet</property>
+        <value/>
+        <documentation>Name of the subnet to be created.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Virtual Network Name:</label>
+        <property>vnet</property>
+        <value/>
+        <documentation>The name of the virtual network in which subnet will be present.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Resource Group Name:</label>
+        <property>resource_group</property>
+        <value/>
+        <documentation>The name of the resource group in which subnet is to be created.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Address Prefix:</label>
+        <property>address_prefix</property>
+        <value/>
+        <documentation>It should follow CIDR notation, for example 10.0.0.0/24.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Network Security Group:</label>
+        <property>network_security_group</property>
+        <value/>
+        <documentation>Network security Group to be attached. Network Security Group of same name can be present in multiple              resource group. Provide Json to uniquely identify Network Security Group. Example: {"RG1":"NSG1"}</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Route Table:</label>
+        <property>route_table</property>
+        <value/>
+        <documentation>RouteTable of same name can be present in multiple resource group. Provide Json to uniquely identify RouteTable. Example: {"RG1":"routeTable"}</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>JobStep Timeout:</label>
+        <property>job_step_timeout</property>
+        <value/>
+        <documentation>Timeout for the step execution in minutes. Blank means no timeout.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+</editor>

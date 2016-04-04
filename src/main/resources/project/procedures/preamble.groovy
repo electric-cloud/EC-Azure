@@ -96,6 +96,13 @@ import com.microsoft.azure.storage.*;
 import com.microsoft.azure.storage.table.*;
 import com.microsoft.azure.storage.table.TableQuery.*;
 
+//Imports
+import com.microsoft.azure.management.network.models.SecurityRule
+import com.microsoft.windowsazure.core.OperationResponse
+import com.microsoft.azure.management.network.models.NetworkInterfaceIpConfiguration
+import com.microsoft.azure.management.network.models.ResourceId
+import com.microsoft.azure.management.network.models.NetworkSecurityGroup
+import com.microsoft.azure.management.network.models.Subnet
 enum RequestMethod {
     GET, POST, PUT, DELETE
 }
@@ -864,6 +871,211 @@ public restartVM(String resourceGroupName, String vmName){
         }
     }
 
+    def createOrUpdateSubnet(String resourceGroupName, String virtualNetworkName, String subnetName, String addressPrefix, String networkSecurityGroupJson, String routeTableJson){
+        exceptionHandler{ 
+            println("Going for creating/updating subnet : " + subnetName + " in (Resource Group: " + resourceGroupName + " , Virtual Network: " + virtualNetworkName + ") with Address Prefix: " + addressPrefix + ", Network Security Group: " + networkSecurityGroupJson + ", Route Table : " + routeTableJson + ")")
+            Subnet subnetParameters = new Subnet()
+            //It should follow CIDR notation, for example 10.0.0.0/24.
+            //This is required parameter
+            if(addressPrefix){
+                subnetParameters.setAddressPrefix(addressPrefix)
+                println("Address prefix set to: " + addressPrefix)
+            }
+
+            //RouteTable of same name can be present in multiple resource group
+            //Therfore we are using Json to uniquely identify RouteTable
+            //{"RG1":"routeTable"}
+            if(routeTableJson){
+                ResourceId routeTable
+                jsonParser(routeTableJson, 0).each{rg, route->
+                    routeTable = new ResourceId()
+                    routeTable.setId(networkResourceProviderClient.getRouteTablesOperations().
+                                                                   get(rg, route).getRouteTable().getId())
+                    subnetParameters.setRouteTable(routeTable)
+                }
+            }
+
+            //Network Security Group of same name can be present in multiple resource group
+            //Therfore we are using Json to uniquely identify Network Security Group
+            //{"RG1":"NSG1"}
+            if(networkSecurityGroupJson){
+                ResourceId nsgResourceId
+                jsonParser(networkSecurityGroupJson, 0).each{rg, nsg->
+                    nsgResourceId= new ResourceId()
+                    nsgResourceId.setId(networkResourceProviderClient.getNetworkSecurityGroupsOperations().get(rg, nsg).
+                                                                      getNetworkSecurityGroup().getId())
+                    subnetParameters.setNetworkSecurityGroup(nsgResourceId)
+                }
+            }
+
+            AzureAsyncOperationResponse response = networkResourceProviderClient.getSubnetsOperations().createOrUpdate(resourceGroupName, virtualNetworkName, subnetName, subnetParameters)
+
+            if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+            {
+                println("Successfully created Subnet: " + subnetName )
+            }
+        }
+    }
+   
+    def deleteSubnet(String resourceGroupName, String virtualNetworkName, String subnetName){
+        exceptionHandler{
+            println("Going for deleting subnet: " + subnetName + " in (Resource Group: " + resourceGroupName + " , Virtual Network: " + virtualNetworkName + ")")
+            OperationResponse response = networkResourceProviderClient.getSubnetsOperations().delete(resourceGroupName, virtualNetworkName, subnetName)
+
+            if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+            {
+                println("Successfully deleted Subnet: " + subnetName )
+            }
+        }
+    }
+
+    def createOrUpdateNetworkSecurityGroup(String resourceGroupName, String location, String networkSecurityGroupName, String securityRuleJson){
+        exceptionHandler{
+            println("Going for creating/updating network security group : " + networkSecurityGroupName + " in (Resource Group: " + resourceGroupName + " , Location: " + location + ") with Security Rule: " + securityRuleJson + ")")
+            NetworkSecurityGroup nsgParameters = new NetworkSecurityGroup(location)
+
+            if(securityRuleJson){
+                //Security Rule with same name can be created in multiple Network Security Group
+                //Network Security Group with same name can be created in multiple Resource Group
+                //Therfore we are using nested JSON to uniquely identify security rule
+                //{"RG-1":{"NSG-1":["Rule-A", "Rule-B"], "NSG-2":["Rule-C", "Rule-D"]}, "RG-2":{"NSG-3":"RULE-G"}}
+                ArrayList<SecurityRule> securityRules = new ArrayList<SecurityRule>()
+                jsonParser(securityRuleJson, 1).each{rg, nsg, rule->
+                    securityRules.add(networkResourceProviderClient.getSecurityRulesOperations().get(rg, nsg, rule).getSecurityRule())
+                }
+                nsgParameters.setSecurityRules(securityRules)
+            }
+
+            AzureAsyncOperationResponse response = networkResourceProviderClient.getNetworkSecurityGroupsOperations().createOrUpdate(resourceGroupName, networkSecurityGroupName, nsgParameters)
+    
+            if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+            {
+                println("Successfully created Network Security Group: " + networkSecurityGroupName )
+            }
+        }
+    }
+
+    def deleteNetworkSecurityGroup(String resourceGroupName, String networkSecurityGroupName){
+        exceptionHandler{
+            println("Going for deleting Network Security Group: " + networkSecurityGroupName + " in (Resource Group: " + resourceGroupName + ")")
+            OperationResponse response = networkResourceProviderClient.getNetworkSecurityGroupsOperations().delete(resourceGroupName, networkSecurityGroupName)
+
+            if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+            {
+                println("Successfully deleted Network Security Group: " + networkSecurityGroupName )
+            }
+        }
+    }
+
+    def createOrUpdateNetworkSecurityRule(String resourceGroupName, String networkSecurityGroupName, String securityRuleName,             String access, String description, String sourceAddressPrefix, String sourcePortRange, String destinationAddressPrefix, String destinationPortRange, String direction, String priority, String protocol){
+        exceptionHandler{
+            println("Going for creating/updating network security rule : " + securityRuleName + " in (Resource Group: " + resourceGroupName + " , Network Security Group: " + networkSecurityGroupName  + ") with Access: " + access + ", Source Address Prefix: " + sourceAddressPrefix + ", Source Port Range: " + sourcePortRange  + ", Source Address Prefix: " + destinationAddressPrefix + ", Destination Port Range: " + destinationPortRange + " Protocol:" + protocol +" and Direction: " + direction)
+            SecurityRule securityRuleParameters = new SecurityRule()
+
+            if(access){
+                securityRuleParameters.setAccess(access)
+                println("Set access: " + access)
+            }
+            if(description){
+               securityRuleParameters.setDescription(description)
+               println("Set description: " + description)
+            }
+            if(destinationAddressPrefix){
+                securityRuleParameters.setDestinationAddressPrefix(destinationAddressPrefix)
+                println("Set destinationAddressPrefix: " + destinationAddressPrefix)
+            }
+            if(destinationPortRange){
+                securityRuleParameters.setDestinationPortRange(destinationPortRange) 
+                println("Set destinationPortRange: " + destinationPortRange)
+            }
+            if(direction){
+                securityRuleParameters.setDirection(direction)
+                println("Set direction: " + direction)
+            }
+            if(priority){
+                securityRuleParameters.setPriority(priority.toInteger())
+                println("Set priority: " + priority)
+            }
+            if(protocol){
+                securityRuleParameters.setProtocol(protocol)
+                println("Set protocol: " + protocol)
+            }
+
+            if(sourceAddressPrefix){
+                securityRuleParameters.setSourceAddressPrefix(sourceAddressPrefix)
+                println("Set sourceAddressPrefix: " + sourceAddressPrefix)
+            }
+            if(sourcePortRange){
+                securityRuleParameters.setSourcePortRange(sourcePortRange)
+                println("Set sourcePortRange: " + sourcePortRange)
+            }
+
+            AzureAsyncOperationResponse response = networkResourceProviderClient.getSecurityRulesOperations().createOrUpdate(resourceGroupName, networkSecurityGroupName, securityRuleName, securityRuleParameters)
+
+            if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+            {
+                println("Successfully created Security Rule: " + securityRuleName )
+            }
+        }
+    }
+
+    def deleteNetworkSecurityRule(String resourceGroupName, String networkSecurityGroupName, String securityRuleName)
+    {
+        exceptionHandler{
+            println("Going for deleting Network Security Rule: " + securityRuleName + " in (Resource Group: " + resourceGroupName + " ,Network Security Group: " + networkSecurityGroupName + ")")
+            OperationResponse response = networkResourceProviderClient.getSecurityRulesOperations().delete(resourceGroupName,networkSecurityGroupName, securityRuleName)
+
+            if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+            {
+                println("Successfully deleted Security Rule: " + securityRuleName )
+            }
+        }
+    }
+
+    //Nesting Level 0- Simple Json
+    //Nesting Level 1- Json inside Json
+    def jsonParser(jsonString, nestingLevel){
+        exceptionHandler{
+            def json = new JsonSlurper().parseText(jsonString)
+            ArrayList result = []
+            if(nestingLevel == 0){
+                json.each{i,u->
+                    makeJsonArray(u).each{j->
+                        result.push([i.trim(), j.trim()])
+                    }
+                }
+            }
+            else if (nestingLevel == 1){
+                json.each{i,u->
+                    u.each{j,v->
+                        makeJsonArray(v).each{k->
+                            result.push([i.trim(), j.trim(), k.trim()])
+                        }
+                    }
+                }
+            }
+            else
+            {
+                println("Nesting Level: " + nestingLevel + " not supported")
+            }
+            result
+        }
+    }
+
+    def makeJsonArray(json){
+        exceptionHandler{
+            def jsonArray = []
+            if (json instanceof ArrayList){
+                jsonArray = json
+            }
+            else
+            {
+                jsonArray.push(json)
+            }
+            jsonArray
+        }
+    }
+
 public deleteDatabase(String resourceGroupName, String serverName, String databaseName){
 	try{
 		println("Going for deleting database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ")")
@@ -1146,3 +1358,4 @@ public class NoSQLOperations {
         }
     }
 }
+

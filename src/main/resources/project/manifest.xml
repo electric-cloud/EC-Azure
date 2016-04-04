@@ -141,7 +141,54 @@
     <path>procedures/setTimelimit.pl</path>
     <xpath>//procedure[procedureName=&quot;Create Vnet&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
   </file>
- 
+  <file>
+    <path>procedures/deployment/createOrUpdateSubnet.groovy</path>
+    <xpath>//step[stepName=&quot;createUpdateSubnet&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create/Update Subnet&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/deleteSubnet.groovy</path>
+    <xpath>//step[stepName=&quot;deleteSubnet&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Delete Subnet&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file> 
+  <file>
+    <path>procedures/deployment/createOrUpdateNetworkSecurityGroup.groovy</path>
+    <xpath>//step[stepName=&quot;createUpdateNetworkSecurityGroup&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create/Update NetworkSecurityGroup&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/deleteNetworkSecurityGroup.groovy</path>
+    <xpath>//step[stepName=&quot;deleteNetworkSecurityGroup&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Delete NetworkSecurityGroup&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/createOrUpdateNetworkSecurityRule.groovy</path>
+    <xpath>//step[stepName=&quot;createUpdateNetworkSecurityRule&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create/Update NetworkSecurityRule&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/deleteNetworkSecurityRule.groovy</path>
+    <xpath>//step[stepName=&quot;deleteNetworkSecurityRule&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Delete NetworkSecurityRule&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
   <file>
     <path>procedures/deployment/nosqlOperations.groovy</path>
     <xpath>//step[stepName=&quot;nosqlOperations&quot;]/command</xpath>
@@ -319,6 +366,30 @@
   <file>
     <path>forms/deployment/CreateVnetForm.xml</path>
     <xpath>//procedure[procedureName=&quot;Create Vnet&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/CreateOrUpdateSubnetForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Create/Update Subnet&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/DeleteSubnetForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Delete Subnet&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/CreateOrUpdateNetworkSecurityGroupForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Create/Update NetworkSecurityGroup&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/DeleteNetworkSecurityGroupForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Delete NetworkSecurityGroup&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/CreateOrUpdateNetworkSecurityRuleForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Create/Update NetworkSecurityRule&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/DeleteNetworkSecurityRuleForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Delete NetworkSecurityRule&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
   <file>
     <path>forms/deployment/NoSQLOperationsForm.xml</path>
