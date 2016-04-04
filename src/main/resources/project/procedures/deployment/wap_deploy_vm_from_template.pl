@@ -64,6 +64,7 @@ sub main {
     $json_template =~ s|###admin_password###|$o->{admin_password}|gms;
     $json_template =~ s|###stamp_id###|$o->{stamp_id}|gms;
     $json_template =~ s|###vm_template_id###|$o->{vm_template_id}|gms;
+    $json_template =~ s|###vm_name###|$o->{vm_name}|gms;
 
     my $vm = rr(
         $req_data,
@@ -253,7 +254,7 @@ __DATA__
   "MemoryWeight": null,
   "ModifiedTime": null,
 
-  "Name": "FinalDmitriysTestVM",
+  "Name": "###vm_name###",
   "NetworkUtilization": null,
   "NewVirtualNetworkAdapterInput@odata.type": "Collection(VMM.NewVMVirtualNetworkAdapterInput)",
     "NewVirtualNetworkAdapterInput": [
