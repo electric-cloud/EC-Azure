@@ -239,6 +239,65 @@ foreach my $credName ( keys %credentials ) {
                                   );
     $errors .= $ec->checkAllErrors($xpath);
 
+    $xpath = $ec->attachCredential(
+                                   $projName,
+                                   $credName,
+                                   {
+                                      procedureName => 'Create/Update Subnet',
+                                      stepName      => 'createUpdateSubnet'
+                                   }
+                                  );
+    $errors .= $ec->checkAllErrors($xpath);
+
+    $xpath = $ec->attachCredential(
+                                   $projName,
+                                   $credName,
+                                   {
+                                      procedureName => 'Delete Subnet',
+                                      stepName      => 'deleteSubnet'
+                                   }
+                                  );
+    $errors .= $ec->checkAllErrors($xpath);
+
+    $xpath = $ec->attachCredential(
+                                   $projName,
+                                   $credName,
+                                   {
+                                      procedureName => 'Create/Update NetworkSecurityGroup',
+                                      stepName      => 'createUpdateNetworkSecurityGroup'
+                                   }
+                                  );
+    $errors .= $ec->checkAllErrors($xpath);
+
+    $xpath = $ec->attachCredential(
+                                   $projName,
+                                   $credName,
+                                   {
+                                      procedureName => 'Delete NetworkSecurityGroup',
+                                      stepName      => 'deleteNetworkSecurityGroup'
+                                   }
+                                  );
+    $errors .= $ec->checkAllErrors($xpath);
+    $xpath = $ec->attachCredential(
+                                   $projName,
+                                   $credName,
+                                   {
+                                      procedureName => 'Create/Update NetworkSecurityRule',
+                                      stepName      => 'createUpdateNetworkSecurityRule'
+                                   }
+                                  );
+    $errors .= $ec->checkAllErrors($xpath);
+
+    $xpath = $ec->attachCredential(
+                                   $projName,
+                                   $credName,
+                                   {
+                                      procedureName => 'Delete NetworkSecurityRule',
+                                      stepName      => 'deleteNetworkSecurityRule'
+                                   }
+                                  );
+    $errors .= $ec->checkAllErrors($xpath);
+
     if ("$errors" ne "") {
 
         # Cleanup the partially created configuration we just created
