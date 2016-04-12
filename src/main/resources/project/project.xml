@@ -867,8 +867,349 @@
             </step>
           </procedure>
 
+          <procedure>
+  <procedureName>WAP Deploy VM From Role</procedureName>
+  <description>WAP-Role</description>
+  <jobNameTemplate>Azure-WAP-$[jobId]</jobNameTemplate>
+  <resourceName/>
+  <workspaceName/>
+  <propertySheet>
+    <property>
+      <propertyName>ec_customEditorData</propertyName>
+      <propertySheet>
+        <property>
+          <propertyName>parameters</propertyName>
+          <propertySheet>
+            <property>
+              <propertyName>wap_url</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>tenant_id</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>cloudservice_name</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>vm_role_name</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>vm_role_size</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>vm_role_network</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>vm_role_hdi</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>vm_role_allocation_meth</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>vm_role_hostname_pattern</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>vm_role_domain</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>vm_role_timezone</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>wap_private_key</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>wap_public_key</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>vm_role_label</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            <property>
+              <propertyName>vm_role_vm_name</propertyName>
+              <propertySheet>
+                <property>
+                  <propertyName>formType</propertyName>
+                  <expandable>1</expandable>
+                  <value>standard</value>
+                </property>
+              </propertySheet>
+            </property>
+            
 
 
+
+
+
+            
+
+            <property>
+              <propertyName>formType</propertyName>
+              <expandable>1</expandable>
+              <value>standard</value>
+            </property>
+          </propertySheet>
+        </property>
+      </propertySheet>
+    </property>
+    <property>
+      <propertyName>ec_parameterForm</propertyName>
+      <description/>
+      <expandable>1</expandable>
+      <value/>
+    </property>
+  </propertySheet>
+  <formalParameter>
+    <formalParameterName>wap_url</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>tenant_id</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>cloudservice_name</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>vm_role_name</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>vm_role_size</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>vm_role_network</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>vm_role_hdi</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>vm_role_allocation_meth</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>vm_role_hostname_pattern</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>vm_role_domain</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>vm_role_timezone</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>wap_private_key</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>wap_public_key</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>vm_role_label</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>
+  <formalParameter>
+    <formalParameterName>vm_role_vm_name</formalParameterName>
+    <defaultValue/>
+    <description>Tenant ID</description>
+    <expansionDeferred>0</expansionDeferred>
+    <required>1</required>
+    <type>entry</type>
+  </formalParameter>  
+  
+  
+  
+  
+  <step>
+    <stepName>WAP Deploy VM From Role</stepName>
+    <alwaysRun>0</alwaysRun>
+    <broadcast>0</broadcast>
+    <command/>
+    <condition/>
+    <description>Creates a new VM under the specified account.</description>
+    <errorHandling>failProcedure</errorHandling>
+    <exclusiveMode>none</exclusiveMode>
+    <logFileName/>
+    <parallel>0</parallel>
+    <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
+    <releaseMode>none</releaseMode>
+    <shell>ec-perl</shell>
+    <workingDirectory/>
+    <workspaceName/>
+    <propertySheet>
+      <property>
+        <propertyName>ec_customEditorData</propertyName>
+        <propertySheet>
+          <property>
+            <propertyName>formType</propertyName>
+            <expandable>1</expandable>
+            <value>command</value>
+          </property>
+        </propertySheet>
+      </property>
+    </propertySheet>
+  </step>
+</procedure>
+
+          
           <procedure>
             <procedureName>WAP Deploy VM From Template</procedureName>
             <description>WAP</description>

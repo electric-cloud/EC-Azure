@@ -184,7 +184,15 @@ foreach my $credName ( keys %credentials ) {
                                       procedureName => 'WAP Deploy VM From Template',
                                       stepName      => 'WAP Deploy VM From Template'
                                    }
-                                  );
+                               );
+    $xpath = $ec->attachCredential(
+        $projName,
+        $credName,
+        {
+            procedureName => 'WAP Deploy VM From Role',
+            stepName      => 'WAP Deploy VM From Role'
+        }
+    );
     $errors .= $ec->checkAllErrors($xpath);
     
     if ("$errors" ne "") {

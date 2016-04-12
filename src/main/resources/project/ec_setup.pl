@@ -217,6 +217,13 @@ my %wap_deploy_from_template = (
     category    => "Deployment"
 );
 
+my %wap_deploy_from_role = (
+    label       => "Windows Azure - WAP Deploy VM From Role",
+    procedure   => "WAP Deploy VM From Role",
+    description => "Deploys VM From role on WAP",
+    category    => "Deployment"
+);
+
 #Resource Management           
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Provision");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Cleanup");
@@ -251,9 +258,10 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Get 
 # WAP
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - WAP Deploy VM From Template");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure Pack - Deploy VM From Template");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure Pack - Deploy VM From Role");
 # @::createStepPickerSteps = (\%provision, \%cleanup, \%call_azure, \%create_resource, \%add_role, \%capture_role, \%delete_role, \%get_role, \%restart_role, \%shutdown_role, \%start_role, \%create_vm_deployment, \%download_rdp, \%list_objects);
 
-@::createStepPickerSteps = (\%create_hosted_service, \%delete_hosted_service ,\%create_storage_account, \%delete_storage_account, \%get_storage_account_keys, \%create_container, \%delete_container, \%put_blob, \%delete_blob, \%get_status, \%create_deployment, \%create_vm, \%wap_deploy_from_template);
+@::createStepPickerSteps = (\%create_hosted_service, \%delete_hosted_service ,\%create_storage_account, \%delete_storage_account, \%get_storage_account_keys, \%create_container, \%delete_container, \%put_blob, \%delete_blob, \%get_status, \%create_deployment, \%create_vm, \%wap_deploy_from_template, \%wap_deploy_from_role);
 
 my $pluginName = "@PLUGIN_NAME@";
 my $pluginKey  = "@PLUGIN_KEY@";
@@ -538,15 +546,22 @@ if ($upgradeAction eq "upgrade") {
                                      }
                                  );
             $batch->attachCredential(
-                                     "\$[/plugins/$pluginName/project]",
-                                     $cred,
-                                     {
-                                         procedureName => 'WAP Deploy VM From Template',
-                                         stepName      => 'WAP Deploy VM From Template'
-                                     }
-                                    );
-
-             $batch->attachCredential(
+                "\$[/plugins/$pluginName/project]",
+                $cred,
+                {
+                    procedureName => 'WAP Deploy VM From Role',
+                    stepName      => 'WAP Deploy VM From Role'
+                }
+            );
+            $batch->attachCredential(
+                "\$[/plugins/$pluginName/project]",
+                $cred,
+                {
+                    procedureName => 'WAP Deploy VM From Template',
+                    stepName      => 'WAP Deploy VM From Template'
+                }
+            );
+            $batch->attachCredential(
                                      "\$[/plugins/$pluginName/project]",
                                      $cred,
                                      {

@@ -1,0 +1,153 @@
+<!--
+
+     Copyright 2015 Electric Cloud, Inc.
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+
+-->
+<editor>
+  <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#WAP Deploy VM From Role</help>
+
+      <formElement>
+        <label>WAP URL:</label>
+        <property>wap_url</property>
+        <value/>
+        <documentation>WAP URL</documentation>
+        <required>1</required>
+        <type>entry</type>
+      </formElement>
+      
+    <formElement>
+        <label>Tenant ID:</label>
+        <property>tenant_id</property>
+        <value/>
+        <documentation>Tenant ID(subscribption id) for the WAP service</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>VM Role VM name:</label>
+        <property>vm_role_vm_name</property>
+        <value/>
+        <documentation>WAP privkey</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>CloudService Name:</label>
+        <property>cloudservice_name</property>
+        <value/>
+        <documentation>CloudService Name</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+    <formElement>
+        <label>VM Role Name:</label>
+        <property>vm_role_name</property>
+        <value/>
+        <documentation>VM Role Name</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+    <formElement>
+        <label>VM Role Size</label>
+        <property>vm_role_size</property>
+        <value/>
+        <documentation>VM Role size, for example, ExtraSmall</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+    <formElement>
+        <label>VM Network:</label>
+        <property>vm_role_network</property>
+        <value/>
+        <documentation>VM Network Name</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+    <formElement>
+        <label>VM Role HDI:</label>
+        <property>vm_role_hdi</property>
+        <value/>
+        <documentation>Hard Drive image with version.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+
+
+
+
+    <formElement>
+        <label>IP Allocation Method</label>
+        <property>vm_role_allocation_meth</property>
+        <value/>
+        <documentation>Allocation method, usually static or dynamic</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+    <formElement>
+        <label>Hostname pattern:</label>
+        <property>vm_role_hostname_pattern</property>
+        <value/>
+        <documentation>Computer hostname pattern, Computer### for example</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>VM Role Domain</label>
+        <property>vm_role_domain</property>
+        <value/>
+        <documentation>Admin Password</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>VM Role timezone</label>
+        <property>vm_role_timezone</property>
+        <value/>
+        <documentation>VM Role timezone</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>WAP SSH private Key</label>
+        <property>wap_private_key</property>
+        <value/>
+        <documentation>WAP privkey</documentation>
+        <required>1</required>
+        <type>textarea</type>
+    </formElement>
+    <formElement>
+        <label>WAP SSH SSH public Key</label>
+        <property>wap_public_key</property>
+        <value/>
+        <documentation>WAP privkey</documentation>
+        <required>1</required>
+        <type>textarea</type>
+    </formElement>
+    <formElement>
+        <label>VM Role Label</label>
+        <property>vm_role_label</property>
+        <value/>
+        <documentation>VM Role Label. Should be UNIQUE for each request</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+
+</editor>
