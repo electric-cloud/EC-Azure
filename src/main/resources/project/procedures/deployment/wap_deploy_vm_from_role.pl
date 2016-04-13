@@ -38,6 +38,7 @@ main($opts);
 sub main {
     my ($o) = @_;
 
+    my $ec = ElectricCommander->new();
     my $ua = get_ua($o->{wap_public_key}, $o->{wap_private_key});
 
     my $resp;
@@ -117,7 +118,44 @@ sub main {
         POST => $request_url,
         $new_request_json
     );
-    print Dumper $resp;
+    # print Dumper $resp;
+    $request_url = "/$o->{tenant_id}/CloudServices/gw1/Resources/MicrosoftCompute/VMRoles/$o->{vm_role_label}?api-version=2013-03";
+    my $provisioned = 0;
+    while (!$provisioned) {
+        $resp = rr($req_data, GET => $request_url);
+        my $j = decode_json($resp->decoded_content());
+        if ($j->{ProvisioningState} eq 'Provisioned') {
+            print "Provisioning done\n";
+            $provisioned++;
+            next;
+        }
+        print "Provisioning...\n";
+        sleep 10;
+    }
+    print "Creating resource...\n";
+    $request_url = "/$o->{tenant_id}/CloudServices/gw1/Resources/MicrosoftCompute/VMRoles/$o->{vm_role_label}/VMs?api-version=2013-03";
+    $resp = rr($req_data, GET => $request_url);
+    my $j = decode_json($resp->decoded_content());
+    my @ips = ();
+    for my $vm (@{$j->{value}}) {
+        for my $addr (@{$vm->{ConnectToAddresses}}) {
+            push @ips, $addr->{IPAddress};
+        }
+    }
+    print "Got IPs:", Dumper \@ips;
+
+    my $res_name = 'WAP_Role_' . $o->{vm_role_vm_name} . '_' . time();
+    for my $ip (@ips) {
+        my $cmdrresult = $ec->createResource(
+            $res_name,
+            {
+                description   => q{Provisioned resource (dynamic) for } . $o->{vm_role_vm_name},
+                hostName      => $ip,
+                port          => 7800
+            }
+        );
+    }
+    print "Deployment finished\n";
 }
 
 
