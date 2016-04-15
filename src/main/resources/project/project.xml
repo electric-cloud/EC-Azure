@@ -22,7 +22,7 @@
                                         <propertyName>procedureName</propertyName>
                                         <description></description>
                                         <expandable>1</expandable>
-                                        <value>Create VM</value>
+                                        <value>WAP Deploy VM From Template</value>
                                     </property>
                                     <property>
                                         <propertyName>ui_formRefs</propertyName>
