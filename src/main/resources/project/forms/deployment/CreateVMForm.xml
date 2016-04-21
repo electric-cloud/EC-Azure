@@ -134,7 +134,7 @@
         <label>Virtual Network:</label>
         <property>vnet</property>
         <value/>
-        <documentation>Name of the Virtual Network.</documentation>
+        <documentation>Name of an existing Virtual Network.</documentation>
         <required>0</required>
         <type>entry</type>
     </formElement>
@@ -142,7 +142,7 @@
         <label>Subnet:</label>
         <property>subnet</property>
         <value/>
-        <documentation>Name of the subnet.</documentation>
+        <documentation>Name of an existing subnet. To assign a subnet to VM, also mention the name of the Virtual Network inside which the subnet exists. </documentation>
         <required>0</required>
         <type>entry</type>
     </formElement>
