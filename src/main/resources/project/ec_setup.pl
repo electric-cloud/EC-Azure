@@ -265,9 +265,9 @@ my %delete_database = (
                  category    => "Deployment"
                 );
 my %create_vnet = (
-                 label       => "Windows Azure - Create Virtual Network",
-                 procedure   => "Create Vnet",
-                 description => "Create Virual Network",
+                 label       => "Windows Azure - Create or Update Virtual Network",
+                 procedure   => "Create or Update Vnet",
+                 description => "Create or Update Virual Network",
                  category    => "Deployment"
                 );
 
@@ -742,7 +742,7 @@ if ($upgradeAction eq "upgrade") {
                                      "\$[/plugins/$pluginName/project]",
                                      $cred,
                                      {
-                                        procedureName => 'Create Vnet',
+                                        procedureName => 'Create or Update Vnet',
                                         stepName      => 'Create Vnet'
                                      }
                                     );

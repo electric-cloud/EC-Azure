@@ -5488,7 +5488,7 @@
             </step>
         </procedure>
         <procedure>
-            <procedureName>Create Vnet</procedureName>
+            <procedureName>Create or Update Vnet</procedureName>
             <description>Creates a new Virtual Network under the specified account. </description>
             <jobNameTemplate>Azure-CreateVnet-$[jobId]</jobNameTemplate>
             <resourceName/>
