@@ -240,7 +240,7 @@ my %teardown = (
 
 my %create_update_database_server = (
                  label       => "Windows Azure - Create or Update Database Server",
-                 procedure   => "Create/Update Database Server",
+                 procedure   => "Create or Update Database Server",
                  description => "Creates or updates a database server",
                  category    => "Deployment"
                 );
@@ -254,7 +254,7 @@ my %delete_database_server = (
 
 my %create_update_database = (
                  label       => "Windows Azure - Create or Update database",
-                 procedure   => "CreateOrUpdateDatabase",
+                 procedure   => "Create Or Update Database",
                  description => "Creates or updates a database",
                  category    => "Deployment"
                 );
@@ -265,15 +265,15 @@ my %delete_database = (
                  category    => "Deployment"
                 );
 my %create_vnet = (
-                 label       => "Windows Azure - Create Virtual Network",
-                 procedure   => "Create Vnet",
-                 description => "Create Virual Network",
+                 label       => "Windows Azure - Create or Update Virtual Network",
+                 procedure   => "Create or Update Vnet",
+                 description => "Create or Update Virual Network",
                  category    => "Deployment"
                 );
 
 my %create_update_subnet = (
                  label       => "Windows Azure - Create or Update Subnet",
-                 procedure   => "Create/Update Subnet",
+                 procedure   => "Create or Update Subnet",
                  description => "Creates a subnet or updates an existing one",
                  category    => "Deployment"
                 );
@@ -286,7 +286,7 @@ my %delete_subnet = (
 
 my %create_update_security_group = (
                  label       => "Windows Azure - Create or Update Network Security Group",
-                 procedure   => "Create/Update NetworkSecurityGroup",
+                 procedure   => "Create or Update NetworkSecurityGroup",
                  description => "Creates a Network Security Group or updates an existing one",
                  category    => "Deployment"
                 );
@@ -299,7 +299,7 @@ my %delete_security_group = (
 
 my %create_update_security_rule = (
                  label       => "Windows Azure - Create or Update Network Security Rule",
-                 procedure   => "Create/Update NetworkSecurityRule",
+                 procedure   => "Create or Update NetworkSecurityRule",
                  description => "Creates a Network Security Rule or updates an existing one",
                  category    => "Deployment"
                 );
@@ -344,16 +344,16 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Star
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Stop VM");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Restart VM");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - TearDown");
-$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create/Update Database Server");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create or Update Database Server");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete Database Server");
-$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - CreateOrUpdateDatabase");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Or Update Database");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - DeleteDatabase");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Virtual Network");
-#$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create/Update Subnet");
+#$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create or Update Subnet");
 #$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete Subnet");
-#$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create/Update NetworkSecurityGroup");
+#$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create or Update NetworkSecurityGroup");
 #$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete NetworkSecurityGroup");
-#$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create/Update NetworkSecurityRule");
+#$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create or Update NetworkSecurityRule");
 #$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete NetworkSecurityRule");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - NoSQL Operations");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - SQL Operations");
@@ -707,7 +707,7 @@ if ($upgradeAction eq "upgrade") {
                                      "\$[/plugins/$pluginName/project]",
                                      $cred,
                                      {
-                                        procedureName => 'Create/Update Database Server',
+                                        procedureName => 'Create or Update Database Server',
                                         stepName      => 'createUpdateDatabaseServer'
                                      }
                                     );
@@ -724,7 +724,7 @@ if ($upgradeAction eq "upgrade") {
                                      "\$[/plugins/$pluginName/project]",
                                      $cred,
                                      {
-                                        procedureName => 'CreateOrUpdateDatabase',
+                                        procedureName => 'Create Or Update Database',
                                         stepName      => 'createUpdateDatabase'
                                      }
                                     );
@@ -742,7 +742,7 @@ if ($upgradeAction eq "upgrade") {
                                      "\$[/plugins/$pluginName/project]",
                                      $cred,
                                      {
-                                        procedureName => 'Create Vnet',
+                                        procedureName => 'Create or Update Vnet',
                                         stepName      => 'Create Vnet'
                                      }
                                     );
@@ -750,7 +750,7 @@ if ($upgradeAction eq "upgrade") {
                                      "\$[/plugins/$pluginName/project]",
                                      $cred,
                                      {
-                                        procedureName => 'Create/Update Subnet',
+                                        procedureName => 'Create or Update Subnet',
                                         stepName      => 'createUpdateSubnet'
                                      }
                                     );
@@ -766,7 +766,7 @@ if ($upgradeAction eq "upgrade") {
                                      "\$[/plugins/$pluginName/project]",
                                      $cred,
                                      {
-                                        procedureName => 'Create/Update NetworkSecurityGroup',
+                                        procedureName => 'Create or Update NetworkSecurityGroup',
                                         stepName      => 'createUpdateNetworkSecurityGroup'
                                      }
                                     );
@@ -782,7 +782,7 @@ if ($upgradeAction eq "upgrade") {
                                      "\$[/plugins/$pluginName/project]",
                                      $cred,
                                      {
-                                        procedureName => 'Create/Update NetworkSecurityRule',
+                                        procedureName => 'Create or Update NetworkSecurityRule',
                                         stepName      => 'createUpdateNetworkSecurityRule'
                                      }
                                     );

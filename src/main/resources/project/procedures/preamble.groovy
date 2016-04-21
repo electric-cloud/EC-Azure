@@ -50,6 +50,7 @@ import groovy.json.JsonSlurper
 import com.microsoft.windowsazure.Configuration
 import com.microsoft.azure.utility.AuthHelper
 import com.microsoft.azure.utility.ComputeHelper
+import com.microsoft.azure.utility.NetworkHelper
 import com.microsoft.azure.utility.StorageHelper
 import com.microsoft.azure.utility.ResourceContext
 import com.microsoft.azure.management.compute.models.VirtualMachine
@@ -145,7 +146,7 @@ public class ElectricCommander {
     }
 
     def setConfigurations(def config) {
-        try {
+        exceptionHandler{
             def resp
             resp = PerformHTTPRequest(RequestMethod.GET, '/rest/v1.0/jobsSteps/' + jobStepId + '/credentials/' + config, [])
             if( resp == null ) {
@@ -158,9 +159,6 @@ public class ElectricCommander {
             configProperties.client_id = resp.data.credential.userName
             configProperties.client_secret = resp.data.credential.password
             return true
-        } catch (Exception e) {
-            System.out.println(e.toString());
-            return false
         }
     }
 
@@ -656,13 +654,30 @@ class Azure {
             return VMStatus
     }   
 
-	def createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth) {
-		try {
+	def createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth, String vnet, String subnet) {
+		exceptionHandler{
+
 			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx, OS Type:" + osType + ", Disable Password Authentication: " + disablePasswordAuth)
 			ResourceContext context = new ResourceContext(location, resourceGroupName, subscriptionID, createPublicIPAddress);
 
 			context.setStorageAccountName(storageAccountName)
 			context.setContainerName(storageContainerName)
+            if(vnet)
+            {
+                VirtualNetwork createdVnet = networkResourceProviderClient.getVirtualNetworksOperations()
+                                                                            .get(context.getResourceGroupName(), vnet)
+                                                                            .getVirtualNetwork()
+                context.setVirtualNetwork(createdVnet)
+            }
+            if(subnet && vnet)    
+            {
+                if (context.isCreatePublicIpAddress() && context.getPublicIpAddress() == null) 
+                    NetworkHelper.createPublicIpAddress(networkResourceProviderClient, context)
+
+                NetworkHelper.createNIC(networkResourceProviderClient, context, 
+                                                                              networkResourceProviderClient.getSubnetsOperations()
+                                                                              .get(context.getResourceGroupName(), vnet ,subnet).getSubnet())
+            }    
 
 			StorageAccount storageAccount= StorageHelper.getStorageAccount(storageManagementClient, context)
             String storageURI = ""
@@ -777,60 +792,54 @@ class Azure {
                  publicIP = getPublicIP(context.getPublicIpName(),resourceGroupName, vmName)
 
             return [publicIP, getVMStatus(resourceGroupName, vmName)]
-		} catch (Exception e) {
-			System.out.println(e.toString());
 		}
-		}    
+	}    
 
 public deleteVM(String resourceGroupName,String vmName){
-	try {
+	exceptionHandler{
+
             println("Going for deleting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
     		DeleteOperationResponse deleteOperationResponse = computeManagementClient.getVirtualMachinesOperations().delete(resourceGroupName,vmName)
             if(deleteOperationResponse.getStatusCode() == OperationStatus.Succeeded  || deleteOperationResponse.getRequestId() != null)
     			println("Deleted VM: " + vmName )
             else
                 println("Failed to delete VM:" + vmName)    
-	}catch(Exception ex) {
-		println(ex.toString());
 	}
 }
 
 public startVM(String resourceGroupName, String vmName){
-    try {
+    exceptionHandler{
+
             println("Going for starting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
             ComputeLongRunningOperationResponse startOperationResponse = computeManagementClient.getVirtualMachinesOperations().start(resourceGroupName,vmName)
             if(startOperationResponse.getStatus() == ComputeOperationStatus.Succeeded  || startOperationResponse.getRequestId() != null)
                 println("Started VM: " + vmName )
             else
                 println("Failed to start the VM: " + vmName)    
-    }catch(Exception ex) {
-            println(ex.toString())
-    }
+   }
 }
 
 public stopVM(String resourceGroupName, String vmName){
-    try {
+    exceptionHandler{
+
             println("Going for stopping VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
             ComputeLongRunningOperationResponse stopOperationResponse = computeManagementClient.getVirtualMachinesOperations().powerOff(resourceGroupName,vmName)
             if(stopOperationResponse.getStatus()==ComputeOperationStatus.Succeeded  || stopOperationResponse.getRequestId() != null)
                 println("Stopped VM: " + vmName )
             else
                 println("Failed to stop the VM: " + vmName)    
-    }catch(Exception ex) {
-            println(ex.toString())
     }
 }
 
 public restartVM(String resourceGroupName, String vmName){
-    try {
+    exceptionHandler{
+
             println("Going for restarting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
             ComputeLongRunningOperationResponse restartOperationResponse = computeManagementClient.getVirtualMachinesOperations().restart(resourceGroupName,vmName)
             if(restartOperationResponse.getStatus()==ComputeOperationStatus.Succeeded  || restartOperationResponse.getRequestId() != null)
                 println("Restarted VM: " + vmName )
             else
                 println("Failed to restart the VM: " + vmName)    
-    }catch(Exception ex) {
-            println(ex.toString())
     }
 }
 
@@ -1077,16 +1086,16 @@ public restartVM(String resourceGroupName, String vmName){
     }
 
 public deleteDatabase(String resourceGroupName, String serverName, String databaseName){
-	try{
+	exceptionHandler{
+
 		println("Going for deleting database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ")")
 		sqlManagementClient.getDatabasesOperations().delete(resourceGroupName, serverName, databaseName)
-	}catch(Exception ex) {
-		println(ex.toString())
 	}
 }
 
 public createOrUpdateDatabase(String resourceGroupName, String serverName, String databaseName, String location, String expectedCollationName, String expectedEdition, String expectedMaxSizeInMB, String createModeValue, String elasticPoolName, String requestedServiceObjectiveIdValue, String sourceDatabaseIdValue) {
-	try {
+	exceptionHandler{
+
 		println("Going for creating or updating database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ") in location " + location)
 		DatabaseCreateOrUpdateProperties dbProperties = new DatabaseCreateOrUpdateProperties();
 		if (expectedCollationName)
@@ -1127,14 +1136,13 @@ public createOrUpdateDatabase(String resourceGroupName, String serverName, Strin
 		}
 		DatabaseCreateOrUpdateParameters dbParameters = new DatabaseCreateOrUpdateParameters(dbProperties, location);
 		DatabaseCreateOrUpdateResponse response = sqlManagementClient.getDatabasesOperations().createOrUpdate(resourceGroupName, serverName, databaseName, dbParameters);
-	}catch(Exception ex) {
-		println(ex.toString())
-		}
+	}
 }
 
 public createVnet(def vnetName, def subnetName, def vnetAddressSpace, def subnetAddressSpace, def resourceGroupName , def location, def dnsServer)
     {
-        try {
+        exceptionHandler{
+
                 VirtualNetwork vnet = new VirtualNetwork(location);
                 
                 // set AddressSpace
@@ -1167,8 +1175,6 @@ public createVnet(def vnetName, def subnetName, def vnetAddressSpace, def subnet
                     println("Created Virtual Network: " + vnetName )
                 else
                     println("Failed to create Virtual Network:" + vnetName)     
-        }catch(Exception ex) {
-            System.out.println(ex.toString());
         }
     }
 

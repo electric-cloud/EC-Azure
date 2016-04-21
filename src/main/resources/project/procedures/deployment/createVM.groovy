@@ -30,6 +30,8 @@ try {
     String osType = '$[os_type]'.trim()
     String disablePasswordPrompt = '$[disable_password_auth]'.trim()
     String publicKey = '$[public_key]'.trim()
+    String vnet = '$[vnet]'.trim()
+    String subnet = '$[subnet]'.trim()
     //Commander Resource 
     String resourcePool = '$[resource_pool]'.trim()
     String resourcePort = '$[resource_port]'.trim()
@@ -81,50 +83,56 @@ try {
         String VMName = "${serverName}-${instanceSuffix}"
 
         def (adminName, adminPassword) = ec.getFullCredentials(vmCreds) 
-        def (resourceIP, VMStatus) = ec.azure.createVM(VMName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth)
+        def (resourceIP, VMStatus) = ec.azure.createVM(VMName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth, vnet, subnet)
         
         if(VMStatus == ProvisioningStateTypes.SUCCEEDED)
             VMList.push(VMName)
 
         //VM is created if Public IP is fetched successfully.
         //EF Resources are generated only if the VM is created without errors.
-        if (resourcePool && VMStatus == ProvisioningStateTypes.SUCCEEDED) {
+        if (VMStatus == ProvisioningStateTypes.SUCCEEDED) {
 
-            println("Public IP assigned to the VM: " + resourceIP)
-
-            String resourceName = "${resourcePool}-${instanceSuffix}"
-            def resourceCreated = ec.createCommanderResource(resourceName, resourceWorkspace, resourceIP, resourcePort, resourceZone)
-            if (resourceCreated) {
-
-                // Add resource to pool through a separate call
-                // This is to work-around the issue that createResource API does
-                // not support resource pool name with spaces.
-                def added = ec.addResourceToPool(resourceName, resourcePool)
+            println("Created VM " + VMName + " successfully.")
                 
-                if (added) {
-                    println("Created commander resource: $resourceName in $resourcePool")
-                    ec.setPropertyInResource(resourceName, 'created_by', 'EC-Azure')
-                    ec.setPropertyInResource(resourceName, 'instance_id', VMName)
-                    ec.setPropertyInResource(resourceName, 'config', config)
-                    ec.setPropertyInResource(resourceName, 'etc/public_ip', resourceIP)
-                    ec.setPropertyInResource(resourceName, 'etc/storage_account', storageAccount)
-                    ec.setPropertyInResource(resourceName, 'etc/resource_group_name', resourceGroupName)
+            if(resourcePool)
+            {
+                println("Public IP assigned to the VM: " + resourceIP)
+
+                String resourceName = "${resourcePool}-${instanceSuffix}"
+                def resourceCreated = ec.createCommanderResource(resourceName, resourceWorkspace, resourceIP, resourcePort, resourceZone)
+                if (resourceCreated) {
+
+                    // Add resource to pool through a separate call
+                    // This is to work-around the issue that createResource API does
+                    // not support resource pool name with spaces.
+                    def added = ec.addResourceToPool(resourceName, resourcePool)
+                    
+                    if (added) {
+                        println("Created commander resource: $resourceName in $resourcePool")
+                        ec.setPropertyInResource(resourceName, 'created_by', 'EC-Azure')
+                        ec.setPropertyInResource(resourceName, 'instance_id', VMName)
+                        ec.setPropertyInResource(resourceName, 'config', config)
+                        ec.setPropertyInResource(resourceName, 'etc/public_ip', resourceIP)
+                        ec.setPropertyInResource(resourceName, 'etc/storage_account', storageAccount)
+                        ec.setPropertyInResource(resourceName, 'etc/resource_group_name', resourceGroupName)
+                    } else {
+                        //rollback - delete all Azure VMs and EF resources created so far.
+                        println("Could not add resource to resource pool, going for the rollback operation.")
+                        ec.rollback(resourcePool)
+                    }
                 } else {
                     //rollback - delete all Azure VMs and EF resources created so far.
-                    println("Could not add resource to resource pool, going for the rollback operation.")
+                    println("Could not create commander resource, going for the rollback operation.")
                     ec.rollback(resourcePool)
                 }
-            } else {
-                //rollback - delete all Azure VMs and EF resources created so far.
-                println("Could not create commander resource, going for the rollback operation.")
-                ec.rollback(resourcePool)
             }
         }
         else
         {
+            println("Failed to create the VM " + VMName)
             def listSize = VMList.size()
             listSize.times{
-                deleteVM(VMList.pop(), resourceGroupName)
+                ec.azure.deleteVM(resourceGroupName, VMList.pop())
             }
         }  
         count = count + 1  
