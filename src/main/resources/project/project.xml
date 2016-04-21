@@ -2969,6 +2969,26 @@
                                     </propertySheet>
                                 </property>
                                 <property>
+                                    <propertyName>vnet</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>subnet</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
                                     <propertyName>create_public_ip</propertyName>
                                     <propertySheet>
                                         <property>
@@ -3120,6 +3140,20 @@
                 <defaultValue/>
                 <description/>
                 <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>vnet</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>subnet</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>0</required>
                 <type>entry</type>
             </formalParameter>
             <formalParameter>

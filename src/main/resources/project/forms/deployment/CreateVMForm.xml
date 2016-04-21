@@ -131,6 +131,22 @@
         <type>entry</type>
     </formElement>
     <formElement>
+        <label>Virtual Network:</label>
+        <property>vnet</property>
+        <value/>
+        <documentation>Name of the Virtual Network.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Subnet:</label>
+        <property>subnet</property>
+        <value/>
+        <documentation>Name of the subnet.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
         <label>Create Public IP Address?:</label>
         <property>create_public_ip</property>
         <value/>
