@@ -50,6 +50,7 @@ import groovy.json.JsonSlurper
 import com.microsoft.windowsazure.Configuration
 import com.microsoft.azure.utility.AuthHelper
 import com.microsoft.azure.utility.ComputeHelper
+import com.microsoft.azure.utility.NetworkHelper
 import com.microsoft.azure.utility.StorageHelper
 import com.microsoft.azure.utility.ResourceContext
 import com.microsoft.azure.management.compute.models.VirtualMachine
@@ -662,9 +663,21 @@ class Azure {
 			context.setStorageAccountName(storageAccountName)
 			context.setContainerName(storageContainerName)
             if(vnet)
-                context.setVirtualNetworkName(vnet)
-            if(subnet)    
-                context.setSubnetName(subnet)
+            {
+                VirtualNetwork createdVnet = networkResourceProviderClient.getVirtualNetworksOperations()
+                                                                            .get(context.getResourceGroupName(), vnet)
+                                                                            .getVirtualNetwork()
+                context.setVirtualNetwork(createdVnet)
+            }
+            if(subnet && vnet)    
+            {
+                if (context.isCreatePublicIpAddress() && context.getPublicIpAddress() == null) 
+                    NetworkHelper.createPublicIpAddress(networkResourceProviderClient, context)
+
+                NetworkHelper.createNIC(networkResourceProviderClient, context, 
+                                                                              networkResourceProviderClient.getSubnetsOperations()
+                                                                              .get(context.getResourceGroupName(), vnet ,subnet).getSubnet())
+            }    
 
 			StorageAccount storageAccount= StorageHelper.getStorageAccount(storageManagementClient, context)
             String storageURI = ""

@@ -4121,7 +4121,7 @@
             </step>
         </procedure>
         <procedure>
-            <procedureName>Create/Update Database Server</procedureName>
+            <procedureName>Create or Update Database Server</procedureName>
             <description>Creates a new database server or updates the existing one. </description>
             <jobNameTemplate>Azure-CreateOrUpdateDatabaseServer-$[jobId]</jobNameTemplate>
             <resourceName/>
@@ -4716,7 +4716,7 @@
             </step>
         </procedure>
         <procedure>
-            <procedureName>CreateOrUpdateDatabase</procedureName>
+            <procedureName>Create Or Update Database</procedureName>
             <description>Creates a new database or updates the existing one. </description>
             <jobNameTemplate>Azure-CreateOrUpdateDatabase-$[jobId]</jobNameTemplate>
             <resourceName/>
@@ -5954,7 +5954,7 @@
             </step>
         </procedure>
         <procedure>
-            <procedureName>Create/Update Subnet</procedureName>
+            <procedureName>Create or Update Subnet</procedureName>
             <description>Creates a new subnet or updates an existing one. </description>
             <jobNameTemplate>Azure-CreateUpdateSubnet-$[jobId]</jobNameTemplate>
             <resourceName/>
@@ -6376,7 +6376,7 @@
             </step>
         </procedure>
         <procedure>
-            <procedureName>Create/Update NetworkSecurityRule</procedureName>
+            <procedureName>Create or Update NetworkSecurityRule</procedureName>
             <description>Creates a new network security rule or updates an existing one. </description>
             <jobNameTemplate>Azure-CreateUpdateNetworkSecurityRule-$[jobId]</jobNameTemplate>
             <resourceName/>
@@ -7056,7 +7056,7 @@
             </step>
         </procedure>
         <procedure>
-            <procedureName>Create/Update NetworkSecurityGroup</procedureName>
+            <procedureName>Create or Update NetworkSecurityGroup</procedureName>
             <description>Creates a new network security group or updates an existing one. </description>
             <jobNameTemplate>Azure-CreateUpdateNetworkSecurityGroup-$[jobId]</jobNameTemplate>
             <resourceName/>
