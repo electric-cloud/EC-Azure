@@ -16,12 +16,21 @@
 
 -->
 <editor>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#TearDown</help>
     <formElement>
-        <label>Configuration:</label>
-        <property>config</property>
+        <label>Resource/Resource Pool Name:</label>
+        <property>resource_name</property>
         <value/>
-        <documentation>The name of the configuration to delete.</documentation>
+        <documentation>The name of the commander resource or resource pool which need to be deleted. Precendence is given to resource for deletion. Azure VMs attached to the resources will also be deleted. </documentation>
         <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>JobStep Timeout:</label>
+        <property>job_step_timeout</property>
+        <value/>
+        <documentation>Timeout for the step execution in minutes. Blank means no timeout.</documentation>
+        <required>0</required>
         <type>entry</type>
     </formElement>
 </editor>

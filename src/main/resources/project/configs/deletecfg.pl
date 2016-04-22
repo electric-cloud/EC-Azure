@@ -41,24 +41,24 @@ my $ec = new ElectricCommander();
 $ec->abortOnError(0);
 
 my $opts;
-$opts->{connection_config} = "$[connection_config]";
+$opts->{config} = "$[config]";
 
-if (!defined $opts->{connection_config} || "$opts->{connection_config}" eq "") {
-    print "connection_config parameter must exist and be non-blank\n";
+if (!defined $opts->{config} || "$opts->{config}" eq "") {
+    print "config parameter must exist and be non-blank\n";
     exit ERROR;
 }
 
 # check to see if a config with this name already exists before we do anything else
-my $xpath    = $ec->getProperty("/myProject/azure_cfgs/$opts->{connection_config}");
+my $xpath    = $ec->getProperty("/myProject/azure_cfgs/$opts->{config}");
 my $property = $xpath->findvalue("//response/property/propertyName");
 
 if (!defined $property || "$property" eq "") {
-    my $errMsg = "Error: A configuration named '$opts->{connection_config}' does not exist.";
+    my $errMsg = "Error: A configuration named '$opts->{config}' does not exist.";
     $ec->setProperty("/myJob/configError", $errMsg);
     print $errMsg;
     exit ERROR;
 }
 
-$ec->deleteProperty("/myProject/azure_cfgs/$opts->{connection_config}");
-$ec->deleteCredential($projName, $opts->{connection_config});
+$ec->deleteProperty("/myProject/azure_cfgs/$opts->{config}");
+$ec->deleteCredential($projName, $opts->{config});
 exit SUCCESS;

@@ -1,0 +1,104 @@
+<!--
+
+     Copyright 2015 Electric Cloud, Inc.
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+
+-->
+<editor>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#Create VM</help>
+    <formElement>
+        <label>Configuration:</label>
+        <property>connection_config</property>
+        <value/>
+        <documentation>The name of the configuration which holds all the connection information for Windows Azure.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Virtual Network name:</label>
+        <property>vnet_name</property>
+        <value/>
+        <documentation>Name of the new Virtual Network.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Virtual Network address space:</label>
+        <property>vnet_address_space</property>
+        <value>10.0.0.0/16</value>
+        <documentation>The Virtual Network's address space in CIDR notion.It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/16 -> 10.12.0.0 - 10.12.255.255 (65536 addresses) </documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Subnet name:</label>
+        <property>subnet_name</property>
+        <value/>
+        <documentation>Name of the new Subnet.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Subnet address space:</label>
+        <property>subnet_address_space</property>
+        <value>10.0.0.0/24</value>
+        <documentation>The Subnet's address space in CIDR notion.It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/24 -> 10.12.0.0 - 10.12.0.255 (256 addresses) </documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Custom DNS Server:</label>
+        <property>dns_server</property>
+        <value>10.1.1.1</value>
+        <documentation>Address of DNS Server.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Resource Group Name:</label>
+        <property>resource_group_name</property>
+        <value/>
+        <documentation>The name of the resource group in which VM is to be created.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <type>select</type>
+        <label>Location:</label>
+        <property>location</property>
+        <required>1</required>
+        <documentation>Location of the resource.</documentation>
+        <option><name>Brazil South</name><value>brazilsouth</value></option>
+        <option><name>Central US</name><value>centralus</value></option>
+        <option><name>East Asia</name><value>eastasia</value></option>
+        <option><name>East US</name><value>eastus</value></option>
+        <option><name>East US 2</name><value>eastus2</value></option>
+        <option><name>Japan East</name><value>japaneast</value></option>
+        <option><name>Japan West</name><value>japanwest</value></option>
+        <option><name>North Central US</name><value>northcentralus</value></option>
+        <option><name>North Europe</name><value>northeurope</value></option>
+        <option><name>South Central US</name><value>southcentralus</value></option>
+        <option><name>Southeast Asia</name><value>southeastasia</value></option>
+        <option><name>West Europe</name><value>westeurope</value></option>
+        <option><name>West US</name><value>westus</value></option>
+    </formElement>
+    <formElement>
+        <label>JobStep Timeout:</label>
+        <property>job_step_timeout</property>
+        <value/>
+        <documentation>Timeout for the step execution in minutes. Blank means no timeout.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+</editor>

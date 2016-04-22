@@ -42,13 +42,171 @@
     <xpath>//procedure[procedureName=&quot;CreateConfiguration&quot;]/step[stepName=&quot;CreateAndAttachCredential&quot;]/command</xpath>
   </file>
   <file>
-    <path>configs/attemptConnection.pl</path>
-    <xpath>//procedure[procedureName=&quot;CreateConfiguration&quot;]/step[stepName=&quot;AttemptConnection&quot;]/command</xpath>
-  </file>
-  <file>
     <path>configs/deletecfg.pl</path>
     <xpath>//procedure[procedureName=&quot;DeleteConfiguration&quot;]/step[stepName=&quot;DeleteConfiguration&quot;]/command</xpath>
   </file>
+
+  <file>
+    <path>procedures/deployment/createVM.groovy</path>
+    <xpath>//step[stepName=&quot;Create VM&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create VM&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+
+  <file>
+    <path>procedures/deployment/deleteVM.groovy</path>
+    <xpath>//step[stepName=&quot;Delete VM&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Delete VM&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+
+  <file>
+    <path>procedures/deployment/startVM.groovy</path>
+    <xpath>//step[stepName=&quot;Start VM&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Start VM&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+
+  <file>
+    <path>procedures/deployment/stopVM.groovy</path>
+    <xpath>//step[stepName=&quot;Stop VM&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Stop VM&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+
+  <file>
+    <path>procedures/deployment/restartVM.groovy</path>
+    <xpath>//step[stepName=&quot;Restart VM&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Restart VM&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  
+  <file>
+    <path>procedures/deployment/tearDown.groovy</path>
+    <xpath>//step[stepName=&quot;tearDown&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;TearDown&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/createOrUpdateDatabaseServer.groovy</path>
+    <xpath>//step[stepName=&quot;createUpdateDatabaseServer&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create or Update Database Server&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/deleteDatabaseServer.groovy</path>
+    <xpath>//step[stepName=&quot;deleteDatabaseServer&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Delete Database Server&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/createOrUpdateDatabase.groovy</path>
+    <xpath>//step[stepName=&quot;createUpdateDatabase&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create Or Update Database&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+
+  <file>
+    <path>procedures/deployment/deleteDatabase.groovy</path>
+    <xpath>//step[stepName=&quot;deleteDatabase&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;DeleteDatabase&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+
+  <file>
+    <path>procedures/deployment/createVnet.groovy</path>
+    <xpath>//step[stepName=&quot;Create Vnet&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create or Update Vnet&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/createOrUpdateSubnet.groovy</path>
+    <xpath>//step[stepName=&quot;createUpdateSubnet&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create or Update Subnet&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/deleteSubnet.groovy</path>
+    <xpath>//step[stepName=&quot;deleteSubnet&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Delete Subnet&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file> 
+  <file>
+    <path>procedures/deployment/createOrUpdateNetworkSecurityGroup.groovy</path>
+    <xpath>//step[stepName=&quot;createUpdateNetworkSecurityGroup&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create or Update NetworkSecurityGroup&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/deleteNetworkSecurityGroup.groovy</path>
+    <xpath>//step[stepName=&quot;deleteNetworkSecurityGroup&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Delete NetworkSecurityGroup&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/createOrUpdateNetworkSecurityRule.groovy</path>
+    <xpath>//step[stepName=&quot;createUpdateNetworkSecurityRule&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Create or Update NetworkSecurityRule&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/deleteNetworkSecurityRule.groovy</path>
+    <xpath>//step[stepName=&quot;deleteNetworkSecurityRule&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Delete NetworkSecurityRule&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/deployment/nosqlOperations.groovy</path>
+    <xpath>//step[stepName=&quot;nosqlOperations&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;NoSQL Operations&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+
+  <file>
+    <path>procedures/deployment/sqlOperations.groovy</path>
+    <xpath>//step[stepName=&quot;sqlOperations&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;SQL Operations&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+
   <file>
     <path>procedures/deployment/create_hosted.pl</path>
     <xpath>//step[stepName=&quot;Create Hosted Service&quot;]/command</xpath>
@@ -174,7 +332,75 @@
     <xpath>//procedure[procedureName=&quot;Delete VM&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
   <file>
-    <path>procedures/preamble.pl</path>
+    <path>forms/deployment/StartVMForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Start VM&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/StopVMForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Stop VM&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/RestartVMForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Restart VM&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/TearDownForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;TearDown&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/CreateOrUpdateDatabaseServerForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Create or Update Database Server&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/DeleteDatabaseServerForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Delete Database Server&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/CreateOrUpdateDatabaseForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Create Or Update Database&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/DeleteDatabaseForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;DeleteDatabase&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/CreateVnetForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Create or Update Vnet&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/CreateOrUpdateSubnetForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Create or Update Subnet&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/DeleteSubnetForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Delete Subnet&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/CreateOrUpdateNetworkSecurityGroupForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Create or Update NetworkSecurityGroup&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/DeleteNetworkSecurityGroupForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Delete NetworkSecurityGroup&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/CreateOrUpdateNetworkSecurityRuleForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Create or Update NetworkSecurityRule&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/DeleteNetworkSecurityRuleForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Delete NetworkSecurityRule&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/NoSQLOperationsForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;NoSQL Operations&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/SQLOperationsForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;SQL Operations&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>procedures/preamble.groovy</path>
     <xpath>//property[propertyName=&quot;preamble&quot;]/value</xpath>
   </file>
   <file>

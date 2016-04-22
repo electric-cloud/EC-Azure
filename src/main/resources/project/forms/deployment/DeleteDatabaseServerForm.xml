@@ -16,7 +16,7 @@
 
 -->
 <editor>
-    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#Delete VM</help>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#Delete Database Server</help>
     <formElement>
         <label>Configuration:</label>
         <property>connection_config</property>
@@ -29,15 +29,15 @@
         <label>Resource Group Name:</label>
         <property>resource_group_name</property>
         <value/>
-        <documentation>The name of the resource group in which VM is to be created.</documentation>
+        <documentation> The name of the Resource Group to which the Azure SQL Database Server belongs.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>VM Name:</label>
-        <property>vm_name</property>
+        <label>Server name:</label>
+        <property>server_name</property>
         <value/>
-        <documentation>A name for the Vitual Machine.</documentation>
+        <documentation>The name of the Azure SQL Database Server which is to be deleted.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>

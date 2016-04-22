@@ -115,7 +115,7 @@ public class ConfigurationList
 
         request.setProjectName("/plugins/EC-Azure/project");
         request.setProcedureName("DeleteConfiguration");
-        request.addActualParameter("connection_config", configName);
+        request.addActualParameter("config", configName);
         request.setCallback(new DefaultRunProcedureResponseCallback(this) {
                 @Override public void handleResponse(
                         RunProcedureResponse response)

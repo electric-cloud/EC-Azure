@@ -16,7 +16,7 @@
 
 -->
 <editor>
-    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#CreateContainer</help>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#Create VM</help>
     <formElement>
         <label>Configuration:</label>
         <property>connection_config</property>
@@ -24,6 +24,67 @@
         <documentation>The name of the configuration which holds all the connection information for Windows Azure.</documentation>
         <required>1</required>
         <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Server name:</label>
+        <property>server_name</property>
+        <value/>
+        <documentation>Name of the new Server.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Number of Instances:</label>
+        <property>instance_count</property>
+        <value>1</value>
+        <documentation>Number of instances to create.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Image URN:</label>
+        <property>image</property>
+        <value/>
+        <documentation> The image URN in the form publisherName:offer:skus:version/ The source VHD link of a user image, e.g. https://foo.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/snap-bar.vhd</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Is User Image?:</label>
+        <property>is_user_image</property>
+        <value/>
+        <documentation>Provided URN is of user image or not?</documentation>
+        <required>0</required>
+        <type>checkbox</type>
+        <checkedValue>1</checkedValue>
+        <uncheckedValue>0</uncheckedValue>
+    </formElement>
+    <formElement>
+        <label>Disable Password Prompt?:</label>
+        <property>disable_password_auth</property>
+        <value/>
+        <documentation>Disable password authentication in case of super user privileges?</documentation>
+        <required>0</required>
+        <type>checkbox</type>
+        <checkedValue>1</checkedValue>
+        <uncheckedValue>0</uncheckedValue>
+    </formElement>
+    <formElement>
+        <label>Public Key:</label>
+        <property>public_key</property>
+        <value/>
+        <documentation>Public key for authentication of created Virtual machine for the client[(1) ssh-keygen -t rsa -b 2048 (2) openssl req -x509 -key ~/.ssh/id_rsa -nodes -days 365 -newkey rsa:2048 -out public.pem]. </documentation>
+        <required>0</required>
+        <type>textarea</type>
+    </formElement>
+    <formElement>
+        <type>select</type>
+        <label>Operating System Type:</label>
+        <property>os_type</property>
+        <required>0</required>
+        <documentation>Required only for user images.</documentation>
+        <option><name>Windows</name><value>Windows</value></option>
+        <option><name>Linux</name><value>Linux</value></option>
     </formElement>
     <formElement>
         <label>Resource Group Name:</label>
@@ -34,35 +95,113 @@
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>Region:</label>
-        <property>region</property>
-        <value/>
+        <type>select</type>
+        <label>Location:</label>
+        <property>location</property>
+        <required>1</required>
         <documentation>Location of the resource.</documentation>
+        <option><name>Brazil South</name><value>brazilsouth</value></option>
+        <option><name>Central US</name><value>centralus</value></option>
+        <option><name>East Asia</name><value>eastasia</value></option>
+        <option><name>East US</name><value>eastus</value></option>
+        <option><name>East US 2</name><value>eastus2</value></option>
+        <option><name>Japan East</name><value>japaneast</value></option>
+        <option><name>Japan West</name><value>japanwest</value></option>
+        <option><name>North Central US</name><value>northcentralus</value></option>
+        <option><name>North Europe</name><value>northeurope</value></option>
+        <option><name>South Central US</name><value>southcentralus</value></option>
+        <option><name>Southeast Asia</name><value>southeastasia</value></option>
+        <option><name>West Europe</name><value>westeurope</value></option>
+        <option><name>West US</name><value>westus</value></option>
+    </formElement>
+    <formElement>
+        <label>Storage Account:</label>
+        <property>storage_account</property>
+        <value/>
+        <documentation>Name of storage account.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>VM Name:</label>
-        <property>vm_name</property>
+        <label>Storage Container:</label>
+        <property>storage_container</property>
         <value/>
-        <documentation>A name for the Vitual Machine.</documentation>
+        <documentation>Name of the storage container.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>VMAdminUser:</label>
-        <property>vm_admin_user</property>
+        <label>Virtual Network:</label>
+        <property>vnet</property>
         <value/>
-        <documentation>VM admin user.</documentation>
-        <required>1</required>
+        <documentation>Name of an existing Virtual Network.</documentation>
+        <required>0</required>
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>VMAdminPassword:</label>
-        <property>vm_admin_password</property>
+        <label>Subnet:</label>
+        <property>subnet</property>
         <value/>
-        <documentation>Password for VM admin user.</documentation>
-        <required>1</required>
+        <documentation>Name of an existing subnet. To assign a subnet to VM, also mention the name of the Virtual Network inside which the subnet exists. </documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Create Public IP Address?:</label>
+        <property>create_public_ip</property>
+        <value/>
+        <documentation>Create Public IP address for the deployed servers?</documentation>
+        <required>0</required>
+        <type>checkbox</type>
+        <checkedValue>1</checkedValue>
+        <uncheckedValue>0</uncheckedValue>
+    </formElement>
+    <formElement>
+        <label>Resource Pool:</label>
+        <property>resource_pool</property>
+        <value/>
+        <documentation>If you would like to add ElectricFlow resources for each Azure instance being created, enter the resource pool name for the new resources. If left blank no resource will be created.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Resource Port:</label>
+        <property>resource_port</property>
+        <value/>
+        <documentation>If you specify a resource pool name in 'Resource Pool' field, this is the port that will be used when creating the resource. If no value is specified, port 7800 will be used by default when creating the resource.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Resource workspace:</label>
+        <property>resource_workspace</property>
+        <value/>
+        <documentation>If you specify a resource pool name, this is the workspace that will be assigned to the created resources.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Resource Zone Name:</label>
+        <property>resource_zone</property>
+        <value/>
+        <documentation>Created resource will belong to the specified zone. Zone 'default' is used by default.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Results Location:</label>
+        <property>result_location</property>
+        <value/>
+        <documentation>Location where the output properties will be saved. If not specified, will default to '/myJob/Azure/deployed'.</documentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>JobStep Timeout:</label>
+        <property>job_step_timeout</property>
+        <value/>
+        <documentation>Timeout for the step execution in minutes. Blank means no timeout.</documentation>
+        <required>0</required>
         <type>entry</type>
     </formElement>
 </editor>

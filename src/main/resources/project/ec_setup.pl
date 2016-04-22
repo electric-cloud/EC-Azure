@@ -196,9 +196,134 @@ my %get_status = (
                 );
 
 
-                
-#Resource Management           
+my %create_vm = (
+                 label       => "Windows Azure - Create Virtual Machine",
+                 procedure   => "Create VM",
+                 description => "Create Virtual Machine",
+                 category    => "Deployment"
+                );
 
+my %delete_vm = (
+                 label       => "Windows Azure - Delete Virtual Machine",
+                 procedure   => "Delete VM",
+                 description => "Delete Virtual Machine",
+                 category    => "Deployment"
+                );
+
+my %start_vm = (
+                 label       => "Windows Azure - Start Virtual Machine",
+                 procedure   => "Start VM",
+                 description => "Start Virtual Machine",
+                 category    => "Deployment"
+                );
+
+my %stop_vm = (
+                 label       => "Windows Azure - Stop Virtual Machine",
+                 procedure   => "Stop VM",
+                 description => "Stop Virtual Machine",
+                 category    => "Deployment"
+                );
+
+my %restart_vm = (
+                 label       => "Windows Azure - Restart Virtual Machine",
+                 procedure   => "Restart VM",
+                 description => "Restart Virtual Machine",
+                 category    => "Deployment"
+                );
+
+my %teardown = (
+                 label       => "Windows Azure - TearDown Virtual Machines",
+                 procedure   => "TearDown",
+                 description => "Delete Virtual Machine (Commander Resource/ ResourcePool)",
+                 category    => "Deployment"
+                );
+
+my %create_update_database_server = (
+                 label       => "Windows Azure - Create or Update Database Server",
+                 procedure   => "Create or Update Database Server",
+                 description => "Creates or updates a database server",
+                 category    => "Deployment"
+                );
+
+my %delete_database_server = (
+                 label       => "Windows Azure - Delete Database server",
+                 procedure   => "Delete Database Server",
+                 description => "Deletes a database server",
+                 category    => "Deployment"
+                );
+
+my %create_update_database = (
+                 label       => "Windows Azure - Create or Update database",
+                 procedure   => "Create Or Update Database",
+                 description => "Creates or updates a database",
+                 category    => "Deployment"
+                );
+my %delete_database = (
+                 label       => "Windows Azure - Delete existing database",
+                 procedure   => "DeleteDatabase",
+                 description => "Delete existing database",
+                 category    => "Deployment"
+                );
+my %create_vnet = (
+                 label       => "Windows Azure - Create or Update Virtual Network",
+                 procedure   => "Create or Update Vnet",
+                 description => "Create or Update Virual Network",
+                 category    => "Deployment"
+                );
+
+my %create_update_subnet = (
+                 label       => "Windows Azure - Create or Update Subnet",
+                 procedure   => "Create or Update Subnet",
+                 description => "Creates a subnet or updates an existing one",
+                 category    => "Deployment"
+                );
+my %delete_subnet = (
+                 label       => "Windows Azure - Delete existing subnet",
+                 procedure   => "Delete Subnet",
+                 description => "Delete existing subnet",
+                 category    => "Deployment"
+                );
+
+my %create_update_security_group = (
+                 label       => "Windows Azure - Create or Update Network Security Group",
+                 procedure   => "Create or Update NetworkSecurityGroup",
+                 description => "Creates a Network Security Group or updates an existing one",
+                 category    => "Deployment"
+                );
+my %delete_security_group = (
+                 label       => "Windows Azure - Delete existing Network Security Group",
+                 procedure   => "Delete NetworkSecurityGroup",
+                 description => "Delete existing Network Security Group",
+                 category    => "Deployment"
+                );
+
+my %create_update_security_rule = (
+                 label       => "Windows Azure - Create or Update Network Security Rule",
+                 procedure   => "Create or Update NetworkSecurityRule",
+                 description => "Creates a Network Security Rule or updates an existing one",
+                 category    => "Deployment"
+                );
+my %delete_security_rule = (
+                 label       => "Windows Azure - Delete existing Network Security Rule",
+                 procedure   => "Delete NetworkSecurityRule",
+                 description => "Delete existing Network Security Rule",
+                 category    => "Deployment"
+                );
+my %nosql_operations = (
+                 label       => "Windows Azure - NoSQL Operations",
+                 procedure   => "NoSQL Operations",
+                 description => "Perform NoSQL Operations",
+                 category    => "Deployment"
+                );
+
+my %sql_operations = (
+                 label       => "Windows Azure - SQL Operations",
+                 procedure   => "SQL Operations",
+                 description => "Perform SQL Operations",
+                 category    => "Deployment"
+                );
+
+#Resource Management           
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Provision");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Cleanup");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - CallAzure");
@@ -213,10 +338,27 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Star
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Virtual Machine Deployment");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Download RDP File");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - List Objects");
-
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create VM");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete VM");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Start VM");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Stop VM");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Restart VM");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - TearDown");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create or Update Database Server");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete Database Server");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Or Update Database");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - DeleteDatabase");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Virtual Network");
+#$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create or Update Subnet");
+#$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete Subnet");
+#$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create or Update NetworkSecurityGroup");
+#$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete NetworkSecurityGroup");
+#$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create or Update NetworkSecurityRule");
+#$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete NetworkSecurityRule");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - NoSQL Operations");
+$batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - SQL Operations");
 
 #Deployment
-
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Hosted Service");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Delete Hosted Service");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Storage Account");
@@ -229,13 +371,9 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Dele
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Deployment");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Get Operation Status");
 
-
-
-
-
 # @::createStepPickerSteps = (\%provision, \%cleanup, \%call_azure, \%create_resource, \%add_role, \%capture_role, \%delete_role, \%get_role, \%restart_role, \%shutdown_role, \%start_role, \%create_vm_deployment, \%download_rdp, \%list_objects);
 
-@::createStepPickerSteps = (\%create_hosted_service, \%delete_hosted_service ,\%create_storage_account, \%delete_storage_account, \%get_storage_account_keys, \%create_container, \%delete_container, \%put_blob, \%delete_blob, \%get_status, \%create_deployment);
+@::createStepPickerSteps = (\%create_hosted_service, \%delete_hosted_service ,\%create_storage_account, \%delete_storage_account, \%get_storage_account_keys, \%create_container, \%delete_container, \%put_blob, \%delete_blob, \%get_status, \%create_deployment, \%create_vm, \%delete_vm, \%start_vm, \%stop_vm, \%teardown, \%create_update_database_server, \%delete_database_server, \%create_update_database, \%delete_database, \%create_vnet, \%create_update_subnet, \%delete_subnet, \%create_update_security_group, \%delete_security_group, \%create_update_security_rule, \%delete_security_rule, \%nosql_operations, \%sql_operations);
 
 my $pluginName = "@PLUGIN_NAME@";
 my $pluginKey  = "@PLUGIN_KEY@";
@@ -508,6 +646,169 @@ if ($upgradeAction eq "upgrade") {
                                      {
                                         procedureName => 'Get Operation Status',
                                         stepName      => 'Get Operation Status'
+                                     }
+                                    );
+
+            $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Create VM',
+                                        stepName      => 'Create VM'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Delete VM',
+                                        stepName      => 'Delete VM'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Start VM',
+                                        stepName      => 'Start VM'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Stop VM',
+                                        stepName      => 'Stop VM'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Restart VM',
+                                        stepName      => 'Restart VM'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'TearDown',
+                                        stepName      => 'tearDown'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Create or Update Database Server',
+                                        stepName      => 'createUpdateDatabaseServer'
+                                     }
+                                    );
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Delete Database Server',
+                                        stepName      => 'deleteDatabaseServer'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Create Or Update Database',
+                                        stepName      => 'createUpdateDatabase'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'DeleteDatabase',
+                                        stepName      => 'deleteDatabase'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Create or Update Vnet',
+                                        stepName      => 'Create Vnet'
+                                     }
+                                    );
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Create or Update Subnet',
+                                        stepName      => 'createUpdateSubnet'
+                                     }
+                                    );
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Delete Subnet',
+                                        stepName      => 'deleteSubnet'
+                                     }
+                                    );
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Create or Update NetworkSecurityGroup',
+                                        stepName      => 'createUpdateNetworkSecurityGroup'
+                                     }
+                                    );
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Delete NetworkSecurityGroup',
+                                        stepName      => 'deleteNetworkSecurityGroup'
+                                     }
+                                    );
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Create or Update NetworkSecurityRule',
+                                        stepName      => 'createUpdateNetworkSecurityRule'
+                                     }
+                                    );
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'Delete NetworkSecurityRule',
+                                        stepName      => 'deleteNetworkSecurityRule'
+                                     }
+                                    );
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'NoSQL Operations',
+                                        stepName      => 'nosqlOperations'
+                                     }
+                                    );
+
+             $batch->attachCredential(
+                                     "\$[/plugins/$pluginName/project]",
+                                     $cred,
+                                     {
+                                        procedureName => 'SQL Operations',
+                                        stepName      => 'sqlOperations'
                                      }
                                     );
         }

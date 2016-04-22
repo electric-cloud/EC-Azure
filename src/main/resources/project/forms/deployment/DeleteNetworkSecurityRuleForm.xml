@@ -16,7 +16,7 @@
 
 -->
 <editor>
-    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#Delete VM</help>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#Delete NetworkSecurityRule</help>
     <formElement>
         <label>Configuration:</label>
         <property>connection_config</property>
@@ -26,18 +26,26 @@
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>Resource Group Name:</label>
-        <property>resource_group_name</property>
+        <label>Network Security Rule:</label>
+        <property>security_rule</property>
         <value/>
-        <documentation>The name of the resource group in which VM is to be created.</documentation>
+        <documentation>Name of the Network security Rule which is to be deleted.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>VM Name:</label>
-        <property>vm_name</property>
+        <label>Network Security Group:</label>
+        <property>network_security_group</property>
         <value/>
-        <documentation>A name for the Vitual Machine.</documentation>
+        <documentation>Name of the Network security Group in which network security rule is present.</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Resource Group Name:</label>
+        <property>resource_group</property>
+        <value/>
+        <documentation>The name of the resource group in which network security group is present.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>

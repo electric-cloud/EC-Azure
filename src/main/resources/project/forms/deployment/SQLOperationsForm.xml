@@ -16,30 +16,46 @@
 
 -->
 <editor>
-    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#Delete VM</help>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#SQL Operations</help>
     <formElement>
-        <label>Configuration:</label>
-        <property>connection_config</property>
+        <label>Database Server:</label>
+        <property>database_server</property>
         <value/>
-        <documentation>The name of the configuration which holds all the connection information for Windows Azure.</documentation>
+        <documentation>Name of the database server.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>Resource Group Name:</label>
-        <property>resource_group_name</property>
-        <value/>
-        <documentation>The name of the resource group in which VM is to be created.</documentation>
+        <label>Database:</label>
+        <property>database</property>
+        <value></value>
+        <documentation>Name of the database.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
     <formElement>
-        <label>VM Name:</label>
-        <property>vm_name</property>
-        <value/>
-        <documentation>A name for the Vitual Machine.</documentation>
+        <label>Port:</label>
+        <property>port</property>
+        <value>1433</value>
+        <documentation>Port for connecting to database.</documentation>
         <required>1</required>
         <type>entry</type>
+    </formElement>
+    <formElement>
+        <label>Database Credentials:</label>
+        <property>db_creds</property>
+        <value></value>
+        <documentation>Credentials for connecting to the database.</documentation>
+        <required>1</required>
+        <type>credential</type>
+    </formElement>
+    <formElement>
+        <label>SQL Query:</label>
+        <property>sql_query</property>
+        <value></value>
+        <documentation>Enter the exact SQL query to be executed.</documentation>
+        <required>1</required>
+        <type>textarea</type>
     </formElement>
     <formElement>
         <label>JobStep Timeout:</label>
