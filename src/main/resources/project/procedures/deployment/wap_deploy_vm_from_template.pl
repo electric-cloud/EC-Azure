@@ -33,6 +33,8 @@ sub main {
     my ($o) = @_;
 
     my $ec = ElectricCommander->new();
+    my $res_name = undef;
+    my $res_pool_name = get_param($ec, 'resourcePoolName');
     my $ua = get_ua($o->{wap_public_key}, $o->{wap_private_key});
     print "UA constructed\n";
     $o->{wap_url} =~ s|\/+$||gs;
@@ -120,7 +122,10 @@ sub main {
     print Dumper rr($req_data, PATCH => $ut2, $poweron_json);
     print "Done!\n";
     print "Creating resource!\n";
-    my $res_name = 'WAP_' . $obj->{ID};
+    $res_name ||= 'WAP_' . $obj->{ID};
+    # if ($ips->[0]) {
+    #     $ips->[0] = replace_ip($ips->[0]);
+    # }
     my $cmdrresult = $ec->createResource(
         $res_name,
         {
@@ -129,6 +134,14 @@ sub main {
             port          => 7800
         }
     );
+    if ($res_pool_name) {
+        # Add resource to pool through a separate call
+        # This is to work-around the issue that createResource API does
+        # not support resource pool name with spaces.
+        $ec->addResourcesToPool($res_pool_name, {
+            resourceName => [$res_name]
+        });
+    }
     print "Deployment finished\n";
 }
 
@@ -146,6 +159,21 @@ sub rr {
 
     my $ua = $req_data->{ua};
     return $ua->request($req);
+}
+
+
+sub get_param {
+    my ($ec, $param) = @_;
+
+    my $retval;
+    eval {
+        $retval = $ec->getProperty($param)->findvalue('//value') . '';
+        1;
+    } or do {
+        $retval = undef;
+    };
+
+    return $retval;
 }
 
 
@@ -179,7 +207,12 @@ sub get_ua {
 }
 
 
+sub replace_ip {
+    my ($ip) = @_;
 
+    $ip =~ s/^192\.168\.1\.(\d{1,3})$/10.0.1.$1/ms;
+    return $ip;
+}
 
 __DATA__
 {

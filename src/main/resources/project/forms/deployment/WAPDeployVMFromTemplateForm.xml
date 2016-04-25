@@ -126,4 +126,22 @@
         <required>1</required>
         <type>textarea</type>
     </formElement>
+
+    <formElement>
+        <label>Resource Pool</label>
+        <property>resource_pool</property>
+        <value/>
+        <documentation>Local admin password</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
+    
+    <formElement>
+        <label>Instance Count</label>
+        <property>instance_count</property>
+        <value/>
+        <documentation>Local admin password</documentation>
+        <required>1</required>
+        <type>entry</type>
+    </formElement>
 </editor>
