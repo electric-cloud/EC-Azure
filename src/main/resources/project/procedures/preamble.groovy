@@ -1150,21 +1150,26 @@ public createVnet(def vnetName, def subnetName, def vnetAddressSpace, def subnet
                 ArrayList<String> addrPrefixes = new ArrayList<String>(1)
                 addrPrefixes.add(vnetAddressSpace)
                 asp.setAddressPrefixes(addrPrefixes)
-                vnet.setAddressSpace(asp);
-                
-                // set DhcpOptions
-                DhcpOptions dop = new DhcpOptions()
-                ArrayList<String> dnsServers = new ArrayList<String>(2)
-                dnsServers.add(dnsServer)
-                dop.setDnsServers(dnsServers)
-                vnet.setDhcpOptions(dop)
-        
-                // set subNet    
+                vnet.setAddressSpace(asp)
+
+                 // set subNet    
                 Subnet subnet = new Subnet(subnetAddressSpace)
                 subnet.setName(subnetName)
                 ArrayList<Subnet> subNets = new ArrayList<Subnet>(1);
                 subNets.add(subnet);
-                vnet.setSubnets(subNets);
+                vnet.setSubnets(subNets)
+                
+                if(dnsServer)
+                {
+                    // set DhcpOptions
+                    DhcpOptions dop = new DhcpOptions()
+                    ArrayList<String> dnsServers = new ArrayList<String>(2)
+                    dnsServers.add(dnsServer)
+                    dop.setDnsServers(dnsServers)
+                    vnet.setDhcpOptions(dop)
+                }
+        
+               
                 
                 
                 AzureAsyncOperationResponse createVnetResponse = networkResourceProviderClient
