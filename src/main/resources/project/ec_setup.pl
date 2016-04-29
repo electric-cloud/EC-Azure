@@ -373,7 +373,7 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Get 
 
 # @::createStepPickerSteps = (\%provision, \%cleanup, \%call_azure, \%create_resource, \%add_role, \%capture_role, \%delete_role, \%get_role, \%restart_role, \%shutdown_role, \%start_role, \%create_vm_deployment, \%download_rdp, \%list_objects);
 
-@::createStepPickerSteps = (\%create_hosted_service, \%delete_hosted_service ,\%create_storage_account, \%delete_storage_account, \%get_storage_account_keys, \%create_container, \%delete_container, \%put_blob, \%delete_blob, \%get_status, \%create_deployment, \%create_vm, \%delete_vm, \%start_vm, \%stop_vm, \%teardown, \%create_update_database_server, \%delete_database_server, \%create_update_database, \%delete_database, \%create_vnet, \%create_update_subnet, \%delete_subnet, \%create_update_security_group, \%delete_security_group, \%create_update_security_rule, \%delete_security_rule, \%nosql_operations, \%sql_operations);
+@::createStepPickerSteps = (\%create_hosted_service, \%delete_hosted_service ,\%create_storage_account, \%delete_storage_account, \%get_storage_account_keys, \%create_container, \%delete_container, \%put_blob, \%delete_blob, \%get_status, \%create_deployment, \%create_vm, \%delete_vm, \%start_vm, \%stop_vm, \%restart_vm, \%teardown, \%create_update_database_server, \%delete_database_server, \%create_update_database, \%delete_database, \%create_vnet, \%create_update_subnet, \%delete_subnet, \%create_update_security_group, \%delete_security_group, \%create_update_security_rule, \%delete_security_rule, \%nosql_operations, \%sql_operations);
 
 my $pluginName = "@PLUGIN_NAME@";
 my $pluginKey  = "@PLUGIN_KEY@";
