@@ -797,13 +797,16 @@ class Azure {
 
 public deleteVM(String resourceGroupName,String vmName){
 	exceptionHandler{
-
-            println("Going for deleting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
-    		DeleteOperationResponse deleteOperationResponse = computeManagementClient.getVirtualMachinesOperations().delete(resourceGroupName,vmName)
-            if(deleteOperationResponse.getStatusCode() == OperationStatus.Succeeded  || deleteOperationResponse.getRequestId() != null)
-    			println("Deleted VM: " + vmName )
-            else
-                println("Failed to delete VM:" + vmName)    
+        
+           if(computeManagementClient.getVirtualMachinesOperations().get(resourceGroupName,vmName).getVirtualMachine().getName())
+           {
+                println("Going for deleting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
+        		DeleteOperationResponse deleteOperationResponse = computeManagementClient.getVirtualMachinesOperations().delete(resourceGroupName,vmName)
+                if(deleteOperationResponse.getStatusCode() == OperationStatus.Succeeded  || deleteOperationResponse.getRequestId() != null)
+        			println("Deleted VM: " + vmName )
+                else
+                    println("Failed to delete VM:" + vmName) 
+            }        
 	}
 }
 
