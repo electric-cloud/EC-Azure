@@ -797,7 +797,7 @@ class Azure {
 
 public deleteVM(String resourceGroupName,String vmName){
 	exceptionHandler{
-        
+
            if(computeManagementClient.getVirtualMachinesOperations().get(resourceGroupName,vmName).getVirtualMachine().getName())
            {
                 println("Going for deleting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
@@ -1094,6 +1094,19 @@ public deleteDatabase(String resourceGroupName, String serverName, String databa
 		println("Going for deleting database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ")")
 		sqlManagementClient.getDatabasesOperations().delete(resourceGroupName, serverName, databaseName)
 	}
+}
+
+public deleteVnet(String resourceGroupName ,String vnetName)
+{
+    exceptionHandler{
+
+        println("Going for deleting Virtual Network: " + vnetName + "  in Resource Group: " + resourceGroupName )
+        OperationResponse response = networkResourceProviderClient.getVirtualNetworksOperations().delete(resourceGroupName,vnetName)
+        if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+                {
+                    println("Successfully deleted Vnet: " + vnetName )
+                }     
+     }       
 }
 
 public createOrUpdateDatabase(String resourceGroupName, String serverName, String databaseName, String location, String expectedCollationName, String expectedEdition, String expectedMaxSizeInMB, String createModeValue, String elasticPoolName, String requestedServiceObjectiveIdValue, String sourceDatabaseIdValue) {

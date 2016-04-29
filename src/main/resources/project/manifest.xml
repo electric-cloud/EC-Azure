@@ -141,6 +141,16 @@
     <path>procedures/setTimelimit.pl</path>
     <xpath>//procedure[procedureName=&quot;Create or Update Vnet&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
   </file>
+
+  <file>
+    <path>procedures/deployment/deleteVnet.groovy</path>
+    <xpath>//step[stepName=&quot;Delete Vnet&quot;]/command</xpath>
+  </file>
+  <file>
+    <path>procedures/setTimelimit.pl</path>
+    <xpath>//procedure[procedureName=&quot;Delete Vnet&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
+  </file>
+
   <file>
     <path>procedures/deployment/createOrUpdateSubnet.groovy</path>
     <xpath>//step[stepName=&quot;createUpdateSubnet&quot;]/command</xpath>
@@ -366,6 +376,10 @@
   <file>
     <path>forms/deployment/CreateVnetForm.xml</path>
     <xpath>//procedure[procedureName=&quot;Create or Update Vnet&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>forms/deployment/DeleteVnetForm.xml</path>
+    <xpath>//procedure[procedureName=&quot;Delete Vnet&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
   <file>
     <path>forms/deployment/CreateOrUpdateSubnetForm.xml</path>
