@@ -80,7 +80,12 @@ try {
     instances.times{
 
         String instanceSuffix = "${count}-${System.currentTimeMillis()}"
-        String VMName = "${serverName}-${instanceSuffix}"
+        String VMName 
+
+        if(instances > 1)
+            VMName = "${serverName}-${instanceSuffix}"
+        else 
+            VMName = serverName
 
         def (adminName, adminPassword) = ec.getFullCredentials(vmCreds) 
         def (resourceIP, VMStatus) = ec.azure.createVM(VMName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth, vnet, subnet)
