@@ -20,7 +20,7 @@ $[/myProject/procedure_helpers/preamble]
 try {
     String storageAccount = '$[storage_account]'.trim()
     String storageContainer = '$[storage_container]'.trim()
-    String serverName = '$[server_name]'.trim()
+    String serverName = '$[vm_name]'.trim()
     String resourceGroupName = '$[resource_group_name]'.trim()
     String config = '$[connection_config]'.trim()
     String location = '$[location]'.trim()

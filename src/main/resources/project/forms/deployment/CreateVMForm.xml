@@ -27,7 +27,7 @@
     </formElement>
     <formElement>
         <label>Server name:</label>
-        <property>server_name</property>
+        <property>vm_name</property>
         <value/>
         <documentation>Name of the new Server.</documentation>
         <required>1</required>

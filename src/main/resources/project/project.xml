@@ -2643,7 +2643,7 @@
                                     </propertySheet>
                                 </property>
                                 <property>
-                                    <propertyName>server_name</propertyName>
+                                    <propertyName>vm_name</propertyName>
                                     <propertySheet>
                                         <property>
                                             <propertyName>formType</propertyName>
@@ -3157,7 +3157,7 @@
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
-                <formalParameterName>server_name</formalParameterName>
+                <formalParameterName>vm_name</formalParameterName>
                 <defaultValue/>
                 <description/>
                 <required>1</required>
