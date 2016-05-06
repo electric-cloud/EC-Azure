@@ -70,7 +70,7 @@
         <label>Source Address Prefix:</label>
         <property>source_address_prefix</property>
         <value>*</value>
-        <documentation>Source address prefix. CIDR or source IP range. Asterix “*” can also be used to match all source IPs. Default tags such as ‘VirtualNetwork’, ‘AzureLoadBalancer’ and ‘Internet’ can also be used.</documentation>
+        <documentation>Source address prefix. CIDR or source IP range. Asterix "*" can also be used to match all source IPs. Default tags such as 'VirtualNetwork','AzureLoadBalancer' and 'Internet' can also be used.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
@@ -78,7 +78,7 @@
         <label>Source Port Range:</label>
         <property>source_port_range</property>
         <value>*</value>
-        <documentation>Source Port Range. Integer or range between 0 and 65535. Asterix “*” can also be used to match all ports.</documentation>
+        <documentation>Source Port Range. Integer or range between 0 and 65535. Asterix "*" can also be used to match all ports.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
@@ -86,7 +86,7 @@
         <label>Destination Address Prefix:</label>
         <property>destination_address_prefix</property>
         <value>*</value>
-        <documentation>Destination address prefix. CIDR or source IP range. Asterix “*” can also be used to match all source IPs. Default tags such as ‘VirtualNetwork’, ‘AzureLoadBalancer’ and ‘Internet’ can also be used.</documentation>
+        <documentation>Destination address prefix. CIDR or source IP range. Asterix "*" can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
@@ -94,7 +94,7 @@
         <label>Destination Port Range:</label>
         <property>destination_port_range</property>
         <value>*</value>
-        <documentation>Destination Port Range. Integer or range between 0 and 65535. Asterix “*” can also be used to match all ports.</documentation>
+        <documentation>Destination Port Range. Integer or range between 0 and 65535. Asterix "*" can also be used to match all ports.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>
