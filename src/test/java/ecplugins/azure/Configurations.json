@@ -1,0 +1,196 @@
+/*
+   Copyright 2015 Electric Cloud, Inc.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   */
+{
+    "Create": {
+        " VM": [
+        {
+        "connection_config":"myAzureConfig",
+        "storage_account":"newrg15389",
+        "storage_container":"system",
+        "vm_name":"newVM12",
+        "vnet":"testVnet",
+        "resource_group_name":"newRG1",
+        "location":"West US",
+        "image":"https://newrg15389.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/sampleVM-osDisk.bd8a03f0-6063-4635-b5f9-70f363065cb1.vhd",
+        "os_type":"Linux",
+        "instance_count":"1",
+        "is_user_image":"1",
+        "create_public_ip":"",
+        "disable_password_auth":"",
+        "public_key":"",
+        "resource_pool":"",
+        "resource_port":"",
+        "resource_zone":"",
+        "resource_workspace":"",
+        "publicIP":"",
+        "result_location":"",
+        "job_step_timeout":""
+        }
+        ],
+        " or Update Vnet": [
+        {
+        "connection_config":"myAzureConfig",
+        "dns_server":"10.1.1.1",
+        "location":"West US",
+        "resource_group_name":"newRG1",
+        "subnet_address_space":"10.6.0.0/24",
+        "subnet_name":"jooo",
+        "vnet_address_space":"10.6.0.0/16",
+        "vnet_name":"newVnet1",
+        "job_step_timeout":""
+        }
+        ],
+        " Or Update Database": [
+        {
+        "collation":"",
+        "create_mode":"",
+        "database_name":"TestDB2",
+        "edition":"Standard",
+        "connection_config":"myAzureConfig",
+        "location":"North Europe",
+        "elastic_pool":"",
+        "max_size_mb":"",
+        "resource_group_name":"newRG",
+        "server_name":"helloserver123",
+        "service_objective_id":"",
+        "source_database_id":"",
+        "job_step_timeout":""
+        }
+        ],
+        " or Update NetworkSecurityGroup": [
+        {
+        "connection_config":"myAzureConfig",
+        "location":"West US",
+        "network_security_group":"aNewNSG1",
+        "resource_group":"newRG1",
+        "security_rule":"",
+        }
+        ],
+        " or Update NetworkSecurityRule": [
+        {
+        "access":"Allow",
+        "connection_config":"myAzureConfig",
+        "destination_address_prefix":"*",
+        "destination_port_range":"*",
+        "direction":"InBound",
+        "priority":"4000",
+        "protocol":"Tcp",
+        "resource_group":"newRG1",
+        "security_rule":"aNewSR",
+        "source_address_prefix":"*",
+        "source_port_range":"*",
+        "description":"",
+        "network_security_group":"testNSG1",
+        "job_step_timeout":""
+        }
+        ],
+        " or Update Subnet": [
+        {
+        "address_prefix":"10.4.0.0/24",
+        "connection_config":"myAzureConfig",
+        "resource_group":"newRG1",
+        "subnet":"aNewSubnet2",
+        "vnet":"testVnet",
+        "network_security_group":"",
+        "route_table":"",
+        "job_step_timeout":""
+        }
+        ]
+    },
+    "Delete": {
+        " VM": [
+        {
+        "resource_group_name":"newRG1",
+        "connection_config":"myAzureConfig",
+        "vm_name":"newVM12",
+        "job_step_timeout":""
+        }
+        ],
+        "Database": [
+        {
+        "resource_group_name":"newRG",
+        "connection_config":"myAzureConfig",
+        "database_name":"TestDB2",
+        "server_name":"helloserver123",
+        "job_step_timeout":""
+        }
+        ],
+        " NetworkSecurityRule": [
+        {
+        "resource_group":"newRG1",
+        "connection_config":"myAzureConfig",
+        "security_rule":"aNewSR",
+        "network_security_group":"testNSG1",
+        "job_step_timeout":""
+        }
+        ],
+        " NetworkSecurityGroup": [
+        {
+        "resource_group":"newRG1",
+        "connection_config":"myAzureConfig",
+        "network_security_group":"aNewNSG1",
+        "job_step_timeout":""
+        }
+        ],
+        " Subnet": [
+        {
+        "resource_group":"newRG1",
+        "connection_config":"myAzureConfig",
+        "subnet":"testSubnet",
+        "vnet":"testVnet",
+        "job_step_timeout":""
+        }
+        ],
+        " Vnet": [
+        {
+        "resource_group_name":"newRG1",
+        "connection_config":"myAzureConfig",
+        "vnet_name":"newVnet1",
+        "job_step_timeout":""
+        }
+        ]
+       },
+    "Restart": {
+        " VM": [
+        {
+        "resource_group_name":"newRG1",
+        "connection_config":"myAzureConfig",
+        "vm_name":"newVM12",
+        "job_step_timeout":""
+        }
+        ]
+       },
+    "Start": {
+        " VM": [
+        {
+        "resource_group_name":"newRG1",
+        "connection_config":"myAzureConfig",
+        "vm_name":"newVM12",
+        "job_step_timeout":""
+        }
+        ]
+       },
+    "Stop": {
+        " VM": [
+        {
+        "resource_group_name":"newRG1",
+        "connection_config":"myAzureConfig",
+        "vm_name":"newVM12",
+        "job_step_timeout":""
+        }
+        ]
+       }
+}
