@@ -72,7 +72,10 @@ try {
             //Check if the zone is present.    
             if(resourceZone)
                 if(!ec.getZone(resourceZone)) 
-                    throw new RuntimeException("Zone "+ resourceZone +" not present")   
+                {
+                    println("Zone "+ resourceZone +" not present")  
+                    System.exit(1)
+                }    
         }
     }
 
@@ -143,6 +146,6 @@ try {
         count = count + 1  
     }
 }catch(Exception e){
-    e.printStackTrace();
+    e.printStackTrace()
     return
 }

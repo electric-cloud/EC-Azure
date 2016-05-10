@@ -870,9 +870,11 @@ public restartVM(String resourceGroupName, String vmName){
             }
 
             ServerCreateOrUpdateParameters serverParameters = new ServerCreateOrUpdateParameters(serverProperties, location)
-            ServerGetResponse response = sqlManagementClient.getServersOperations().createOrUpdate(resourceGroupName, 
-                                                                                                  serverName,
-                                                                                                  serverParameters)
+            ServerGetResponse response = sqlManagementClient.getServersOperations().createOrUpdate(resourceGroupName, serverName, serverParameters)
+            if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+                {
+                    println("Successfully created SQL Database server: " + serverName )
+                }
         }
     }
 
@@ -931,12 +933,16 @@ public restartVM(String resourceGroupName, String vmName){
    
     def deleteSubnet(String resourceGroupName, String virtualNetworkName, String subnetName){
         exceptionHandler{
-            println("Going for deleting subnet: " + subnetName + " in (Resource Group: " + resourceGroupName + " , Virtual Network: " + virtualNetworkName + ")")
-            OperationResponse response = networkResourceProviderClient.getSubnetsOperations().delete(resourceGroupName, virtualNetworkName, subnetName)
 
-            if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+            if(networkResourceProviderClient.getSubnetsOperations().get(resourceGroupName,virtualNetworkName,subnetName).getSubnet().getName() != null)
             {
-                println("Successfully deleted Subnet: " + subnetName )
+                println("Going for deleting subnet: " + subnetName + " in (Resource Group: " + resourceGroupName + " , Virtual Network: " + virtualNetworkName + ")")
+                OperationResponse response = networkResourceProviderClient.getSubnetsOperations().delete(resourceGroupName, virtualNetworkName, subnetName)
+
+                if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+                {
+                    println("Successfully deleted Subnet: " + subnetName )
+                }
             }
         }
     }
@@ -969,12 +975,15 @@ public restartVM(String resourceGroupName, String vmName){
 
     def deleteNetworkSecurityGroup(String resourceGroupName, String networkSecurityGroupName){
         exceptionHandler{
-            println("Going for deleting Network Security Group: " + networkSecurityGroupName + " in (Resource Group: " + resourceGroupName + ")")
-            OperationResponse response = networkResourceProviderClient.getNetworkSecurityGroupsOperations().delete(resourceGroupName, networkSecurityGroupName)
-
-            if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+            if(networkResourceProviderClient.getNetworkSecurityGroupsOperations().get(resourceGroupName, networkSecurityGroupName).getNetworkSecurityGroup().getName() != null)
             {
-                println("Successfully deleted Network Security Group: " + networkSecurityGroupName )
+                println("Going for deleting Network Security Group: " + networkSecurityGroupName + " in (Resource Group: " + resourceGroupName + ")")
+                OperationResponse response = networkResourceProviderClient.getNetworkSecurityGroupsOperations().delete(resourceGroupName, networkSecurityGroupName)
+
+                if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+                {
+                    println("Successfully deleted Network Security Group: " + networkSecurityGroupName )
+                }
             }
         }
     }
@@ -1034,13 +1043,16 @@ public restartVM(String resourceGroupName, String vmName){
     def deleteNetworkSecurityRule(String resourceGroupName, String networkSecurityGroupName, String securityRuleName)
     {
         exceptionHandler{
-            println("Going for deleting Network Security Rule: " + securityRuleName + " in (Resource Group: " + resourceGroupName + " ,Network Security Group: " + networkSecurityGroupName + ")")
-            OperationResponse response = networkResourceProviderClient.getSecurityRulesOperations().delete(resourceGroupName,networkSecurityGroupName, securityRuleName)
-
-            if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+            if(networkResourceProviderClient.getSecurityRulesOperations().get(resourceGroupName, networkSecurityGroupName, securityRuleName).getSecurityRule().getName() != null)
             {
-                println("Successfully deleted Security Rule: " + securityRuleName )
-            }
+                println("Going for deleting Network Security Rule: " + securityRuleName + " in (Resource Group: " + resourceGroupName + " ,Network Security Group: " + networkSecurityGroupName + ")")
+                OperationResponse response = networkResourceProviderClient.getSecurityRulesOperations().delete(resourceGroupName,networkSecurityGroupName, securityRuleName)
+
+                if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+                {
+                    println("Successfully deleted Security Rule: " + securityRuleName )
+                }
+            }    
         }
     }
 
@@ -1091,8 +1103,11 @@ public restartVM(String resourceGroupName, String vmName){
 public deleteDatabase(String resourceGroupName, String serverName, String databaseName){
 	exceptionHandler{
 
-		println("Going for deleting database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ")")
-		sqlManagementClient.getDatabasesOperations().delete(resourceGroupName, serverName, databaseName)
+        if(sqlManagementClient.getDatabasesOperations().get(resourceGroupName, serverName, databaseName).getDatabase().getName() != null)
+        {
+    		println("Going for deleting database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ")")
+    		sqlManagementClient.getDatabasesOperations().delete(resourceGroupName, serverName, databaseName)
+        }
 	}
 }
 
@@ -1100,12 +1115,15 @@ public deleteVnet(String resourceGroupName ,String vnetName)
 {
     exceptionHandler{
 
-        println("Going for deleting Virtual Network: " + vnetName + "  in Resource Group: " + resourceGroupName )
-        OperationResponse response = networkResourceProviderClient.getVirtualNetworksOperations().delete(resourceGroupName,vnetName)
-        if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
-                {
-                    println("Successfully deleted Vnet: " + vnetName )
-                }     
+        if(networkResourceProviderClient.getVirtualNetworksOperations().get(resourceGroupName,vnetName).getVirtualNetwork().getName() != null)
+        {
+            println("Going for deleting Virtual Network: " + vnetName + "  in Resource Group: " + resourceGroupName )
+            OperationResponse response = networkResourceProviderClient.getVirtualNetworksOperations().delete(resourceGroupName,vnetName)
+            if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+                    {
+                        println("Successfully deleted Vnet: " + vnetName )
+                    }  
+        }           
      }       
 }
 
@@ -1152,6 +1170,10 @@ public createOrUpdateDatabase(String resourceGroupName, String serverName, Strin
 		}
 		DatabaseCreateOrUpdateParameters dbParameters = new DatabaseCreateOrUpdateParameters(dbProperties, location);
 		DatabaseCreateOrUpdateResponse response = sqlManagementClient.getDatabasesOperations().createOrUpdate(resourceGroupName, serverName, databaseName, dbParameters);
+        if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
+                    println("Created SQL Database: " + databaseName )
+                else
+                    println("Failed to create SQL Database:" + databaseName) 
 	}
 }
 

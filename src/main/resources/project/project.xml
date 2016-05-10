@@ -5837,7 +5837,7 @@
                 <defaultValue/>
                 <description>The Virtual Network's address space in CIDR notion.It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/16 -> 10.12.0.0 - 10.12.255.255 (65536 addresses).</description>
                 <expansionDeferred>0</expansionDeferred>
-                <required>0</required>
+                <required>1</required>
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
@@ -6911,7 +6911,7 @@
             <formalParameter>
                 <formalParameterName>source_address_prefix</formalParameterName>
                 <defaultValue>*</defaultValue>
-                <description>Source address prefix. CIDR or source IP range. Asterix “*” can also be used to match all source IPs. Default tags such as ‘VirtualNetwork’, ‘AzureLoadBalancer’ and ‘Internet’ can also be used.</description>
+                <description>Source address prefix. CIDR or source IP range. Asterix "*" can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>entry</type>
@@ -6919,7 +6919,7 @@
             <formalParameter>
                 <formalParameterName>source_port_range</formalParameterName>
                 <defaultValue>*</defaultValue>
-                <description>Source Port Range. Integer or range between 0 and 65535. Asterix “*” can also be used to match all ports.</description>
+                <description>Source Port Range. Integer or range between 0 and 65535. Asterix "*" can also be used to match all ports.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>entry</type>
@@ -6927,7 +6927,7 @@
             <formalParameter>
                 <formalParameterName>destination_address_prefix</formalParameterName>
                 <defaultValue>*</defaultValue>
-                <description>Destination address prefix. CIDR or source IP range. Asterix “*” can also be used to match all source IPs. Default tags such as ‘VirtualNetwork’, ‘AzureLoadBalancer’ and ‘Internet’ can also be used.</description>
+                <description>Destination address prefix. CIDR or source IP range. Asterix "*" can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>entry</type>
@@ -6935,7 +6935,7 @@
             <formalParameter>
                 <formalParameterName>destination_port_range</formalParameterName>
                 <defaultValue>*</defaultValue>
-                <description>Destination Port Range. Integer or range between 0 and 65535. Asterix “*” can also be used to match all ports.</description>
+                <description>Destination Port Range. Integer or range between 0 and 65535. Asterix "*" can also be used to match all ports.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>entry</type>
