@@ -2643,7 +2643,7 @@
                                     </propertySheet>
                                 </property>
                                 <property>
-                                    <propertyName>server_name</propertyName>
+                                    <propertyName>vm_name</propertyName>
                                     <propertySheet>
                                         <property>
                                             <propertyName>formType</propertyName>
@@ -3157,7 +3157,7 @@
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
-                <formalParameterName>server_name</formalParameterName>
+                <formalParameterName>vm_name</formalParameterName>
                 <defaultValue/>
                 <description/>
                 <required>1</required>
@@ -5837,7 +5837,7 @@
                 <defaultValue/>
                 <description>The Virtual Network's address space in CIDR notion.It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/16 -> 10.12.0.0 - 10.12.255.255 (65536 addresses).</description>
                 <expansionDeferred>0</expansionDeferred>
-                <required>0</required>
+                <required>1</required>
                 <type>entry</type>
             </formalParameter>
             <formalParameter>
@@ -5927,6 +5927,172 @@
                 <command/>
                 <condition/>
                 <description>Creates a new Virtual Network under the specified account.</description>
+                <errorHandling>failProcedure</errorHandling>
+                <exclusiveMode>none</exclusiveMode>
+                <logFileName/>
+                <parallel>0</parallel>
+                <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
+                <releaseMode>none</releaseMode>
+                <resourceName>$[/myProject/azure_cfgs/$[connection_config]/resource_pool]</resourceName>
+                <shell>ec-groovy</shell>
+                <timeLimit>$[/myCall/step_timelimit]</timeLimit>
+                <timeLimitUnits>minutes</timeLimitUnits>
+                <workingDirectory/>
+                <workspaceName/>
+                <propertySheet>
+                    <property>
+                        <propertyName>ec_customEditorData</propertyName>
+                        <propertySheet>
+                            <property>
+                                <propertyName>formType</propertyName>
+                                <expandable>1</expandable>
+                                <value>command</value>
+                            </property>
+                        </propertySheet>
+                    </property>
+                </propertySheet>
+            </step>
+        </procedure>
+        <procedure>
+            <procedureName>Delete Vnet</procedureName>
+            <description>Deletes a Virtual Network under the specified account. </description>
+            <jobNameTemplate>Azure-CreateVnet-$[jobId]</jobNameTemplate>
+            <resourceName/>
+            <workspaceName/>
+            <propertySheet>
+                <property>
+                    <propertyName>ec_customEditorData</propertyName>
+                    <propertySheet>
+                        <property>
+                            <propertyName>parameters</propertyName>
+                            <propertySheet>
+                                <property>
+                                    <propertyName>connection_config</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>vnet_name</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>resource_group_name</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>job_step_timeout</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>formType</propertyName>
+                                    <expandable>1</expandable>
+                                    <value>standard</value>
+                                </property>
+                            </propertySheet>
+                        </property>
+                    </propertySheet>
+                </property>
+                <property>
+                    <propertyName>ec_parameterForm</propertyName>
+                    <description/>
+                    <expandable>1</expandable>
+                    <value/>
+                </property>
+            </propertySheet>
+            <formalParameter>
+                <formalParameterName>connection_config</formalParameterName>
+                <defaultValue/>
+                <description>The name of the configuration which holds all the connection information for Windows Azure.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>vnet_name</formalParameterName>
+                <defaultValue/>
+                <description>Name of the new Virtual Network.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>resource_group_name</formalParameterName>
+                <defaultValue/>
+                <description>The name of the resource group in which VM is to be created.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>job_step_timeout</formalParameterName>
+                <defaultValue/>
+                <description>Timeout for the step execution in minutes. Blank means no timeout.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <step>
+                <stepName>SetTimelimit</stepName>
+                <alwaysRun>0</alwaysRun>
+                <broadcast>0</broadcast>
+                <command/>
+                <condition/>
+                <description>Set the timelimit for the next step.</description>
+                <errorHandling>failProcedure</errorHandling>
+                <exclusiveMode>none</exclusiveMode>
+                <logFileName/>
+                <parallel>0</parallel>
+                <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
+                <releaseMode>none</releaseMode>
+                <resourceName>$[/myProject/azure_cfgs/$[connection_config]/resource_pool]</resourceName>
+                <shell>ec-perl</shell>
+                <timeLimit/>
+                <timeLimitUnits>minutes</timeLimitUnits>
+                <workingDirectory/>
+                <workspaceName/>
+                <propertySheet>
+                    <property>
+                        <propertyName>ec_customEditorData</propertyName>
+                        <propertySheet>
+                            <property>
+                                <propertyName>formType</propertyName>
+                                <expandable>1</expandable>
+                                <value>command</value>
+                            </property>
+                        </propertySheet>
+                    </property>
+                </propertySheet>
+            </step>
+            <step>
+                <stepName>Delete Vnet</stepName>
+                <alwaysRun>0</alwaysRun>
+                <broadcast>0</broadcast>
+                <command/>
+                <condition/>
+                <description>Deletes a Virtual Network under the specified account.</description>
                 <errorHandling>failProcedure</errorHandling>
                 <exclusiveMode>none</exclusiveMode>
                 <logFileName/>
@@ -6745,7 +6911,7 @@
             <formalParameter>
                 <formalParameterName>source_address_prefix</formalParameterName>
                 <defaultValue>*</defaultValue>
-                <description>Source address prefix. CIDR or source IP range. Asterix “*” can also be used to match all source IPs. Default tags such as ‘VirtualNetwork’, ‘AzureLoadBalancer’ and ‘Internet’ can also be used.</description>
+                <description>Source address prefix. CIDR or source IP range. Asterix "*" can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>entry</type>
@@ -6753,7 +6919,7 @@
             <formalParameter>
                 <formalParameterName>source_port_range</formalParameterName>
                 <defaultValue>*</defaultValue>
-                <description>Source Port Range. Integer or range between 0 and 65535. Asterix “*” can also be used to match all ports.</description>
+                <description>Source Port Range. Integer or range between 0 and 65535. Asterix "*" can also be used to match all ports.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>entry</type>
@@ -6761,7 +6927,7 @@
             <formalParameter>
                 <formalParameterName>destination_address_prefix</formalParameterName>
                 <defaultValue>*</defaultValue>
-                <description>Destination address prefix. CIDR or source IP range. Asterix “*” can also be used to match all source IPs. Default tags such as ‘VirtualNetwork’, ‘AzureLoadBalancer’ and ‘Internet’ can also be used.</description>
+                <description>Destination address prefix. CIDR or source IP range. Asterix "*" can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>entry</type>
@@ -6769,7 +6935,7 @@
             <formalParameter>
                 <formalParameterName>destination_port_range</formalParameterName>
                 <defaultValue>*</defaultValue>
-                <description>Destination Port Range. Integer or range between 0 and 65535. Asterix “*” can also be used to match all ports.</description>
+                <description>Destination Port Range. Integer or range between 0 and 65535. Asterix "*" can also be used to match all ports.</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>1</required>
                 <type>entry</type>

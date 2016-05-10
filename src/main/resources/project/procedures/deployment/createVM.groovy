@@ -20,7 +20,7 @@ $[/myProject/procedure_helpers/preamble]
 try {
     String storageAccount = '$[storage_account]'.trim()
     String storageContainer = '$[storage_container]'.trim()
-    String serverName = '$[server_name]'.trim()
+    String serverName = '$[vm_name]'.trim()
     String resourceGroupName = '$[resource_group_name]'.trim()
     String config = '$[connection_config]'.trim()
     String location = '$[location]'.trim()
@@ -72,7 +72,10 @@ try {
             //Check if the zone is present.    
             if(resourceZone)
                 if(!ec.getZone(resourceZone)) 
-                    throw new RuntimeException("Zone "+ resourceZone +" not present")   
+                {
+                    println("Zone "+ resourceZone +" not present")  
+                    System.exit(1)
+                }    
         }
     }
 
@@ -80,7 +83,12 @@ try {
     instances.times{
 
         String instanceSuffix = "${count}-${System.currentTimeMillis()}"
-        String VMName = "${serverName}-${instanceSuffix}"
+        String VMName 
+
+        if(instances > 1)
+            VMName = "${serverName}-${instanceSuffix}"
+        else 
+            VMName = serverName
 
         def (adminName, adminPassword) = ec.getFullCredentials(vmCreds) 
         def (resourceIP, VMStatus) = ec.azure.createVM(VMName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth, vnet, subnet)
@@ -138,6 +146,6 @@ try {
         count = count + 1  
     }
 }catch(Exception e){
-    e.printStackTrace();
+    e.printStackTrace()
     return
 }
