@@ -22,33 +22,34 @@ use ElectricCommander;
 
 use constant {
     SUCCESS => 0,
-        ERROR   => 1,
-    };
+    ERROR   => 1,
+};
 
 my $ec = new ElectricCommander();
 $ec->abortOnError(0);
 
 my $projName = "@PLUGIN_KEY@-@PLUGIN_VERSION@";
 
-my $azureConfig = '$[/myJob/config]';
-my $azureCredential = '$[/myJob/config]';
+my $azureConfig       = "$[/myJob/config]";
+my $azureCredential   = "$[/myJob/config]";
 my $azureVMCredential = $azureCredential . "_vm_credential";
 
 my %credentials = (
-    $azureCredential  => "credential",
+    $azureCredential   => "credential",
     $azureVMCredential => "vm_credential"
 );
 
 foreach my $credName ( keys %credentials ) {
 
-    my $xpath    = $ec->getFullCredential($credentials{$credName});
+    my $xpath    = $ec->getFullCredential( $credentials{$credName} );
     my $userName = $xpath->findvalue("//userName");
     my $password = $xpath->findvalue("//password");
 
     # Create credential
 
-    $ec->deleteCredential($projName, $credName);
-    $xpath = $ec->createCredential($projName, $credName, $userName, $password);
+    $ec->deleteCredential( $projName, $credName );
+    $xpath =
+      $ec->createCredential( $projName, $credName, $userName, $password );
     my $errors = $ec->checkAllErrors($xpath);
 
     # Give config the credential's real name
@@ -56,11 +57,13 @@ foreach my $credName ( keys %credentials ) {
     print "Setting property $configPath / + $credentials{$credName}";
     print " .. with value $credName";
 
-    $xpath = $ec->setProperty($configPath . "/" . $credentials{$credName}, $credName);
+    $xpath =
+      $ec->setProperty( $configPath . "/" . $credentials{$credName},
+        $credName );
     $errors .= $ec->checkAllErrors($xpath);
 
     # Give job launcher full permissions on the credential
-    my $user = '$[/myJob/launchedByUser]';
+    my $user = "$[/myJob/launchedByUser]";
     $xpath = $ec->createAclEntry(
         "user", $user,
         {
@@ -165,6 +168,7 @@ foreach my $credName ( keys %credentials ) {
         }
     );
     $errors .= $ec->checkAllErrors($xpath);
+
     $xpath = $ec->attachCredential(
         $projName,
         $credName,
@@ -178,6 +182,7 @@ foreach my $credName ( keys %credentials ) {
     $xpath = $ec->attachCredential(
         $projName,
         $credName,
+
         {
             procedureName => 'Delete VM',
             stepName      => 'Delete VM'
@@ -188,6 +193,40 @@ foreach my $credName ( keys %credentials ) {
     $xpath = $ec->attachCredential(
         $projName,
         $credName,
+
+        {
+            procedureName => 'Start VM',
+            stepName      => 'Start VM'
+        }
+    );
+    $errors .= $ec->checkAllErrors($xpath);
+
+    $xpath = $ec->attachCredential(
+        $projName,
+        $credName,
+
+        {
+            procedureName => 'Stop VM',
+            stepName      => 'Stop VM'
+        }
+    );
+    $errors .= $ec->checkAllErrors($xpath);
+
+    $xpath = $ec->attachCredential(
+        $projName,
+        $credName,
+
+        {
+            procedureName => 'Restart VM',
+            stepName      => 'Restart VM'
+        }
+    );
+    $errors .= $ec->checkAllErrors($xpath);
+
+    $xpath = $ec->attachCredential(
+        $projName,
+        $credName,
+
         {
             procedureName => 'TearDown',
             stepName      => 'tearDown'
@@ -198,8 +237,8 @@ foreach my $credName ( keys %credentials ) {
     $xpath = $ec->attachCredential(
         $projName,
         $credName,
+
         {
-            # procedureName => 'Create/Update Database Server',
             procedureName => 'Create or Update Database Server',
             stepName      => 'createUpdateDatabaseServer'
         }
@@ -209,19 +248,19 @@ foreach my $credName ( keys %credentials ) {
     $xpath = $ec->attachCredential(
         $projName,
         $credName,
+
         {
             procedureName => 'Delete Database Server',
             stepName      => 'deleteDatabaseServer'
         }
     );
-
     $errors .= $ec->checkAllErrors($xpath);
 
     $xpath = $ec->attachCredential(
         $projName,
         $credName,
+
         {
-            # procedureName => 'CreateOrUpdateDatabase',
             procedureName => 'Create Or Update Database',
             stepName      => 'createUpdateDatabase'
         }
@@ -231,6 +270,7 @@ foreach my $credName ( keys %credentials ) {
     $xpath = $ec->attachCredential(
         $projName,
         $credName,
+
         {
             procedureName => 'DeleteDatabase',
             stepName      => 'deleteDatabase'
@@ -241,8 +281,30 @@ foreach my $credName ( keys %credentials ) {
     $xpath = $ec->attachCredential(
         $projName,
         $credName,
+
         {
-            # procedureName => 'Create/Update Subnet',
+            procedureName => 'Create or Update Vnet',
+            stepName      => 'Create Vnet'
+        }
+    );
+    $errors .= $ec->checkAllErrors($xpath);
+
+    $xpath = $ec->attachCredential(
+        $projName,
+        $credName,
+
+        {
+            procedureName => 'Delete Vnet',
+            stepName      => 'Delete Vnet'
+        }
+    );
+    $errors .= $ec->checkAllErrors($xpath);
+
+    $xpath = $ec->attachCredential(
+        $projName,
+        $credName,
+
+        {
             procedureName => 'Create or Update Subnet',
             stepName      => 'createUpdateSubnet'
         }
@@ -252,6 +314,7 @@ foreach my $credName ( keys %credentials ) {
     $xpath = $ec->attachCredential(
         $projName,
         $credName,
+
         {
             procedureName => 'Delete Subnet',
             stepName      => 'deleteSubnet'
@@ -262,8 +325,8 @@ foreach my $credName ( keys %credentials ) {
     $xpath = $ec->attachCredential(
         $projName,
         $credName,
+
         {
-            # procedureName => 'Create/Update NetworkSecurityGroup',
             procedureName => 'Create or Update NetworkSecurityGroup',
             stepName      => 'createUpdateNetworkSecurityGroup'
         }
@@ -273,17 +336,19 @@ foreach my $credName ( keys %credentials ) {
     $xpath = $ec->attachCredential(
         $projName,
         $credName,
+
         {
             procedureName => 'Delete NetworkSecurityGroup',
             stepName      => 'deleteNetworkSecurityGroup'
         }
     );
     $errors .= $ec->checkAllErrors($xpath);
+
     $xpath = $ec->attachCredential(
         $projName,
         $credName,
+
         {
-            # procedureName => 'Create/Update NetworkSecurityRule',
             procedureName => 'Create or Update NetworkSecurityRule',
             stepName      => 'createUpdateNetworkSecurityRule'
         }
@@ -293,6 +358,7 @@ foreach my $credName ( keys %credentials ) {
     $xpath = $ec->attachCredential(
         $projName,
         $credName,
+
         {
             procedureName => 'Delete NetworkSecurityRule',
             stepName      => 'deleteNetworkSecurityRule'
@@ -300,14 +366,36 @@ foreach my $credName ( keys %credentials ) {
     );
     $errors .= $ec->checkAllErrors($xpath);
 
-    if ("$errors" ne "") {
+    $xpath = $ec->attachCredential(
+        $projName,
+        $credName,
+
+        {
+            procedureName => 'NoSQL Operations',
+            stepName      => 'nosqlOperations'
+        }
+    );
+    $errors .= $ec->checkAllErrors($xpath);
+
+    $xpath = $ec->attachCredential(
+        $projName,
+        $credName,
+
+        {
+            procedureName => 'SQL Operations',
+            stepName      => 'sqlOperations'
+        }
+    );
+    $errors .= $ec->checkAllErrors($xpath);
+
+    if ( "$errors" ne "" ) {
 
         # Cleanup the partially created configuration we just created
         $ec->deleteProperty($configPath);
-        $ec->deleteCredential($projName, $azureCredential);
-        $ec->deleteCredential($projName, $azureVMCredential);
+        $ec->deleteCredential( $projName, $azureCredential );
+        $ec->deleteCredential( $projName, $azureVMCredential );
         my $errMsg = "Error creating configuration credential: " . $errors;
-        $ec->setProperty("/myJob/configError", $errMsg);
+        $ec->setProperty( "/myJob/configError", $errMsg );
         print $errMsg;
         exit ERROR;
     }
