@@ -17,7 +17,7 @@ Run gradlew to compile the plugin
 1. Get this plugin
    git clone https://github.com/electric-cloud/EC-Azure.git
 2. Run gradlew to compile the plugin
-   ./gradlew build (in EC-Azure directory)
+   `./gradlew jar` (in EC-Azure directory)
 3. Upload the plugin to EC server
 4. Create a configuration for the EC-Azure plugin.
 
