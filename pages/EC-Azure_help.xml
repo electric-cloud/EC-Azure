@@ -83,11 +83,9 @@ the plugin omit?
     <ul>
       <li>Create configuration to hold connection information.</li>
 
-      <li>Create and Delete Hosted Services, Storage Accounts,
-      Containers and Blobs.</li>
+      <li>Create,Update and Delete Hosted Services, Storage Accounts,Containers, Blobs, VMs, Virtual Networks, Subnets, Database Servers, Databases, Network Security Group and Network Security Rules </li>
 
-      <li>Perform operations on Storage Accounts and
-      Deployments</li>
+      <li>Perform operations on VMs, Storage Accounts, Deployments, SQL and NoSQL Servers</li>
     </ul>
 
     <h2>Integrated Version</h2>
@@ -198,14 +196,29 @@ section that just says "There is no configuration for this plugin."
 
           <td>A description for this configuration.</td>
         </tr>
+		
+        <tr>
+          <td class="required">Tenant ID</td>
+
+          <td>Enter the Azure Active Directory Tenant ID. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Subscription ID</td>
+
+          <td>Enter the Azure Active Directory Subscription ID. (Required)</td>
+        </tr>
 
         <tr>
-          <td class="required">Configuration Credential
-          Parameters</td>
+          <td class="required">Client ID/Secret Key</td>
 
-          <td>Windows Azure account Subscription ID/Certificate
-          Thumbprint. This account must have enough privileges to
-          perform API funtions. (Required)</td>
+          <td>Azure Application Client ID and Secret(Password). (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">VM User/Password</td>
+
+          <td>Credentials for any virtual machines provisioned using this configuration. (Required)</td>
         </tr>
 
         <tr>
@@ -1089,9 +1102,1239 @@ section that just says "There is no configuration for this plugin."
           means no timeout.</td>
         </tr>
       </tbody>
-    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/get_operation_status.png" /></div>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/get_operation_status.png" />
+	
+	</div>
+	
+    <div id="Create Or Update Database"><a name="Create Or Update Database" id="Create Or Update Database"></a>
 
-    <h1>Use Cases and Examples</h1>
+    <h3>Create Or Update Database</h3>
+
+    <p>This procedure allows users to create or update the Database on a Database server.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the Resource Group to which the Azure SQL Database Server belongs. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Server name</td>
+
+          <td>The name of the Azure SQL Database Server on which the database is hosted. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Database name</td>
+
+          <td>The name of the Azure SQL Database to be operated on (Updated or created). (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Location</td>
+
+          <td>Location of the resource. (Required)</td>
+        </tr>
+
+        <tr>
+          <td>Edition</td>
+
+          <td>Edition for the Azure Sql Database.</td>
+        </tr>
+		
+        <tr>
+          <td>Collation</td>
+
+          <td>Collation of the Azure Sql Database being created.</td>
+        </tr>
+		
+        <tr>
+          <td>Create Mode</td>
+
+          <td>Create Mode for the Azure Sql Database being created.</td>
+        </tr>
+		
+        <tr>
+          <td>Elastic Pool</td>
+
+          <td>The name of the Elastic Pool to put the Azure Sql Database in.</td>
+        </tr>
+		
+        <tr>
+          <td>Maximum Size in MB</td>
+
+          <td>The maximum size of the Azure Sql Database being created or updated in megabytes.</td>
+        </tr>
+		
+        <tr>
+          <td>Service Objective Id</td>
+
+          <td>The service objective to be applied to the Azure Sql Database being created or updated.</td>
+        </tr>
+		
+        <tr>
+          <td>Source Database Id</td>
+
+          <td>The resource id of the database to use as the source for the copy being created.</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_or_update_database.png" />
+	
+	</div>
+	
+    <div id="Create or Update Database Server"><a name="Create or Update Database Server" id="Create or Update Database Server"></a>
+
+    <h3>Create or Update Database Server</h3>
+
+    <p>This procedure allows users to create or update a Database server.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the Resource Group to which the Azure SQL Database Server belongs. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Server name</td>
+
+          <td>The name of the Azure SQL Database Server on which the database is hosted. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Location</td>
+
+          <td>Location of the resource. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Administrator Login Credentials</td>
+
+          <td>The Administrator credentials for connecting to database server. (Required)</td>
+        </tr>
+
+        <tr>
+          <td>Version</td>
+
+          <td>Version of the server to be created or updated.</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_or_update_database_server.png" />
+	
+	</div>
+	
+    <div id="Create or Update NetworkSecurityGroup"><a name="Create or Update NetworkSecurityGroup" id="Create or Update NetworkSecurityGroup"></a>
+
+    <h3>Create or Update NetworkSecurityGroup</h3>
+
+    <p>This procedure allows users to create or update an Network Security Group.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the Resource Group to which the Azure SQL Database Server belongs. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Server name</td>
+
+          <td>The name of the Azure SQL Database Server on which the database is hosted. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Location</td>
+
+          <td>Location of the resource. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>Security Rule</td>
+
+          <td>Security Rule with the same name can be created in multiple Network Security Group and Network Security Group with same name can be created in multiple Resource Group. Provide nested JSON to uniquely identify security rule. Example: {"RG-1":{"NSG-1":["Rule-A", "Rule-B"], "NSG-2":["Rule-C", "Rule-D"]}, "RG-2":{"NSG-3":"RULE-G"}.</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_or_update_network_security_group.png" />
+	
+	</div>
+	
+    <div id="Create or Update NetworkSecurityRule"><a name="Create or Update NetworkSecurityRule" id="Create or Update NetworkSecurityRule"></a>
+
+    <h3>Create or Update NetworkSecurityRule</h3>
+
+    <p>This procedure allows users to create or update a Rule of an Network Security Group.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Network Security Rule</td>
+
+          <td>Name of the network security rule to be created. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Network Security Group</td>
+
+          <td>Network security Group in which network security rule is to be created. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the resource group in which network security rule will be present. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Access</td>
+
+          <td>Network traffic is allowed or denied. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>Description</td>
+
+          <td>Description for this rule.</td>
+        </tr>
+		
+		<tr>		
+          <td class="required">Source Address Prefix</td>
+
+          <td>Source address prefix. CIDR or source IP range.Asterix can also be used to match all source IPs (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Source Port Range</td>
+
+          <td>Source Port Range. Integer or range between 0 and 65535.Asterix can also be used to match all ports (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Destination Address Prefix</td>
+
+          <td>Destination address prefix. CIDR or source IP range. Asterix can also be used to match all source IPs. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Destination Port Range</td>
+
+          <td>Destination Port Range. Integer or range between 0 and 65535. Asterix can also be used to match all ports. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Direction</td>
+
+          <td>The direction of the rule.InBound or Outbound. The direction specifies if rule will be evaluated on incoming or outcoming traffic. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Priority</td>
+
+          <td>The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Protocol</td>
+
+          <td>Network protocol this rule applies to. Can be Tcp, Udp or All(*). (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_or_update_network_security_rule.png" />
+	
+	</div>
+	
+    <div id="Create or Update Subnet"><a name="Create or Update Subnet" id="Create or Update Subnet"></a>
+
+    <h3>Create or Update Subnet</h3>
+
+    <p>This procedure allows users to create or update a subnet.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Subnet</td>
+
+          <td>Name of the subnet to be created. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Virtual Network Name</td>
+
+          <td>The name of the virtual network in which subnet will be present. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the resource group in which subnet is to be created. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Address Prefix</td>
+
+          <td>It should follow CIDR notation, for example 10.0.0.0/24 (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>Network Security Group</td>
+
+          <td>Network security Group to be attached. Network Security Group of same name can be present in multiple resource group. Provide Json to uniquely identify Network Security Group. Example: {"RG1":"NSG1"}.</td>
+        </tr>
+				
+        <tr>
+          <td>Route Table</td>
+
+          <td>RouteTable of same name can be present in multiple resource group. Provide Json to uniquely identify RouteTable. Example: {"RG1":"routeTable"}.</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_or_update_subnet.png" />
+	
+	</div>
+	
+    <div id="CreateVM"><a name="CreateVM" id="CreateVM"></a>
+
+    <h3>CreateVM</h3>
+
+    <p>This procedure allows users to create a VM using Azure Services.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Server Name</td>
+
+          <td>Name of the new Server. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Number of Instances</td>
+
+          <td>Number of instances to be created. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Image URN</td>
+
+          <td>The image URN in the form publisherName:offer:skus:version/ The source VHD link of a user image, e.g. https://foo.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/snap-bar.vhd. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>Is User Image?</td>
+
+          <td>Provided URN is of user image or not?</td>
+        </tr>
+		
+        <tr>
+          <td>Disable Password Prompt?</td>
+
+          <td>Disable password authentication in case of super user privileges?</td>
+        </tr>
+		
+        <tr>
+          <td>Public Key</td>
+
+          <td>Public key for authentication of created Virtual machine for the client[(1) ssh-keygen -t rsa -b 2048 (2) openssl req -x509 -key ~/.ssh/id_rsa -nodes -days 365 -newkey rsa:2048 -out public.pem].</td>
+        </tr>
+		
+        <tr>
+          <td>Operating System Type</td>
+
+          <td>Required only for user images.</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the resource group in which VM is to be created. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Location</td>
+
+          <td>Location of the resource. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Storage Account</td>
+
+          <td>Name of storage account. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Storage Container</td>
+
+          <td>Name of the storage container. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>Create Public IP Address?</td>
+
+          <td>Create Public IP address for the deployed servers?</td>
+        </tr>
+		
+        <tr>
+          <td>Resource Pool</td>
+
+          <td>If you would like to add ElectricFlow resources for each Azure instance being created, enter the resource pool name for the new resources. If left blank no resource will be created.</td>
+        </tr>
+		
+        <tr>
+          <td>Resource Port</td>
+
+          <td>If you specify a resource pool name in 'Resource Pool' field, this is the port that will be used when creating the resource. If no value is specified, port 7800 will be used by default when creating the resource.</td>
+        </tr>
+		
+        <tr>
+          <td>Resource workspace</td>
+
+          <td>If you specify a resource pool name, this is the workspace that will be assigned to the created resources.</td>
+        </tr>
+		
+        <tr>
+          <td>Resource Zone Name</td>
+
+          <td>Created resource will belong to the specified zone. Zone 'default' is used by default.</td>
+        </tr>
+		
+        <tr>
+          <td>Results Location</td>
+
+          <td>Location where the output properties will be saved. If not specified, will default to '/myJob/Azure/deployed'.</td>
+        </tr> 
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_vm1.png" />
+	
+	<img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_vm2.png" />
+	
+	</div>
+	
+    <div id="CreateVnet"><a name="CreateVnet" id="CreateVnet"></a>
+
+    <h3>CreateVnet</h3>
+
+    <p>This procedure allows users to create a Virtual Network using Azure Services.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+        <tr>
+          <td class="required">Virtual Network name</td>
+
+          <td>Name of the new Virtual Network. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>Virtual Network address space</td>
+
+          <td>The Virtual Network's address space in CIDR notion.It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/16 -> 10.12.0.0 - 10.12.255.255 (65536 addresses).</td>
+        </tr>	
+		
+        <tr>
+          <td class="required">Subnet name</td>
+
+          <td>Name of the new Subnet. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>Subnet address space</td>
+
+          <td>The Subnet's address space in CIDR notion.It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/24 -> 10.12.0.0 - 10.12.0.255 (256 addresses).</td>
+        </tr>
+		
+        <tr>
+          <td>Custom DNS Server</td>
+
+          <td>Address of DNS Server.</td>
+        </tr>
+			
+        <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the resource group in which the Virtual network is to be created. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Location</td>
+
+          <td>Location of the resource. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_vnet.png" />
+	
+	</div>
+	
+    <div id="DeleteDatabase"><a name="DeleteDatabase" id="DeleteDatabase"></a>
+
+    <h3>DeleteDatabase</h3>
+
+    <p>This procedure allows users to delete a database on a database server using Azure Services.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+         <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the Resource Group to which the Azure SQL Database Server belongs. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Server name</td>
+
+          <td>The name of the Azure SQL Database Server on which the database is hosted. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Database name</td>
+
+          <td>The name of the Azure SQL Database to be operated on (Updated or created). (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/delete_database.png" />
+	
+	</div>
+	
+    <div id="Delete Database Server"><a name="Delete Database Server" id="Delete Database Server"></a>
+
+    <h3>Delete Database Server</h3>
+
+    <p>This procedure allows users to delete a database server.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+
+         <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the Resource Group to which the Azure SQL Database Server belongs. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Server name</td>
+
+          <td>The name of the Azure SQL Database Server which is to be deleted. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/delete_database_server.png" />
+	
+	</div>
+	
+    <div id="Delete NetworkSecurityGroup"><a name="Delete NetworkSecurityGroup" id="Delete NetworkSecurityGroup"></a>
+
+    <h3>Delete NetworkSecurityGroup</h3>
+
+    <p>This procedure allows users to delete a Network Security Group.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Network Security Group</td>
+
+          <td>Name of the Network security Group which is to be deleted. (Required)</td>
+        </tr>
+
+         <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the resource group in which network security group is present. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/delete_network_security_group.png" />
+	
+	</div>
+	
+    <div id="Delete NetworkSecurityRule"><a name="Delete NetworkSecurityRule" id="Delete NetworkSecurityRule"></a>
+
+    <h3>Delete NetworkSecurityRule</h3>
+
+    <p>This procedure allows users to delete a Rule from an existing Network Security Group.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Network Security Rule</td>
+
+          <td>Name of the Network security Rule which is to be deleted. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Network Security Group</td>
+
+          <td>Name of the Network security Group in which network security rule is present. (Required)</td>
+        </tr>
+
+         <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the resource group in which network security group is present. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/delete_network_security_rule.png" />
+	
+	</div>
+	
+    <div id="Delete Subnet"><a name="Delete Subnet" id="Delete Subnet"></a>
+
+    <h3>Delete Subnet</h3>
+
+    <p>This procedure allows users to delete a subnet.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Subnet</td>
+
+          <td>Name of the subnet which is to be deleted. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Virtual Network</td>
+
+          <td>Name of the virtual network in which subnet is present. (Required)</td>
+        </tr>
+
+         <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the resource group in which subnet is present. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/delete_subnet.png" />
+	
+	</div>
+	
+    <div id="Delete VM"><a name="Delete VM" id="Delete VM"></a>
+
+    <h3>Delete VM</h3>
+
+    <p>This procedure allows users to delete a VM.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+		
+         <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the resource group in which VM is present. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">VM Name</td>
+
+          <td>Name of the VM which is to be deleted. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/delete_vm.png" />
+	
+	</div>
+	
+    <div id="NoSQL Operations"><a name="NoSQL Operations" id="NoSQL Operations"></a>
+
+    <h3>NoSQL Operations</h3>
+
+    <p>This procedure allows users to carry out operations on NoSQL Database on a specified NoSQL Database Server.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Storage Account</td>
+
+          <td>Storage account for table. (Required)</td>
+        </tr>
+		
+         <tr>
+          <td class="required">Account Credentials</td>
+
+          <td>Credentials for connecting to the storage account. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Operation</td>
+
+          <td>Operation to be performed on the table. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Table Name</td>
+
+          <td>Name of the table. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>ToBeInserted or ToBeUpdated</td>
+
+          <td>Enter the column-value in JSON format. For Update and Single Insertion: { "id": 4, "name": "Henry"}, For Batch Insertion: [{"id": 1, "name": "Alek"}, {"id": 2, "name": "Bob"}]. Will be ignored for operations other than INSERT and UPDATE.</td>
+        </tr>
+		
+        <tr>
+          <td>Partition Key</td>
+
+          <td>Enter the partition Key. Will be used only for INSERT operation.</td>
+        </tr>
+		
+        <tr>
+          <td>ToBeRetrieved</td>
+
+          <td>Enter "," separated list of columns to be retrieved. For example: id, name. Will be ignored for operations other than RETRIEVE(Select)</td>
+        </tr>
+		
+        <tr>
+          <td>WhereClause</td>
+
+          <td>Enter the exact where clause Example: (id eq 1 and name eq \'Alek\'). Will be ignored for operations other than UPDATE, RETRIEVE and DELETE.</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/nosql_operations.png" />
+	
+	</div>
+	
+    <div id="Restart VM"><a name="Restart VM" id="Restart VM"></a>
+
+    <h3>Restart VM</h3>
+
+    <p>This procedure allows users to restart a VM.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+		
+         <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the resource group in which VM is to be restarted. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">VM Name</td>
+
+          <td>The Name of the Virtual Machine to be restarted. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/restart_vm.png" />
+	
+	</div>
+	
+    <div id="Start VM"><a name="Start VM" id="Start VM"></a>
+
+    <h3>Start VM</h3>
+
+    <p>This procedure allows users to start a stopped VM.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+		
+         <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the resource group in which VM is to be started. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">VM Name</td>
+
+          <td>The Name of the Virtual Machine to be started. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/start_vm.png" />
+	
+	</div>
+	
+    <div id="Stop VM"><a name="Stop VM" id="Stop VM"></a>
+
+    <h3>Stop VM</h3>
+
+    <p>This procedure allows users to stop a running VM.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+		
+         <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the resource group in which VM is to be stopped. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">VM Name</td>
+
+          <td>The Name of the Virtual Machine to be stoppped. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/stop_vm.png" />
+	
+	</div>
+	
+    <div id="SQL Operations"><a name="SQL Operations" id="SQL Operations"></a>
+
+    <h3>SQL Operations</h3>
+
+    <p>This procedure allows users to carry out operations on a database on a SQL Server</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Database Server</td>
+
+          <td>Name of the database server. (Required)</td>
+        </tr>
+		
+         <tr>
+          <td class="required">Database</td>
+
+          <td>Name of the database. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Port</td>
+
+          <td>Port for connecting to database. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">Database Credentials</td>
+
+          <td>Credentials for connecting to the database. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td class="required">SQL Query</td>
+
+          <td>Enter the exact SQL query to be executed. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/sql_operations.png" />
+	
+	</div>
+	
+    <div id="Teardown"><a name="Teardown" id="Teardown"></a>
+
+    <h3>Teardown</h3>
+
+    <p>This procedure allows users to delete resources recursively under a specified resource/resource pool in one go</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="required">Resource/Resource Pool Name</td>
+
+          <td>The name of the commander resource or resource pool which need to be deleted. Precendence is given to resource for deletion. Azure VMs attached to the resources will also be deleted. (Required)</td>
+        </tr>
+		
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/teardown.png" />
+	
+	</div>
+	
+     <h1>Use Cases and Examples</h1>
     <!-- This section is for examples and use cases, including screenshots of the new Parameter Panel with example values filled in.
 Unfortunately, I can't tell you what exactly to put here, but it's OK to put what seems like too much! Include both parameter
 values and output where appropriate. Use a separate 'h2' header for each example. Under the h2 header try to stay with the style
@@ -1185,6 +2428,34 @@ outline used above where possible.
     <p>Create Deployment output:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/deployment_log.png" />
 
     <h1>Release Notes</h1>
+	
+    <h2>@PLUGIN_KEY@ 1.1.0</h2>
+
+    <ul>
+		<li>Updated the Create Configuration procedure</li>
+	
+        <p>Added the following new procedures:</p>
+		<li>Create Or Update Database</li>
+		<li>Create or Update Database Server</li>
+		<li>Create or Update NetworkSecurityGroup</li>
+		<li>Create or Update NetworkSecurityRule</li>
+		<li>Create or Update Subnet</li>
+		<li>Create VM</li>
+		<li>Create Vnet</li>
+		<li>Delete Database</li>
+		<li>Delete Database Server</li>
+		<li>Delete NetworkSecurityGroup</li>
+		<li>Delete NetworkSecurityRule</li>
+		<li>Delete Subnet</li>
+		<li>Delete VM</li>
+		<li>NoSQL Operations</li>	
+		<li>Restart VM</li>
+		<li>Start VM</li>
+		<li>Stop VM</li>
+		<li>SQL Operations</li>
+		<li>TearDown</li>		
+    </ul>
+	
     <h2>@PLUGIN_KEY@ 1.0.2</h2>
     <ul>
         <li>Fixed issue with configurations being cached for IE.</li>
