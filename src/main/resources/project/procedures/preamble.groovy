@@ -1257,7 +1257,15 @@ class SQLOperations {
 
     def execute(sqlQuery){
         exceptionHandler{
-            dbCon.execute sqlQuery
+            if(sqlQuery.toLowerCase().startsWith("select")){
+                dbCon.eachRow(sqlQuery) { row ->
+                      println row
+                }
+            }
+            else{
+                dbCon.execute sqlQuery
+            }
+            dbCon.close()
         }
     }
 }
