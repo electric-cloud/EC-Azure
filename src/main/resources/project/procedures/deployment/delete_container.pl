@@ -30,7 +30,7 @@ $opts->{storage_account}     = q{$[storage_account]};
 $opts->{container_name}      = q{$[container_name]};
 $opts->{storage_account_key} = q{$[storage_account_key]};
 
-$[/myProject/procedure_helpers/preamble]
+$[/myProject/procedure_helpers/preamble_pl]
 
 $azure->delete_container();
 exit($opts->{exitcode});

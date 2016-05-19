@@ -258,6 +258,12 @@
                         <expandable>1</expandable>
                         <value/>
                     </property>
+                    <property>
+                      <propertyName>preamble_pl</propertyName>
+                        <description/>
+                        <expandable>1</expandable>
+                        <value/>
+                    </property>
                 </propertySheet>
             </property>          
             <property>

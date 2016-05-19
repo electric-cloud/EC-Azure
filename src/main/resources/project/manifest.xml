@@ -418,6 +418,10 @@
     <xpath>//property[propertyName=&quot;preamble&quot;]/value</xpath>
   </file>
   <file>
+    <path>procedures/preamble.pl</path>
+    <xpath>//property[propertyName=&quot;preamble_pl&quot;]/value</xpath>
+  </file>
+  <file>
     <path>azure_driver/Azure.pm</path>
     <xpath>//property[propertyName=&quot;Azure&quot;]/value</xpath>
   </file>

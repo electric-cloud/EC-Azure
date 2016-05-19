@@ -32,7 +32,8 @@ $opts->{storage_account_key}     = q{$[storage_account_key]};
 $opts->{results_location_outpsp} = q{$[results_location_outpsp]};
 $opts->{tag_outpp}               = q{$[tag_outpp]};
 
-$[/myProject/procedure_helpers/preamble]
+$[/myProject/procedure_helpers/preamble_pl]
 
+print 'Here';
 $azure->create_container();
 exit($opts->{exitcode});
