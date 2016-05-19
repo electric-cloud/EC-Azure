@@ -27,7 +27,7 @@ try {
     String imageURN = '$[image]'.trim()
     String userImage = '$[is_user_image]'.trim()
     String createPublicIP = '$[create_public_ip]'.trim()
-    String osType = '$[os_type]'.trim()
+    String osType = '$[os_type]'.trim();
     String disablePasswordPrompt = '$[disable_password_auth]'.trim()
     String publicKey = '$[public_key]'.trim()
     String vnet = '$[vnet]'.trim()

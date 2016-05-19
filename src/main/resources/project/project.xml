@@ -3176,7 +3176,7 @@
                 <defaultValue/>
                 <description>Type of operating system.</description>
                 <expansionDeferred>0</expansionDeferred>
-                <required>1</required>
+                <required>0</required>
                 <type>select</type>
             </formalParameter>
             <formalParameter>
