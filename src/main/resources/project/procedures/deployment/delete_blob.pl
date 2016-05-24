@@ -31,7 +31,7 @@ $opts->{container_name}      = q{$[container_name]};
 $opts->{storage_account_key} = q{$[storage_account_key]};
 $opts->{blob_name}           = q{$[blob_name]};
 
-$[/myProject/procedure_helpers/preamble]
+$[/myProject/procedure_helpers/preamble_pl]
 
 $azure->delete_blob();
 exit($opts->{exitcode});

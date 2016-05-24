@@ -28,7 +28,7 @@ my $opts;
 $opts->{connection_config}       = q{$[connection_config]};
 $opts->{service_name}            = q{$[service_name]};
 
-$[/myProject/procedure_helpers/preamble]
+$[/myProject/procedure_helpers/preamble_pl]
 
 $azure->delete_storage_account();
 exit($opts->{exitcode});

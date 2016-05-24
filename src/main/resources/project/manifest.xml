@@ -218,122 +218,6 @@
   </file>
 
   <file>
-    <path>procedures/deployment/create_hosted.pl</path>
-    <xpath>//step[stepName=&quot;Create Hosted Service&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/setTimelimit.pl</path>
-    <xpath>//procedure[procedureName=&quot;Create Hosted Service&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/deployment/create_storage.pl</path>
-    <xpath>//step[stepName=&quot;Create Storage Account&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/setTimelimit.pl</path>
-    <xpath>//procedure[procedureName=&quot;Create Storage Account&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/deployment/get_keys.pl</path>
-    <xpath>//step[stepName=&quot;Get Storage Account Keys&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/setTimelimit.pl</path>
-    <xpath>//procedure[procedureName=&quot;Get Storage Account Keys&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/deployment/create_container.pl</path>
-    <xpath>//step[stepName=&quot;Create Container&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/setTimelimit.pl</path>
-    <xpath>//procedure[procedureName=&quot;Create Container&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/deployment/put_blob.pl</path>
-    <xpath>//step[stepName=&quot;Put Blob&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/setTimelimit.pl</path>
-    <xpath>//procedure[procedureName=&quot;Put Blob&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/deployment/create_deployment.pl</path>
-    <xpath>//step[stepName=&quot;Create Deployment&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/setTimelimit.pl</path>
-    <xpath>//procedure[procedureName=&quot;Create Deployment&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/deployment/delete_container.pl</path>
-    <xpath>//step[stepName=&quot;Delete Container&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/setTimelimit.pl</path>
-    <xpath>//procedure[procedureName=&quot;Delete Container&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/deployment/delete_blob.pl</path>
-    <xpath>//step[stepName=&quot;Delete Blob&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/setTimelimit.pl</path>
-    <xpath>//procedure[procedureName=&quot;Delete Blob&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/deployment/delete_storage.pl</path>
-    <xpath>//step[stepName=&quot;Delete Storage Account&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/setTimelimit.pl</path>
-    <xpath>//procedure[procedureName=&quot;Delete Storage Account&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/deployment/delete_hosted.pl</path>
-    <xpath>//step[stepName=&quot;Delete Hosted Service&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/setTimelimit.pl</path>
-    <xpath>//procedure[procedureName=&quot;Delete Hosted Service&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/deployment/get_status.pl</path>
-    <xpath>//step[stepName=&quot;Get Operation Status&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>procedures/setTimelimit.pl</path>
-    <xpath>//procedure[procedureName=&quot;Get Operation Status&quot;]/step[stepName=&quot;SetTimelimit&quot;]/command</xpath>
-  </file>
-  <file>
-    <path>forms/deployment/GetStorageAccountKeysForm.xml</path>
-    <xpath>//procedure[procedureName=&quot;Get Storage Account Keys&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
-  </file>
-  <file>
-    <path>forms/deployment/CreateContainerForm.xml</path>
-    <xpath>//procedure[procedureName=&quot;Create Container&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
-  </file>
-  <file>
-    <path>forms/deployment/DeleteContainerForm.xml</path>
-    <xpath>//procedure[procedureName=&quot;Delete Container&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
-  </file>
-  <file>
-    <path>forms/deployment/DeleteBlobForm.xml</path>
-    <xpath>//procedure[procedureName=&quot;Delete Blob&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
-  </file>
-  <file>
-    <path>forms/deployment/DeleteStorageAccountForm.xml</path>
-    <xpath>//procedure[procedureName=&quot;Delete Storage Account&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
-  </file>
-  <file>
-    <path>forms/deployment/DeleteHostedServiceForm.xml</path>
-    <xpath>//procedure[procedureName=&quot;Delete Hosted Service&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
-  </file>
-  <file>
-    <path>forms/deployment/GetOperationStatusForm.xml</path>
-    <xpath>//procedure[procedureName=&quot;Get Operation Status&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
-  </file>
-  <file>
     <path>forms/deployment/CreateVMForm.xml</path>
     <xpath>//procedure[procedureName=&quot;Create VM&quot;]/propertySheet/property[propertyName=&quot;ec_parameterForm&quot;]/value</xpath>
   </file>
@@ -416,6 +300,10 @@
   <file>
     <path>procedures/preamble.groovy</path>
     <xpath>//property[propertyName=&quot;preamble&quot;]/value</xpath>
+  </file>
+  <file>
+    <path>procedures/preamble.pl</path>
+    <xpath>//property[propertyName=&quot;preamble_pl&quot;]/value</xpath>
   </file>
   <file>
     <path>azure_driver/Azure.pm</path>

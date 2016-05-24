@@ -50,7 +50,7 @@ only if appropriate, such as FOSS - but not commercial software.
     or at <a href="https://www.windowsazure.com/en-us/develop/overview/">Azure
     Developer Center</a>.</p>
 
-    <p>Check the Azure API References at <a href="http://msdn.microsoft.com/en-us/library/windowsazure/ff800682.aspx">
+    <p>Check the Azure API References at <a href="https://msdn.microsoft.com/en-us/library/azure/ee460799.aspx">
     API References for Windows Azure</a>.</p>
 
     <h2>ElectricFlow Integration to Windows Azure</h2>
@@ -111,7 +111,7 @@ the plugin omit?
 
     <h3>Upload the certificate</h3>
 
-    <p><a href="http://msdn.microsoft.com/en-us/library/windowsazure/gg551726">
+    <p><a href="https://azure.microsoft.com/en-us/documentation/articles/cloud-services-configure-ssl-certificate/">
     How to Add a Management Certificate to a Windows Azure
     Subscription</a>.</p>
 
@@ -159,7 +159,7 @@ section that just says "There is no configuration for this plugin."
     procedures that use them.<br />
     <br />
     Plugin configurations are created by going to the Electric
-    Commander "Administration" tab, then to the "Plugins" sub-tab.
+    Flow "Administration" tab, then to the "Plugins" sub-tab.
     On the right side of the line for the EC-Azure plugin, there is
     a "Configure" link which will open the Configuration page.</p>
 
@@ -2320,7 +2320,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Resource/Resource Pool Name</td>
 
-          <td>The name of the commander resource or resource pool which need to be deleted. Precendence is given to resource for deletion. Azure VMs attached to the resources will also be deleted. (Required)</td>
+          <td>The name of the flow resource or resource pool which need to be deleted. Precendence is given to resource for deletion. Azure VMs attached to the resources will also be deleted. (Required)</td>
         </tr>
 		
         <tr>
@@ -2369,7 +2369,7 @@ outline used above where possible.
     <h4>Create a Plugin Configuration</h4>
 
     <p>Plugin configurations are created by going to the Electric
-    Commander "Administration" tab, then to the "Plugins" sub-tab.
+    Flow "Administration" tab, then to the "Plugins" sub-tab.
     On the right side of the line for the EC-Azure plugin, there is
     a "Configure" link which will open the Configuration
     page.<br />

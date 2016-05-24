@@ -37,7 +37,7 @@ $opts->{value}                   = q{$[value]};
 $opts->{results_location_outpsp} = q{$[results_location_outpsp]};
 $opts->{tag_outpp}               = q{$[tag_outpp]};
 
-$[/myProject/procedure_helpers/preamble]
+$[/myProject/procedure_helpers/preamble_pl]
 
 $azure->create_storage_account();
 exit($opts->{exitcode});
