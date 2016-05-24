@@ -22,82 +22,6 @@
 # Resource Management
 
 #Deployment
-my %create_hosted_service = (
-    label       => "Windows Azure - Create Hosted Service",
-    procedure   => "Create Hosted Service",
-    description => "Creates a new hosted service in Windows Azure.",
-    category    => "Deployment"
-);
-
-my %delete_hosted_service = (
-    label       => "Windows Azure - Delete Hosted Service",
-    procedure   => "Delete Hosted Service",
-    description => "Deletes the specified hosted service from Windows Azure.",
-    category    => "Deployment"
-);
-
-my %create_storage_account = (
-    label       => "Windows Azure - Create Storage Account",
-    procedure   => "Create Storage Account",
-    description => "Creates a new storage account in Windows Azure.",
-    category    => "Deployment"
-);
-
-my %delete_storage_account = (
-    label       => "Windows Azure - Delete Storage Account",
-    procedure   => "Delete Storage Account",
-    description => "Deletes the specified storage account from Windows Azure.",
-    category    => "Deployment"
-);
-
-my %get_storage_account_keys = (
-    label       => "Windows Azure - Get Storage Account Keys",
-    procedure   => "Get Storage Account Keys",
-    description => "Returns the primary and secondary access keys for the specified storage account.",
-    category    => "Deployment"
-);
-
-my %create_container = (
-    label       => "Windows Azure - Create Container",
-    procedure   => "Create Container",
-    description => "Creates a new container under the specified account. If the container with the same name already exists, the operation fails.",
-    category    => "Deployment"
-);
-
-my %delete_container = (
-    label       => "Windows Azure - Delete Container",
-    procedure   => "Delete Container",
-    description => "Marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection.",
-    category    => "Deployment"
-);
-
-my %put_blob = (
-    label       => "Windows Azure - Put Blob",
-    procedure   => "Put Blob",
-    description => "Creates a new block blob or page blob, or updates the content of an existing block blob.",
-    category    => "Deployment"
-);
-
-my %delete_blob = (
-    label       => "Windows Azure - Delete Blob",
-    procedure   => "Delete Blob",
-    description => "Marks the specified blob or snapshot for deletion. The blob is later deleted during garbage collection.",
-    category    => "Deployment"
-);
-
-my %create_deployment = (
-    label       => "Windows Azure - Create Deployment",
-    procedure   => "Create Deployment",
-    description => "Uploads a new service package and creates a new deployment on staging or production.",
-    category    => "Deployment"
-);
-
-my %get_status = (
-    label       => "Windows Azure - Get Operation Status",
-    procedure   => "Get Operation Status",
-    description => "Return the actual Status of the operation.",
-    category    => "Deployment"
-);
 
 my %create_vm = (
     label       => "Windows Azure - Create Virtual Machine",
@@ -286,7 +210,28 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Dele
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Create Deployment");
 $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Get Operation Status");
 
-@::createStepPickerSteps = (\%create_hosted_service, \%delete_hosted_service ,\%create_storage_account, \%delete_storage_account, \%get_storage_account_keys, \%create_container, \%delete_container, \%put_blob, \%delete_blob, \%get_status, \%create_deployment, \%create_vm, \%delete_vm, \%start_vm, \%stop_vm, \%restart_vm, \%teardown, \%create_update_database_server, \%delete_database_server, \%create_update_database, \%delete_database, \%create_vnet, \%delete_vnet, \%create_update_subnet, \%delete_subnet, \%create_update_security_group, \%delete_security_group, \%create_update_security_rule, \%delete_security_rule, \%nosql_operations, \%sql_operations);
+@::createStepPickerSteps = (
+    \%create_vm,
+    \%delete_vm,
+    \%start_vm,
+    \%stop_vm,
+    \%restart_vm,
+    \%teardown,
+    \%create_update_database_server,
+    \%delete_database_server,
+    \%create_update_database,
+    \%delete_database,
+    \%create_vnet,
+    \%delete_vnet,
+    \%create_update_subnet,
+    \%delete_subnet,
+    \%create_update_security_group,
+    \%delete_security_group,
+    \%create_update_security_rule,
+    \%delete_security_rule,
+    \%nosql_operations,
+    \%sql_operations
+);
 
 my $pluginName = '@PLUGIN_NAME@';
 my $pluginKey  = '@PLUGIN_KEY@';
@@ -390,62 +335,6 @@ if ($upgradeAction eq "upgrade") {
             }
 
             # Attach the credential to the appropriate steps
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Create Hosted Service',
-                    stepName      => 'Create Hosted Service'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Delete Hosted Service',
-                    stepName      => 'Delete Hosted Service'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Create Storage Account',
-                    stepName      => 'Create Storage Account'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Delete Storage Account',
-                    stepName      => 'Delete Storage Account'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Get Storage Account Keys',
-                    stepName      => 'Get Storage Account Keys'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Create Deployment',
-                    stepName      => 'Create Deployment'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Get Operation Status',
-                    stepName      => 'Get Operation Status'
-                }
-            );
             $batch->attachCredential(
                 "\$[/plugins/$pluginName/project]",
                 $cred,
