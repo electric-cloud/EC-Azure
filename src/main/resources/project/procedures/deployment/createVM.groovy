@@ -43,16 +43,13 @@ try {
     boolean disablePasswordAuth = false
     def VMList = []
     
-    if (createPublicIP == '1')
-    {
+    if (createPublicIP == '1') {
         publicIP = true
     }
-    if (userImage == '1')
-    {
+    if (userImage == '1') {
         isUserImage = true
     }
-    if (disablePasswordPrompt == '1')
-    {
+    if (disablePasswordPrompt == '1') {
         disablePasswordAuth = true
     }
 
@@ -64,46 +61,45 @@ try {
     // Need to validate resource workspace and resource zone
     // only if the resource pool was specified
     if (resourcePool) {
-        if(ec.createCommanderResourcePool(resourcePool))
-        {
+        if (ec.createCommanderResourcePool(resourcePool)) {
             //Create workspace if not present.
-            if(resourceWorkspace)
+            if(resourceWorkspace) {
                 ec.createCommanderWorkspace(resourceWorkspace)
+            }
             //Check if the zone is present.    
-            if(resourceZone)
-                if(!ec.getZone(resourceZone)) 
-                {
+            if (resourceZone) {
+                if (!ec.getZone(resourceZone))  {
                     println("Zone "+ resourceZone +" not present")  
                     System.exit(1)
-                }    
+                }
+            }
         }
     }
 
     def count = 1
-    instances.times{
-
+    def errors_count = 0;
+    instances.times {
         String instanceSuffix = "${count}-${System.currentTimeMillis()}"
         String VMName 
 
-        if(instances > 1)
+        if (instances > 1) {
             VMName = "${serverName}-${instanceSuffix}"
-        else 
+        }
+        else {
             VMName = serverName
-
+        }
         def (adminName, adminPassword) = ec.getFullCredentials(vmCreds) 
         def (resourceIP, VMStatus) = ec.azure.createVM(VMName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth, vnet, subnet)
         
-        if(VMStatus == ProvisioningStateTypes.SUCCEEDED)
+        if (VMStatus == ProvisioningStateTypes.SUCCEEDED) {
             VMList.push(VMName)
+        }
 
         //VM is created if Public IP is fetched successfully.
         //EF Resources are generated only if the VM is created without errors.
         if (VMStatus == ProvisioningStateTypes.SUCCEEDED) {
-
             println("Created VM " + VMName + " successfully.")
-                
-            if(resourcePool)
-            {
+            if (resourcePool) {
                 println("Public IP assigned to the VM: " + resourceIP)
 
                 String resourceName = "${resourcePool}-${instanceSuffix}"
@@ -123,29 +119,47 @@ try {
                         ec.setPropertyInResource(resourceName, 'etc/public_ip', resourceIP)
                         ec.setPropertyInResource(resourceName, 'etc/storage_account', storageAccount)
                         ec.setPropertyInResource(resourceName, 'etc/resource_group_name', resourceGroupName)
-                    } else {
+                    }
+                    else {
                         //rollback - delete all Azure VMs and EF resources created so far.
                         println("Could not add resource to resource pool, going for the rollback operation.")
                         ec.rollback(resourcePool)
                     }
-                } else {
+                }
+                else {
                     //rollback - delete all Azure VMs and EF resources created so far.
                     println("Could not create commander resource, going for the rollback operation.")
                     ec.rollback(resourcePool)
                 }
             }
         }
-        else
-        {
+        else {
             println("Failed to create the VM " + VMName)
+            errors_count += 1
             def listSize = VMList.size()
-            listSize.times{
+            listSize.times {
                 ec.azure.deleteVM(resourceGroupName, VMList.pop())
             }
         }  
-        count = count + 1  
+        count = count + 1
     }
-}catch(Exception e){
+    if (errors_count > 0) {
+        throw new Exception ("Failed to create $errors_count VM(s)");
+    }
+} catch(Exception e) {
     e.printStackTrace()
+    def errorMessage = 'gsom';
+    print "type of E is: " + e.getClass();
+    if (e) {
+        errorMessage = e.getMessage();
+        println "Error message: $errorMessage";
+    }
+    else {
+        errorMessage = 'Error occured'
+    }
+    
+    def commander = new ElectricCommander();
+    commander.setProperty("summary", errorMessage, true);
+    System.exit(1);
     return
 }
