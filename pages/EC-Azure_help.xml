@@ -340,7 +340,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Create or Update Database Server"><a name="Create or Update Database Server" id="Create or Update Database Server"></a>
+    <div id="Create-or-Update-Database-Server"><a name="Create or Update Database Server" id="Create-or-Update-Database-Server"></a>
 
     <h3>Create or Update Database Server</h3>
 
@@ -405,7 +405,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Create or Update NetworkSecurityGroup"><a name="Create or Update NetworkSecurityGroup" id="Create or Update NetworkSecurityGroup"></a>
+    <div id="Create-or-Update-NetworkSecurityGroup"><a name="Create or Update NetworkSecurityGroup" id="Create-or-Update-NetworkSecurityGroup"></a>
 
     <h3>Create or Update NetworkSecurityGroup</h3>
 
@@ -464,7 +464,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Create or Update NetworkSecurityRule"><a name="Create or Update NetworkSecurityRule" id="Create or Update NetworkSecurityRule"></a>
+    <div id="Create-or-Update-NetworkSecurityRule"><a name="Create or Update NetworkSecurityRule" id="Create-or-Update-NetworkSecurityRule"></a>
 
     <h3>Create or Update NetworkSecurityRule</h3>
 
@@ -571,7 +571,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Create or Update Subnet"><a name="Create or Update Subnet" id="Create or Update Subnet"></a>
+    <div id="Create-or-Update-Subnet"><a name="Create or Update Subnet" id="Create-or-Update-Subnet"></a>
 
     <h3>Create or Update Subnet</h3>
 
@@ -911,7 +911,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Delete Database Server"><a name="Delete Database Server" id="Delete Database Server"></a>
+    <div id="Delete-Database-Server"><a name="Delete Database Server" id="Delete-Database-Server"></a>
 
     <h3>Delete Database Server</h3>
 
@@ -958,7 +958,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Delete NetworkSecurityGroup"><a name="Delete NetworkSecurityGroup" id="Delete NetworkSecurityGroup"></a>
+    <div id="Delete-NetworkSecurityGroup"><a name="Delete NetworkSecurityGroup" id="Delete-NetworkSecurityGroup"></a>
 
     <h3>Delete NetworkSecurityGroup</h3>
 
@@ -1005,7 +1005,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Delete NetworkSecurityRule"><a name="Delete NetworkSecurityRule" id="Delete NetworkSecurityRule"></a>
+    <div id="Delete-NetworkSecurityRule"><a name="Delete NetworkSecurityRule" id="Delete-NetworkSecurityRule"></a>
 
     <h3>Delete NetworkSecurityRule</h3>
 
@@ -1058,7 +1058,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Delete Subnet"><a name="Delete Subnet" id="Delete Subnet"></a>
+    <div id="Delete-Subnet"><a name="Delete Subnet" id="Delete-Subnet"></a>
 
     <h3>Delete Subnet</h3>
 
@@ -1111,7 +1111,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Delete VM"><a name="Delete VM" id="Delete VM"></a>
+    <div id="Delete-VM"><a name="Delete VM" id="Delete-VM"></a>
 
     <h3>Delete VM</h3>
 
@@ -1158,7 +1158,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="NoSQL Operations"><a name="NoSQL Operations" id="NoSQL Operations"></a>
+    <div id="NoSQL-Operations"><a name="NoSQL Operations" id="NoSQL-Operations"></a>
 
     <h3>NoSQL Operations</h3>
 
@@ -1234,7 +1234,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Restart VM"><a name="Restart VM" id="Restart VM"></a>
+    <div id="Restart-VM"><a name="Restart VM" id="Restart-VM"></a>
 
     <h3>Restart VM</h3>
 
@@ -1281,7 +1281,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Start VM"><a name="Start VM" id="Start VM"></a>
+    <div id="Start-VM"><a name="Start VM" id="Start-VM"></a>
 
     <h3>Start VM</h3>
 
@@ -1328,7 +1328,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Stop VM"><a name="Stop VM" id="Stop VM"></a>
+    <div id="Stop-VM"><a name="Stop VM" id="Stop-VM"></a>
 
     <h3>Stop VM</h3>
 
@@ -1467,98 +1467,6 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-     <h1>Use Cases and Examples</h1>
-    <!-- This section is for examples and use cases, including screenshots of the new Parameter Panel with example values filled in.
-Unfortunately, I can't tell you what exactly to put here, but it's OK to put what seems like too much! Include both parameter
-values and output where appropriate. Use a separate 'h2' header for each example. Under the h2 header try to stay with the style
-outline used above where possible.
--->
-
-    <h2>Use Case 1: Set Azure to create a new staging
-    deployment.</h2>
-
-    <p>A common use for this plugin is to create a hosted service,
-    then create an storage account, create a container and a blob
-    using and then create a deployment. To accomplish these tasks
-    you must:</p>
-
-    <ol>
-      <li>Create a Plugin Configuration.</li>
-
-      <li>Create a Hosted Service.</li>
-
-      <li>Create a Storage Account.</li>
-
-      <li>Get the Storage Account Keys.</li>
-
-      <li>Create a Container in the storage account.</li>
-
-      <li>Upload the package file contains the application to
-      deploy.</li>
-
-      <li>Create the new deployment.</li>
-    </ol>
-
-    <h4>Create a Plugin Configuration</h4>
-
-    <p>Plugin configurations are created by going to the Electric
-    Flow "Administration" tab, then to the "Plugins" sub-tab.
-    On the right side of the line for the EC-Azure plugin, there is
-    a "Configure" link which will open the Configuration
-    page.<br />
-    Create a new configuration by specifying the requested
-    parameters:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/create_config.png" />
-
-    <p>Once the configuration is created, you can see it listed in
-    "Windows Azure Configurations", and now you are able to run
-    procedures.</p>
-
-    <h4>Create a Hosted Service</h4>
-
-    <p>Create a new 'Create Hosted Service' procedure, fill in the
-    requested parameters with real values:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/hosted_parameters.png" />
-
-    <h4>Create an Storage Account</h4>
-
-    <p>Create a new 'Create Storage Account' procedure, fill in the
-    requested parameters with real values:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/storage_parameters.png" />
-
-    <h4>Get the Storage Account Keys</h4>
-
-    <p>Create a new 'Get Storage Account Keys' procedure, fill in
-    the requested parameters with real values:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/keys_parameters.png" />
-
-    <h4>Create a Container</h4>
-
-    <p>Create a new 'Create Container' procedure, fill in the
-    requested parameters with real values:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/container_parameters.png" />
-
-    <h4>Upload the File</h4>
-
-    <p>Create a new 'Put Blob' procedure, fill in the requested
-    parameters with real values:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/blob_parameters.png" />
-
-    <h4>Create the Deployment</h4>
-
-    <p>Create a new 'Create Deployment' procedure, fill in the
-    requested parameters with real values:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/deployment_parameters.png" />
-
-    <h4>Results and outputs</h4>
-
-    <p>Once the job finished, you can see properties stored in
-    'Results location: /myJob/Azure/deployed/'.<br />
-    <img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/job.png" /><br />
-
-    <img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/results.png" />
-    <br />
-    <img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/deployment_properties.png" />
-    </p>
-
-    <p>Create Hosted Service output:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/hosted_log.png" />
-
-    <p>Put Blob output:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/blob_log.png" />
-
-    <p>Create Deployment output:</p><img alt="" src="../../plugins/@PLUGIN_KEY@/images/use_cases/Case_1/deployment_log.png" />
 
     <h1>Release Notes</h1>
 	
