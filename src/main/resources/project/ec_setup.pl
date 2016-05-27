@@ -65,19 +65,19 @@ my %teardown = (
     category    => "Deployment"
 );
 
-my %create_update_database_server = (
-    label       => "Windows Azure - Create or Update Database Server",
-    procedure   => "Create or Update Database Server",
-    description => "Creates or updates a database server",
-    category    => "Deployment"
-);
+# my %create_update_database_server = (
+#     label       => "Windows Azure - Create or Update Database Server",
+#     procedure   => "Create or Update Database Server",
+#     description => "Creates or updates a database server",
+#     category    => "Deployment"
+# );
 
-my %delete_database_server = (
-    label       => "Windows Azure - Delete Database server",
-    procedure   => "Delete Database Server",
-    description => "Deletes a database server",
-    category    => "Deployment"
-);
+# my %delete_database_server = (
+#     label       => "Windows Azure - Delete Database server",
+#     procedure   => "Delete Database Server",
+#     description => "Deletes a database server",
+#     category    => "Deployment"
+# );
 
 my %create_update_database = (
     label       => "Windows Azure - Create or Update database",
@@ -217,8 +217,8 @@ $batch->deleteProperty("/server/ec_customEditors/pickerStep/Windows Azure - Get 
     \%stop_vm,
     \%restart_vm,
     \%teardown,
-    \%create_update_database_server,
-    \%delete_database_server,
+    # \%create_update_database_server,
+    # \%delete_database_server,
     \%create_update_database,
     \%delete_database,
     \%create_vnet,
@@ -383,22 +383,24 @@ if ($upgradeAction eq "upgrade") {
                     stepName      => 'tearDown'
                 }
             );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Create or Update Database Server',
-                    stepName      => 'createUpdateDatabaseServer'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Delete Database Server',
-                    stepName      => 'deleteDatabaseServer'
-                }
-            );
+            
+            # $batch->attachCredential(
+            #     "\$[/plugins/$pluginName/project]",
+            #     $cred,
+            #     {
+            #         procedureName => 'Create or Update Database Server',
+            #         stepName      => 'createUpdateDatabaseServer'
+            #     }
+            # );
+            
+            # $batch->attachCredential(
+            #     "\$[/plugins/$pluginName/project]",
+            #     $cred,
+            #     {
+            #         procedureName => 'Delete Database Server',
+            #         stepName      => 'deleteDatabaseServer'
+            #     }
+            # );
             $batch->attachCredential(
                 "\$[/plugins/$pluginName/project]",
                 $cred,

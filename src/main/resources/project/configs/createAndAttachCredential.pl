@@ -144,27 +144,27 @@ foreach my $credName ( keys %credentials ) {
     );
     $errors .= $ec->checkAllErrors($xpath);
 
-    $xpath = $ec->attachCredential(
-        $projName,
-        $credName,
+    # $xpath = $ec->attachCredential(
+    #     $projName,
+    #     $credName,
 
-        {
-            procedureName => 'Create or Update Database Server',
-            stepName      => 'createUpdateDatabaseServer'
-        }
-    );
-    $errors .= $ec->checkAllErrors($xpath);
+    #     {
+    #         procedureName => 'Create or Update Database Server',
+    #         stepName      => 'createUpdateDatabaseServer'
+    #     }
+    # );
+    # $errors .= $ec->checkAllErrors($xpath);
 
-    $xpath = $ec->attachCredential(
-        $projName,
-        $credName,
+    # $xpath = $ec->attachCredential(
+    #     $projName,
+    #     $credName,
 
-        {
-            procedureName => 'Delete Database Server',
-            stepName      => 'deleteDatabaseServer'
-        }
-    );
-    $errors .= $ec->checkAllErrors($xpath);
+    #     {
+    #         procedureName => 'Delete Database Server',
+    #         stepName      => 'deleteDatabaseServer'
+    #     }
+    # );
+    # $errors .= $ec->checkAllErrors($xpath);
 
     $xpath = $ec->attachCredential(
         $projName,

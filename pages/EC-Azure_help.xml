@@ -340,7 +340,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Create-or-Update-Database-Server"><a name="Create or Update Database Server" id="Create-or-Update-Database-Server"></a>
+<!--    <div id="Create-or-Update-Database-Server"><a name="Create or Update Database Server" id="Create-or-Update-Database-Server"></a>
 
     <h3>Create or Update Database Server</h3>
 
@@ -403,7 +403,7 @@ section that just says "There is no configuration for this plugin."
       </tbody>
     </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_or_update_database_server.png" />
 	
-	</div>
+	</div> -->
 	
     <div id="Create-or-Update-NetworkSecurityGroup"><a name="Create or Update NetworkSecurityGroup" id="Create-or-Update-NetworkSecurityGroup"></a>
 
@@ -911,7 +911,7 @@ section that just says "There is no configuration for this plugin."
 	
 	</div>
 	
-    <div id="Delete-Database-Server"><a name="Delete Database Server" id="Delete-Database-Server"></a>
+<!--    <div id="Delete-Database-Server"><a name="Delete Database Server" id="Delete-Database-Server"></a>
 
     <h3>Delete Database Server</h3>
 
@@ -956,7 +956,7 @@ section that just says "There is no configuration for this plugin."
       </tbody>
     </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/delete_database_server.png" />
 	
-	</div>
+	</div> -->
 	
     <div id="Delete-NetworkSecurityGroup"><a name="Delete NetworkSecurityGroup" id="Delete-NetworkSecurityGroup"></a>
 
@@ -1476,15 +1476,15 @@ section that just says "There is no configuration for this plugin."
 		<li>Updated the Create Configuration procedure</li>
 	
         <p>Added the following new procedures:</p>
-		<li>Create Or Update Database</li>
-		<li>Create or Update Database Server</li>
+        <li>Create Or Update Database</li>
+		<!-- <li>Create or Update Database Server</li> -->
 		<li>Create or Update NetworkSecurityGroup</li>
 		<li>Create or Update NetworkSecurityRule</li>
 		<li>Create or Update Subnet</li>
 		<li>Create VM</li>
 		<li>Create Vnet</li>
 		<li>Delete Database</li>
-		<li>Delete Database Server</li>
+		<!-- <li>Delete Database Server</li> -->
 		<li>Delete NetworkSecurityGroup</li>
 		<li>Delete NetworkSecurityRule</li>
 		<li>Delete Subnet</li>

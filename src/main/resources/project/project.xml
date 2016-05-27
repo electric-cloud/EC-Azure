@@ -2453,6 +2453,12 @@
                     <expandable>1</expandable>
                     <value/>
                 </property>
+                <property>
+                  <propertyName>ec_visibility</propertyName>
+                  <description/>
+                  <expandable>1</expandable>
+                  <value>private</value>
+                </property>
             </propertySheet>
             <formalParameter>
                 <formalParameterName>connection_config</formalParameterName>
@@ -2574,7 +2580,8 @@
                     <formalParameterName>admin_creds</formalParameterName>
                 </attachedParameters>
             </step>
-        </procedure>
+          </procedure>
+
         <procedure>
             <procedureName>Delete Database Server</procedureName>
             <description>Deletes an existing database server. </description>
@@ -2642,6 +2649,12 @@
                     <description/>
                     <expandable>1</expandable>
                     <value/>
+                </property>
+                <property>
+                    <propertyName>ec_visibility</propertyName>
+                    <description/>
+                    <expandable>1</expandable>
+                    <value>private</value>
                 </property>
             </propertySheet>
             <formalParameter>
