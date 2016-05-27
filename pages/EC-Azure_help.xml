@@ -69,7 +69,7 @@ the plugin omit?
     and hosted services, your service deployments, and your
     affinity groups while Storage Services API offer developers a
     means to access the Blob, Queue, and Table services in Windows
-    Azure or in the development environment. EC-Azure plugin allows
+    Azure or in the development environment. The EC-Azure plugin allows
     users to automate and perform operations on Windows Azure
     providing a more generic interface for managing
     deployments.</p>
@@ -77,15 +77,15 @@ the plugin omit?
     <p>All Service Management API operations are performed over SSL
     and mutually authenticated using X.509 v3 certificates.</p>
 
-    <p>The plugin interact with Windows Azure APIs using PERL and a
+    <p>The plugin interacts with Windows Azure APIs using PERL and a
     Console Application to perform the following tasks:</p>
 
     <ul>
-      <li>Create configuration to hold connection information.</li>
+      <li>Create a configuration containing connection information.</li>
 
-      <li>Create,Update and Delete Hosted Services, Storage Accounts,Containers, Blobs, VMs, Virtual Networks, Subnets, Database Servers, Databases, Network Security Group and Network Security Rules </li>
+      <li>Create, update, and delete Hosted Services, Storage Accounts,Containers, Blobs, VMs, Virtual Networks, Subnets, Database Servers, Databases, Network Security Group, and Network Security Rules.</li>
 
-      <li>Perform operations on VMs, Storage Accounts, Deployments, SQL and NoSQL Servers</li>
+      <li>Perform operations on VMs, Storage Accounts, Deployments, and SQL and NoSQL Servers.</li>
     </ul>
 
     <h2>Integrated Version</h2>
@@ -93,12 +93,12 @@ the plugin omit?
     <p>This plugin was developed and tested against Windows Azure
     2012.</p>
 
-    <p>ElectricFlow minimum version 4.0</p>
+    <p>The minimum ElectricFlow version is ElectricCommander 4.0.</p>
 
     <h2>Windows Certificates</h2>
 
     <p>Some procedures require a certificate to authenticate the
-    request, you need to create one and upload it to Windows
+    request. You will need to create one and upload it to Windows
     Azure:</p>
 
     <h3>Create a X509 certificate</h3>
@@ -107,7 +107,7 @@ the plugin omit?
     -sky exchange -r -n "CN=&lt;CertificateName&gt;" -pe -a sha1
     -len 2048 -ss My "D:/&lt;CertificateName&gt;.cer"</p>
 
-    <p>For more information: <a href="http://msdn.microsoft.com/en-us/library/bfsktky3(VS.80).aspx">Makecert</a>.</p>
+    <p>For more information, go to <a href="http://msdn.microsoft.com/en-us/library/bfsktky3(VS.80).aspx">Makecert</a>.</p>
 
     <h3>Upload the certificate</h3>
 
@@ -116,8 +116,8 @@ the plugin omit?
     Subscription</a>.</p>
 
     <p><b>IMPORTANT</b><br />
-    In some cases if ElectricFlow is running as the local
-    system account you need to create an upload the certificate to
+    In some cases, if ElectricFlow is running as the local
+    system account, you need to create and upload the certificate to
     'nt authority/system' certificate store.<br />
     You must become 'authority/system':</p>
 
@@ -130,7 +130,7 @@ the plugin omit?
       $ whoami<br />
       $ sc start syscmd</li>
 
-      <li>A popup message will appear, click 'Show message'.</li>
+      <li>When a popup message appears, click 'Show message'.</li>
 
       <li>Now create the certificate using makecert and upload it
       to Azure.</li>
@@ -161,7 +161,7 @@ section that just says "There is no configuration for this plugin."
     Plugin configurations are created by going to the Electric
     Flow "Administration" tab, then to the "Plugins" sub-tab.
     On the right side of the line for the EC-Azure plugin, there is
-    a "Configure" link which will open the Configuration page.</p>
+    a "Configure" link, which will open the Configuration page.</p>
 
     <p>Subscription ID must be created and an X.509 management
     certificate needs to be uploaded to the certificate store. You
@@ -212,7 +212,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Client ID/Secret Key</td>
 
-          <td>Azure Application Client ID and Secret(Password). (Required)</td>
+          <td>Azure Application Client ID and Secret (Password). (Required)</td>
         </tr>
 		
         <tr>
@@ -290,29 +290,29 @@ section that just says "There is no configuration for this plugin."
           <td>Location</td>
 
           <td>The location where the hosted service will be
-          created. (Required if 'Affinity Group' is not
-          specified).</td>
+          created. (Required if  the affinity group is not
+          specified)</td>
         </tr>
 
         <tr>
           <td>Affinity Group</td>
 
           <td>The name of an existing affinity group associated
-          with this subscription. (Required if Location is not
-          specified).</td>
+          with this subscription. (Required if the location is not
+          specified)</td>
         </tr>
 
         <tr>
           <td>Name</td>
 
-          <td>Represents the name of an extended hosted service
+          <td>The name of an extended hosted service
           property.</td>
         </tr>
 
         <tr>
           <td>Value</td>
 
-          <td>Represents the value of an extended hosted service
+          <td>The value of an extended hosted service
           property.</td>
         </tr>
 
@@ -321,7 +321,7 @@ section that just says "There is no configuration for this plugin."
           sheet path)</td>
 
           <td>The ElectricFlow location to store properties
-          (default is /myJob/Azure/deployed). (Required)</td>
+          (the default is /myJob/Azure/deployed.).(Required)</td>
         </tr>
 
         <tr>
@@ -329,14 +329,14 @@ section that just says "There is no configuration for this plugin."
           name)</td>
 
           <td>The unique tag for this operation to keep it separate
-          from others stored in the same results location. (default
-          is $[jobStepId]). (Required)</td>
+          from others stored in the same results location. (The default
+          is $[jobStepId].) (Required)</td>
         </tr>
 
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
       </tbody>
@@ -377,7 +377,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
       </tbody>
@@ -392,7 +392,7 @@ section that just says "There is no configuration for this plugin."
     The plugin will store properties on the ElectricFlow
     server at the location provided in "Results location"/"Results
     tag"; the default location in the job is
-    '/myJob/Azure/deployed/$[jobStepId]'</p>
+    '/myJob/Azure/deployed/$[jobStepId]'.</p>
 
     <table class="grid">
       <thead>
@@ -438,15 +438,15 @@ section that just says "There is no configuration for this plugin."
           <td>Location</td>
 
           <td>The location where the storage account is created.
-          (Required if 'Affinity Group' is not specified).</td>
+          (Required if the affinity group is not specified.)</td>
         </tr>
 
         <tr>
           <td>Affinity Group</td>
 
           <td>The name of an existing affinity group in the
-          specified subscription. (Required if Location is not
-          specified).</td>
+          specified subscription. (Required if the location is not
+          specified.)</td>
         </tr>
 
         <tr>
@@ -459,14 +459,14 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>Name</td>
 
-          <td>Represents the name of an extended storage account
+          <td>The name of an extended storage account
           property.</td>
         </tr>
 
         <tr>
           <td>Value</td>
 
-          <td>Represents the value of an extended storage account
+          <td>The value of an extended storage account
           property.</td>
         </tr>
 
@@ -475,7 +475,7 @@ section that just says "There is no configuration for this plugin."
           sheet path)</td>
 
           <td>The ElectricFlow location to store properties
-          (default is /myJob/Azure/deployed). (Required)</td>
+          (the default is /myJob/Azure/deployed). (Required)</td>
         </tr>
 
         <tr>
@@ -483,14 +483,14 @@ section that just says "There is no configuration for this plugin."
           name)</td>
 
           <td>The unique tag for this operation to keep it separate
-          from others stored in the same results location. (default
+          from others stored in the same results location (the default
           is $[jobStepId]). (Required)</td>
         </tr>
 
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
       </tbody>
@@ -532,7 +532,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
       </tbody>
@@ -546,8 +546,8 @@ section that just says "There is no configuration for this plugin."
     access keys for the specified storage account.<br />
     The plugin will store properties on the ElectricFlow
     server at the location provided in "Results location"/"Results
-    tag"; the default location in the job is
-    '/myJob/Azure/deployed/$[jobStepId]'</p>
+    tag". The default location in the job is
+    '/myJob/Azure/deployed/$[jobStepId]'.</p>
 
     <table class="grid">
       <thead>
@@ -562,7 +562,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Configuration</td>
 
-          <td>The name of the configuration which holds all the
+          <td>The name of the configuration that holds all the
           connection information for Windows Azure. (Required)</td>
         </tr>
 
@@ -580,7 +580,7 @@ section that just says "There is no configuration for this plugin."
           sheet path)</td>
 
           <td>The ElectricFlow location to store properties
-          (default is /myJob/Azure/deployed). (Required)</td>
+          (the default is /myJob/Azure/deployed). (Required)</td>
         </tr>
 
         <tr>
@@ -588,14 +588,14 @@ section that just says "There is no configuration for this plugin."
           name)</td>
 
           <td>The unique tag for this operation to keep it separate
-          from others stored in the same results location. (default
+          from others stored in the same results location (the default
           is $[jobStepId]). (Required)</td>
         </tr>
 
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
       </tbody>
@@ -610,7 +610,7 @@ section that just says "There is no configuration for this plugin."
     already exists, the operation fails.<br />
     The plugin will store properties on the ElectricFlow
     server at the location provided in "Results location"/"Results
-    tag"; the default location in the job is
+    tag"/ The default location in the job is
     '/myJob/Azure/deployed/$[jobStepId]'</p>
 
     <table class="grid">
@@ -647,7 +647,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Container Name</td>
 
-          <td>A name for the container. Value can only include
+          <td>A name for the container. The value can include only
           lower-case characters. (Required)</td>
         </tr>
 
@@ -656,7 +656,7 @@ section that just says "There is no configuration for this plugin."
           sheet path)</td>
 
           <td>The ElectricFlow location to store properties
-          (default is /myJob/Azure/deployed). (Required)</td>
+          (the default is /myJob/Azure/deployed). (Required)</td>
         </tr>
 
         <tr>
@@ -664,14 +664,14 @@ section that just says "There is no configuration for this plugin."
           name)</td>
 
           <td>The unique tag for this operation to keep it separate
-          from others stored in the same results location. (default
+          from others stored in the same results location (the default
           is $[jobStepId]). (Required)</td>
         </tr>
 
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
       </tbody>
@@ -719,14 +719,14 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Container Name</td>
 
-          <td>The name of the container. Value can only include
+          <td>The name of the container. Value can include only 
           lower-case characters. (Required)</td>
         </tr>
 
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
       </tbody>
@@ -741,8 +741,8 @@ section that just says "There is no configuration for this plugin."
     upload a file.<br />
     The plugin will store properties on the ElectricFlow
     server at the location provided in "Results location"/"Results
-    tag"; the default location in the job is
-    '/myJob/Azure/deployed/$[jobStepId]'</p>
+    tag". The default location in the job is
+    '/myJob/Azure/deployed/$[jobStepId]'.</p>
 
     <table class="grid">
       <thead>
@@ -757,7 +757,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Configuration</td>
 
-          <td>The name of the configuration which holds all the
+          <td>The name of the configuration that holds all the
           connection information for Windows Azure. (Required)</td>
         </tr>
 
@@ -778,7 +778,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Container Name</td>
 
-          <td>Specifies the name of the container. Value can only
+          <td>Specifies the name of the container. The value can only
           include lower-case characters. (Required)</td>
         </tr>
 
@@ -798,7 +798,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>Blob Name</td>
 
-          <td>Specifies the name for the blob. Value can only
+          <td>Specifies the name for the blob. The value can only
           include lower-case characters.</td>
         </tr>
 
@@ -812,7 +812,7 @@ section that just says "There is no configuration for this plugin."
           <td>Filepath</td>
 
           <td>Path to the file to upload. (Required if 'Upload
-          File' is checked)</td>
+          File' is checked.)</td>
         </tr>
 
         <tr>
@@ -820,7 +820,7 @@ section that just says "There is no configuration for this plugin."
 
           <td>Specifies the maximum size for the page blob, up to 1
           TB. The page blob size must be aligned to a 512-byte
-          boundary. (Required if 'Blob Type' is PageBlob)</td>
+          boundary. (Required if 'Blob Type' is PageBlob.)</td>
         </tr>
 
         <tr>
@@ -828,7 +828,7 @@ section that just says "There is no configuration for this plugin."
 
           <td>The sequence number is a user-controlled value that
           you can use to track requests. (Required if 'Blob Type'
-          is PageBlob)</td>
+          is PageBlob.)</td>
         </tr>
 
         <tr>
@@ -836,7 +836,7 @@ section that just says "There is no configuration for this plugin."
           sheet path)</td>
 
           <td>The ElectricFlow location to store properties
-          (default is /myJob/Azure/deployed). (Required)</td>
+          (the default is /myJob/Azure/deployed). (Required)</td>
         </tr>
 
         <tr>
@@ -844,14 +844,14 @@ section that just says "There is no configuration for this plugin."
           name)</td>
 
           <td>The unique tag for this operation to keep it separate
-          from others stored in the same results location. (default
+          from others stored in the same results location. (The default
           is $[jobStepId]). (Required)</td>
         </tr>
 
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
       </tbody>
@@ -913,7 +913,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
       </tbody>
@@ -927,8 +927,8 @@ section that just says "There is no configuration for this plugin."
     and create a new deployment on staging or production.<br />
     The plugin will store properties on the ElectricFlow
     server at the location provided in "Results location"/"Results
-    tag"; the default location in the job is
-    '/myJob/Azure/deployed/$[jobStepId]'</p>
+    tag";. The default location in the job is
+    '/myJob/Azure/deployed/$[jobStepId]'.</p>
 
     <table class="grid">
       <thead>
@@ -951,7 +951,7 @@ section that just says "There is no configuration for this plugin."
           <td class="required">Deployment Slot</td>
 
           <td>Specifies the environment in which to deploy the
-          virtual machine. Possible values are: Staging,
+          virtual machine. Possible values are Staging and 
           Production. (Required)</td>
         </tr>
 
@@ -1023,7 +1023,7 @@ section that just says "There is no configuration for this plugin."
           sheet path)</td>
 
           <td>The ElectricFlow location to store properties
-          (default is /myJob/Azure/deployed). (Required)</td>
+          (the default is /myJob/Azure/deployed). (Required)</td>
         </tr>
 
         <tr>
@@ -1031,14 +1031,14 @@ section that just says "There is no configuration for this plugin."
           name)</td>
 
           <td>The unique tag for this operation to keep it separate
-          from others stored in the same results location. (default
+          from others stored in the same results location (the default
           is $[jobStepId]). (Required)</td>
         </tr>
 
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
       </tbody>
@@ -1049,11 +1049,11 @@ section that just says "There is no configuration for this plugin."
     <h3>Get Operation Status</h3>
 
     <p>This procedure allows users to get the status of an
-    operation in Windows Azure<br />
+    operation in Windows Azure.<br />
     The plugin will store properties on the ElectricFlow
     server at the location provided in "Results location"/"Results
-    tag"; the default location in the job is
-    '/myJob/Azure/deployed/$[jobStepId]'</p>
+    tag". The default location in the job is
+    '/myJob/Azure/deployed/$[jobStepId]'.</p>
 
     <table class="grid">
       <thead>
@@ -1068,7 +1068,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Configuration</td>
 
-          <td>The name of the configuration which holds all the
+          <td>The name of the configuration that holds all the
           connection information for Windows Azure. (Required)</td>
         </tr>
 
@@ -1083,7 +1083,7 @@ section that just says "There is no configuration for this plugin."
           sheet path)</td>
 
           <td>The ElectricFlow location to store properties
-          (default is /myJob/Azure/deployed). (Required)</td>
+          (the default is /myJob/Azure/deployed). (Required)</td>
         </tr>
 
         <tr>
@@ -1091,14 +1091,14 @@ section that just says "There is no configuration for this plugin."
           name)</td>
 
           <td>The unique tag for this operation to keep it separate
-          from others stored in the same results location. (default
+          from others stored in the same results location (the default
           is $[jobStepId]). (Required)</td>
         </tr>
 
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
       </tbody>
@@ -1198,7 +1198,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
 		
@@ -1263,7 +1263,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
 		
@@ -1322,7 +1322,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank
+          <td>Timeout for the step execution in minutes. An empty field (no value entered)
           means no timeout.</td>
         </tr>
 		
@@ -1430,7 +1430,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -1501,7 +1501,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -1548,7 +1548,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Image URN</td>
 
-          <td>The image URN in the form publisherName:offer:skus:version/ The source VHD link of a user image, e.g. https://foo.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/snap-bar.vhd. (Required)</td>
+          <td>The image URN in the form publisherName:offer:skus:version/ The source VHD link of a user image, such as https://foo.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/snap-bar.vhd. (Required)</td>
         </tr>
 		
         <tr>
@@ -1608,7 +1608,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>Resource Pool</td>
 
-          <td>If you would like to add ElectricFlow resources for each Azure instance being created, enter the resource pool name for the new resources. If left blank no resource will be created.</td>
+          <td>If you would like to add ElectricFlow resources for each Azure instance being created, enter the resource pool name for the new resources. If this field is empty, no resource will be created.</td>
         </tr>
 		
         <tr>
@@ -1638,7 +1638,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -1668,7 +1668,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Configuration</td>
 
-          <td>The name of the configuration which holds all the
+          <td>The name of the configuration that holds all the
           connection information for Windows Azure. (Required)</td>
         </tr>
 
@@ -1687,13 +1687,13 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Subnet name</td>
 
-          <td>Name of the new Subnet. (Required)</td>
+          <td>Name of the new subnet. (Required)</td>
         </tr>
 		
         <tr>
           <td>Subnet address space</td>
 
-          <td>The Subnet's address space in CIDR notion.It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/24 -> 10.12.0.0 - 10.12.0.255 (256 addresses).</td>
+          <td>The subnet's address space in CIDR notion.It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/24 -> 10.12.0.0 - 10.12.0.255 (256 addresses).</td>
         </tr>
 		
         <tr>
@@ -1717,7 +1717,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -1745,7 +1745,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Configuration</td>
 
-          <td>The name of the configuration which holds all the
+          <td>The name of the configuration that holds all the
           connection information for Windows Azure. (Required)</td>
         </tr>
 
@@ -1770,7 +1770,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -1817,7 +1817,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -1864,7 +1864,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -1917,7 +1917,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -1970,7 +1970,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -2017,7 +2017,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -2093,7 +2093,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -2140,7 +2140,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -2187,7 +2187,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -2234,7 +2234,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -2292,7 +2292,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -2304,7 +2304,7 @@ section that just says "There is no configuration for this plugin."
 
     <h3>Teardown</h3>
 
-    <p>This procedure allows users to delete resources recursively under a specified resource/resource pool in one go</p>
+    <p>This procedure allows users to delete resources recursively under a specified resource/resource pool in one attempt.</p>
 
     <table class="grid">
       <thead>
@@ -2326,7 +2326,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>JobStep Timeout</td>
 
-          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+          <td>Timeout for the step execution in minutes. An empty field (no value entered) means no timeout.</td>
         </tr>
 		
       </tbody>
@@ -2345,7 +2345,7 @@ outline used above where possible.
     deployment.</h2>
 
     <p>A common use for this plugin is to create a hosted service,
-    then create an storage account, create a container and a blob
+    create an storage account, create a container and a blob
     using and then create a deployment. To accomplish these tasks
     you must:</p>
 
@@ -2432,9 +2432,10 @@ outline used above where possible.
     <h2>@PLUGIN_KEY@ 1.1.0</h2>
 
     <ul>
-		<li>Updated the Create Configuration procedure</li>
+		<li>Updated the Create Configuration procedure.</li>
 	
-        <p>Added the following new procedures:</p>
+        <li>Added the following new procedures:</li>
+		<ul>
 		<li>Create Or Update Database</li>
 		<li>Create or Update Database Server</li>
 		<li>Create or Update NetworkSecurityGroup</li>
@@ -2453,12 +2454,13 @@ outline used above where possible.
 		<li>Start VM</li>
 		<li>Stop VM</li>
 		<li>SQL Operations</li>
-		<li>TearDown</li>		
+		<li>TearDown</li>
+        </ul> 		
     </ul>
 	
     <h2>@PLUGIN_KEY@ 1.0.2</h2>
     <ul>
-        <li>Fixed issue with configurations being cached for IE.</li>
+        <li>Fixed the issue where configurations were cached for IE.</li>
     </ul>
 
     <h2>@PLUGIN_KEY@ 1.0.0</h2>
@@ -2466,13 +2468,13 @@ outline used above where possible.
     <ul>
       <li>Configuration Management.</li>
 
-      <li>Procedures: 'Create Hosted Service',Create Storage
-      Account','Get Storage Account Keys','Create Container', 'Put
-      Blob','Create Deployment', 'Get Operation Status','Delete
-      Container', 'Delete Blob', 'Delete Storage Account' and
+      <li>Added these procedures: 'Create Hosted Service', 'Create Storage
+      Account', 'Get Storage Account Keys', 'Create Container', 'Put
+      Blob', 'Create Deployment', 'Get Operation Status', 'Delete
+      Container', 'Delete Blob', 'Delete Storage Account', and
       'Delete Hosted Service'.</li>
 
-      <li>Implemented Console Application AzureRequest.exe</li>
+      <li>Implemented Console Application AzureRequest.exe.</li>
 
       <li>Implemented GWT parameter panels.</li>
 
@@ -2480,9 +2482,9 @@ outline used above where possible.
 
       <li>Implemented postp matchers.</li>
 
-      <li>Added help link to each procedure.</li>
+      <li>Added a Help link for each procedure.</li>
 
-      <li>Added detailed Use Case.</li>
+      <li>Added a detailed use case.</li>
     </ul>
   </div>
 </body>
