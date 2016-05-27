@@ -395,8 +395,8 @@ public class ElectricCommander {
     public createCommanderResourcePool(String resourcePoolName){  
 
         println("Creating Resource Pool")
-        def jsonData = [resourcePoolName : resourcePoolName, autoDelete : true, description : resourcePoolName , resourcePoolDisabled: false ]        
-        def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resourcePools/', jsonData)
+        def jsonData = [autoDelete : true, description : resourcePoolName , resourcePoolDisabled: false ]        
+        def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resourcePools', [resourcePoolName: resourcePoolName], jsonData)
 
         if(resp?.status == 409)     
         {
@@ -429,7 +429,7 @@ public class ElectricCommander {
             jsonData.zoneName = zoneName
         }
 
-        def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resources/', jsonData)
+        def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resources', [resourceName: resourceName], jsonData)
 
         if(resp?.status == 409)     
         {
@@ -560,7 +560,12 @@ public class ElectricCommander {
                     response = client.get(path: url, query: query, headers: requestHeaders, requestContentType: JSON)
                     break
                 case RequestMethod.POST:
-                    response = client.post(path: url, headers: requestHeaders, body: jsonData, requestContentType: JSON)
+                    if (query) {
+                        response = client.post(path: url, query:query, headers: requestHeaders, body: jsonData, requestContentType: JSON)
+                    }
+                    else {
+                        response = client.post(path: url, headers: requestHeaders, body: jsonData, requestContentType: JSON)
+                    }
                     break
                 case RequestMethod.PUT:
                     response = client.put(path: url, headers: requestHeaders, body: jsonData, requestContentType: JSON)
