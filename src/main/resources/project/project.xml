@@ -3878,7 +3878,7 @@
                 <defaultValue/>
                 <description>The Subnet's address space in CIDR notion.It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/24 -> 10.12.0.0 - 10.12.0.255 (256 addresses).</description>
                 <expansionDeferred>0</expansionDeferred>
-                <required>0</required>
+                <required>1</required>
                 <type>entry</type>
             </formalParameter>
             <formalParameter>

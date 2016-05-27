@@ -582,13 +582,17 @@ public class ElectricCommander {
     }
 
     def exceptionHandler(Closure c){
-        try{
+        try {
             c.call()
-        }
-        catch(Exception e)
-        {
+        } catch(Exception e) {
             e.printStackTrace()
-            setProperty("summary", e.toString(), true)
+            def errorMessage;
+            try {
+                errorMessage = e.getCause().getMessage()
+            } catch (any) {
+                errorMessage = e.getMessage();
+            }
+            setProperty("summary", errorMessage.toString(), true)
             System.exit(1)
         }
     }
@@ -1215,7 +1219,7 @@ public createVnet(def vnetName, def subnetName, def vnetAddressSpace, def subnet
                                                                     .createOrUpdate(resourceGroupName, vnetName, vnet)
                     
                 if(createVnetResponse.getStatusCode() == OperationStatus.Succeeded  || createVnetResponse.getRequestId() != null)
-                    println("Created Virtual Network: " + vnetName )
+                    println("Virtual Network: " + vnetName + " was successfully created/updated")
                 else
                     println("Failed to create Virtual Network:" + vnetName)     
         }
