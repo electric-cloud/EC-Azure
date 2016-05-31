@@ -303,7 +303,7 @@
             <procedureName>CreateConfiguration</procedureName>
             <description>Create an Azure configuration</description>
             <jobNameTemplate>Azure-CreateConfiguration-$[jobId]</jobNameTemplate>
-            <resourceName>local</resourceName>
+            <resourceName></resourceName>
             <workspaceName/>
             <propertySheet>
                 <property>
@@ -525,7 +525,7 @@
                 <parallel>0</parallel>
                 <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
                 <releaseMode>none</releaseMode>
-                <resourceName>local</resourceName>
+                <resourceName></resourceName>
                 <shell>ec-perl</shell>
                 <timeLimit/>
                 <timeLimitUnits>minutes</timeLimitUnits>
@@ -556,7 +556,7 @@
             <procedureName>DeleteConfiguration</procedureName>
             <description>Delete an Azure configuration</description>
             <jobNameTemplate>Azure-DeleteConfiguration-$[jobId]</jobNameTemplate>
-            <resourceName>local</resourceName>
+            <resourceName></resourceName>
             <workspaceName/>
             <propertySheet>
                 <property>
@@ -613,7 +613,7 @@
                 <parallel>0</parallel>
                 <postProcessor>postp --loadProperty /myProject/postp_matchers --liveUpdate 1 --updateDelay 1</postProcessor>
                 <releaseMode>none</releaseMode>
-                <resourceName>local</resourceName>
+                <resourceName></resourceName>
                 <shell>ec-perl</shell>
                 <timeLimit/>
                 <timeLimitUnits>minutes</timeLimitUnits>
