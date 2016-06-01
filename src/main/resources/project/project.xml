@@ -114,6 +114,12 @@
                                         <propertyName>parameterRefs</propertyName>
                                         <description></description>
                                         <propertySheet>
+                                          <property>
+                                            <propertyName>resourcePoolName</propertyName>
+                                            <description></description>
+                                            <expandable>1</expandable>
+                                            <value>resource_name</value>
+                                          </property>
                                             <property>
                                                 <propertyName>configuration</propertyName>
                                                 <description></description>
