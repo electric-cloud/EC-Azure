@@ -541,7 +541,7 @@ public class ElectricCommander {
         {
             deleteCommanderResourcePool(resourceName)
         }
-    }     
+    }
 
     private PerformHTTPRequest(RequestMethod request, String url, Object jsonData) {
         PerformHTTPRequest(request,url,["":""],jsonData)
@@ -586,18 +586,32 @@ public class ElectricCommander {
         return response
     }
 
-    def exceptionHandler(Closure c){
+        def exceptionHandler(Closure c) {
         try {
             c.call()
         } catch(Exception e) {
             e.printStackTrace()
             def errorMessage;
+            def json;
+            def finalMessage;
             try {
                 errorMessage = e.getCause().getMessage()
             } catch (any) {
                 errorMessage = e.getMessage();
             }
-            setProperty("summary", errorMessage.toString(), true)
+            try {
+                json = new JsonSlurper().parseText(errorMessage)
+                if (json.error) {
+                    finalMessage = json.error.code + " : " + json.error.message;
+                }
+            }
+            catch (any) {
+                finalMessage = errorMessage;
+            }
+            if (!finalMessage) {
+                finalMessage = erorrMessage.toString();
+            }
+            setProperty("summary", finalMessage.toString(), true)
             System.exit(1)
         }
     }

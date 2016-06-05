@@ -158,8 +158,9 @@ try {
         errorMessage = 'Error occured'
     }
     
-    def commander = new ElectricCommander();
+    ElectricCommander commander = new ElectricCommander('$[connection_config]'.trim());
     commander.setProperty("summary", errorMessage, true);
+    commander.azure.deleteVM('$[resource_group_name]'.trim(), '$[vm_name]'.trim());
     System.exit(1);
     return
 }
