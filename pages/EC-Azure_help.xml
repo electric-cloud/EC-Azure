@@ -277,7 +277,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Database name</td>
 
-          <td>The name of the Azure SQL Database to be operated on (Updated or created). (Required)</td>
+          <td>The name of the Azure SQL Database to be operated on (updated or created). (Required)</td>
         </tr>
 		
         <tr>
@@ -289,37 +289,37 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>Edition</td>
 
-          <td>Edition for the Azure Sql Database.</td>
+          <td>Edition for the Azure SQL Database.</td>
         </tr>
 		
         <tr>
           <td>Collation</td>
 
-          <td>Collation of the Azure Sql Database being created.</td>
+          <td>Collation of the Azure SQL Database being created.</td>
         </tr>
 		
         <tr>
           <td>Create Mode</td>
 
-          <td>Create Mode for the Azure Sql Database being created.</td>
+          <td>Create Mode for the Azure SQL Database being created.</td>
         </tr>
 		
         <tr>
           <td>Elastic Pool</td>
 
-          <td>The name of the Elastic Pool to put the Azure Sql Database in.</td>
+          <td>The name of the Elastic Pool to put the Azure SQL Database in.</td>
         </tr>
 		
         <tr>
           <td>Maximum Size in MB</td>
 
-          <td>The maximum size of the Azure Sql Database being created or updated in megabytes.</td>
+          <td>The maximum size of the Azure SQL Database being created or updated in megabytes.</td>
         </tr>
 		
         <tr>
           <td>Service Objective Id</td>
 
-          <td>The service objective to be applied to the Azure Sql Database being created or updated.</td>
+          <td>The service objective to be applied to the Azure SQL Database being created or updated.</td>
         </tr>
 		
         <tr>
@@ -521,25 +521,25 @@ section that just says "There is no configuration for this plugin."
 		<tr>		
           <td class="required">Source Address Prefix</td>
 
-          <td>Source address prefix. CIDR or source IP range.Asterix can also be used to match all source IPs (Required)</td>
+          <td>Source address prefix. CIDR or source IP range.An asterisk can also be used to match all source IPs (Required)</td>
         </tr>
 
         <tr>
           <td class="required">Source Port Range</td>
 
-          <td>Source Port Range. Integer or range between 0 and 65535.Asterix can also be used to match all ports (Required)</td>
+          <td>Source Port Range. Integer or range between 0 and 65535. An asterisk can also be used to match all ports (Required)</td>
         </tr>
 		
         <tr>
           <td class="required">Destination Address Prefix</td>
 
-          <td>Destination address prefix. CIDR or source IP range. Asterix can also be used to match all source IPs. (Required)</td>
+          <td>Destination address prefix. CIDR or source IP range. An asterisk can also be used to match all source IPs. (Required)</td>
         </tr>
 
         <tr>
           <td class="required">Destination Port Range</td>
 
-          <td>Destination Port Range. Integer or range between 0 and 65535. Asterix can also be used to match all ports. (Required)</td>
+          <td>Destination Port Range. Integer or range between 0 and 65535. An asterisk can also be used to match all ports. (Required)</td>
         </tr>
 
         <tr>
@@ -765,7 +765,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>Results Location</td>
 
-          <td>Location where the output properties will be saved. If not specified, will default to '/myJob/Azure/deployed'.</td>
+          <td>Location where the output properties will be saved. If not specified, thsi will default to '/myJob/Azure/deployed'.</td>
         </tr> 
 		
         <tr>
@@ -814,7 +814,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>Virtual Network address space</td>
 
-          <td>The Virtual Network's address space in CIDR notion.It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/16 -> 10.12.0.0 - 10.12.255.255 (65536 addresses).</td>
+          <td>The Virtual Network's address space in CIDR notion. It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/16 -> 10.12.0.0 - 10.12.255.255 (65536 addresses).</td>
         </tr>	
 		
         <tr>
@@ -826,7 +826,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>Subnet address space</td>
 
-          <td>The Subnet's address space in CIDR notion.It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/24 -> 10.12.0.0 - 10.12.0.255 (256 addresses).</td>
+          <td>The Subnet's address space in CIDR notion. It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/24 -> 10.12.0.0 - 10.12.0.255 (256 addresses).</td>
         </tr>
 		
         <tr>
@@ -1379,7 +1379,7 @@ section that just says "There is no configuration for this plugin."
 
     <h3>SQL Operations</h3>
 
-    <p>This procedure allows users to carry out operations on a database on a SQL Server</p>
+    <p>This procedure allows users to carry out operations on a database on a SQL Server.</p>
 
     <table class="grid">
       <thead>
@@ -1437,7 +1437,7 @@ section that just says "There is no configuration for this plugin."
 
     <h3>Teardown</h3>
 
-    <p>This procedure allows users to delete resources recursively under a specified resource/resource pool in one go</p>
+    <p>This procedure allows users to delete resources recursively under a specified resource/resource pool in one attempt.</p>
 
     <table class="grid">
       <thead>
@@ -1453,7 +1453,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Resource/Resource Pool Name</td>
 
-          <td>The name of the flow resource or resource pool which need to be deleted. Precendence is given to resource for deletion. Azure VMs attached to the resources will also be deleted. (Required)</td>
+          <td>The name of the flow resource or resource pool that need to be deleted. Precendence is given to resources to be deleted. Azure VMs attached to the resources will also be deleted. (Required)</td>
         </tr>
 		
         <tr>
@@ -1473,10 +1473,11 @@ section that just says "There is no configuration for this plugin."
     <h2>@PLUGIN_KEY@ 1.1.0</h2>
 
     <ul>
-		<li>Updated the Create Configuration procedure</li>
+		<li>Updated the Create Configuration procedure.</li>
 	
         <p>Added the following new procedures:</p>
-        <li>Create Or Update Database</li>
+		<ul>
+		<li>Create or Update Database</li>
 		<!-- <li>Create or Update Database Server</li> -->
 		<li>Create or Update NetworkSecurityGroup</li>
 		<li>Create or Update NetworkSecurityRule</li>
@@ -1494,18 +1495,20 @@ section that just says "There is no configuration for this plugin."
 		<li>Start VM</li>
 		<li>Stop VM</li>
 		<li>SQL Operations</li>
-		<li>TearDown</li>		
+		<li>TearDown</li>	
+		</ul>
+        	
     </ul>
 	
     <h2>@PLUGIN_KEY@ 1.0.2</h2>
     <ul>
-        <li>Fixed issue with configurations being cached for IE.</li>
+        <li>Fixed the issue with configurations being cached for IE.</li>
     </ul>
 
     <h2>@PLUGIN_KEY@ 1.0.0</h2>
 
     <ul>
-      <li>Configuration Management.</li>
+      <li>Configuration Management</li>
 
       <li>Procedures: 'Create Hosted Service',Create Storage
       Account','Get Storage Account Keys','Create Container', 'Put
@@ -1513,7 +1516,7 @@ section that just says "There is no configuration for this plugin."
       Container', 'Delete Blob', 'Delete Storage Account' and
       'Delete Hosted Service'.</li>
 
-      <li>Implemented Console Application AzureRequest.exe</li>
+      <li>Implemented Console Application AzureRequest.exe.</li>
 
       <li>Implemented GWT parameter panels.</li>
 
@@ -1521,9 +1524,9 @@ section that just says "There is no configuration for this plugin."
 
       <li>Implemented postp matchers.</li>
 
-      <li>Added help link to each procedure.</li>
+      <li>Added Help link to each procedure.</li>
 
-      <li>Added detailed Use Case.</li>
+      <li>Added a detailed Use Case.</li>
     </ul>
   </div>
 </body>
