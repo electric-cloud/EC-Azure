@@ -37,7 +37,7 @@
         <label>Server name:</label>
         <property>server_name</property>
         <value/>
-        <documentation>The name of the Azure SQL Database Server on which the database is hosted.</documentation>
+        <documentation>The short name (testsqlserver001, but not testsqlserver001.database.windows.net) of the Azure SQL Database Server on which the database is hosted.</documentation>
         <required>1</required>
         <type>entry</type>
     </formElement>

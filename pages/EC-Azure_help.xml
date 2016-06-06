@@ -435,12 +435,6 @@ section that just says "There is no configuration for this plugin."
         </tr>
 
         <tr>
-          <td class="required">Server name</td>
-
-          <td>The name of the Azure SQL Database Server on which the database is hosted. (Required)</td>
-        </tr>
-
-        <tr>
           <td class="required">Location</td>
 
           <td>Location of the resource. (Required)</td>
@@ -449,7 +443,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>Security Rule</td>
 
-          <td>Security Rule with the same name can be created in multiple Network Security Group and Network Security Group with same name can be created in multiple Resource Group. Provide nested JSON to uniquely identify security rule. Example: {"RG-1":{"NSG-1":["Rule-A", "Rule-B"], "NSG-2":["Rule-C", "Rule-D"]}, "RG-2":{"NSG-3":"RULE-G"}.</td>
+          <td>Security Rule with the same name can be created in multiple Network Security Group and Network Security Group with same name can be created in multiple Resource Group. Provide nested JSON to uniquely identify security rule. Example: {"RG-1":{"NSG-1":["Rule-A", "Rule-B"], "NSG-2":["Rule-C", "Rule-D"]}, "RG-2":{"NSG-3":"RULE-G"}}.</td>
         </tr>
 		
         <tr>

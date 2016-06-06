@@ -22,8 +22,7 @@ try {
 	    String networkSecurityGroup = '$[network_security_group]'.trim()
 	    String resourceGroup = '$[resource_group]'.trim()
 	    String location = '$[location]'.trim()
-	    String securityRule = '$[security_rule]'.trim()
-
+	    String securityRule = """$[security_rule]""".trim()
 	    ElectricCommander ec = new ElectricCommander(config)
         ec.azure.createOrUpdateNetworkSecurityGroup(resourceGroup, location, networkSecurityGroup, securityRule)
 }catch(Exception e){
