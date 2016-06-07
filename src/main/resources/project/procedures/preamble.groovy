@@ -708,7 +708,7 @@ class Azure {
 			{
 					context.setStorageAccount(storageAccount)
 					println("Set already existing storage account in context: " + storageAccountName)
-					storageURI = String.format("https://%s.blob.core.windows.net/%s", context.getStorageAccount().getName(), context.getContainerName()) + String.format("/os-%s.vhd", vmName)
+					storageURI = String.format("https://%s.blob.core.windows.net/%s", context.getStorageAccount().getName(), context.getContainerName()) + String.format("/os-%s-%s.vhd", vmName, System.currentTimeMillis().toString())
 			}
 			VirtualMachine virtualMachine
 			if (!isUserImage)

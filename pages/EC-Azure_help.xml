@@ -339,6 +339,52 @@ section that just says "There is no configuration for this plugin."
     </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_or_update_database.png" />
 	
 	</div>
+    <div id="Delete-Database"><a name="DeleteDatabase" id="Delete-Database-Link"></a>
+
+    <h3>Delete Database</h3>
+
+    <p>This procedure allows users to delete the Database on a Database server.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+        <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the Resource Group to which the Azure SQL Database Server belongs. (Required)</td>
+        </tr>
+        <tr>
+          <td class="required">Server name</td>
+
+          <td>The name of the Azure SQL Database Server on which the database is hosted. (Required)</td>
+        </tr>
+        <tr>
+          <td class="required">Database name</td>
+
+          <td>The name of the Azure SQL Database to be deletes. (Required)</td>
+        </tr>
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank
+          means no timeout.</td>
+        </tr>
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/delete_database.png" />
+	</div>
 	
 <!--    <div id="Create-or-Update-Database-Server"><a name="Create or Update Database Server" id="Create-or-Update-Database-Server"></a>
 
@@ -435,12 +481,6 @@ section that just says "There is no configuration for this plugin."
         </tr>
 
         <tr>
-          <td class="required">Server name</td>
-
-          <td>The name of the Azure SQL Database Server on which the database is hosted. (Required)</td>
-        </tr>
-
-        <tr>
           <td class="required">Location</td>
 
           <td>Location of the resource. (Required)</td>
@@ -449,7 +489,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>Security Rule</td>
 
-          <td>Security Rule with the same name can be created in multiple Network Security Group and Network Security Group with same name can be created in multiple Resource Group. Provide nested JSON to uniquely identify security rule. Example: {"RG-1":{"NSG-1":["Rule-A", "Rule-B"], "NSG-2":["Rule-C", "Rule-D"]}, "RG-2":{"NSG-3":"RULE-G"}.</td>
+          <td>Security Rule with the same name can be created in multiple Network Security Group and Network Security Group with same name can be created in multiple Resource Group. Provide nested JSON to uniquely identify security rule. Example: {"RG-1":{"NSG-1":["Rule-A", "Rule-B"], "NSG-2":["Rule-C", "Rule-D"]}, "RG-2":{"NSG-3":"RULE-G"}}.</td>
         </tr>
 		
         <tr>
