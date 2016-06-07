@@ -897,7 +897,49 @@ section that just says "There is no configuration for this plugin."
     </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/create_vnet.png" />
 	
 	</div>
+	<div id="DeleteVnet"><a name="DeleteVnet" id="DeleteVnet"></a>
+
+    <h3>DeleteVnet</h3>
+
+    <p>This procedure allows users to delete a Virtual Network using Azure Services.</p>
+
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="required">Configuration</td>
+
+          <td>The name of the configuration which holds all the
+          connection information for Windows Azure. (Required)</td>
+        </tr>
+        <tr>
+          <td class="required">Virtual Network name</td>
+
+          <td>Name of the new Virtual Network. (Required)</td>
+        </tr>
+        <tr>
+          <td class="required">Resource Group Name</td>
+
+          <td>The name of the resource group in which the Virtual network is to be deleted. (Required)</td>
+        </tr>
+        <tr>
+          <td>JobStep Timeout</td>
+
+          <td>Timeout for the step execution in minutes. Blank means no timeout.</td>
+        </tr>
+		
+      </tbody>
+    </table><img alt="" src="../../plugins/@PLUGIN_KEY@/images/parameters/delete_vnet.png" />
 	
+	</div>
+    
     <div id="DeleteDatabase"><a name="DeleteDatabase" id="DeleteDatabase"></a>
 
     <h3>DeleteDatabase</h3>
@@ -1524,6 +1566,7 @@ section that just says "There is no configuration for this plugin."
 		<li>Create or Update Subnet</li>
 		<li>Create VM</li>
 		<li>Create Vnet</li>
+        <li>Delete Vnet</li>
 		<li>Delete Database</li>
 		<!-- <li>Delete Database Server</li> -->
 		<li>Delete NetworkSecurityGroup</li>
