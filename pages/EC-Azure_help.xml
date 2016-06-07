@@ -852,7 +852,7 @@ section that just says "There is no configuration for this plugin."
         </tr>
 		
         <tr>
-          <td>Virtual Network address space</td>
+          <td class="required">Virtual Network address space</td>
 
           <td>The Virtual Network's address space in CIDR notion. It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/16 -> 10.12.0.0 - 10.12.255.255 (65536 addresses).</td>
         </tr>	
@@ -864,7 +864,7 @@ section that just says "There is no configuration for this plugin."
         </tr>
 		
         <tr>
-          <td>Subnet address space</td>
+          <td class="required">Subnet address space</td>
 
           <td>The Subnet's address space in CIDR notion. It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/24 -> 10.12.0.0 - 10.12.0.255 (256 addresses).</td>
         </tr>
