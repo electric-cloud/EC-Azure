@@ -271,7 +271,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Server name</td>
 
-          <td>The name of the Azure SQL Database Server on which the database is hosted. (Required)</td>
+          <td>The short name of the Azure SQL Database Server on which the database is hosted. For example, testsqlserver001 should be used instead of testsqlserver001.database.windows.net. (Required)</td>
         </tr>
 
         <tr>
@@ -854,7 +854,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Virtual Network address space</td>
 
-          <td>The Virtual Network's address space in CIDR notion. It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/16 -> 10.12.0.0 - 10.12.255.255 (65536 addresses).</td>
+          <td>The Virtual Network's address space in CIDR notion. It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/16 -> 10.12.0.0 - 10.12.255.255 (65536 addresses). (Required)</td>
         </tr>	
 		
         <tr>
@@ -866,7 +866,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Subnet address space</td>
 
-          <td>The Subnet's address space in CIDR notion. It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/24 -> 10.12.0.0 - 10.12.0.255 (256 addresses).</td>
+          <td>The Subnet's address space in CIDR notion. It must be contained in one of the standard private address spaces:10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. ex: 10.12.0.0/24 -> 10.12.0.0 - 10.12.0.255 (256 addresses). (Required)</td>
         </tr>
 		
         <tr>

@@ -42,7 +42,10 @@ try {
     boolean isUserImage = false
     boolean disablePasswordAuth = false
     def VMList = []
-    
+
+    def unixTime = System.currentTimeMillis().toString()
+    serverName = String.format("%s-%s", serverName, unixTime)
+    println "Server name is: $serverName"
     if (createPublicIP == '1') {
         publicIP = true
     }
