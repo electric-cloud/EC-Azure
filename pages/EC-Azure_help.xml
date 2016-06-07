@@ -369,7 +369,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td class="required">Server name</td>
 
-          <td>The name of the Azure SQL Database Server on which the database is hosted. (Required)</td>
+          <td>The short name of the Azure SQL Database Server on which the database is hosted. For example, testsqlserver001 should be used instead of testsqlserver001.database.windows.net. (Required)</td>
         </tr>
         <tr>
           <td class="required">Database name</td>
