@@ -115,27 +115,6 @@ the plugin omit?
     How to Add a Management Certificate to a Windows Azure
     Subscription</a>.</p>
 
-    <p><b>IMPORTANT</b><br />
-    In some cases if ElectricFlow is running as the local
-    system account you need to create an upload the certificate to
-    'nt authority/system' certificate store.<br />
-    You must become 'authority/system':</p>
-
-    <ul>
-      <li>Open the cmd.exe and execute the following
-      commands:<br />
-      $ sc /?<br />
-      $ n $ sc create syscmd binpath= "cmd /K start" type= own
-      type= interact<br />
-      $ whoami<br />
-      $ sc start syscmd</li>
-
-      <li>A popup message will appear, click 'Show message'.</li>
-
-      <li>Now create the certificate using makecert and upload it
-      to Azure.</li>
-    </ul>
-
     <h1>Plugin Procedures</h1>
 
     <p>IMPORTANT: For all parameter descriptions below, required

@@ -305,7 +305,20 @@ public class ElectricCommander {
         }
         return [resourcePropertyMap, isResourcePool]
     }
-
+    def isPropertyExistsAndNotEmpty(String path) {
+        def uri = '/rest/v1.0/properties/' + path;
+        def query =[:]
+        def sysJobStepId = System.getenv('COMMANDER_JOBSTEPID')
+        println("SysJobStepId: " + sysJobStepId)
+        
+        query.jobStepId = sysJobStepId
+        def resp = PerformHTTPRequest(RequestMethod.GET, uri, query, []);
+        def propval = resp.data.property.value;
+        if (resp?.status != 200 || !propval) {
+            return false;
+        }
+        return true;
+    }
     def getProperties(String path) {
 
         println(commanderServer + ":" + commanderPort)
