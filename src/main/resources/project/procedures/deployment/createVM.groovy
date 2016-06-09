@@ -41,11 +41,10 @@ try {
     boolean publicIP = false
     boolean isUserImage = false
     boolean disablePasswordAuth = false
+    
     def VMList = []
+    
 
-    def unixTime = System.currentTimeMillis().toString()
-    serverName = String.format("%s-%s", serverName, unixTime)
-    println "Server name is: $serverName"
     if (createPublicIP == '1') {
         publicIP = true
     }
@@ -57,6 +56,19 @@ try {
     }
 
     ElectricCommander ec = new ElectricCommander(config)
+    if (ec.isPropertyExistsAndNotEmpty('environmentName') && ec.isPropertyExistsAndNotEmpty('environmentProjectName')) {
+        println "Dynamic environments detected";
+        if (instances == 1) {
+            println "Fixing ServerName for DynamicEnvs";
+            def unixTime = System.currentTimeMillis().toString()
+            serverName = String.format("%s-%s", serverName, unixTime)
+            println "Server name is: $serverName"
+        }
+    }
+    else {
+        println "Regular usage detected";
+    }
+
     //TODO: This will be changed when multiple credential issue is resolved in dynamic environment
     String vmCreds = ec.configProperties.vm_credential
 
