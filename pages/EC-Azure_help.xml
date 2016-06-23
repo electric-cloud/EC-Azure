@@ -70,7 +70,10 @@ the plugin omit?
     users to automate and perform operations on Windows Azure
     providing a more generic interface for managing
     deployments.</p>
-
+    <p>
+      From 1.1.3 version of the plugin classic deployment support is removed. Plugin supports only Azure Resource Manager.
+      For more information, please, read <a href="https://azure.microsoft.com/en-us/documentation/articles/resource-manager-deployment-model/">this article</a>.
+    </p>
     <p>All Service Management API operations are performed over SSL
     and mutually authenticated using X.509 v3 certificates.</p>
 
@@ -1531,6 +1534,7 @@ section that just says "There is no configuration for this plugin."
       <li>Added Dynamic Environments support to EC-Azure plugin</li>
       <li>Made plugin cross-platform, now it's able to work not only on Windows systems</li>
       <li>Removed obsolete procedures</li>
+      <li>Removed classic deployment support. Azure Resource Manager only is supported.</li>
     </ul>
     <h2>@PLUGIN_KEY@ 1.1.0</h2>
 

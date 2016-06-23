@@ -22,7 +22,7 @@ try {
     String database = '$[database]'.trim()
     String port = '$[port]'.trim()
     String dbCreds = '$[db_creds]'.trim()
-    String  sqlQuery = '$[sql_query]'.trim()
+    String  sqlQuery = '''$[sql_query]'''.trim()
     
     ElectricCommander ec = new ElectricCommander()
     def (username, password) = ec.getFullCredentials(dbCreds)
