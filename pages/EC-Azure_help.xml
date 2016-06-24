@@ -1535,6 +1535,7 @@ section that just says "There is no configuration for this plugin."
       <li>Made plugin cross-platform, now it's able to work not only on Windows systems</li>
       <li>Removed obsolete procedures</li>
       <li>Removed classic deployment support. Azure Resource Manager only is supported.</li>
+      <li>EC-Azure plugin can now be found under the Resource Management category.</li>
     </ul>
     <h2>@PLUGIN_KEY@ 1.1.0</h2>
 

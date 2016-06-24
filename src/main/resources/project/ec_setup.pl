@@ -27,139 +27,139 @@ my %create_vm = (
     label       => "Windows Azure - Create Virtual Machine",
     procedure   => "Create VM",
     description => "Create Virtual Machine",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %delete_vm = (
     label       => "Windows Azure - Delete Virtual Machine",
     procedure   => "Delete VM",
     description => "Delete Virtual Machine",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %start_vm = (
     label       => "Windows Azure - Start Virtual Machine",
     procedure   => "Start VM",
     description => "Start Virtual Machine",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %stop_vm = (
     label       => "Windows Azure - Stop Virtual Machine",
     procedure   => "Stop VM",
     description => "Stop Virtual Machine",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %restart_vm = (
     label       => "Windows Azure - Restart Virtual Machine",
     procedure   => "Restart VM",
     description => "Restart Virtual Machine",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %teardown = (
     label       => "Windows Azure - TearDown Virtual Machines",
     procedure   => "TearDown",
     description => "Delete Virtual Machine (Commander Resource/ ResourcePool)",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 # my %create_update_database_server = (
 #     label       => "Windows Azure - Create or Update Database Server",
 #     procedure   => "Create or Update Database Server",
 #     description => "Creates or updates a database server",
-#     category    => "Deployment"
+#     category    => "Resource Management"
 # );
 
 # my %delete_database_server = (
 #     label       => "Windows Azure - Delete Database server",
 #     procedure   => "Delete Database Server",
 #     description => "Deletes a database server",
-#     category    => "Deployment"
+#     category    => "Resource Management"
 # );
 
 my %create_update_database = (
     label       => "Windows Azure - Create or Update database",
     procedure   => "Create Or Update Database",
     description => "Creates or updates a database",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %delete_database = (
     label       => "Windows Azure - Delete existing database",
     procedure   => "DeleteDatabase",
     description => "Delete existing database",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %create_vnet = (
     label       => "Windows Azure - Create or Update Virtual Network",
     procedure   => "Create or Update Vnet",
     description => "Create or Update Virual Network",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %delete_vnet = (
     label       => "Windows Azure - Delete Virtual Network",
     procedure   => "Delete Vnet",
     description => "Delete Virual Network",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %create_update_subnet = (
     label       => "Windows Azure - Create or Update Subnet",
     procedure   => "Create or Update Subnet",
     description => "Creates a subnet or updates an existing one",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %delete_subnet = (
     label       => "Windows Azure - Delete existing subnet",
     procedure   => "Delete Subnet",
     description => "Delete existing subnet",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %create_update_security_group = (
     label       => "Windows Azure - Create or Update Network Security Group",
     procedure   => "Create or Update NetworkSecurityGroup",
     description => "Creates a Network Security Group or updates an existing one",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 my %delete_security_group = (
     label       => "Windows Azure - Delete existing Network Security Group",
     procedure   => "Delete NetworkSecurityGroup",
     description => "Delete existing Network Security Group",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %create_update_security_rule = (
     label       => "Windows Azure - Create or Update Network Security Rule",
     procedure   => "Create or Update NetworkSecurityRule",
     description => "Creates a Network Security Rule or updates an existing one",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %delete_security_rule = (
     label       => "Windows Azure - Delete existing Network Security Rule",
     procedure   => "Delete NetworkSecurityRule",
     description => "Delete existing Network Security Rule",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %nosql_operations = (
     label       => "Windows Azure - NoSQL Operations",
     procedure   => "NoSQL Operations",
     description => "Perform NoSQL Operations",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 my %sql_operations = (
     label       => "Windows Azure - SQL Operations",
     procedure   => "SQL Operations",
     description => "Perform SQL Operations",
-    category    => "Deployment"
+    category    => "Resource Management"
 );
 
 #Resource Management
