@@ -1531,11 +1531,11 @@ section that just says "There is no configuration for this plugin."
     <h1>Release Notes</h1>
 	<h2>@PLUGIN_KEY@ 1.1.3</h2>
     <ul>
-      <li>Added Dynamic Environments support to EC-Azure plugin</li>
-      <li>Made plugin cross-platform, now it's able to work not only on Windows systems</li>
-      <li>Removed obsolete procedures</li>
-      <li>Removed classic deployment support. Azure Resource Manager only is supported.</li>
-      <p>Following procedures was removed together with classic deployment support:</p>
+      <li>New plugin version supports Azure Resource Manager Deployment Model instead of Azure Classic. Azure Classic deployment model is no longer supported in this version.</li>
+      <li>Plugin is not cross-platform, that is, this plugin can work on Linux systems along with Windows.</li>
+      <li>Added Dynamic Environments support to EC-Azure plugin.</li>
+      <li>EC-Azure plugin can now be found under the Resource Management category instead of Deploy category. This is similar to EC-EC2 and EC-OpenStack plugins.</li>
+      <p>The following procedures have been removed while migrating the plugin to Microsoft Azure's Resource Manager deployment model:</p>
       <ul>
         <li>Create Hosted Service</li>
         <li>Create Storage Account</li>
@@ -1549,7 +1549,6 @@ section that just says "There is no configuration for this plugin."
         <li>Delete Storage Account</li>
         <li>Delete Hosted Service</li>
       </ul>
-      <li>EC-Azure plugin can now be found under the Resource Management category.</li>
     </ul>
     <h2>@PLUGIN_KEY@ 1.1.0</h2>
 
