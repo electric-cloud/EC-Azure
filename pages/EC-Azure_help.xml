@@ -1535,6 +1535,20 @@ section that just says "There is no configuration for this plugin."
       <li>Made plugin cross-platform, now it's able to work not only on Windows systems</li>
       <li>Removed obsolete procedures</li>
       <li>Removed classic deployment support. Azure Resource Manager only is supported.</li>
+      <p>Following procedures was removed together with classic deployment support:</p>
+      <ul>
+        <li>Create Hosted Service</li>
+        <li>Create Storage Account</li>
+        <li>Get Storage Account Keys</li>
+        <li>Create Container</li>
+        <li>Put Blob</li>
+        <li>Create Deployment</li>
+        <li>Get Operation Status</li>
+        <li>Delete Container</li>
+        <li>Delete Blob</li>
+        <li>Delete Storage Account</li>
+        <li>Delete Hosted Service</li>
+      </ul>
       <li>EC-Azure plugin can now be found under the Resource Management category.</li>
     </ul>
     <h2>@PLUGIN_KEY@ 1.1.0</h2>
@@ -1545,7 +1559,6 @@ section that just says "There is no configuration for this plugin."
         <p>Added the following new procedures:</p>
 		<ul>
 		<li>Create or Update Database</li>
-		<!-- <li>Create or Update Database Server</li> -->
 		<li>Create or Update NetworkSecurityGroup</li>
 		<li>Create or Update NetworkSecurityRule</li>
 		<li>Create or Update Subnet</li>
@@ -1553,7 +1566,6 @@ section that just says "There is no configuration for this plugin."
 		<li>Create Vnet</li>
         <li>Delete Vnet</li>
 		<li>Delete Database</li>
-		<!-- <li>Delete Database Server</li> -->
 		<li>Delete NetworkSecurityGroup</li>
 		<li>Delete NetworkSecurityRule</li>
 		<li>Delete Subnet</li>
