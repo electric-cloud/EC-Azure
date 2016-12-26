@@ -88,6 +88,10 @@ import com.microsoft.azure.management.network.models.Subnet
 import com.microsoft.azure.management.network.models.DhcpOptions
 import com.microsoft.azure.management.network.models.AzureAsyncOperationResponse
 
+// import com.microsoft.azure.shortcuts.resources.Size;
+// import com.microsoft.azure.shortcuts.resources.VirtualMachine;
+// import com.microsoft.azure.shortcuts.resources.VirtualMachines;
+
 //Import for SQL
 import groovy.sql.Sql
 //Import for NoSQL Table
@@ -783,6 +787,7 @@ class Azure {
 								public void accept(VirtualMachine vm) {
 									VirtualHardDisk vmDisk = new VirtualHardDisk();
 									VirtualHardDisk imageDisk = new VirtualHardDisk();
+                                    vm.getHardwareProfile().setVirtualMachineSize("Standard_A2");
 									if (storageURI)
 									{
 										vmDisk.setUri(storageURI);
