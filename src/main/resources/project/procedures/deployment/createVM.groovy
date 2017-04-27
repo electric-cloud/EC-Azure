@@ -32,7 +32,7 @@ try {
     String publicKey = '$[public_key]'.trim()
     String vnet = '$[vnet]'.trim()
     String subnet = '$[subnet]'.trim()
-    //Commander Resource 
+    //Commander Resource
     String resourcePool = '$[resource_pool]'.trim()
     String resourcePort = '$[resource_port]'.trim()
     String resourceWorkspace = '$[resource_workspace]'.trim()
@@ -41,9 +41,10 @@ try {
     boolean publicIP = false
     boolean isUserImage = false
     boolean disablePasswordAuth = false
-    
+    String machineSize = '$[machine_size]'.trim()
+
     def VMList = []
-    
+
 
     if (createPublicIP == '1') {
         publicIP = true
@@ -81,10 +82,10 @@ try {
             if(resourceWorkspace) {
                 ec.createCommanderWorkspace(resourceWorkspace)
             }
-            //Check if the zone is present.    
+            //Check if the zone is present.
             if (resourceZone) {
                 if (!ec.getZone(resourceZone))  {
-                    println("Zone "+ resourceZone +" not present")  
+                    println("Zone "+ resourceZone +" not present")
                     System.exit(1)
                 }
             }
@@ -95,7 +96,7 @@ try {
     def errors_count = 0;
     instances.times {
         String instanceSuffix = "${count}-${System.currentTimeMillis()}"
-        String VMName 
+        String VMName
 
         if (instances > 1) {
             VMName = "${serverName}-${instanceSuffix}"
@@ -103,9 +104,9 @@ try {
         else {
             VMName = serverName
         }
-        def (adminName, adminPassword) = ec.getFullCredentials(vmCreds) 
-        def (resourceIP, VMStatus) = ec.azure.createVM(VMName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth, vnet, subnet)
-        
+        def (adminName, adminPassword) = ec.getFullCredentials(vmCreds)
+        def (resourceIP, VMStatus) = ec.azure.createVM(VMName, isUserImage, imageURN, storageAccount, storageContainer, location, resourceGroupName, publicIP, adminName, adminPassword, osType, publicKey, disablePasswordAuth, vnet, subnet, machineSize)
+
         if (VMStatus == ProvisioningStateTypes.SUCCEEDED) {
             VMList.push(VMName)
         }
@@ -125,7 +126,7 @@ try {
                     // This is to work-around the issue that createResource API does
                     // not support resource pool name with spaces.
                     def added = ec.addResourceToPool(resourceName, resourcePool)
-                    
+
                     if (added) {
                         println("Created commander resource: $resourceName in $resourcePool")
                         ec.setPropertyInResource(resourceName, 'created_by', 'EC-Azure')
@@ -155,7 +156,7 @@ try {
             listSize.times {
                 ec.azure.deleteVM(resourceGroupName, VMList.pop())
             }
-        }  
+        }
         count = count + 1
     }
     if (errors_count > 0) {
@@ -172,7 +173,7 @@ try {
     else {
         errorMessage = 'Error occured'
     }
-    
+
     ElectricCommander commander = new ElectricCommander('$[connection_config]'.trim());
     commander.setProperty("summary", errorMessage, true);
     commander.azure.deleteVM('$[resource_group_name]'.trim(), '$[vm_name]'.trim());

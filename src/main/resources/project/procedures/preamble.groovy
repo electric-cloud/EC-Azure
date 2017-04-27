@@ -310,7 +310,7 @@ public class ElectricCommander {
         def query =[:]
         def sysJobStepId = System.getenv('COMMANDER_JOBSTEPID')
         println("SysJobStepId: " + sysJobStepId)
-        
+
         query.jobStepId = sysJobStepId
         def resp = PerformHTTPRequest(RequestMethod.GET, uri, query, []);
         def propval = resp.data.property.value;
@@ -368,16 +368,16 @@ public class ElectricCommander {
 
     public createCommanderWorkspace(String workspaceName){
 
-        println("Creating workspace.")    
+        println("Creating workspace.")
         def jsonData = [workspaceName : workspaceName, description : workspaceName, agentDrivePath : "C:/Program Files/Electric Cloud/ElectricCommander" , agentUncPath:"C:/Program Files/Electric Cloud/ElectricCommander", agentUnixPath: "/opt/electriccloud/electriccommander", local: true ]
         def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/workspaces/',jsonData)
 
-        if(resp?.status == 409)     
+        if(resp?.status == 409)
         {
             println("Workspace " + workspaceName +" already exists.")
             return true
         }
-        else if(resp?.status >= 400) 
+        else if(resp?.status >= 400)
         {
             println("Failed to create the workspace " + resp)
             return false
@@ -387,36 +387,36 @@ public class ElectricCommander {
             println("Workspace " + workspaceName + " created.")
             return true
         }
-            
+
     }
 
     public getZone(String zoneName){
-    
+
         def resp = PerformHTTPRequest(RequestMethod.GET, '/rest/v1.0/zones/'+ zoneName,[])
 
-        if(resp?.status >= 400) 
+        if(resp?.status >= 400)
         {
-            return false 
+            return false
         }
         else
         {
             println("Zone " + zoneName + " exists.")
             return true
-        }         
+        }
     }
 
-    public createCommanderResourcePool(String resourcePoolName){  
+    public createCommanderResourcePool(String resourcePoolName){
 
         println("Creating Resource Pool")
-        def jsonData = [autoDelete : true, description : resourcePoolName , resourcePoolDisabled: false ]        
+        def jsonData = [autoDelete : true, description : resourcePoolName , resourcePoolDisabled: false ]
         def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resourcePools', [resourcePoolName: resourcePoolName], jsonData)
 
-        if(resp?.status == 409)     
+        if(resp?.status == 409)
         {
             println("Resource Pool " + resourcePoolName +" already exists.")
             return true
         }
-        else if(resp?.status >= 400) 
+        else if(resp?.status >= 400)
         {
             println("Failed to create the Resource Pool " + resp)
             return false
@@ -429,7 +429,7 @@ public class ElectricCommander {
     }
 
     public boolean createCommanderResource(String resourceName, String workspaceName, String resourceIP ,String resourcePort, String zoneName) {
-        
+
         println("Creating Resource")
         def jsonData = [resourceName : resourceName, description : resourceName , hostName: resourceIP ]
         if (resourcePort) {
@@ -444,7 +444,7 @@ public class ElectricCommander {
 
         def resp = PerformHTTPRequest(RequestMethod.POST, '/rest/v1.0/resources', [resourceName: resourceName], jsonData)
 
-        if(resp?.status == 409)     
+        if(resp?.status == 409)
         {
             println("Resource " + resourceName +" already exists.")
             //TODO:Adjust resource name
@@ -478,12 +478,12 @@ public class ElectricCommander {
         return true
     }
 
-    public deleteCommanderResource(String resourceName) {  
-        
-        println("Deleting Resource")                   
+    public deleteCommanderResource(String resourceName) {
+
+        println("Deleting Resource")
         def resp = PerformHTTPRequest(RequestMethod.DELETE, '/rest/v1.0/resources/' + resourceName,[])
 
-        if(resp?.status >= 400) 
+        if(resp?.status >= 400)
         {
             println("Failed to delete the Resource " + resp)
             return false
@@ -495,12 +495,12 @@ public class ElectricCommander {
         }
     }
 
-    public deleteCommanderWorkspace(String workspaceName) {  
-        
-        println("Deleting Workspace")                   
+    public deleteCommanderWorkspace(String workspaceName) {
+
+        println("Deleting Workspace")
         def resp = PerformHTTPRequest(RequestMethod.DELETE, '/rest/v1.0/workspaces/' + workspaceName,[])
 
-        if(resp?.status >= 400) 
+        if(resp?.status >= 400)
         {
             println("Failed to delete the Workspace " + resp)
             return false
@@ -512,12 +512,12 @@ public class ElectricCommander {
         }
     }
 
-    public deleteCommanderResourcePool(String resourcePoolName) {  
-        
-        println("Deleting Resource Pool")                   
+    public deleteCommanderResourcePool(String resourcePoolName) {
+
+        println("Deleting Resource Pool")
         def resp = PerformHTTPRequest(RequestMethod.DELETE, '/rest/v1.0/resourcePools/' + resourcePoolName,[])
 
-        if(resp?.status >= 400) 
+        if(resp?.status >= 400)
         {
             println("Failed to delete the Resource Pool " + resp)
             return false
@@ -541,7 +541,7 @@ public class ElectricCommander {
 
         def (resourcePropertyMap, isResourcePool) = resourceInfo
         resourcePropertyMap.each { resource, property->
-            
+
             println("Deleting resource: " + resource + " with instance Id: " + property["instance_id"] + " and resource group name: " + property["resource_group_name"])
             if(property["resource_group_name"] && property["instance_id"])
             {
@@ -671,26 +671,26 @@ class Azure {
     private String getPublicIP(String publicIpAddressName ,String resourceGroupName, String vmName)
     {
             def VMStatus = getVMStatus(resourceGroupName, vmName)
-            
+
             if(VMStatus == ProvisioningStateTypes.SUCCEEDED )
               return networkResourceProviderClient.getPublicIpAddressesOperations().get(resourceGroupName, publicIpAddressName).getPublicIpAddress().getIpAddress()
             else
-              return null;       
+              return null;
     }
 
     private String getVMStatus(String resourceGroupName, String vmName )
     {
             def VMStatus = computeManagementClient.getVirtualMachinesOperations().getWithInstanceView( resourceGroupName, vmName).getVirtualMachine().getProvisioningState()
-            
+
             while(VMStatus == ProvisioningStateTypes.CREATING )
             {
               sleep(10000)
               VMStatus = computeManagementClient.getVirtualMachinesOperations().getWithInstanceView( resourceGroupName, vmName).getVirtualMachine().getProvisioningState()
             }
             return VMStatus
-    }   
+    }
 
-	def createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth, String vnet, String subnet) {
+	def createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth, String vnet, String subnet, String machineSize) {
 		exceptionHandler{
 
 			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx, OS Type:" + osType + ", Disable Password Authentication: " + disablePasswordAuth)
@@ -705,15 +705,15 @@ class Azure {
                                                                             .getVirtualNetwork()
                 context.setVirtualNetwork(createdVnet)
             }
-            if(subnet && vnet)    
+            if(subnet && vnet)
             {
-                if (context.isCreatePublicIpAddress() && context.getPublicIpAddress() == null) 
+                if (context.isCreatePublicIpAddress() && context.getPublicIpAddress() == null)
                     NetworkHelper.createPublicIpAddress(networkResourceProviderClient, context)
 
-                NetworkHelper.createNIC(networkResourceProviderClient, context, 
+                NetworkHelper.createNIC(networkResourceProviderClient, context,
                                                                               networkResourceProviderClient.getSubnetsOperations()
                                                                               .get(context.getResourceGroupName(), vnet ,subnet).getSubnet())
-            }    
+            }
 
 			StorageAccount storageAccount= StorageHelper.getStorageAccount(storageManagementClient, context)
             String storageURI = ""
@@ -741,6 +741,9 @@ class Azure {
 									ir.setSku(sku.trim());
 									ir.setVersion(version.trim());
 									vm.getStorageProfile().setImageReference(ir);
+                                    if (machineSize){
+                                        vm.getHardwareProfile().setVirtualMachineSize(machineSize);
+                                    }
 									if (storageURI)
 									{
 										vm.getStorageProfile().getOSDisk().virtualHardDisk.setUri(storageURI)
@@ -783,6 +786,9 @@ class Azure {
 								public void accept(VirtualMachine vm) {
 									VirtualHardDisk vmDisk = new VirtualHardDisk();
 									VirtualHardDisk imageDisk = new VirtualHardDisk();
+                                    if (machineSize) {
+                                        vm.getHardwareProfile().setVirtualMachineSize(machineSize);
+                                    }
 									if (storageURI)
 									{
 										vmDisk.setUri(storageURI);
@@ -822,6 +828,7 @@ class Azure {
 									}
 								}
 						}).getVirtualMachine();
+                println virtualMachine
 			}
 
             def publicIP
@@ -830,7 +837,7 @@ class Azure {
 
             return [publicIP, getVMStatus(resourceGroupName, vmName)]
 		}
-	}    
+	}
 
 public deleteVM(String resourceGroupName,String vmName){
 	exceptionHandler{
@@ -842,8 +849,8 @@ public deleteVM(String resourceGroupName,String vmName){
                 if(deleteOperationResponse.getStatusCode() == OperationStatus.Succeeded  || deleteOperationResponse.getRequestId() != null)
         			println("Deleted VM: " + vmName )
                 else
-                    println("Failed to delete VM:" + vmName) 
-            }        
+                    println("Failed to delete VM:" + vmName)
+            }
 	}
 }
 
@@ -855,7 +862,7 @@ public startVM(String resourceGroupName, String vmName){
             if(startOperationResponse.getStatus() == ComputeOperationStatus.Succeeded  || startOperationResponse.getRequestId() != null)
                 println("Started VM: " + vmName )
             else
-                println("Failed to start the VM: " + vmName)    
+                println("Failed to start the VM: " + vmName)
    }
 }
 
@@ -867,7 +874,7 @@ public stopVM(String resourceGroupName, String vmName){
             if(stopOperationResponse.getStatus()==ComputeOperationStatus.Succeeded  || stopOperationResponse.getRequestId() != null)
                 println("Stopped VM: " + vmName )
             else
-                println("Failed to stop the VM: " + vmName)    
+                println("Failed to stop the VM: " + vmName)
     }
 }
 
@@ -879,14 +886,14 @@ public restartVM(String resourceGroupName, String vmName){
             if(restartOperationResponse.getStatus()==ComputeOperationStatus.Succeeded  || restartOperationResponse.getRequestId() != null)
                 println("Restarted VM: " + vmName )
             else
-                println("Failed to restart the VM: " + vmName)    
+                println("Failed to restart the VM: " + vmName)
     }
 }
 
     def createOrUpdateDatabaseServer(String resourceGroupName, String serverName, String location,
                                      String adminUser, String adminPassword, String version) {
         exceptionHandler{
-            println("Going for creating or updating database server: " + serverName + "(Resource Group: " + 
+            println("Going for creating or updating database server: " + serverName + "(Resource Group: " +
                      resourceGroupName + ") in location " + location)
 
             ServerCreateOrUpdateProperties serverProperties = new ServerCreateOrUpdateProperties();
@@ -923,7 +930,7 @@ public restartVM(String resourceGroupName, String vmName){
     }
 
     def createOrUpdateSubnet(String resourceGroupName, String virtualNetworkName, String subnetName, String addressPrefix, String networkSecurityGroupJson, String routeTableJson){
-        exceptionHandler{ 
+        exceptionHandler{
             println("Going for creating/updating subnet : " + subnetName + " in (Resource Group: " + resourceGroupName + " , Virtual Network: " + virtualNetworkName + ") with Address Prefix: " + addressPrefix + ", Network Security Group: " + networkSecurityGroupJson + ", Route Table : " + routeTableJson + ")")
             Subnet subnetParameters = new Subnet()
             //It should follow CIDR notation, for example 10.0.0.0/24.
@@ -967,7 +974,7 @@ public restartVM(String resourceGroupName, String vmName){
             }
         }
     }
-   
+
     def deleteSubnet(String resourceGroupName, String virtualNetworkName, String subnetName){
         exceptionHandler{
 
@@ -1002,7 +1009,7 @@ public restartVM(String resourceGroupName, String vmName){
             }
 
             AzureAsyncOperationResponse response = networkResourceProviderClient.getNetworkSecurityGroupsOperations().createOrUpdate(resourceGroupName, networkSecurityGroupName, nsgParameters)
-    
+
             if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
             {
                 println("Successfully created Network Security Group: " + networkSecurityGroupName )
@@ -1043,7 +1050,7 @@ public restartVM(String resourceGroupName, String vmName){
                 println("Set destinationAddressPrefix: " + destinationAddressPrefix)
             }
             if(destinationPortRange){
-                securityRuleParameters.setDestinationPortRange(destinationPortRange) 
+                securityRuleParameters.setDestinationPortRange(destinationPortRange)
                 println("Set destinationPortRange: " + destinationPortRange)
             }
             if(direction){
@@ -1089,7 +1096,7 @@ public restartVM(String resourceGroupName, String vmName){
                 {
                     println("Successfully deleted Security Rule: " + securityRuleName )
                 }
-            }    
+            }
         }
     }
 
@@ -1159,9 +1166,9 @@ public deleteVnet(String resourceGroupName ,String vnetName)
             if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
                     {
                         println("Successfully deleted Vnet: " + vnetName )
-                    }  
-        }           
-     }       
+                    }
+        }
+     }
 }
 
 public createOrUpdateDatabase(String resourceGroupName, String serverName, String databaseName, String location, String expectedCollationName, String expectedEdition, String expectedMaxSizeInMB, String createModeValue, String elasticPoolName, String requestedServiceObjectiveIdValue, String sourceDatabaseIdValue) {
@@ -1210,7 +1217,7 @@ public createOrUpdateDatabase(String resourceGroupName, String serverName, Strin
         if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
                     println("Created SQL Database: " + databaseName )
                 else
-                    println("Failed to create SQL Database:" + databaseName) 
+                    println("Failed to create SQL Database:" + databaseName)
 	}
 }
 
@@ -1219,7 +1226,7 @@ public createVnet(def vnetName, def subnetName, def vnetAddressSpace, def subnet
         exceptionHandler{
 
                 VirtualNetwork vnet = new VirtualNetwork(location);
-                
+
                 // set AddressSpace
                 AddressSpace asp = new AddressSpace()
                 ArrayList<String> addrPrefixes = new ArrayList<String>(1)
@@ -1227,13 +1234,13 @@ public createVnet(def vnetName, def subnetName, def vnetAddressSpace, def subnet
                 asp.setAddressPrefixes(addrPrefixes)
                 vnet.setAddressSpace(asp)
 
-                 // set subNet    
+                 // set subNet
                 Subnet subnet = new Subnet(subnetAddressSpace)
                 subnet.setName(subnetName)
                 ArrayList<Subnet> subNets = new ArrayList<Subnet>(1);
                 subNets.add(subnet);
                 vnet.setSubnets(subNets)
-                
+
                 if(dnsServer)
                 {
                     // set DhcpOptions
@@ -1243,18 +1250,18 @@ public createVnet(def vnetName, def subnetName, def vnetAddressSpace, def subnet
                     dop.setDnsServers(dnsServers)
                     vnet.setDhcpOptions(dop)
                 }
-        
-               
-                
-                
+
+
+
+
                 AzureAsyncOperationResponse createVnetResponse = networkResourceProviderClient
                                                                     .getVirtualNetworksOperations()
                                                                     .createOrUpdate(resourceGroupName, vnetName, vnet)
-                    
+
                 if(createVnetResponse.getStatusCode() == OperationStatus.Succeeded  || createVnetResponse.getRequestId() != null)
                     println("Virtual Network: " + vnetName + " was successfully created/updated")
                 else
-                    println("Failed to create Virtual Network:" + vnetName)     
+                    println("Failed to create Virtual Network:" + vnetName)
         }
     }
 
@@ -1358,7 +1365,7 @@ public class NoSQLOperations {
                    entity.getProperties().put(column, new EntityProperty(value))
                }
                batchOperation.insert(entity)
-           }   
+           }
            table.execute(batchOperation)
            println("Entities inserted successfully")
         }
@@ -1368,13 +1375,13 @@ public class NoSQLOperations {
         exceptionHandler{
            TableQuery<DynamicTableEntity> query
            if (whereClause)
-           {   
+           {
                query = TableQuery.from(DynamicTableEntity.class).where(whereClause)
-           }   
+           }
            else
-           {  
+           {
                query = TableQuery.from(DynamicTableEntity.class)
-           }   
+           }
            query
         }
     }
@@ -1386,13 +1393,13 @@ public class NoSQLOperations {
            TableQuery<DynamicTableEntity> query = getWhereClause(whereClause)
            if (toBeRetrieved != "*")
            {
-               query.select(toBeRetrieved)    
+               query.select(toBeRetrieved)
            }
 
            ResultSegment<DynamicTableEntity> result = table.executeSegmented(query, null);
            for (row in result.getResults())
            {
-               print(" RowKey:" + row.getRowKey())    
+               print(" RowKey:" + row.getRowKey())
                print(" PartitionKey:" + row.getPartitionKey())
                row.getProperties().each{column, value->
                    print(" " + column + ":" + row.getProperties().get(column).getValueAsString())
