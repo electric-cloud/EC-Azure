@@ -271,7 +271,7 @@
                         <value/>
                     </property>
                 </propertySheet>
-            </property>          
+            </property>
             <property>
                 <propertyName>lib</propertyName>
                 <description/>
@@ -639,7 +639,7 @@
                 </propertySheet>
             </step>
         </procedure>
-        
+
         <procedure>
             <procedureName>Create VM</procedureName>
             <description>Creates a new VM under the specified account. </description>
@@ -1050,6 +1050,16 @@
                                     </propertySheet>
                                 </property>
                                 <property>
+                                    <propertyName>machine_size</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
                                     <propertyName>resource_pool</propertyName>
                                     <propertySheet>
                                         <property>
@@ -1288,6 +1298,14 @@
                 <formalParameterName>job_step_timeout</formalParameterName>
                 <defaultValue/>
                 <description>Timeout for the step execution in minutes. Blank means no timeout.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>machine_size</formalParameterName>
+                <defaultValue/>
+                <description>Size of the machine, e.g. Standard_D2_v2</description>
                 <expansionDeferred>0</expansionDeferred>
                 <required>0</required>
                 <type>entry</type>

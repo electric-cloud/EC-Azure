@@ -189,6 +189,15 @@
         <type>entry</type>
     </formElement>
     <formElement>
+        <label>Machine size:</label>
+        <property>machine_size</property>
+        <value/>
+        <documentation>Size of the machine, e.g. Standard_D2_v2</documentation>
+        <htmlDocumentation>Size of the machine, e.g. Standard_D2_v2, see <a href="https://docs.microsoft.com/en-us/azure/cloud-services/cloud-services-sizes-specs" target="_blank">Virtual machines sizes</a> for reference.</htmlDocumentation>
+        <required>0</required>
+        <type>entry</type>
+    </formElement>
+    <formElement>
         <label>Results Location:</label>
         <property>result_location</property>
         <value/>
