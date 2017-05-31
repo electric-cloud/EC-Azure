@@ -17,19 +17,6 @@
 
 $[/myProject/procedure_helpers/preamble]
 
-def genRandomString(strLen) {
-    strLen -= 1
-    def pool = [
-        'a' .. 'z',
-        'A' .. 'Z',
-        0 .. 9
-    ].flatten()
-
-    Random rand = new Random(System.currentTimeMillis())
-    def passChars = (0 .. strLen).collect { pool[rand.nextInt(pool.size())] }
-    def retval = passChars.join()
-    return retval
-}
 def String serverName = "";
 try {
     String storageAccount = '$[storage_account]'.trim()
@@ -79,7 +66,15 @@ try {
             if (osType == 'Windows') {
                 // On windows machines computer name length is limited by 15 characters. Unix timestamp is too long for that.
                 // For windows length of computername suffix will be alphanumeric symbols, for dynamic envs context only.
-                def randomString = genRandomString(3);
+                def pool = [
+                    'a' .. 'z',
+                    'A' .. 'Z',
+                    0 .. 9
+                ].flatten()
+
+                Random rand = new Random(System.currentTimeMillis())
+                def passChars = (0 .. 2).collect { pool[rand.nextInt(pool.size())] }
+                def randomString = passChars.join()
                 serverName = String.format("%s-%s", serverName, randomString)
             }
             else {
