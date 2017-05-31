@@ -35,7 +35,7 @@ try {
     String storageAccount = '$[storage_account]'.trim()
     String storageContainer = '$[storage_container]'.trim()
     serverName = '$[vm_name]'.trim()
-    resourceGroupName = '$[resource_group_name]'.trim()
+    String resourceGroupName = '$[resource_group_name]'.trim()
     String config = '$[connection_config]'.trim()
     String location = '$[location]'.trim()
     String imageURN = '$[image]'.trim()
