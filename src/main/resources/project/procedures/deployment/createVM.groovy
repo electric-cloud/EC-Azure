@@ -17,11 +17,25 @@
 
 $[/myProject/procedure_helpers/preamble]
 
+def genRandomString(strLen) {
+    strLen -= 1
+    def pool = [
+        'a' .. 'z',
+        'A' .. 'Z',
+        0 .. 9
+    ].flatten()
+
+    Random rand = new Random(System.currentTimeMillis())
+    def passChars = (0 .. strLen).collect { pool[rand.nextInt(pool.size())] }
+    def retval = passChars.join()
+    return retval
+}
+def String serverName = "";
 try {
     String storageAccount = '$[storage_account]'.trim()
     String storageContainer = '$[storage_container]'.trim()
-    String serverName = '$[vm_name]'.trim()
-    String resourceGroupName = '$[resource_group_name]'.trim()
+    serverName = '$[vm_name]'.trim()
+    resourceGroupName = '$[resource_group_name]'.trim()
     String config = '$[connection_config]'.trim()
     String location = '$[location]'.trim()
     String imageURN = '$[image]'.trim()
@@ -62,7 +76,15 @@ try {
         if (instances == 1) {
             println "Fixing ServerName for DynamicEnvs";
             def unixTime = System.currentTimeMillis().toString()
-            serverName = String.format("%s-%s", serverName, unixTime)
+            if (osType == 'Windows') {
+                // On windows machines computer name length is limited by 15 characters. Unix timestamp is too long for that.
+                // For windows length of computername suffix will be alphanumeric symbols, for dynamic envs context only.
+                def randomString = genRandomString(3);
+                serverName = String.format("%s-%s", serverName, randomString)
+            }
+            else {
+                serverName = String.format("%s-%s", serverName, unixTime)
+            }
             println "Server name is: $serverName"
         }
     }
@@ -176,7 +198,7 @@ try {
 
     ElectricCommander commander = new ElectricCommander('$[connection_config]'.trim());
     commander.setProperty("summary", errorMessage, true);
-    commander.azure.deleteVM('$[resource_group_name]'.trim(), '$[vm_name]'.trim());
+    commander.azure.deleteVM('$[resource_group_name]'.trim(), serverName);
     System.exit(1);
     return
 }

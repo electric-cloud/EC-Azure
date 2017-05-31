@@ -10,3 +10,5 @@
 /target
 /export
 /staging
+.DS_Store
+
