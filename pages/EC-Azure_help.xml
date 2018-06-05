@@ -1529,6 +1529,10 @@ section that just says "There is no configuration for this plugin."
 	
 
     <h1>Release Notes</h1>
+    <h2>@PLUGIN_KEY@ 1.1.4</h2>
+    <ul>
+        <li>Configured the plugin to allow the ElectricFlow UI to create configs inline of procedure form.</li>
+    </ul>
 	<h2>@PLUGIN_KEY@ 1.1.3</h2>
     <ul>
       <li>New plugin version supports Azure Resource Manager Deployment Model instead of Azure Classic. Azure Classic deployment model is no longer supported in this version.</li>
