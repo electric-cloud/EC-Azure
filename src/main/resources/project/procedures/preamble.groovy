@@ -15,23 +15,24 @@
 * limitations under the License.
 */
 @Grapes([
-	@Grab(group = 'org.codehaus.groovy.modules.http-builder', module = 'http-builder', version = '0.7.1'),
-	@Grab(group='com.microsoft.azure', module='azure-svc-mgmt', version='0.9.3'),
-	@Grab(group='com.microsoft.azure', module='azure-svc-mgmt-storage', version='0.9.3'),
-	@Grab(group='com.microsoft.azure', module='azure-mgmt-utility', version='0.9.3'),
-	@Grab(group='com.microsoft.azure', module='azure-mgmt-compute', version='0.9.3'),
-	@Grab(group='com.microsoft.azure', module='azure-mgmt-resources', version='0.9.3'),
-	@Grab(group='com.microsoft.azure', module='azure-mgmt-storage', version='0.9.3'),
-	@Grab(group='com.microsoft.azure', module='azure-mgmt-network', version='0.9.3'),
-	@Grab(group='com.microsoft.azure', module='azure-mgmt-sql', version='0.9.3'),
-	@Grab(group='com.microsoft.azure', module='azure-core', version='0.9.3'),
-	@Grab(group='org.slf4j', module='slf4j-jdk14', version='1.7.16'),
-	@Grab(group='com.microsoft.azure', module='adal4j', version='1.0.0'),
-	@Grab(group='commons-logging', module='commons-logging', version='1.2'),
-	@Grab(group='org.apache.httpcomponents', module='httpclient', version='4.5.1'),
-	@Grab(group='com.sun.jersey', module='jersey-core', version='1.13-b01'),
-	@Grab(group='net.sourceforge.jtds', module = 'jtds', version = '1.3.1'),
-	@Grab(group='com.microsoft.azure', module='azure-storage', version='4.0.0')
+    @Grab(group = 'org.codehaus.groovy.modules.http-builder', module = 'http-builder', version = '0.7.1'),
+    @Grab(group='com.microsoft.azure', module='azure-svc-mgmt', version='0.9.3'),
+    @Grab(group='com.microsoft.azure', module='azure-svc-mgmt-storage', version='0.9.3'),
+    @Grab(group='com.microsoft.azure', module='azure-mgmt-utility', version='0.9.3'),
+    @Grab(group='com.microsoft.azure', module='azure-mgmt-compute', version='0.9.3'),
+    @Grab(group='com.microsoft.azure', module='azure-mgmt-resources', version='0.9.3'),
+    @Grab(group='com.microsoft.azure', module='azure-mgmt-storage', version='0.9.3'),
+    @Grab(group='com.microsoft.azure', module='azure-mgmt-network', version='0.9.3'),
+    @Grab(group='com.microsoft.azure', module='azure-mgmt-sql', version='0.9.3'),
+    @Grab(group='com.microsoft.azure', module='azure-core', version='0.9.3'),
+    @Grab(group='org.slf4j', module='slf4j-jdk14', version='1.7.16'),
+    @Grab(group='com.microsoft.azure', module='adal4j', version='1.0.0'),
+    @Grab(group='commons-logging', module='commons-logging', version='1.2'),
+    @Grab(group='org.apache.httpcomponents', module='httpclient', version='4.5.1'),
+    @Grab(group='com.sun.jersey', module='jersey-core', version='1.13-b01'),
+    @Grab(group='net.sourceforge.jtds', module = 'jtds', version = '1.3.1'),
+    @Grab(group='com.microsoft.azure', module='azure-storage', version='4.0.0'),
+    @Grab(group='net.sf.json-lib', module='json-lib', version='2.3', classifier ='jdk15')
 ])
 
 import java.io.ByteArrayInputStream
@@ -631,42 +632,48 @@ public class ElectricCommander {
 }
 
 class Azure {
-	def baseURI =  "https://management.azure.com/"
-	def managementURL = "https://management.core.windows.net/"
-	def aadURL = "https://login.windows.net/"
-	String tenantID
-	String subscriptionID
-	String clientID
-	String clientSecret
-	def exceptionHandler
-	def resourceManagementClient
-	def storageManagementClient
-	def computeManagementClient
-	def sqlManagementClient
-	def networkResourceProviderClient
+    def baseURI =  "https://management.azure.com/"
+    def managementURL = "https://management.core.windows.net/"
+    def aadURL = "https://login.windows.net/"
+    String tenantID
+    String subscriptionID
+    String clientID
+    String clientSecret
+    def exceptionHandler
+    def resourceManagementClient
+    def storageManagementClient
+    def computeManagementClient
+    def sqlManagementClient
+    def networkResourceProviderClient
 
-	private createManagementClient() {
-		exceptionHandler{
-			def config = createConfiguration()
-			resourceManagementClient = ResourceManagementService.create(config)
-			storageManagementClient = StorageManagementService.create(config)
-			computeManagementClient = ComputeManagementService.create(config)
-			sqlManagementClient = SqlManagementService.create(config);
-			networkResourceProviderClient = NetworkResourceProviderService.create(config)
-		}
-	}
+    private String[] parseArgWithResourceGroup(String resourceGroupName, String arg) {
+        def capture = (arg =~ /^\s*-rgn\s+(.+)\s+(.+)\s*$/) // resouce group:vnet
+        capture.size() == 1 ? capture[0][1..2] : [resourceGroupName, arg]
+    }
 
-	private createConfiguration() {
-		exceptionHandler{
-		    ManagementConfiguration.configure(
-				null,
-				baseURI != null ? new URI(baseURI) : null,
-				subscriptionID,
-				AuthHelper.getAccessTokenFromServicePrincipalCredentials(
-						managementURL, aadURL, tenantID, clientID, clientSecret)
-						.getAccessToken())
+
+    private createManagementClient() {
+        exceptionHandler{
+            def config = createConfiguration()
+            resourceManagementClient = ResourceManagementService.create(config)
+            storageManagementClient = StorageManagementService.create(config)
+            computeManagementClient = ComputeManagementService.create(config)
+            sqlManagementClient = SqlManagementService.create(config);
+            networkResourceProviderClient = NetworkResourceProviderService.create(config)
         }
-	}
+    }
+
+    private createConfiguration() {
+        exceptionHandler{
+            ManagementConfiguration.configure(
+                null,
+                baseURI != null ? new URI(baseURI) : null,
+                subscriptionID,
+                AuthHelper.getAccessTokenFromServicePrincipalCredentials(
+                        managementURL, aadURL, tenantID, clientID, clientSecret)
+                        .getAccessToken())
+        }
+    }
 
     private String getPublicIP(String publicIpAddressName ,String resourceGroupName, String vmName)
     {
@@ -690,168 +697,181 @@ class Azure {
             return VMStatus
     }
 
-	def createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth, String vnet, String subnet, String machineSize) {
-		exceptionHandler{
+    def createVM( String vmName, boolean isUserImage, String imageURN, String storageAccountName, String storageContainerName, String location, String resourceGroupName, boolean createPublicIPAddress, String adminName, String adminPassword, String osType, String publicKey, boolean disablePasswordAuth, String vnet, String subnet, String machineSize) {
+        exceptionHandler{
 
-			println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx, OS Type:" + osType + ", Disable Password Authentication: " + disablePasswordAuth)
-			ResourceContext context = new ResourceContext(location, resourceGroupName, subscriptionID, createPublicIPAddress);
+            println("Going for creating VM=> Virtual Machine Name:" + vmName + ", Image URN:" + imageURN + ", Is User Image:" + isUserImage + ", Storage Account:" + storageAccountName + ", Storage Container:" + storageContainerName + ", Location:" + location + ", Resource Group Name:" + resourceGroupName + ", Create Public IP Address:" + createPublicIPAddress + ", Virtual Machine User:" + adminName + ", Virtual Machine Password:xxxxxx, OS Type:" + osType + ", Disable Password Authentication: " + disablePasswordAuth)
+            ResourceContext context = new ResourceContext(location, resourceGroupName, subscriptionID, createPublicIPAddress);
+            context.setStorageAccountName(storageAccountName)
+            context.setContainerName(storageContainerName)
 
-			context.setStorageAccountName(storageAccountName)
-			context.setContainerName(storageContainerName)
+            def storageAccountResourceGroupName
+            (storageAccountResourceGroupName, storageAccountName) = parseArgWithResourceGroup(resourceGroupName, storageAccountName)
+            ResourceContext storageAccountContext = new ResourceContext(location, storageAccountResourceGroupName, subscriptionID, createPublicIPAddress);
+            storageAccountContext.setStorageAccountName(storageAccountName)
+            storageAccountContext.setContainerName(storageContainerName)
+
+            StorageAccount storageAccount = StorageHelper.getStorageAccount(storageManagementClient, storageAccountContext)
+            String storageURI = ""
+            if(storageAccount)
+            {
+                context.setStorageAccount(storageAccount)
+                println("Set already existing storage account in context: " + storageAccountName)
+                def unixTime = System.currentTimeMillis().toString();
+                storageURI = String.format("https://%s.blob.core.windows.net/%s", context.getStorageAccount().getName(), context.getContainerName()) + String.format("/os-%s-%s.vhd", vmName, unixTime)
+            }
+
+            def vnetResourceGroupName
             if(vnet)
             {
+                (vnetResourceGroupName, vnet) = parseArgWithResourceGroup(resourceGroupName, vnet)
                 VirtualNetwork createdVnet = networkResourceProviderClient.getVirtualNetworksOperations()
-                                                                            .get(context.getResourceGroupName(), vnet)
+                                                                            .get(vnetResourceGroupName, vnet)
                                                                             .getVirtualNetwork()
                 context.setVirtualNetwork(createdVnet)
             }
             if(subnet && vnet)
             {
-                if (context.isCreatePublicIpAddress() && context.getPublicIpAddress() == null)
-                    NetworkHelper.createPublicIpAddress(networkResourceProviderClient, context)
+                def subnetContext = new ResourceContext(location, vnetResourceGroupName, subscriptionID, createPublicIPAddress);
+                subnetContext.setStorageAccountName(storageAccountName)
+                subnetContext.setContainerName(storageContainerName)
 
-                NetworkHelper.createNIC(networkResourceProviderClient, context,
+                if (subnetContext.isCreatePublicIpAddress() && subnetContext.getPublicIpAddress() == null)
+                    NetworkHelper.createPublicIpAddress(networkResourceProviderClient, subnetContext)
+
+                NetworkHelper.createNIC(networkResourceProviderClient, subnetContext,
                                                                               networkResourceProviderClient.getSubnetsOperations()
-                                                                              .get(context.getResourceGroupName(), vnet ,subnet).getSubnet())
+                                                                              .get(subnetContext.getResourceGroupName(), vnet ,subnet).getSubnet())
             }
 
-			StorageAccount storageAccount= StorageHelper.getStorageAccount(storageManagementClient, context)
-            String storageURI = ""
-			if(storageAccount)
-			{
-					context.setStorageAccount(storageAccount)
-					println("Set already existing storage account in context: " + storageAccountName)
-                    def unixTime = System.currentTimeMillis().toString();
-					storageURI = String.format("https://%s.blob.core.windows.net/%s", context.getStorageAccount().getName(), context.getContainerName()) + String.format("/os-%s-%s.vhd", vmName, unixTime)
-			}
-			VirtualMachine virtualMachine
-			if (!isUserImage)
-			{
-				def (publisher, offer, sku, version) = imageURN.tokenize(':')
-				virtualMachine = ComputeHelper.createVM(resourceManagementClient, computeManagementClient,
-								networkResourceProviderClient, storageManagementClient,
-								context, vmName, adminName, adminPassword,
-								new ConsumerWrapper<VirtualMachine>() {
-								@Override
-								public void accept(VirtualMachine vm) {
-									vm.getStorageProfile().setDataDisks(null);
-									ImageReference ir = new ImageReference();
-									ir.setPublisher(publisher.trim());
-									ir.setOffer(offer.trim());
-									ir.setSku(sku.trim());
-									ir.setVersion(version.trim());
-									vm.getStorageProfile().setImageReference(ir);
+            VirtualMachine virtualMachine
+            if (!isUserImage)
+            {
+                def (publisher, offer, sku, version) = imageURN.tokenize(':')
+                virtualMachine = ComputeHelper.createVM(resourceManagementClient, computeManagementClient,
+                                networkResourceProviderClient, storageManagementClient,
+                                context, vmName, adminName, adminPassword,
+                                new ConsumerWrapper<VirtualMachine>() {
+                                @Override
+                                public void accept(VirtualMachine vm) {
+                                    vm.getStorageProfile().setDataDisks(null);
+                                    ImageReference ir = new ImageReference();
+                                    ir.setPublisher(publisher.trim());
+                                    ir.setOffer(offer.trim());
+                                    ir.setSku(sku.trim());
+                                    ir.setVersion(version.trim());
+                                    vm.getStorageProfile().setImageReference(ir);
                                     if (machineSize){
                                         vm.getHardwareProfile().setVirtualMachineSize(machineSize);
                                     }
-									if (storageURI)
-									{
-										vm.getStorageProfile().getOSDisk().virtualHardDisk.setUri(storageURI)
-									}
-									if (osType == "Linux" && publicKey)
-									{
-										//Make SSH Configgurations only if Linux Machine
-										OSProfile osProfile = vm.getOSProfile();
-										String sshPath = String.format("%s%s%s","/home/", osProfile.getAdminUsername(), "/.ssh/authorized_keys");
-										// set linux configuration
-										LinuxConfiguration linuxConfiguration = new LinuxConfiguration();
-										if (disablePasswordAuth)
-										{
-											linuxConfiguration.setDisablePasswordAuthentication(true);
-										}
-										else
-										{
-											linuxConfiguration.setDisablePasswordAuthentication(false);
-										}
-										SshConfiguration sshConfiguration = new SshConfiguration();
-										ArrayList<SshPublicKey> publicKeys = new ArrayList<SshPublicKey>(1);
-										SshPublicKey sshPublicKey = new SshPublicKey();
-										sshPublicKey.setPath(sshPath);
-										sshPublicKey.setKeyData(publicKey);
-										publicKeys.add(sshPublicKey);
-										sshConfiguration.setPublicKeys(publicKeys);
-										linuxConfiguration.setSshConfiguration(sshConfiguration);
-										osProfile.setLinuxConfiguration(linuxConfiguration);
-									}
-								}
-						}).getVirtualMachine();
-			}
-			else
-			{
-				virtualMachine = ComputeHelper.createVM(resourceManagementClient, computeManagementClient,
-								networkResourceProviderClient, storageManagementClient,
-								context, vmName, adminName, adminPassword,
-								new ConsumerWrapper<VirtualMachine>() {
-								@Override
-								public void accept(VirtualMachine vm) {
-									VirtualHardDisk vmDisk = new VirtualHardDisk();
-									VirtualHardDisk imageDisk = new VirtualHardDisk();
+                                    if (storageURI)
+                                    {
+                                        vm.getStorageProfile().getOSDisk().virtualHardDisk.setUri(storageURI)
+                                    }
+                                    if (osType == "Linux" && publicKey)
+                                    {
+                                        //Make SSH Configgurations only if Linux Machine
+                                        OSProfile osProfile = vm.getOSProfile();
+                                        String sshPath = String.format("%s%s%s","/home/", osProfile.getAdminUsername(), "/.ssh/authorized_keys");
+                                        // set linux configuration
+                                        LinuxConfiguration linuxConfiguration = new LinuxConfiguration();
+                                        if (disablePasswordAuth)
+                                        {
+                                            linuxConfiguration.setDisablePasswordAuthentication(true);
+                                        }
+                                        else
+                                        {
+                                            linuxConfiguration.setDisablePasswordAuthentication(false);
+                                        }
+                                        SshConfiguration sshConfiguration = new SshConfiguration();
+                                        ArrayList<SshPublicKey> publicKeys = new ArrayList<SshPublicKey>(1);
+                                        SshPublicKey sshPublicKey = new SshPublicKey();
+                                        sshPublicKey.setPath(sshPath);
+                                        sshPublicKey.setKeyData(publicKey);
+                                        publicKeys.add(sshPublicKey);
+                                        sshConfiguration.setPublicKeys(publicKeys);
+                                        linuxConfiguration.setSshConfiguration(sshConfiguration);
+                                        osProfile.setLinuxConfiguration(linuxConfiguration);
+                                    }
+                                }
+                        }).getVirtualMachine();
+            }
+            else
+            {
+
+                virtualMachine = ComputeHelper.createVM(resourceManagementClient, computeManagementClient,
+                                networkResourceProviderClient, storageManagementClient,
+                                context, vmName, adminName, adminPassword,
+                                new ConsumerWrapper<VirtualMachine>() {
+                                @Override
+                                public void accept(VirtualMachine vm) {
+                                    VirtualHardDisk vmDisk = new VirtualHardDisk();
+                                    VirtualHardDisk imageDisk = new VirtualHardDisk();
                                     if (machineSize) {
                                         vm.getHardwareProfile().setVirtualMachineSize(machineSize);
                                     }
-									if (storageURI)
-									{
-										vmDisk.setUri(storageURI);
-									}
-									imageDisk.setUri(imageURN);
-									OSDisk osDisk = new OSDisk(vmName + "-osdisk", vmDisk, "fromImage");
-									osDisk.setCaching(CachingTypes.NONE);
-									osDisk.setOperatingSystemType(osType);
-									osDisk.setSourceImage(imageDisk);
-									StorageProfile storageProfile = new StorageProfile()
-									storageProfile.setOSDisk(osDisk);
-									vm.setStorageProfile(storageProfile);
-									if (osType == "Linux" && publicKey)
-									{
-										//Make SSH Configgurations only if Linux Machine
-										OSProfile osProfile = vm.getOSProfile();
-										String sshPath = String.format("%s%s%s","/home/", osProfile.getAdminUsername(), "/.ssh/authorized_keys");
-										// set linux configuration
-										LinuxConfiguration linuxConfiguration = new LinuxConfiguration();
-										if (disablePasswordAuth)
-										{
-											linuxConfiguration.setDisablePasswordAuthentication(true);
-										}
-										else
-										{
-											linuxConfiguration.setDisablePasswordAuthentication(false);
-										}
-										SshConfiguration sshConfiguration = new SshConfiguration();
-										ArrayList<SshPublicKey> publicKeys = new ArrayList<SshPublicKey>(1);
-										SshPublicKey sshPublicKey = new SshPublicKey();
-										sshPublicKey.setPath(sshPath);
-										sshPublicKey.setKeyData(publicKey);
-										publicKeys.add(sshPublicKey);
-										sshConfiguration.setPublicKeys(publicKeys);
-										linuxConfiguration.setSshConfiguration(sshConfiguration);
-										osProfile.setLinuxConfiguration(linuxConfiguration);
-									}
-								}
-						}).getVirtualMachine();
-                println virtualMachine
-			}
+                                    if (storageURI)
+                                    {
+                                        vmDisk.setUri(storageURI);
+                                    }
+                                    imageDisk.setUri(imageURN);
+                                    OSDisk osDisk = new OSDisk(vmName + "-osdisk", vmDisk, "fromImage");
+                                    osDisk.setCaching(CachingTypes.NONE);
+                                    osDisk.setOperatingSystemType(osType);
+                                    osDisk.setSourceImage(imageDisk);
+                                    StorageProfile storageProfile = new StorageProfile()
+                                    storageProfile.setOSDisk(osDisk);
+                                    vm.setStorageProfile(storageProfile);
+                                    if (osType == "Linux" && publicKey)
+                                    {
+                                        //Make SSH Configgurations only if Linux Machine
+                                        OSProfile osProfile = vm.getOSProfile();
+                                        String sshPath = String.format("%s%s%s","/home/", osProfile.getAdminUsername(), "/.ssh/authorized_keys");
+                                        // set linux configuration
+                                        LinuxConfiguration linuxConfiguration = new LinuxConfiguration();
+                                        if (disablePasswordAuth)
+                                        {
+                                            linuxConfiguration.setDisablePasswordAuthentication(true);
+                                        }
+                                        else
+                                        {
+                                            linuxConfiguration.setDisablePasswordAuthentication(false);
+                                        }
+                                        SshConfiguration sshConfiguration = new SshConfiguration();
+                                        ArrayList<SshPublicKey> publicKeys = new ArrayList<SshPublicKey>(1);
+                                        SshPublicKey sshPublicKey = new SshPublicKey();
+                                        sshPublicKey.setPath(sshPath);
+                                        sshPublicKey.setKeyData(publicKey);
+                                        publicKeys.add(sshPublicKey);
+                                        sshConfiguration.setPublicKeys(publicKeys);
+                                        linuxConfiguration.setSshConfiguration(sshConfiguration);
+                                        osProfile.setLinuxConfiguration(linuxConfiguration);
+                                    }
+                                }
+                        }).getVirtualMachine();
+            }
 
             def publicIP
             if(createPublicIPAddress)
                  publicIP = getPublicIP(context.getPublicIpName(),resourceGroupName, vmName)
 
             return [publicIP, getVMStatus(resourceGroupName, vmName)]
-		}
-	}
+        }
+    }
 
 public deleteVM(String resourceGroupName,String vmName){
-	exceptionHandler{
+    exceptionHandler{
 
            if(computeManagementClient.getVirtualMachinesOperations().get(resourceGroupName,vmName).getVirtualMachine().getName())
            {
                 println("Going for deleting VM=> Virtual Machine Name: " + vmName + " , Resource Group Name: " + resourceGroupName)
-        		DeleteOperationResponse deleteOperationResponse = computeManagementClient.getVirtualMachinesOperations().delete(resourceGroupName,vmName)
+                DeleteOperationResponse deleteOperationResponse = computeManagementClient.getVirtualMachinesOperations().delete(resourceGroupName,vmName)
                 if(deleteOperationResponse.getStatusCode() == OperationStatus.Succeeded  || deleteOperationResponse.getRequestId() != null)
-        			println("Deleted VM: " + vmName )
+                    println("Deleted VM: " + vmName )
                 else
                     println("Failed to delete VM:" + vmName)
             }
-	}
+    }
 }
 
 public startVM(String resourceGroupName, String vmName){
@@ -1145,14 +1165,14 @@ public restartVM(String resourceGroupName, String vmName){
     }
 
 public deleteDatabase(String resourceGroupName, String serverName, String databaseName){
-	exceptionHandler{
+    exceptionHandler{
 
         if(sqlManagementClient.getDatabasesOperations().get(resourceGroupName, serverName, databaseName).getDatabase().getName() != null)
         {
-    		println("Going for deleting database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ")")
-    		sqlManagementClient.getDatabasesOperations().delete(resourceGroupName, serverName, databaseName)
+            println("Going for deleting database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ")")
+            sqlManagementClient.getDatabasesOperations().delete(resourceGroupName, serverName, databaseName)
         }
-	}
+    }
 }
 
 public deleteVnet(String resourceGroupName ,String vnetName)
@@ -1172,53 +1192,53 @@ public deleteVnet(String resourceGroupName ,String vnetName)
 }
 
 public createOrUpdateDatabase(String resourceGroupName, String serverName, String databaseName, String location, String expectedCollationName, String expectedEdition, String expectedMaxSizeInMB, String createModeValue, String elasticPoolName, String requestedServiceObjectiveIdValue, String sourceDatabaseIdValue) {
-	exceptionHandler{
+    exceptionHandler{
 
-		println("Going for creating or updating database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ") in location " + location)
-		DatabaseCreateOrUpdateProperties dbProperties = new DatabaseCreateOrUpdateProperties();
-		if (expectedCollationName)
-		{
-			dbProperties.setCollation(expectedCollationName)
-			println("Set Collation name to " + expectedCollationName)
-		}
-		if (createModeValue)
-		{
-			dbProperties.setCreateMode(createModeValue)
-			println("Set Create Mode to " + createModeValue)
-		}
-		if (expectedEdition)
-		{
-			dbProperties.setEdition(expectedEdition)
-			println("Set Edition to " + expectedEdition)
-		}
-		if (elasticPoolName)
-		{
-			dbProperties.setElasticPoolName(elasticPoolName)
-			println("Set Elastic Pool Name to " + elasticPoolName)
-		}
-		if (expectedMaxSizeInMB)
-		{
-			expectedMaxSizeInBytes = (expectedMaxSizeInMB as int) * 1024 *1024
-			dbProperties.setMaxSizeBytes(expectedMaxSizeInBytes)
-			println("Set Maximum Size  to " + expectedMaxSizeInBytes + " bytes")
-		}
-		if (requestedServiceObjectiveIdValue)
-		{
-			dbProperties.setRequestedServiceObjectiveId(requestedServiceObjectiveIdValue)
-			println("Set Requested Service Objective Id to " + requestedServiceObjectiveIdValue)
-		}
-		if (sourceDatabaseIdValue)
-		{
-			dbProperties.setSourceDatabaseId(sourceDatabaseIdValue)
-			println("Set Source Database Id to " + sourceDatabaseIdValue)
-		}
-		DatabaseCreateOrUpdateParameters dbParameters = new DatabaseCreateOrUpdateParameters(dbProperties, location);
-		DatabaseCreateOrUpdateResponse response = sqlManagementClient.getDatabasesOperations().createOrUpdate(resourceGroupName, serverName, databaseName, dbParameters);
+        println("Going for creating or updating database: " + databaseName + "(Resource Group: " + resourceGroupName + " , Server Name: " + serverName + ") in location " + location)
+        DatabaseCreateOrUpdateProperties dbProperties = new DatabaseCreateOrUpdateProperties();
+        if (expectedCollationName)
+        {
+            dbProperties.setCollation(expectedCollationName)
+            println("Set Collation name to " + expectedCollationName)
+        }
+        if (createModeValue)
+        {
+            dbProperties.setCreateMode(createModeValue)
+            println("Set Create Mode to " + createModeValue)
+        }
+        if (expectedEdition)
+        {
+            dbProperties.setEdition(expectedEdition)
+            println("Set Edition to " + expectedEdition)
+        }
+        if (elasticPoolName)
+        {
+            dbProperties.setElasticPoolName(elasticPoolName)
+            println("Set Elastic Pool Name to " + elasticPoolName)
+        }
+        if (expectedMaxSizeInMB)
+        {
+            expectedMaxSizeInBytes = (expectedMaxSizeInMB as int) * 1024 *1024
+            dbProperties.setMaxSizeBytes(expectedMaxSizeInBytes)
+            println("Set Maximum Size  to " + expectedMaxSizeInBytes + " bytes")
+        }
+        if (requestedServiceObjectiveIdValue)
+        {
+            dbProperties.setRequestedServiceObjectiveId(requestedServiceObjectiveIdValue)
+            println("Set Requested Service Objective Id to " + requestedServiceObjectiveIdValue)
+        }
+        if (sourceDatabaseIdValue)
+        {
+            dbProperties.setSourceDatabaseId(sourceDatabaseIdValue)
+            println("Set Source Database Id to " + sourceDatabaseIdValue)
+        }
+        DatabaseCreateOrUpdateParameters dbParameters = new DatabaseCreateOrUpdateParameters(dbProperties, location);
+        DatabaseCreateOrUpdateResponse response = sqlManagementClient.getDatabasesOperations().createOrUpdate(resourceGroupName, serverName, databaseName, dbParameters);
         if(response.getStatusCode() == OperationStatus.Succeeded  || response.getRequestId() != null)
                     println("Created SQL Database: " + databaseName )
                 else
                     println("Failed to create SQL Database:" + databaseName)
-	}
+    }
 }
 
 public createVnet(def vnetName, def subnetName, def vnetAddressSpace, def subnetAddressSpace, def resourceGroupName , def location, def dnsServer)
