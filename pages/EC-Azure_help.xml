@@ -1,4 +1,3 @@
-<?xml version="1.0"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -1598,7 +1597,7 @@ section that just says "There is no configuration for this plugin."
     <h1 id="Release_Notes">Release Notes</h1>
     <h2 id="@PLUGIN_KEY@_1.1.5">@PLUGIN_KEY@ 1.1.5</h2>
     <ul>
-        <li>Introduced support for resource group names Storage Account and VNet distinct from that of the VM itself</li>
+        <li>CreateVM procedure has been enhanced to support Resource Group Names for Storage Account and VNet that can be different from the Resource Group Name of the VM.</li>
     </ul>
     <h2 id="@PLUGIN_KEY@_1.1.4">@PLUGIN_KEY@ 1.1.4</h2>
     <ul>
