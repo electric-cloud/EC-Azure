@@ -28,7 +28,7 @@ repositories {
 
 group = "com.electriccloud"
 description = "Plugins : EC-Azure"
-version = "1.1.4"
+version = "1.1.5"
 
 apply plugin: 'flow-gradle-plugin'
 apply plugin: 'license'
