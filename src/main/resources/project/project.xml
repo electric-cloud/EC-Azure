@@ -6,6 +6,12 @@
         <description>Integration with Windows Azure</description>
         <workspaceName/>
         <propertySheet>
+            <!-- Improvement for CEV-20254 -->
+            <property>
+                <propertyName>ec_icon</propertyName>
+                <value>images/icon-plugin.svg</value>
+            </property>
+            <!-- End of improvement for CEV-20254 -->
             <!-- CEV-18771 improvements -->
             <!-- EC-Chef doesn't have custom GWT logic. Setting it for plugin context -->
             <property>
