@@ -28,10 +28,10 @@ use constant {
 my $ec = new ElectricCommander();
 $ec->abortOnError(0);
 
-my $projName = "@PLUGIN_KEY@-@PLUGIN_VERSION@";
+my $projName = '@PLUGIN_KEY@-@PLUGIN_VERSION@';
 
-my $azureConfig       = "$[/myJob/config]";
-my $azureCredential   = "$[/myJob/config]";
+my $azureConfig       = '$[/myJob/config]';
+my $azureCredential   = '$[/myJob/config]';
 my $azureVMCredential = $azureCredential . "_vm_credential";
 
 my %credentials = (
@@ -63,7 +63,7 @@ foreach my $credName ( keys %credentials ) {
     $errors .= $ec->checkAllErrors($xpath);
 
     # Give job launcher full permissions on the credential
-    my $user = "$[/myJob/launchedByUser]";
+    my $user = '$[/myJob/launchedByUser]';
     $xpath = $ec->createAclEntry(
         "user", $user,
         {
