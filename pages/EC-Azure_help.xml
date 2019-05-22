@@ -4,7 +4,7 @@
   <meta name="generator" content="HTML Tidy for Windows (vers 25 March 2009), see www.w3.org" />
   <meta content="text/html; charset=us-ascii" http-equiv="content-type" />
 
-  <title>ElectricFlow Plugin for Windows Azure</title>
+  <title>CloudBees Flow Plugin for Windows Azure</title>
   <link rel="stylesheet" href="../../plugins/@PLUGIN_KEY@/pluginhelp.css" type="text/css" media="screen" />
 </head>
 
@@ -14,14 +14,14 @@
 
     <p>Plugin Version @PLUGIN_VERSION@</p>
     <hr style="margin-left: -10px; margin-top: 10px; height: 1px; width: 100%; color: #5981BD;" noshade="noshade" />
-    <p>Revised on March 06, 2019</p>
+    <p>Revised on May 22, 2019</p>
 
     <h1 id="Contents">Contents</h1>
 
     <ul>
       <li><a href="#Overview">Overview</a></li>
       <li><a href="#Windows_Azure_Links">Windows Azure Links</a></li>
-      <li><a href="#ElectricFlow_Integration_to_Windows_Azure">ElectricFlow Integration to Windows Azure</a></li>
+      <li><a href="#CloudBees_Flow_Integration_to_Windows_Azure">CloudBees Flow Integration to Windows Azure</a></li>
       <li><a href="#Integrated_Version">Integrated Version</a></li>
       <li><a href="#Windows_Certificates">Windows Certificates</a></li>
       <ul>
@@ -96,7 +96,7 @@ only if appropriate, such as FOSS - but not commercial software.
     <p>Check the Azure API References at <a href="https://msdn.microsoft.com/en-us/library/azure/ee460799.aspx">
     API References for Windows Azure</a>.</p>
 
-    <h2 id="ElectricFlow_Integration_to_Windows_Azure">ElectricFlow Integration to Windows Azure</h2>
+    <h2 id="CloudBees_Flow_Integration_to_Windows_Azure">CloudBees Flow Integration to Windows Azure</h2>
     <!-- The integration description should answer the questions:
 How deep does our integration go? Why should I care? What general
 functionality does the plugin include? What functionality does
@@ -135,7 +135,7 @@ the plugin omit?
     <p>This plugin was developed and tested against Windows Azure
     2012.</p>
 
-    <p>ElectricFlow minimum version 4.0</p>
+    <p>CloudBees Flow minimum version 4.0</p>
 
     <h2 id="Windows_Certificates">Windows Certificates</h2>
 
@@ -821,7 +821,7 @@ section that just says "There is no configuration for this plugin."
         <tr>
           <td>Resource Pool</td>
 
-          <td>If you would like to add ElectricFlow resources for each Azure instance being created, enter the resource pool name for the new resources. If left blank no resource will be created.</td>
+          <td>If you would like to add CloudBees Flow resources for each Azure instance being created, enter the resource pool name for the new resources. If left blank no resource will be created.</td>
         </tr>
 
         <tr>
@@ -1595,6 +1595,10 @@ section that just says "There is no configuration for this plugin."
 
 
     <h1 id="Release_Notes">Release Notes</h1>
+
+    <h2 id="1.1.8">@PLUGIN_KEY@ 1.1.8</h2>
+    <p>Renaming from "Electric Cloud" to "CloudBees"</p>
+
     <h2 id="@PLUGIN_KEY@_1.1.7">@PLUGIN_KEY@ 1.1.7</h2>
     <ul>
         <li>Configurations can be created by users with "@" sign in a name.</li>
