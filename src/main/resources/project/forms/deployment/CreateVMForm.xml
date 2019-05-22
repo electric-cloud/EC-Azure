@@ -1,6 +1,6 @@
 <!--
 
-     Copyright 2015 Electric Cloud, Inc.
+     Copyright 2015 CloudBees, Inc.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -163,7 +163,7 @@
         <label>Resource Pool:</label>
         <property>resource_pool</property>
         <value/>
-        <documentation>If you would like to add ElectricFlow resources for each Azure instance being created, enter the resource pool name for the new resources. If left blank no resource will be created.</documentation>
+        <documentation>If you would like to add CloudBees Flow resources for each Azure instance being created, enter the resource pool name for the new resources. If left blank no resource will be created.</documentation>
         <required>0</required>
         <type>entry</type>
     </formElement>
