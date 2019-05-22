@@ -21,7 +21,7 @@
     <ul>
       <li><a href="#Overview">Overview</a></li>
       <li><a href="#Windows_Azure_Links">Windows Azure Links</a></li>
-      <li><a href="#CloudBees Flow_Integration_to_Windows_Azure">CloudBees Flow Integration to Windows Azure</a></li>
+      <li><a href="#CloudBees_Flow_Integration_to_Windows_Azure">CloudBees Flow Integration to Windows Azure</a></li>
       <li><a href="#Integrated_Version">Integrated Version</a></li>
       <li><a href="#Windows_Certificates">Windows Certificates</a></li>
       <ul>
@@ -96,7 +96,7 @@ only if appropriate, such as FOSS - but not commercial software.
     <p>Check the Azure API References at <a href="https://msdn.microsoft.com/en-us/library/azure/ee460799.aspx">
     API References for Windows Azure</a>.</p>
 
-    <h2 id="CloudBees Flow_Integration_to_Windows_Azure">CloudBees Flow Integration to Windows Azure</h2>
+    <h2 id="CloudBees_Flow_Integration_to_Windows_Azure">CloudBees Flow Integration to Windows Azure</h2>
     <!-- The integration description should answer the questions:
 How deep does our integration go? Why should I care? What general
 functionality does the plugin include? What functionality does
