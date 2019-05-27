@@ -1,7 +1,7 @@
 EC-Azure
 ============
 
-The ElectricFlow Azure integration
+The CloudBees Flow Azure integration
 
 ## Compile ##
 
