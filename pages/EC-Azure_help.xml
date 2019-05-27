@@ -179,8 +179,7 @@ section that just says "There is no configuration for this plugin."
     unique name that is entered in designated parameters on
     procedures that use them.<br />
     <br />
-    Plugin configurations are created by going to the Electric
-    Flow "Administration" tab, then to the "Plugins" sub-tab.
+    Plugin configurations are created by going to the CloudBees Flow "Administration" tab, then to the "Plugins" sub-tab.
     On the right side of the line for the EC-Azure plugin, there is
     a "Configure" link which will open the Configuration page.</p>
 

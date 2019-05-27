@@ -56,7 +56,7 @@
         <label>Results location (output property path):</label>
         <property>results_location_outpsp</property>
         <value>/myJob/Azure/deployed</value>
-        <documentation>The ElectricCommander location to store properties (default is /myJob/Azure/deployed).</documentation>
+        <documentation>The CloudBees Flow location to store properties (default is /myJob/Azure/deployed).</documentation>
         <required>0</required>
         <type>entry</type>
     </formElement>
