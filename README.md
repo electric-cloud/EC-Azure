@@ -1,7 +1,7 @@
 EC-Azure
 ============
 
-The CloudBees Flow Azure integration
+The CloudBees CD Azure integration
 
 ## Compile ##
 
