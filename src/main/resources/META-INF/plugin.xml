@@ -75,4 +75,5 @@
             </parameterPanel>
         </customType> 
     </customTypes>   
+<hasAdoc>true</hasAdoc>
 </plugin>
