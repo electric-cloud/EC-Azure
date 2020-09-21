@@ -75,4 +75,6 @@
             </parameterPanel>
         </customType> 
     </customTypes>   
+    <hasAdoc>true</hasAdoc>
+    <catalogLabel>Microsoft Azure</catalogLabel>
 </plugin>
