@@ -1,40 +1,7 @@
 
 Plugin Version @PLUGIN_VERSION@
-
-'''''
-
 Revised on May 18, 2020
 
-[[Overview]]
-== Overview
-
-The Azure Services Platform (Azure) is an internet-scale cloud services platform hosted in Microsoft data centers, which provides an operating system and a set of developer services that can be used individually or together. Azure's flexible and interoperable platform can be used to build new applications to run from the cloud or enhance existing applications with cloud-based capabilities. Its open architecture gives developers the choice to build web applications, applications running on connected devices, PCs, servers, or hybrid solutions.
-
-The Azure Services Platform can be used both by applications running in the cloud and by applications running on local systems.
-
-Azure provides an open, standards-based and interoperable environment with support for multiple internet protocols, including HTTP, REST, SOAP, and XML.
-
-[[Windows_Azure_Links]]
-== Windows azure links
-
-More information can be found at https://www.windowsazure.com/en-us/[Windows Azure website] or at https://www.windowsazure.com/en-us/develop/overview/[Azure Developer Center].
-
-Check the Azure API References at https://msdn.microsoft.com/en-us/library/azure/ee460799.aspx[API References for Windows Azure].
-
-[[CloudBees_CD_Integration_to_Windows_Azure]]
-== {CD} integration to windows azure
-
-The plugin communicates with Windows Azure through Windows Azure Service Management and Storage Services REST application programming interfaces (API) which provides programmatic access to much of the functionality available through the Management Portal using a RESTful application development style. Using the Service Management API, you can manage your virtual machines, networks and databases. EC-Azure plugin allows users to automate and perform operations on Windows Azure providing a more generic interface for managing deployments.
-
-From 1.1.3 version of the plugin classic deployment support is removed. Plugin supports only Azure Resource Manager. For more information, please, read https://azure.microsoft.com/en-us/documentation/articles/resource-manager-deployment-model/[this article].
-
-All Service Management API operations are performed over SSL and mutually authenticated using X.509 v3 certificates.
-
-The plugin interact with Windows Azure APIs using official Microsoft Windows Azure Java libraries:
-
-* Create configuration to hold connection information.
-* Create,Update and Delete VMs, Virtual Networks, Subnets, Databases, Network Security Group and Network Security Rules
-* Perform operations on VMs, SQL and NoSQL Servers
 
 [[Integrated_Version]]
 == Integrated version
@@ -91,7 +58,7 @@ Subscription ID must be created and an X.509 management certificate needs to be 
 |Debug Level: |Level for output: 0=errors only, 1=normal headers and responses, 2+=debugging information included. (Required)
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/configuration_panel.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/configuration-panel.png[image]
 
 [[Create-Or-Update-Database]]
 
@@ -119,7 +86,7 @@ This procedure allows users to create or update the Database on a Database serve
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/create_or_update_database.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/create-or-update-database.png[image]
 
 [[Delete-Database]]
 
@@ -139,7 +106,7 @@ This procedure allows users to delete the Database on a Database server.
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/delete_database.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-database.png[image]
 
 [[Create-or-Update-NetworkSecurityGroup]]
 
@@ -159,7 +126,7 @@ This procedure allows users to create or update an Network Security Group.
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/create_or_update_network_security_group.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/create-or-update-network-security-group.png[image]
 
 [[Create-or-Update-NetworkSecurityRule]]
 
@@ -188,7 +155,7 @@ This procedure allows users to create or update a Rule of an Network Security Gr
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/create_or_update_network_security_rule.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/create-or-update-network-security-rule.png[image]
 
 [[Create-or-Update-Subnet]]
 
@@ -211,7 +178,7 @@ This procedure allows users to create or update a subnet.
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/create_or_update_subnet.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/create-or-update-subnet.png[image]
 
 [[CreateVM]]
 
@@ -254,7 +221,7 @@ If this virtual network resides in a resource group different from VM itself, it
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/create_vm.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/create-vm.png[image]
 
 [[CreateVnet]]
 
@@ -278,7 +245,7 @@ This procedure allows users to create a Virtual Network using Azure Services.
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/create_vnet.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/create-vnet.png[image]
 
 [[DeleteVnet]]
 
@@ -297,7 +264,7 @@ This procedure allows users to delete a Virtual Network using Azure Services.
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/delete_vnet.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-vnet.png[image]
 
 [[DeleteDatabase]]
 
@@ -317,7 +284,7 @@ This procedure allows users to delete a database on a database server using Azur
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/delete_database.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-database.png[image]
 
 [[Delete-NetworkSecurityGroup]]
 
@@ -336,7 +303,7 @@ This procedure allows users to delete a Network Security Group.
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/delete_network_security_group.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-network-security-group.png[image]
 
 [[Delete-NetworkSecurityRule]]
 
@@ -356,7 +323,7 @@ This procedure allows users to delete a Rule from an existing Network Security G
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/delete_network_security_rule.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-network-security-rule.png[image]
 
 [[Delete-Subnet]]
 
@@ -376,7 +343,7 @@ This procedure allows users to delete a subnet.
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/delete_subnet.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-subnet.png[image]
 
 [[Delete-VM]]
 
@@ -395,7 +362,7 @@ This procedure allows users to delete a VM.
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/delete_vm.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-vm.png[image]
 
 [[NoSQL-Operations]]
 
@@ -419,7 +386,7 @@ This procedure allows users to carry out operations on NoSQL Database on a speci
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/nosql_operations.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/nosql-operations.png[image]
 
 [[Restart-VM]]
 
@@ -438,7 +405,7 @@ This procedure allows users to restart a VM.
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/restart_vm.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/restart-vm.png[image]
 
 [[Start-VM]]
 
@@ -457,7 +424,7 @@ This procedure allows users to start a stopped VM.
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/start_vm.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/start-vm.png[image]
 
 [[Stop-VM]]
 
@@ -476,7 +443,7 @@ This procedure allows users to stop a running VM.
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/stop_vm.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/stop-vm.png[image]
 
 
 [[SQL_Operations]]
@@ -495,7 +462,7 @@ This procedure allows users to carry out operations on a database on a SQL Serve
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/sql_operations.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/sql-operations.png[image]
 
 [[Teardown]]
 
