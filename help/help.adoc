@@ -490,11 +490,11 @@ image::cloudbees-common::cd-plugins/ec-azure/parameters/teardown.png[image]
 
 === EC-Azure 1.1.9
 
-* Renaming from "CloudBees Flow" to "{CD}"
+* Renaming to "{CD}"
 
 === EC-Azure 1.1.8
 
-Renaming from "Electric Cloud" to "CloudBees"
+Renaming to "CloudBees"
 
 === EC-Azure 1.1.7
 
