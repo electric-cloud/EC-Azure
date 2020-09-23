@@ -76,7 +76,7 @@
         </customType> 
     </customTypes>   
     <hasAdoc>true</hasAdoc>
-    
+
 <detailedDescription>The Azure Services Platform (Azure) is an internet-scale cloud services platform hosted in Microsoft data centers, which provides an operating system and a set of developer services that can be used individually or together.
 
 The EC-Azure plugin communicates with Windows Azure through Windows Azure Service Management and Storage Services REST application programming interfaces (API), which provides programmatic access to much of the functionality available through the Management Portal using a RESTful application development style. Using the Service Management API, you can manage your virtual machines, networks and databases. EC-Azure plugin allows users to automate and perform operations on Windows Azure providing a more generic interface for managing deployments.</detailedDescription>
