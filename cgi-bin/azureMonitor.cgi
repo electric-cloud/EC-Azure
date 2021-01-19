@@ -5,13 +5,12 @@ exec "$COMMANDER_HOME/bin/ec-perl" -x "$0" "${@}"
 #!perl
 
 ################################
-# azureMonitor.cgi
+# monitorJob.cgi
 #
 # Monitors a job: waits for it to complete and reports on its success or
 # failure.
 #
 ################################
-
 use warnings;
 use strict;
 use ElectricCommander;
@@ -41,41 +40,41 @@ sub main {
     # Get CGI args
     my $cgi = new CGI;
     my $cgiArgs = $cgi->Vars;
-
+    
     # Check for required args
     my $jobId = $cgiArgs->{jobId};
     if (!defined $jobId || "$jobId" eq "") {
         reportError($cgi, "jobId is a required parameter");
     }
-
+    
     # Wait for job
     my $ec = new ElectricCommander({abortOnError => 0});
     my $xpath = $ec->waitForJob($jobId, $gTimeout);
     my $errors = $ec->checkAllErrors($xpath);
-
+    
     if ("$errors" ne "") {
         reportError($cgi, $errors);
     }
-
+    
     my $status = $xpath->findvalue("//status");
     if ("$status" ne "completed") {
-
+        
         # Abort job and report failure
         abortJobAndReportError($cgi, $ec, $jobId);
     }
-
+    
     my $outcome = $xpath->findvalue("//outcome");
     if ("$outcome" ne "success") {
-
+        
         # Report job errors
         reportJobErrors($cgi, $ec, $jobId);
     }
-
+    ### Commented, see FLOWPLUGIN-7901
     # If the job was successful and the debug flag is not set, delete it
-    my $debug = $cgiArgs->{debug};
-    if (!defined $debug || "$debug" ne "1") {
-        $ec->deleteJob($jobId);
-    }
+    #my $debug = $cgiArgs->{debug};
+    #if (!defined $debug || "$debug" ne "1") {
+    #    $ec->deleteJob($jobId);
+    #}
     
     # Report the job's success
     reportSuccess($cgi);
@@ -138,6 +137,10 @@ sub reportJobErrors($$$) {
     
     # Get job details
     my $xpath = $ec->getJobDetails($jobId);
+    my $procedureName;
+    eval {
+        $procedureName = $xpath->findvalue('//job/procedureName')->string_value();
+    };
     my $errors = $ec->checkAllErrors($xpath);
     if ("$errors" ne "") {
         reportError($cgi, $errors);
@@ -158,7 +161,12 @@ sub reportJobErrors($$$) {
     
     # Report a generic error message if we couldn't find a specific one on the
     # job
-    reportError($cgi, "Configuration creation failed");
+    if ($procedureName && $procedureName eq 'EditConfiguration') {
+        reportError($cgi, 'Edit configuration failed');
+    }
+    else {
+        reportError($cgi, "Configuration creation failed");
+    }
 }
 
 ################################

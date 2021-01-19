@@ -33,6 +33,7 @@ import com.electriccloud.commander.gwt.client.Component;
 import com.electriccloud.commander.gwt.client.ComponentContext;
 import org.jetbrains.annotations.NotNull;
 
+import ecplugins.azure.client.EditConfigPropertySheetEditor;
 import static com.electriccloud.commander.gwt.client.util.CommanderUrlBuilder.createPageUrl;
 
 public class ConfigurationManagementFactory
@@ -53,14 +54,19 @@ public class ConfigurationManagementFactory
         else if ("edit".equals(panel)) {
             String configName    = BrowserContext.getInstance()
                                                  .getGetParameter("configName");
+            String projectName = "/plugins/" + getPluginName() + "/project";
             String propSheetPath = "/plugins/" + getPluginName()
                     + "/project/azure_cfgs/" + configName;
             String formXmlPath   = "/plugins/" + getPluginName()
                     + "/project/forms/EditConfigForm";
 
-            component = new PropertySheetEditor("ecgc",
-                    "Edit Azure Configuration", configName,
-                    propSheetPath, formXmlPath, getPluginName());
+            component = new EditConfigPropertySheetEditor("ecgc",
+                    "Edit Azure Configuration", configName, propSheetPath,
+                    formXmlPath, projectName, getPluginName()
+            );
+            // component = new PropertySheetEditor("ecgc",
+            //         "Edit Azure Configuration", configName,
+            //         propSheetPath, formXmlPath, getPluginName());
 
             ((InternalFormBase) component).setDefaultRedirectToUrl(
                 createPageUrl(getPluginName(), "configurations").buildString());

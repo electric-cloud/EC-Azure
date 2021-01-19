@@ -1,62 +1,64 @@
 <!--
 
-     Copyright 2015 CloudBees, Inc.
+Copyright 2015 CloudBees, Inc.
 
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-         http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 -->
 <editor>
-  <formElement>
-    <type>entry</type>
-    <label>Description:</label>
-    <property>desc</property>
-    <required>0</required>
-    <documentation>A description for this configuration.</documentation>
-  </formElement>
-  <formElement>
-    <type>entry</type>
-    <label>Tenant ID:</label>
-    <property>tenant_id</property>
-    <value></value>
-    <documentation>Enter the Azure Active Directory Tenant ID.</documentation>
-    <required>1</required>
-  </formElement>
-  <formElement>
-    <type>entry</type>
-    <label>Subscription ID:</label>
-    <property>subscription_id</property>
-    <value></value>
-    <documentation>Enter the Azure Active Directory Subscription ID.</documentation>
-    <required>1</required>
-  </formElement>
-  <formElement>
-    <type>credential</type>
-    <label>Client ID/Secret Key:</label>
-    <property>credential</property>
-    <required>1</required>
-    <userNameLabel>Client ID:</userNameLabel>
-    <passwordLabel>Secret Key:</passwordLabel>
-    <retypePasswordLabel>Retype Secret Key:</retypePasswordLabel>
-    <documentation>Azure Application Client ID and Secret(Password).</documentation>
-  </formElement>
-  <formElement>
-    <type>credential</type>
-    <label>VM User/Password:</label>
-    <property>vm_credential</property>
-    <required>1</required>
-    <documentation>Credentials for any virtual machines provisioned using this configuration.</documentation>
-  </formElement>
-  <formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Description:</label>
+        <property>desc</property>
+        <required>0</required>
+        <documentation>A description for this configuration.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Tenant ID:</label>
+        <property>tenant_id</property>
+        <value></value>
+        <documentation>Enter the Azure Active Directory Tenant ID.</documentation>
+        <required>1</required>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Subscription ID:</label>
+        <property>subscription_id</property>
+        <value></value>
+        <documentation>Enter the Azure Active Directory Subscription ID.</documentation>
+        <required>1</required>
+    </formElement>
+    <formElement>
+        <type>credential</type>
+        <supportsCredentialReference>true</supportsCredentialReference>
+        <label>Client ID/Secret Key:</label>
+        <property>credential</property>
+        <required>1</required>
+        <userNameLabel>Client ID:</userNameLabel>
+        <passwordLabel>Secret Key:</passwordLabel>
+        <retypePasswordLabel>Retype Secret Key:</retypePasswordLabel>
+        <documentation>Azure Application Client ID and Secret(Password).</documentation>
+    </formElement>
+    <formElement>
+        <type>credential</type>
+        <supportsCredentialReference>true</supportsCredentialReference>
+        <label>VM User/Password:</label>
+        <property>vm_credential</property>
+        <required>1</required>
+        <documentation>Credentials for any virtual machines provisioned using this configuration.</documentation>
+    </formElement>
+    <formElement>
         <type>entry</type>
         <label>Resource Pool:</label>
         <property>resource_pool</property>

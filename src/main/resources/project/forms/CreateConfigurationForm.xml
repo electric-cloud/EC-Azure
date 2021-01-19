@@ -50,6 +50,7 @@
     </formElement>
     <formElement>
         <type>credential</type>
+        <supportsCredentialReference>true</supportsCredentialReference>
         <label>Client ID/Secret Key:</label>
         <property>credential</property>
         <required>1</required>
@@ -60,6 +61,7 @@
     </formElement>
     <formElement>
         <type>credential</type>
+        <supportsCredentialReference>true</supportsCredentialReference>
         <label>VM User/Password:</label>
         <property>vm_credential</property>
         <required>1</required>
