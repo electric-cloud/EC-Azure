@@ -6,6 +6,350 @@
         <description>Integration with Windows Azure</description>
         <workspaceName/>
         <propertySheet>
+            <property>
+                <propertyName>ec_configPropertySheet</propertyName>
+                <value>azure_cfgs</value>
+            </property>
+            <!-- PDK related part-->
+            <property>
+                <propertyName>pdk</propertyName>
+                <propertySheet>
+                    <property>
+                        <propertyName>FlowPDF</propertyName>
+                        <propertySheet>
+                            <property>
+                                <propertyName>Component.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>Parameter.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>ComponentManager.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>Types</propertyName>
+                                <propertySheet>
+                                    <property>
+                                        <propertyName>Any.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>Reference.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>ArrayrefOf.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>Scalar.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>Regexp.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>Enum.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                </propertySheet>
+                            </property>
+                            <property>
+                                <propertyName>Helpers.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>Exception</propertyName>
+                                <propertySheet>
+                                    <property>
+                                        <propertyName>RuntimeException.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>ConfigDoesNotExist.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>WrongFunctionArgumentValue.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>MissingFunctionDefinition.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>EntityDoesNotExist.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>WrongFunctionArgumentType.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>MissingFunctionArgument.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>UnexpectedMissingValue.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>EntityAlreadyExists.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>UnexpectedEmptyValue.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                </propertySheet>
+                            </property>
+                            <property>
+                                <propertyName>Types.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>Exception.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>Constants.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>Context.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>Component</propertyName>
+                                <propertySheet>
+                                    <property>
+                                        <propertyName>CLI</propertyName>
+                                        <propertySheet>
+                                            <property>
+                                                <propertyName>ExecutionResult.pm</propertyName>
+                                                <value></value>
+                                            </property>
+                                            <property>
+                                                <propertyName>Command.pm</propertyName>
+                                                <value></value>
+                                            </property>
+                                        </propertySheet>
+                                    </property>
+                                    <property>
+                                        <propertyName>OAuth.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>CLI.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>EF.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>Proxy.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>EF</propertyName>
+                                        <propertySheet>
+                                            <property>
+                                                <propertyName>Reporting</propertyName>
+                                                <propertySheet>
+                                                    <property>
+                                                        <propertyName>Dataset.pm</propertyName>
+                                                        <value></value>
+                                                    </property>
+                                                    <property>
+                                                        <propertyName>Transformer.pm</propertyName>
+                                                        <value></value>
+                                                    </property>
+                                                    <property>
+                                                        <propertyName>MetadataFactory.pm</propertyName>
+                                                        <value></value>
+                                                    </property>
+                                                    <property>
+                                                        <propertyName>Engine.pm</propertyName>
+                                                        <value></value>
+                                                    </property>
+                                                    <property>
+                                                        <propertyName>Metadata.pm</propertyName>
+                                                        <value></value>
+                                                    </property>
+                                                    <property>
+                                                        <propertyName>Data.pm</propertyName>
+                                                        <value></value>
+                                                    </property>
+                                                    <property>
+                                                        <propertyName>Payload.pm</propertyName>
+                                                        <value></value>
+                                                    </property>
+                                                    <property>
+                                                        <propertyName>Payloadset.pm</propertyName>
+                                                        <value></value>
+                                                    </property>
+                                                </propertySheet>
+                                            </property>
+                                            <property>
+                                                <propertyName>Reporting.pm</propertyName>
+                                                <value></value>
+                                            </property>
+                                        </propertySheet>
+                                    </property>
+                                </propertySheet>
+                            </property>
+                            <property>
+                                <propertyName>BaseClass.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>Config.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>Credential.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>Log</propertyName>
+                                <propertySheet>
+                                    <property>
+                                        <propertyName>FW.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                </propertySheet>
+                            </property>
+                            <property>
+                                <propertyName>Log.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>Client</propertyName>
+                                <propertySheet>
+                                    <property>
+                                        <propertyName>REST.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>REST</propertyName>
+                                        <propertySheet>
+                                            <property>
+                                                <propertyName>Auth.pm</propertyName>
+                                                <value></value>
+                                            </property>
+                                        </propertySheet>
+                                    </property>
+                                </propertySheet>
+                            </property>
+                            <property>
+                                <propertyName>StepResult</propertyName>
+                                <propertySheet>
+                                    <property>
+                                        <propertyName>Action.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                </propertySheet>
+                            </property>
+                            <property>
+                                <propertyName>EF</propertyName>
+                                <propertySheet>
+                                    <property>
+                                        <propertyName>PostP.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>OutputParameters.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                </propertySheet>
+                            </property>
+                            <property>
+                                <propertyName>StepParameters.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>StepResult.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>Throwable.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>ContextFactory.pm</propertyName>
+                                <value></value>
+                            </property>
+                            <property>
+                                <propertyName>Devel</propertyName>
+                                <propertySheet>
+                                    <property>
+                                        <propertyName>Stacktrace.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                </propertySheet>
+                            </property>
+                            <property>
+                                <propertyName>Service</propertyName>
+                                <propertySheet>
+                                    <property>
+                                        <propertyName>Bootstrap.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                    <property>
+                                        <propertyName>RSA.pm</propertyName>
+                                        <value></value>
+                                    </property>
+                                </propertySheet>
+                            </property>
+                            <property>
+                                <propertyName>BaseClass2.pm</propertyName>
+                                <value></value>
+                            </property>
+                        </propertySheet>
+                    </property>
+                    <property>
+                        <propertyName>FlowPDF.pm</propertyName>
+                        <value></value>
+                    </property>
+                    <property>
+                        <propertyName>Bytes</propertyName>
+                        <propertySheet>
+                            <property>
+                                <propertyName>Random</propertyName>
+                                <propertySheet>
+                                    <property>
+                                        <propertyName>Secure</propertyName>
+                                        <propertySheet>
+                                            <property>
+                                                <propertyName>Tiny.pm</propertyName>
+                                                <value></value>
+                                            </property>
+                                        </propertySheet>
+                                    </property>
+                                </propertySheet>
+                            </property>
+                        </propertySheet>
+                    </property>
+                    <property>
+                        <propertyName>Try</propertyName>
+                        <propertySheet>
+                            <property>
+                                <propertyName>Tiny.pm</propertyName>
+                                <value></value>
+                            </property>
+                        </propertySheet>
+                    </property>
+                </propertySheet>
+            </property>
+            <!-- End of PDK related part -->
+
+            
+            
             <!-- Improvement for CEV-20254 -->
             <property>
                 <propertyName>ec_icon</propertyName>
@@ -175,12 +519,12 @@
                                         <propertyName>parameterRefs</propertyName>
                                         <description></description>
                                         <propertySheet>
-                                          <property>
-                                            <propertyName>resourcePoolName</propertyName>
-                                            <description></description>
-                                            <expandable>1</expandable>
-                                            <value>resource_name</value>
-                                          </property>
+                                            <property>
+                                                <propertyName>resourcePoolName</propertyName>
+                                                <description></description>
+                                                <expandable>1</expandable>
+                                                <value>resource_name</value>
+                                            </property>
                                             <property>
                                                 <propertyName>configuration</propertyName>
                                                 <description></description>
@@ -326,7 +670,7 @@
                         <value/>
                     </property>
                     <property>
-                      <propertyName>preamble_pl</propertyName>
+                        <propertyName>preamble_pl</propertyName>
                         <description/>
                         <expandable>1</expandable>
                         <value/>
@@ -2635,7 +2979,7 @@
                                         </property>
                                     </propertySheet>
                                 </property>
-                               <property>
+                                <property>
                                     <propertyName>job_step_timeout</propertyName>
                                     <propertySheet>
                                         <property>
@@ -2875,7 +3219,7 @@
                                         </property>
                                     </propertySheet>
                                 </property>
-                               <property>
+                                <property>
                                     <propertyName>job_step_timeout</propertyName>
                                     <propertySheet>
                                         <property>
@@ -5514,7 +5858,7 @@
                                         </property>
                                     </propertySheet>
                                 </property>
-                               <property>
+                                <property>
                                     <propertyName>job_step_timeout</propertyName>
                                     <propertySheet>
                                         <property>
@@ -5735,7 +6079,7 @@
                                         </property>
                                     </propertySheet>
                                 </property>
-                               <property>
+                                <property>
                                     <propertyName>job_step_timeout</propertyName>
                                     <propertySheet>
                                         <property>

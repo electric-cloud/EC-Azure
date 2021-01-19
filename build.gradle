@@ -21,6 +21,9 @@ buildscript {
 }
 
 repositories {
+    maven {
+		url "http://artifactory.electric-cloud.com/artifactory/repo"
+	}
 	maven {
 		url "https://oss.sonatype.org/content/repositories/snapshots"
 	}
