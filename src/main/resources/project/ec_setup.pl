@@ -18,6 +18,10 @@
 # The plugin is being promoted, create a property reference in the server's property sheet
 # Data that drives the create step picker registration for this plugin.
 
+use ElectricCommander::Util;
+use JSON;
+
+my $stepsWithCredentials = getStepsWithCredentials();
 
 # Resource Management
 
@@ -333,170 +337,69 @@ if ($upgradeAction eq "upgrade") {
                     }
                 );
             }
-
+            for my $step (@$stepsWithCredentials) {
             # Attach the credential to the appropriate steps
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Create VM',
-                    stepName      => 'Create VM'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Delete VM',
-                    stepName      => 'Delete VM'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Start VM',
-                    stepName      => 'Start VM'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Stop VM',
-                    stepName      => 'Stop VM'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Restart VM',
-                    stepName      => 'Restart VM'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'TearDown',
-                    stepName      => 'tearDown'
-                }
-            );
-            
-            # $batch->attachCredential(
-            #     "\$[/plugins/$pluginName/project]",
-            #     $cred,
-            #     {
-            #         procedureName => 'Create or Update Database Server',
-            #         stepName      => 'createUpdateDatabaseServer'
-            #     }
-            # );
-            
-            # $batch->attachCredential(
-            #     "\$[/plugins/$pluginName/project]",
-            #     $cred,
-            #     {
-            #         procedureName => 'Delete Database Server',
-            #         stepName      => 'deleteDatabaseServer'
-            #     }
-            # );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Create Or Update Database',
-                    stepName      => 'createUpdateDatabase'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'DeleteDatabase',
-                    stepName      => 'deleteDatabase'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Create or Update Vnet',
-                    stepName      => 'Create Vnet'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Delete Vnet',
-                    stepName      => 'Delete Vnet'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Create or Update Subnet',
-                    stepName      => 'createUpdateSubnet'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Delete Subnet',
-                    stepName      => 'deleteSubnet'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Create or Update NetworkSecurityGroup',
-                    stepName      => 'createUpdateNetworkSecurityGroup'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Delete NetworkSecurityGroup',
-                    stepName      => 'deleteNetworkSecurityGroup'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Create or Update NetworkSecurityRule',
-                    stepName      => 'createUpdateNetworkSecurityRule'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'Delete NetworkSecurityRule',
-                    stepName      => 'deleteNetworkSecurityRule'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'NoSQL Operations',
-                    stepName      => 'nosqlOperations'
-                }
-            );
-            $batch->attachCredential(
-                "\$[/plugins/$pluginName/project]",
-                $cred,
-                {
-                    procedureName => 'SQL Operations',
-                    stepName      => 'sqlOperations'
-                }
-            );
+                $batch->attachCredential("\$[/plugins/$pluginName/project]", $cred, {
+                    procedureName => $step->{procedureName},
+                    stepName => $step->{stepName}
+                });
+            }
         }
     }
+    reattachExternalCredentials($otherPluginName);
+}
+
+sub reattachExternalCredentials {
+    my ($otherPluginName) = @_;
+
+    my $configName = getConfigLocation($otherPluginName);
+    my $configsPath = "/plugins/$otherPluginName/project/$configName";
+
+    my $xp = $commander->getProperty($configsPath);
+
+    my $id = $xp->findvalue('//propertySheetId')->string_value();
+    my $props = $commander->getProperties({propertySheetId => $id});
+    for my $node ($props->findnodes('//property/propertySheetId')) {
+        my $configPropertySheetId = $node->string_value();
+        my $config = $commander->getProperties({propertySheetId => $configPropertySheetId});
+
+        # iterate through props to get credentials.
+        for my $configRow ($config->findnodes('//property')) {
+            my $propName = $configRow->findvalue('propertyName')->string_value();
+            my $propValue = $configRow->findvalue('value')->string_value();
+            # print "Name $propName, value: $propValue\n";
+            if ($propName =~ m/credential$/s && $propValue =~ m|^\/|s) {
+                for my $step (@$stepsWithCredentials) {
+                    $batch->attachCredential({
+                        projectName    => $pluginName,
+                        procedureName  => $step->{procedureName},
+                        stepName       => $step->{stepName},
+                        credentialName => $propValue,
+                    });
+                    #    debug "Attached credential to $step->{stepName}";
+                }
+                print "Reattaching $propName with val: $propValue\n";
+            }
+        }
+        # exit 0;
+    }
+}
+
+sub getConfigLocation {
+    my ($otherPluginName) = @_;
+
+    my $configName = eval {
+        $commander->getProperty("/plugins/$otherPluginName/project/ec_configPropertySheet")->findvalue('//value')->string_value
+    } || 'ec_plugin_cfgs';
+    return $configName;
+}
+
+sub getStepsWithCredentials {
+    my $retval = [];
+    eval {
+        my $pluginName = '@PLUGIN_NAME@';
+        my $stepsJson = $commander->getProperty("/projects/$pluginName/procedures/CreateConfiguration/ec_stepsWithAttachedCredentials")->findvalue('//value')->string_value;
+        $retval = decode_json($stepsJson);
+    };
+    return $retval;
 }

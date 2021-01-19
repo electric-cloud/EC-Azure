@@ -717,6 +717,15 @@
             <resourceName></resourceName>
             <workspaceName/>
             <propertySheet>
+                <!-- TODO: Improve this code to make the value for ec_stepsWithAttachedCredentials be populated using manifest.xml -->
+                <!-- FLOWPLUGIN-8852: External Credentials Management -->
+                <property>
+                    <propertyName>ec_stepsWithAttachedCredentials</propertyName>
+                    <value>
+                        [{"stepName":"Create VM","procedureName":"Create VM"},{"procedureName":"Delete VM","stepName":"Delete VM"},{"procedureName":"Start VM","stepName":"Start VM"},{"stepName":"Stop VM","procedureName":"Stop VM"},{"stepName":"Restart VM","procedureName":"Restart VM"},{"procedureName":"TearDown","stepName":"tearDown"},{"procedureName":"Create Or Update Database","stepName":"createUpdateDatabase"},{"procedureName":"DeleteDatabase","stepName":"deleteDatabase"},{"stepName":"Create Vnet","procedureName":"Create or Update Vnet"},{"procedureName":"Delete Vnet","stepName":"Delete Vnet"},{"stepName":"createUpdateSubnet","procedureName":"Create or Update Subnet"},{"stepName":"deleteSubnet","procedureName":"Delete Subnet"},{"procedureName":"Create or Update NetworkSecurityGroup","stepName":"createUpdateNetworkSecurityGroup"},{"stepName":"deleteNetworkSecurityGroup","procedureName":"Delete NetworkSecurityGroup"},{"stepName":"createUpdateNetworkSecurityRule","procedureName":"Create or Update NetworkSecurityRule"},{"stepName":"deleteNetworkSecurityRule","procedureName":"Delete NetworkSecurityRule"},{"stepName":"nosqlOperations","procedureName":"NoSQL Operations"},{"procedureName":"SQL Operations","stepName":"sqlOperations"}]
+                    </value>
+                </property>
+                <!-- End of FLOWPLUGIN-8852: External Credentials Management -->
                 <property>
                     <propertyName>ec_customEditorData</propertyName>
                     <propertySheet>
@@ -922,14 +931,227 @@
                         </propertySheet>
                     </property>
                 </propertySheet>
+                <attachedParameters>
+                    <formalParameterName>credential</formalParameterName>
+                    <formalParameterName>vm_credential</formalParameterName>
+                </attachedParameters>
             </step>
+            <!-- <step> -->
+            <!--     <stepName>CreateAndAttachCredential</stepName> -->
+            <!--     <alwaysRun>0</alwaysRun> -->
+            <!--     <broadcast>0</broadcast> -->
+            <!--     <command/> -->
+            <!--     <condition/> -->
+            <!--     <description/> -->
+            <!--     <errorHandling>failProcedure</errorHandling> -->
+            <!--     <exclusiveMode>none</exclusiveMode> -->
+            <!--     <logFileName/> -->
+            <!--     <parallel>0</parallel> -->
+            <!--     <postProcessor>postp -\-loadProperty /myProject/postp_matchers -\-liveUpdate 1 -\-updateDelay 1</postProcessor> -->
+            <!--     <releaseMode>none</releaseMode> -->
+            <!--     <resourceName></resourceName> -->
+            <!--     <shell>ec-perl</shell> -->
+            <!--     <timeLimit/> -->
+            <!--     <timeLimitUnits>minutes</timeLimitUnits> -->
+            <!--     <workingDirectory/> -->
+            <!--     <workspaceName/> -->
+            <!--     <propertySheet> -->
+            <!--         <property> -->
+            <!--             <propertyName>ec_customEditorData</propertyName> -->
+            <!--             <propertySheet> -->
+            <!--                 <property> -->
+            <!--                     <propertyName>formType</propertyName> -->
+            <!--                     <expandable>1</expandable> -->
+            <!--                     <value>command</value> -->
+            <!--                 </property> -->
+            <!--             </propertySheet> -->
+            <!--         </property> -->
+            <!--     </propertySheet> -->
+            <!--     <attachedParameters> -->
+            <!--         <formalParameterName>credential</formalParameterName> -->
+            <!--         <formalParameterName>vm_credential</formalParameterName> -->
+            <!--     </attachedParameters> -->
+            <!-- </step> -->
+        </procedure>
+
+        <procedure>
+            <procedureName>EditConfiguration</procedureName>
+            <description>Edit an Azure configuration</description>
+            <jobNameTemplate>Azure-EditConfiguration-$[jobId]</jobNameTemplate>
+            <resourceName></resourceName>
+            <workspaceName/>
+            <propertySheet>
+                <property>
+                    <propertyName>ec_customEditorData</propertyName>
+                    <propertySheet>
+                        <property>
+                            <propertyName>parameters</propertyName>
+                            <propertySheet>
+                                <property>
+                                    <propertyName>desc</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>credential</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>debug_level</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>subscription_id</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>tenant_id</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>vm_credential</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                                <property>
+                                    <propertyName>resource_pool</propertyName>
+                                    <propertySheet>
+                                        <property>
+                                            <propertyName>formType</propertyName>
+                                            <expandable>1</expandable>
+                                            <value>standard</value>
+                                        </property>
+                                    </propertySheet>
+                                </property>
+                            </propertySheet>
+                        </property>
+                    </propertySheet>
+                </property>
+                <property>
+                    <propertyName>ec_visibility</propertyName>
+                    <description/>
+                    <expandable>1</expandable>
+                    <value>private</value>
+                </property>
+                <property>
+                    <propertyName>ec_parameterForm</propertyName>
+                    <description/>
+                    <expandable>1</expandable>
+                    <value/>
+                </property>
+            </propertySheet>
+            <formalParameter>
+                <formalParameterName>config</formalParameterName>
+                <defaultValue/>
+                <description>Name for the Azure configuration.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>tenant_id</formalParameterName>
+                <defaultValue/>
+                <description>Azure Active Directory Tenant ID.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>vm_credential</formalParameterName>
+                <defaultValue/>
+                <description>Credentials for any virtual machines provisioned using this configuration.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>credential</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>subscription_id</formalParameterName>
+                <defaultValue/>
+                <description>Azure Active Directory Subscription ID</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>credential</formalParameterName>
+                <defaultValue/>
+                <description>Windows Azure subscription ID and certificate thumbprint</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>credential</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>debug_level</formalParameterName>
+                <defaultValue>1</defaultValue>
+                <description>Provide the debug level for the output: 0=errors only, 1=normal headers and responses, 2+=debugging information included.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>tenant_id</formalParameterName>
+                <defaultValue/>
+                <description>Provide the tenant id.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>1</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>resource_pool</formalParameterName>
+                <defaultValue/>
+                <description/>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
+            <formalParameter>
+                <formalParameterName>desc</formalParameterName>
+                <defaultValue>Azure configuration.</defaultValue>
+                <description>A description for this configuration.</description>
+                <expansionDeferred>0</expansionDeferred>
+                <required>0</required>
+                <type>entry</type>
+            </formalParameter>
             <step>
-                <stepName>CreateAndAttachCredential</stepName>
+                <stepName>EditConfiguration</stepName>
                 <alwaysRun>0</alwaysRun>
                 <broadcast>0</broadcast>
                 <command/>
                 <condition/>
-                <description/>
+                <description>Edit an Azure configuration.</description>
                 <errorHandling>failProcedure</errorHandling>
                 <exclusiveMode>none</exclusiveMode>
                 <logFileName/>
