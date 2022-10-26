@@ -10,11 +10,6 @@ This plugin was developed and tested against Windows Azure 2012.
 
 {CD} minimum version 4.0
 
-This plugin enables you to:
-
-* <<Create-Or-Update-Database>>
-* <<Teardown>>
-
 [[Windows_Certificates]]
 == Working with Windows certificates
 
@@ -30,6 +25,39 @@ NOTE: Makecert.exe is included with Visual Studio and Windows SDK installations.
 
 [[Plugin_Procedures]]
 == Plugin procedures
+
+This plugin enables the following:
+
+* Database management
+** <<Create-Or-Update-Database>>
+** <<Delete_Database>>
+** <<DeleteDatabase>>
+
+* Group management
+** <<Create_or_Update_NetworkSecurityGroup>>
+** <<Delete_NetworkSecurityGroup>>
+** <<Create_or_Update_NetworkSecurityRule>>
+** <<Delete_NetworkSecurityRule>>
+
+* Network management
+** <<Create_or_Update_Subnet>>
+** <<Delete_Subnet>>
+** <<CreateVnet>>
+** <<DeleteVnet>>
+
+* VM management
+** <<CreateVM>>
+** <<Start_VM>>
+** <<Restart_VM>>
+** <<Stop_VM>>
+** <<Delete_VM>>
+
+* SQL and NoSQL operations
+** <<SQL_Operations>>
+** <<NoSQL_Operations>>
+
+* Resource management
+** <<Teardown>>
 
 IMPORTANT: For all parameter descriptions below, required parameters are shown in [.required]#bold italics#.
 
@@ -89,7 +117,7 @@ This procedure allows users to create or update the Database on a Database serve
 image::cloudbees-common::cd-plugins/ec-azure/parameters/create-or-update-database.png[image]
 
 [[Delete_Database]]
-=== Delete database
+=== Delete database on server
 
 This procedure allows users to delete the Database on a Database server.
 
@@ -100,6 +128,26 @@ This procedure allows users to delete the Database on a Database server.
 |Resource Group Name |The name of the Resource Group to which the Azure SQL Database Server belongs. (Required)
 |Server name |The short name of the Azure SQL Database Server on which the database is hosted. For example, testsqlserver001 should be used instead of testsqlserver001.database.windows.net. (Required)
 |Database name |The name of the Azure SQL Database to be deletes. (Required)
+|JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
+|===
+
+image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-database.png[image]
+
+[[DeleteDatabase]]
+
+
+[[DeleteDatabase]]
+=== DeleteDatabase (Azure service)
+
+This procedure allows users to delete a database on a database server using Azure Services.
+
+[cols=",",options="header",]
+|===
+|Parameter |Description
+|Configuration |The name of the configuration which holds all the connection information for Windows Azure. (Required)
+|Resource Group Name |The name of the Resource Group to which the Azure SQL Database Server belongs. (Required)
+|Server name |The name of the Azure SQL Database Server on which the database is hosted. (Required)
+|Database name |The name of the Azure SQL Database to be operated on (Updated or created). (Required)
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
@@ -124,6 +172,25 @@ This procedure allows users to create or update an Network Security Group.
 |===
 
 image::cloudbees-common::cd-plugins/ec-azure/parameters/create-or-update-network-security-group.png[image]
+
+[[Delete-NetworkSecurityGroup]]
+
+
+[[Delete_NetworkSecurityGroup]]
+=== Delete NetworkSecurityGroup
+
+This procedure allows users to delete a Network Security Group.
+
+[cols=",",options="header",]
+|===
+|Parameter |Description
+|Configuration |The name of the configuration which holds all the connection information for Windows Azure. (Required)
+|Network Security Group |Name of the Network security Group which is to be deleted. (Required)
+|Resource Group Name |The name of the resource group in which network security group is present. (Required)
+|JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
+|===
+
+image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-network-security-group.png[image]
 
 [[Create-or-Update-NetworkSecurityRule]]
 
@@ -154,6 +221,26 @@ This procedure allows users to create or update a Rule of an Network Security Gr
 
 image::cloudbees-common::cd-plugins/ec-azure/parameters/create-or-update-network-security-rule.png[image]
 
+[[Delete-NetworkSecurityRule]]
+
+
+[[Delete_NetworkSecurityRule]]
+=== Delete NetworkSecurityRule
+
+This procedure allows users to delete a Rule from an existing Network Security Group.
+
+[cols=",",options="header",]
+|===
+|Parameter |Description
+|Configuration |The name of the configuration which holds all the connection information for Windows Azure. (Required)
+|Network Security Rule |Name of the Network security Rule which is to be deleted. (Required)
+|Network Security Group |Name of the Network security Group in which network security rule is present. (Required)
+|Resource Group Name |The name of the resource group in which network security group is present. (Required)
+|JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
+|===
+
+image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-network-security-rule.png[image]
+
 [[Create-or-Update-Subnet]]
 
 
@@ -177,45 +264,26 @@ This procedure allows users to create or update a subnet.
 
 image::cloudbees-common::cd-plugins/ec-azure/parameters/create-or-update-subnet.png[image]
 
-[[CreateVM]]
-=== CreateVM
+[[Delete-Subnet]]
 
-This procedure allows users to create a VM using Azure Services.
+
+[[Delete_Subnet]]
+=== Delete subnet
+
+This procedure allows users to delete a subnet.
 
 [cols=",",options="header",]
 |===
 |Parameter |Description
 |Configuration |The name of the configuration which holds all the connection information for Windows Azure. (Required)
-|Server Name |Name of the new Server. (Required)
-|Number of Instances |Number of instances to be created. (Required)
-|Image URN |The image URN in the form publisherName:offer:skus:version/ The source VHD link of a user image, e.g. https://foo.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/snap-bar.vhd. (Required)
-
-*Note: in order for user image to be accepted, it must belong to a storage account in same resource group as VM itself (this is Azure's requirement).*
-|Is User Image? |Provided URN is of user image or not?
-|Disable Password Prompt? |Disable password authentication in case of super user privileges?
-|Public Key |Public key for authentication of created Virtual machine for the client[(1) ssh-keygen -t rsa -b 2048 (2) openssl req -x509 -key ~/.ssh/id_rsa -nodes -days 365 -newkey rsa:2048 -out public.pem].
-|Operating System Type |Required only for user images.
-|Resource Group Name |The name of the resource group in which VM is to be created. (Required)
-|Location |Location of the resource. (Required)
-|Storage Account |Name of storage account. (Required)
-
-If this storage account resides in a resource group different from VM itself, it must be specified via -rgn prefix argument, e.g. "-rgn ResourceGroupName StorageAccountName"
-|Storage Container |Name of the storage container. (Required)
-|Virtual Network |Name of an existing Virtual Network for VM to be connected to.
-
-If this virtual network resides in a resource group different from VM itself, it must be specified via -rgn prefix argument, e.g. "-rgn ResourceGroupName VirtualNetworkName"
-|Subnet |Name of an existing subnet within a Virtual Network. Requires Virtual Network to be set.
-|Create Public IP Address? |Create Public IP address for the deployed servers?
-|Resource Pool |If you would like to add {CD} resources for each Azure instance being created, enter the resource pool name for the new resources. If left blank no resource will be created.
-|Resource Port |If you specify a resource pool name in 'Resource Pool' field, this is the port that will be used when creating the resource. If no value is specified, port 7800 will be used by default when creating the resource.
-|Resource workspace |If you specify a resource pool name, this is the workspace that will be assigned to the created resources.
-|Resource Zone Name |Created resource will belong to the specified zone. Zone 'default' is used by default.
-|Machine size |Size of the machine, e.g. Standard_D2_v2, see https://docs.microsoft.com/en-us/azure/cloud-services/cloud-services-sizes-specs[Virtual machines sizes] for reference.
-|Results Location |Location where the output properties will be saved. If not specified, thsi will default to '/myJob/Azure/deployed'.
+|Subnet |Name of the subnet which is to be deleted. (Required)
+|Virtual Network |Name of the virtual network in which subnet is present. (Required)
+|Resource Group Name |The name of the resource group in which subnet is present. (Required)
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/create-vm.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-subnet.png[image]
+
 
 [[CreateVnet]]
 
@@ -260,84 +328,104 @@ This procedure allows users to delete a Virtual Network using Azure Services.
 
 image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-vnet.png[image]
 
-[[DeleteDatabase]]
+[[CreateVM]]
+=== CreateVM
 
-
-[[DeleteDatabase]]
-=== DeleteDatabase
-
-This procedure allows users to delete a database on a database server using Azure Services.
+This procedure allows users to create a VM using Azure Services.
 
 [cols=",",options="header",]
 |===
 |Parameter |Description
 |Configuration |The name of the configuration which holds all the connection information for Windows Azure. (Required)
-|Resource Group Name |The name of the Resource Group to which the Azure SQL Database Server belongs. (Required)
-|Server name |The name of the Azure SQL Database Server on which the database is hosted. (Required)
-|Database name |The name of the Azure SQL Database to be operated on (Updated or created). (Required)
+|Server Name |Name of the new Server. (Required)
+|Number of Instances |Number of instances to be created. (Required)
+|Image URN |The image URN in the form publisherName:offer:skus:version/ The source VHD link of a user image, e.g. https://foo.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/snap-bar.vhd. (Required)
+
+*Note: in order for user image to be accepted, it must belong to a storage account in same resource group as VM itself (this is Azure's requirement).*
+|Is User Image? |Provided URN is of user image or not?
+|Disable Password Prompt? |Disable password authentication in case of super user privileges?
+|Public Key |Public key for authentication of created Virtual machine for the client[(1) ssh-keygen -t rsa -b 2048 (2) openssl req -x509 -key ~/.ssh/id_rsa -nodes -days 365 -newkey rsa:2048 -out public.pem].
+|Operating System Type |Required only for user images.
+|Resource Group Name |The name of the resource group in which VM is to be created. (Required)
+|Location |Location of the resource. (Required)
+|Storage Account |Name of storage account. (Required)
+
+If this storage account resides in a resource group different from VM itself, it must be specified via -rgn prefix argument, e.g. "-rgn ResourceGroupName StorageAccountName"
+|Storage Container |Name of the storage container. (Required)
+|Virtual Network |Name of an existing Virtual Network for VM to be connected to.
+
+If this virtual network resides in a resource group different from VM itself, it must be specified via -rgn prefix argument, e.g. "-rgn ResourceGroupName VirtualNetworkName"
+|Subnet |Name of an existing subnet within a Virtual Network. Requires Virtual Network to be set.
+|Create Public IP Address? |Create Public IP address for the deployed servers?
+|Resource Pool |If you would like to add {CD} resources for each Azure instance being created, enter the resource pool name for the new resources. If left blank no resource will be created.
+|Resource Port |If you specify a resource pool name in 'Resource Pool' field, this is the port that will be used when creating the resource. If no value is specified, port 7800 will be used by default when creating the resource.
+|Resource workspace |If you specify a resource pool name, this is the workspace that will be assigned to the created resources.
+|Resource Zone Name |Created resource will belong to the specified zone. Zone 'default' is used by default.
+|Machine size |Size of the machine, e.g. Standard_D2_v2, see https://docs.microsoft.com/en-us/azure/cloud-services/cloud-services-sizes-specs[Virtual machines sizes] for reference.
+|Results Location |Location where the output properties will be saved. If not specified, thsi will default to '/myJob/Azure/deployed'.
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-database.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/create-vm.png[image]
 
-[[Delete-NetworkSecurityGroup]]
+[[Start-VM]]
 
 
-[[Delete_NetworkSecurityGroup]]
-=== Delete NetworkSecurityGroup
+[[Start_VM]]
+=== Start VM
 
-This procedure allows users to delete a Network Security Group.
+This procedure allows users to start a stopped VM.
 
 [cols=",",options="header",]
 |===
 |Parameter |Description
 |Configuration |The name of the configuration which holds all the connection information for Windows Azure. (Required)
-|Network Security Group |Name of the Network security Group which is to be deleted. (Required)
-|Resource Group Name |The name of the resource group in which network security group is present. (Required)
+|Resource Group Name |The name of the resource group in which VM is to be started. (Required)
+|VM Name |The Name of the Virtual Machine to be started. (Required)
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-network-security-group.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/start-vm.png[image]
 
-[[Delete-NetworkSecurityRule]]
+[[Restart-VM]]
 
 
-[[Delete_NetworkSecurityRule]]
-=== Delete NetworkSecurityRule
+[[Restart_VM]]
+=== Restart VM
 
-This procedure allows users to delete a Rule from an existing Network Security Group.
+This procedure allows users to restart a VM.
 
 [cols=",",options="header",]
 |===
 |Parameter |Description
 |Configuration |The name of the configuration which holds all the connection information for Windows Azure. (Required)
-|Network Security Rule |Name of the Network security Rule which is to be deleted. (Required)
-|Network Security Group |Name of the Network security Group in which network security rule is present. (Required)
-|Resource Group Name |The name of the resource group in which network security group is present. (Required)
+|Resource Group Name |The name of the resource group in which VM is to be restarted. (Required)
+|VM Name |The Name of the Virtual Machine to be restarted. (Required)
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-network-security-rule.png[image]
-
-[[Delete-Subnet]]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/restart-vm.png[image]
 
 
-[[Delete_Subnet]]
-=== Delete subnet
 
-This procedure allows users to delete a subnet.
+[[Stop-VM]]
+
+
+[[Stop_VM]]
+=== Stop VM
+
+This procedure allows users to stop a running VM.
 
 [cols=",",options="header",]
 |===
 |Parameter |Description
 |Configuration |The name of the configuration which holds all the connection information for Windows Azure. (Required)
-|Subnet |Name of the subnet which is to be deleted. (Required)
-|Virtual Network |Name of the virtual network in which subnet is present. (Required)
-|Resource Group Name |The name of the resource group in which subnet is present. (Required)
+|Resource Group Name |The name of the resource group in which VM is to be stopped. (Required)
+|VM Name |The Name of the Virtual Machine to be stoppped. (Required)
 |JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
 |===
 
-image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-subnet.png[image]
+image::cloudbees-common::cd-plugins/ec-azure/parameters/stop-vm.png[image]
 
 [[Delete-VM]]
 
@@ -357,6 +445,24 @@ This procedure allows users to delete a VM.
 |===
 
 image::cloudbees-common::cd-plugins/ec-azure/parameters/delete-vm.png[image]
+
+[[SQL_Operations]]
+=== SQL operations
+
+This procedure allows users to carry out operations on a database on a SQL Server.
+
+[cols=",",options="header",]
+|===
+|Parameter |Description
+|Database Server |Name of the database server. (Required)
+|Database |Name of the database. (Required)
+|Port |Port for connecting to database. (Required)
+|Database Credentials |Credentials for connecting to the database. (Required)
+|SQL Query |Enter the exact SQL query to be executed. (Required)
+|JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
+|===
+
+image::cloudbees-common::cd-plugins/ec-azure/parameters/sql-operations.png[image]
 
 [[NoSQL-Operations]]
 
@@ -381,82 +487,6 @@ This procedure allows users to carry out operations on NoSQL Database on a speci
 |===
 
 image::cloudbees-common::cd-plugins/ec-azure/parameters/nosql-operations.png[image]
-
-[[Restart-VM]]
-
-
-[[Restart_VM]]
-=== Restart VM
-
-This procedure allows users to restart a VM.
-
-[cols=",",options="header",]
-|===
-|Parameter |Description
-|Configuration |The name of the configuration which holds all the connection information for Windows Azure. (Required)
-|Resource Group Name |The name of the resource group in which VM is to be restarted. (Required)
-|VM Name |The Name of the Virtual Machine to be restarted. (Required)
-|JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
-|===
-
-image::cloudbees-common::cd-plugins/ec-azure/parameters/restart-vm.png[image]
-
-[[Start-VM]]
-
-
-[[Start_VM]]
-=== Start VM
-
-This procedure allows users to start a stopped VM.
-
-[cols=",",options="header",]
-|===
-|Parameter |Description
-|Configuration |The name of the configuration which holds all the connection information for Windows Azure. (Required)
-|Resource Group Name |The name of the resource group in which VM is to be started. (Required)
-|VM Name |The Name of the Virtual Machine to be started. (Required)
-|JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
-|===
-
-image::cloudbees-common::cd-plugins/ec-azure/parameters/start-vm.png[image]
-
-[[Stop-VM]]
-
-
-[[Stop_VM]]
-=== Stop VM
-
-This procedure allows users to stop a running VM.
-
-[cols=",",options="header",]
-|===
-|Parameter |Description
-|Configuration |The name of the configuration which holds all the connection information for Windows Azure. (Required)
-|Resource Group Name |The name of the resource group in which VM is to be stopped. (Required)
-|VM Name |The Name of the Virtual Machine to be stoppped. (Required)
-|JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
-|===
-
-image::cloudbees-common::cd-plugins/ec-azure/parameters/stop-vm.png[image]
-
-
-[[SQL_Operations]]
-=== SQL operations
-
-This procedure allows users to carry out operations on a database on a SQL Server.
-
-[cols=",",options="header",]
-|===
-|Parameter |Description
-|Database Server |Name of the database server. (Required)
-|Database |Name of the database. (Required)
-|Port |Port for connecting to database. (Required)
-|Database Credentials |Credentials for connecting to the database. (Required)
-|SQL Query |Enter the exact SQL query to be executed. (Required)
-|JobStep Timeout |Timeout for the step execution in minutes. Blank means no timeout.
-|===
-
-image::cloudbees-common::cd-plugins/ec-azure/parameters/sql-operations.png[image]
 
 [[Teardown]]
 
