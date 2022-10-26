@@ -11,21 +11,17 @@ This plugin was developed and tested against Windows Azure 2012.
 {CD} minimum version 4.0
 
 [[Windows_Certificates]]
-== Windows certificates
+== Working with Windows certificates
 
-Some procedures require a certificate to authenticate the request, you need to create one and upload it to Windows Azure:
+Azure procedures may require a Windows certificate to authenticate requests. To create and upload a certificate to Windows Azure:
 
-[[Create_a_X509_certificate]]
-== Create a x509 certificate
+. Generate an X.509 certificate using the Certificate Creation Tool (Makecert.exe) using the follow command:
++
+``makecert -sky exchange -r -n "CN=<CertificateName>" -pe -a sha1 -len 2048 -ss My "D:/<CertificateName>.cer"``
++
+NOTE: Makecert.exe is included with Visual Studio and Windows SDK installations. For more information, see link:http://msdn.microsoft.com/en-us/library/bfsktky3(VS.80).aspx[Microsoft's Makecert.exe page].
 
-Using Certificate Creation Tool (Makecert.exe): makecert -sky exchange -r -n "CN=<CertificateName>" -pe -a sha1 -len 2048 -ss My "D:/<CertificateName>.cer"
-
-For more information: http://msdn.microsoft.com/en-us/library/bfsktky3(VS.80).aspx[Makecert].
-
-[[Upload_the_certificate]]
-== Upload the certificate
-
-https://azure.microsoft.com/en-us/documentation/articles/cloud-services-configure-ssl-certificate/[How to Add a Management Certificate to a Windows Azure Subscription].
+. To upload the Windows certificate to Windows Azure, see link:https://azure.microsoft.com/en-us/documentation/articles/cloud-services-configure-ssl-certificate/[How to Add a Management Certificate to a Windows Azure Subscription].
 
 [[Plugin_Procedures]]
 == Plugin procedures
